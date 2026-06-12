@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Galaxy | Samsung HK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600&display=swap');
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .heading-font {
+            font-family: 'Poppins', system_ui, sans-serif;
+        }
+
+        .samsung-blue {
+            color: #007AFF;
+        }
+
+        .samsung-btn {
+            background-color: #007AFF;
+            color: white;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border-radius: 9999px;
+            padding-top: 14px;
+            padding-bottom: 14px;
+        }
+        
+        .samsung-btn:hover {
+            background-color: #0066CC;
+            transform: translateY(-1px);
+        }
+
+        .device-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .device-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        .device-card.selected {
+            border-color: #007AFF;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #64748b;
+        }
+
+        .sticky-bar {
+            box-shadow: 0 -4px 6px -1px rgb(0 0 0 / 0.1), 0 -2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="max-w-4xl mx-auto px-6 pt-10 pb-24">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-x-2 px-4 py-1 rounded-full bg-blue-50 text-xs tracking-[1px] mb-4 text-[#007AFF]">
+                <div class="w-2 h-2 bg-[#007AFF] rounded-full animate-pulse"></div>
+                <span class="font-medium">NEW FLOW • PRODUCT FIRST</span>
+            </div>
+            <h1 class="text-5xl font-semibold tracking-tighter heading-font text-gray-900">Choose your new Galaxy.<br>Then trade in.</h1>
+            <p class="text-xl text-gray-600 mt-3 max-w-md mx-auto">Simple. Transparent. Instant savings.</p>
+        </div>
+
+        <!-- Step 1: Choose New Device -->
+        <div class="mb-12">
+            <div class="section-title mb-3">1. Select your new device</div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="device-selection">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Step 2: Storage -->
+        <div class="mb-12 hidden" id="storage-section">
+            <div class="section-title mb-3">2. Choose storage</div>
+            <select id="storage" onchange="updateSelectedDeviceStorage()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none">
+                <option value="">Select storage</option>
+            </select>
+        </div>
+
+        <!-- Step 3: Trade-in Device -->
+        <div class="mb-12 hidden" id="tradein-section">
+            <div class="flex items-center justify-between mb-3">
+                <div class="section-title">3. Trade-in your current device (optional)</div>
+            </div>
+
+            <!-- No Trade-In Checkbox -->
+            <div class="mb-4 flex items-center gap-x-2">
+                <input type="checkbox" id="no-tradein" onchange="toggleNoTradeInNewFlow()" class="w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
+                <label for="no-tradein" class="text-sm text-gray-700 cursor-pointer">I have no device to trade-in</label>
+            </div>
+
+            <div class="space-y-4" id="tradein-fields">
+                <div>
+                    <label class="section-title mb-2 block">Brand</label>
+                    <select id="brand" onchange="updateModelsNewFlow()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none">
+                        <option value="">Select brand</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="section-title mb-2 block">Model</label>
+                    <select id="model" onchange="updateStorageNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none disabled:bg-gray-50">
+                        <option value="">Select model</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="section-title mb-2 block">Storage</label>
+                    <select id="tradein-storage" onchange="updateTradeInPriceNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none disabled:bg-gray-50">
+                        <option value="">Select storage</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Bank Promotion -->
+        <div class="mb-8 hidden" id="bank-section">
+            <div class="section-title mb-3">4. Bank promotion (optional)</div>
+            <div class="flex items-center gap-3" id="bank-buttons">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky Bottom Bar -->
+    <div id="sticky-bar" class="hidden fixed bottom-0 left-0 right-0 bg-white border-t z-50">
+        <div class="max-w-4xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <div id="sticky-device-name" class="font-semibold text-lg"></div>
+                    <div id="sticky-original-price" class="text-sm text-gray-500"></div>
+                </div>
+                <div class="text-right">
+                    <div id="sticky-final-price" class="text-2xl font-semibold tabular-nums"></div>
+                    <div id="sticky-savings" class="text-emerald-600 text-sm"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Same device data + logic from TradeInPush (simplified for demo)
+        const recommendedProducts = [
+            {
+                name: "Galaxy S26 Ultra",
+                storageOptions: [
+                    { storage: "256GB", price: 10998 },
+                    { storage: "512GB", price: 11998 },
+                    { storage: "1TB", price: 14198 }
+                ]
+            },
+            {
+                name: "Galaxy Z Fold7",
+                storageOptions: [
+                    { storage: "256GB", price: 12998 },
+                    { storage: "512GB", price: 13998 }
+                ]
+            },
+            {
+                name: "Galaxy Z Flip7",
+                storageOptions: [
+                    { storage: "256GB", price: 8998 },
+                    { storage: "512GB", price: 9998 }
+                ]
+            }
+        ];
+
+        let selectedDevice = null;
+        let selectedStorageIndex = null;
+        let tradeInValue = 0;
+        let selectedBank = 'none';
+
+        function init() {
+            renderDeviceSelection();
+            populateBrandsNewFlow();
+        }
+
+        function renderDeviceSelection() {
+            const container = document.getElementById('device-selection');
+            container.innerHTML = '';
+            
+            recommendedProducts.forEach((product, idx) => {
+                const card = document.createElement('div');
+                card.className = `device-card p-5 rounded-3xl cursor-pointer border`;
+                card.innerHTML = `
+                    <div class="font-semibold text-xl">${product.name}</div>
+                    <div class="text-sm text-gray-500 mt-1">From HK$${product.storageOptions[0].price.toLocaleString()}</div>
+                `;
+                card.onclick = () => selectNewDevice(idx, card);
+                container.appendChild(card);
+            });
+        }
+
+        function selectNewDevice(idx, cardEl) {
+            // Deselect all
+            document.querySelectorAll('#device-selection .device-card').forEach(el => el.classList.remove('selected'));
+            cardEl.classList.add('selected');
+
+            selectedDevice = recommendedProducts[idx];
+            document.getElementById('storage-section').classList.remove('hidden');
+            
+            // Populate storage
+            const storageSelect = document.getElementById('storage');
+            storageSelect.innerHTML = '<option value="">Select storage</option>';
+            selectedDevice.storageOptions.forEach((opt, i) => {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `${opt.storage} — HK$${opt.price.toLocaleString()}`;
+                storageSelect.appendChild(option);
+            });
+            
+            // Show other sections
+            document.getElementById('tradein-section').classList.remove('hidden');
+            document.getElementById('bank-section').classList.remove('hidden');
+            
+            // Reset downstream
+            tradeInValue = 0;
+            selectedBank = 'none';
+            updateStickyBar();
+        }
+
+        function updateSelectedDeviceStorage() {
+            const storageSelect = document.getElementById('storage');
+            selectedStorageIndex = parseInt(storageSelect.value);
+            updateStickyBar();
+        }
+
+        // --- Trade-in logic (adapted from current page) ---
+        function populateBrandsNewFlow() {
+            const brandSelect = document.getElementById('brand');
+            // Hardcoded brands for demo (in real use we'd use devices.json)
+            const brands = ['Apple', 'Samsung', 'Google', 'Huawei'];
+            brands.forEach(b => {
+                const opt = document.createElement('option');
+                opt.value = b;
+                opt.textContent = b;
+                brandSelect.appendChild(opt);
+            });
+        }
+
+        function updateModelsNewFlow() {
+            const modelSelect = document.getElementById('model');
+            modelSelect.disabled = false;
+            modelSelect.innerHTML = '<option value="">Select model</option>';
+            // Demo models
+            const models = ['iPhone 16 Pro Max', 'Galaxy S25', 'Pixel 9 Pro'];
+            models.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m;
+                opt.textContent = m;
+                modelSelect.appendChild(opt);
+            });
+        }
+
+        function updateStorageNewFlow() {
+            const storageSelect = document.getElementById('tradein-storage');
+            storageSelect.disabled = false;
+            storageSelect.innerHTML = '<option value="">Select storage</option>';
+            const storages = ['128GB', '256GB', '512GB'];
+            storages.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s;
+                opt.textContent = s;
+                storageSelect.appendChild(opt);
+            });
+        }
+
+        function updateTradeInPriceNewFlow() {
+            // In real version: fetch actual trade-in value from devices.json
+            tradeInValue = 4500; // Demo value
+            updateStickyBar();
+        }
+
+        function toggleNoTradeInNewFlow() {
+            const checked = document.getElementById('no-tradein').checked;
+            const fields = document.getElementById('tradein-fields');
+            if (checked) {
+                fields.style.opacity = '0.5';
+                fields.style.pointerEvents = 'none';
+                tradeInValue = 0;
+            } else {
+                fields.style.opacity = '1';
+                fields.style.pointerEvents = 'auto';
+            }
+            updateStickyBar();
+        }
+
+        // --- Bank promotion buttons ---
+        function setupBankButtons() {
+            const container = document.getElementById('bank-buttons');
+            container.innerHTML = '';
+            
+            const banks = [
+                { key: 'none', label: 'None' },
+                { key: 'hsbc', label: 'HSBC' },
+                { key: 'boc', label: 'BOC' }
+            ];
+            
+            banks.forEach(bank => {
+                const btn = document.createElement('button');
+                btn.className = `px-4 py-2 rounded-xl border text-sm ${bank.key === 'none' ? 'border-gray-300' : 'border-gray-200'}`;
+                btn.textContent = bank.label;
+                btn.onclick = () => {
+                    selectedBank = bank.key;
+                    document.querySelectorAll('#bank-buttons button').forEach(b => b.classList.remove('!border-[#007AFF]', 'ring-2'));
+                    btn.classList.add('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30');
+                    updateStickyBar();
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        // --- Sticky bar logic ---
+        function updateStickyBar() {
+            if (!selectedDevice || selectedStorageIndex === null) {
+                document.getElementById('sticky-bar').classList.add('hidden');
+                return;
+            }
+
+            const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
+            const originalPrice = storageOpt.price;
+            const basePrice = originalPrice - tradeInValue;
+            
+            // Demo bank rebate (10% capped at 1000)
+            let bankRebate = 0;
+            if (selectedBank !== 'none') {
+                bankRebate = Math.min(Math.floor(originalPrice * 0.08), 1000);
+            }
+
+            const finalPrice = Math.max(0, basePrice - bankRebate);
+            const totalSavings = originalPrice - finalPrice;
+
+            document.getElementById('sticky-bar').classList.remove('hidden');
+            document.getElementById('sticky-device-name').textContent = `${selectedDevice.name} • ${storageOpt.storage}`;
+            document.getElementById('sticky-original-price').textContent = `Original: HK$${originalPrice.toLocaleString()}`;
+            document.getElementById('sticky-final-price').innerHTML = `HK$${finalPrice.toLocaleString()}`;
+            
+            const savingsEl = document.getElementById('sticky-savings');
+            if (totalSavings > 0) {
+                savingsEl.textContent = `You save HK$${totalSavings.toLocaleString()}`;
+                savingsEl.classList.remove('hidden');
+            } else {
+                savingsEl.classList.add('hidden');
+            }
+        }
+
+        // Init
+        window.onload = function() {
+            init();
+            setupBankButtons();
+        };
+    </script>
+</body>
+</html>
