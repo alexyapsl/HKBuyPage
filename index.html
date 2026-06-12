@@ -158,6 +158,7 @@
         const recommendedProducts = [
             {
                 name: "Galaxy S26 Ultra",
+                image: "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-578324-sm-s9480zsptgy-550823970?imbypass=true",
                 storageOptions: [
                     { storage: "256GB", price: 10998 },
                     { storage: "512GB", price: 11998 },
@@ -166,6 +167,7 @@
             },
             {
                 name: "Galaxy Z Fold7",
+                image: "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-547656345?imbypass=true",
                 storageOptions: [
                     { storage: "256GB", price: 12998 },
                     { storage: "512GB", price: 13998 }
@@ -173,6 +175,7 @@
             },
             {
                 name: "Galaxy Z Flip7",
+                image: "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660dbatgy-547656635?imbypass=true",
                 storageOptions: [
                     { storage: "256GB", price: 8998 },
                     { storage: "512GB", price: 9998 }
@@ -196,10 +199,13 @@
             
             recommendedProducts.forEach((product, idx) => {
                 const card = document.createElement('div');
-                card.className = `device-card p-5 rounded-3xl cursor-pointer border`;
+                card.className = `device-card p-5 rounded-3xl cursor-pointer border flex flex-row sm:flex-col gap-4 sm:gap-3`;
                 card.innerHTML = `
-                    <div class="font-semibold text-xl">${product.name}</div>
-                    <div class="text-sm text-gray-500 mt-1">From HK$${product.storageOptions[0].price.toLocaleString()}</div>
+                    <img src="${product.image}" class="w-20 h-20 sm:w-full sm:h-36 object-contain rounded-2xl border bg-white flex-shrink-0" alt="${product.name}">
+                    <div class="flex-1 min-w-0">
+                        <div class="font-semibold text-xl leading-tight">${product.name}</div>
+                        <div class="text-sm text-gray-500 mt-0.5">From HK$${product.storageOptions[0].price.toLocaleString()}</div>
+                    </div>
                 `;
                 card.onclick = () => selectNewDevice(idx, card);
                 container.appendChild(card);
@@ -212,6 +218,7 @@
             cardEl.classList.add('selected');
 
             selectedDevice = recommendedProducts[idx];
+            selectedStorageIndex = null; // reset until user picks storage
             document.getElementById('storage-section').classList.remove('hidden');
             
             // Populate storage
@@ -231,6 +238,8 @@
             // Reset downstream
             tradeInValue = 0;
             selectedBank = 'none';
+            
+            // Show sticky bar immediately with "from" price
             updateStickyBar();
         }
 
@@ -327,8 +336,20 @@
 
         // --- Sticky bar logic ---
         function updateStickyBar() {
-            if (!selectedDevice || selectedStorageIndex === null) {
+            if (!selectedDevice) {
                 document.getElementById('sticky-bar').classList.add('hidden');
+                return;
+            }
+
+            document.getElementById('sticky-bar').classList.remove('hidden');
+
+            // If storage not yet selected, show "from" price
+            if (selectedStorageIndex === null) {
+                const fromPrice = selectedDevice.storageOptions[0].price;
+                document.getElementById('sticky-device-name').textContent = selectedDevice.name;
+                document.getElementById('sticky-original-price').textContent = `From HK$${fromPrice.toLocaleString()}`;
+                document.getElementById('sticky-final-price').innerHTML = `HK$${fromPrice.toLocaleString()}`;
+                document.getElementById('sticky-savings').classList.add('hidden');
                 return;
             }
 
@@ -345,7 +366,6 @@
             const finalPrice = Math.max(0, basePrice - bankRebate);
             const totalSavings = originalPrice - finalPrice;
 
-            document.getElementById('sticky-bar').classList.remove('hidden');
             document.getElementById('sticky-device-name').textContent = `${selectedDevice.name} • ${storageOpt.storage}`;
             document.getElementById('sticky-original-price').textContent = `Original: HK$${originalPrice.toLocaleString()}`;
             document.getElementById('sticky-final-price').innerHTML = `HK$${finalPrice.toLocaleString()}`;
