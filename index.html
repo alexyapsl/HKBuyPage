@@ -204,7 +204,6 @@
                     <img src="${product.image}" class="w-20 h-20 sm:w-full sm:h-36 object-contain rounded-2xl bg-white flex-shrink-0" alt="${product.name}">
                     <div class="flex-1 min-w-0">
                         <div class="font-semibold text-xl leading-tight">${product.name}</div>
-                        <div class="text-sm text-gray-500 mt-0.5">From HK$${product.storageOptions[0].price.toLocaleString()}</div>
                     </div>
                 `;
                 card.onclick = () => selectNewDevice(idx, card);
