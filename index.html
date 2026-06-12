@@ -405,12 +405,11 @@
             if (selectedStorageIndex === null) {
                 const fromPrice = selectedDevice.storageOptions[0].price;
                 document.getElementById('sticky-device-name').textContent = selectedDevice.name;
-                document.getElementById('sticky-final-price').innerHTML = `HK$${fromPrice.toLocaleString()}`;
-                // "From" label + amount right-aligned above the big price
-                document.getElementById('sticky-original-price').innerHTML = `
-                    <div class="flex justify-end items-baseline gap-x-1">
-                        <span class="text-sm text-gray-500">From</span>
-                        <span class="font-semibold text-[#007AFF]">HK$${fromPrice.toLocaleString()}</span>
+                document.getElementById('sticky-original-price').textContent = '';
+                document.getElementById('sticky-final-price').innerHTML = `
+                    <div class="text-right">
+                        <div class="text-sm text-gray-500 mb-0.5">From HK$${fromPrice.toLocaleString()}</div>
+                        <div class="text-2xl font-semibold tabular-nums">HK$${fromPrice.toLocaleString()}</div>
                     </div>
                 `;
                 document.getElementById('sticky-savings').classList.add('hidden');
