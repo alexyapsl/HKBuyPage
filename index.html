@@ -219,9 +219,24 @@
             cardEl.classList.add('selected');
 
             selectedDevice = recommendedProducts[idx];
-            selectedStorageIndex = null; // reset until user picks storage
+            selectedStorageIndex = null;
+
+            // Reset downstream values
+            tradeInValue = 0;
+            selectedBank = 'none';
+            document.getElementById('no-tradein').checked = false;
+            document.getElementById('tradein-fields').style.display = '';
+            document.getElementById('brand').value = '';
+            document.getElementById('model').innerHTML = '<option value="">Select model</option>';
+            document.getElementById('model').disabled = true;
+            document.getElementById('tradein-storage').innerHTML = '<option value="">Select storage</option>';
+            document.getElementById('tradein-storage').disabled = true;
+
+            // Step 2 only
             document.getElementById('storage-section').classList.remove('hidden');
-            
+            document.getElementById('tradein-section').classList.add('hidden');
+            document.getElementById('bank-section').classList.add('hidden');
+
             // Populate storage
             const storageSelect = document.getElementById('storage');
             storageSelect.innerHTML = '<option value="">Select storage</option>';
@@ -231,22 +246,27 @@
                 option.textContent = `${opt.storage} — HK$${opt.price.toLocaleString()}`;
                 storageSelect.appendChild(option);
             });
-            
-            // Show other sections
-            document.getElementById('tradein-section').classList.remove('hidden');
-            document.getElementById('bank-section').classList.remove('hidden');
-            
-            // Reset downstream
-            tradeInValue = 0;
-            selectedBank = 'none';
-            
-            // Show sticky bar immediately with "from" price
+
             updateStickyBar();
         }
 
         function updateSelectedDeviceStorage() {
             const storageSelect = document.getElementById('storage');
             selectedStorageIndex = parseInt(storageSelect.value);
+
+            if (selectedStorageIndex !== null && !isNaN(selectedStorageIndex)) {
+                // Show step 3
+                document.getElementById('tradein-section').classList.remove('hidden');
+                // Keep step 4 hidden until trade-in is complete
+                document.getElementById('bank-section').classList.add('hidden');
+            } else {
+                // Storage unselected
+                document.getElementById('tradein-section').classList.add('hidden');
+                document.getElementById('bank-section').classList.add('hidden');
+                tradeInValue = 0;
+                selectedBank = 'none';
+            }
+
             updateStickyBar();
         }
 
@@ -266,6 +286,20 @@
         function updateModelsNewFlow() {
             const brand = document.getElementById('brand').value;
             const modelSelect = document.getElementById('model');
+            const storageSelect = document.getElementById('tradein-storage');
+
+            if (!brand) {
+                // Brand cleared
+                modelSelect.innerHTML = '<option value="">Select model</option>';
+                modelSelect.disabled = true;
+                storageSelect.innerHTML = '<option value="">Select storage</option>';
+                storageSelect.disabled = true;
+                tradeInValue = 0;
+                document.getElementById('bank-section').classList.add('hidden');
+                updateStickyBar();
+                return;
+            }
+
             modelSelect.disabled = false;
             modelSelect.innerHTML = '<option value="">Select model</option>';
             const models = [...new Set(devices.filter(d => d.brand === brand).map(d => d.model))].sort();
@@ -275,12 +309,30 @@
                 opt.textContent = m;
                 modelSelect.appendChild(opt);
             });
+
+            // Reset downstream
+            storageSelect.innerHTML = '<option value="">Select storage</option>';
+            storageSelect.disabled = true;
+            tradeInValue = 0;
+            document.getElementById('bank-section').classList.add('hidden');
+            updateStickyBar();
         }
 
         function updateStorageNewFlow() {
             const brand = document.getElementById('brand').value;
             const model = document.getElementById('model').value;
             const storageSelect = document.getElementById('tradein-storage');
+
+            if (!model) {
+                // Model cleared
+                storageSelect.innerHTML = '<option value="">Select storage</option>';
+                storageSelect.disabled = true;
+                tradeInValue = 0;
+                document.getElementById('bank-section').classList.add('hidden');
+                updateStickyBar();
+                return;
+            }
+
             storageSelect.disabled = false;
             storageSelect.innerHTML = '<option value="">Select storage</option>';
             const storages = [...new Set(devices.filter(d => d.brand === brand && d.model === model).map(d => d.storage))].sort();
@@ -290,6 +342,10 @@
                 opt.textContent = s;
                 storageSelect.appendChild(opt);
             });
+
+            tradeInValue = 0;
+            document.getElementById('bank-section').classList.add('hidden');
+            updateStickyBar();
         }
 
         function updateTradeInPriceNewFlow() {
@@ -299,6 +355,7 @@
 
             if (!brand || !model || !storage) {
                 tradeInValue = 0;
+                document.getElementById('bank-section').classList.add('hidden');
                 updateStickyBar();
                 return;
             }
@@ -310,6 +367,9 @@
             );
 
             tradeInValue = device ? device.trade_in_price : 0;
+
+            // Show step 4 only after trade-in storage selected
+            document.getElementById('bank-section').classList.remove('hidden');
             updateStickyBar();
         }
 
@@ -319,9 +379,13 @@
             if (checked) {
                 fields.style.display = 'none';
                 tradeInValue = 0;
+                // Show step 4 immediately when "no trade-in" is selected
+                document.getElementById('bank-section').classList.remove('hidden');
             } else {
                 fields.style.display = '';
                 tradeInValue = 0;
+                // Hide step 4 when unchecking (until they complete trade-in fields)
+                document.getElementById('bank-section').classList.add('hidden');
             }
             updateStickyBar();
         }
