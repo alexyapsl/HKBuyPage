@@ -433,6 +433,7 @@
             const fields = document.getElementById('tradein-fields');
             const valueDisplay = document.getElementById('tradein-value-display');
             const samsungRow = document.getElementById('samsungpay-row');
+
             if (checked) {
                 fields.style.display = 'none';
                 valueDisplay.classList.add('hidden');
@@ -446,12 +447,28 @@
                     document.getElementById('bank-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 150);
             } else {
+                // User un-checked "no trade-in" → restore previous selection and recalculate
                 fields.style.display = '';
-                valueDisplay.classList.add('hidden');
-                tradeInValue = 0;
-                // Hide step 4 when unchecking (until they complete trade-in fields)
-                document.getElementById('bank-section').classList.add('hidden');
-                samsungRow.classList.add('hidden');
+
+                // Re-evaluate the three dropdowns to restore trade-in value
+                updateTradeInPriceNewFlow();
+
+                // If the dropdowns are now complete, show the value banner and step 4
+                const brand = document.getElementById('brand').value;
+                const model = document.getElementById('model').value;
+                const storage = document.getElementById('tradein-storage').value;
+
+                if (brand && model && storage && tradeInValue > 0) {
+                    valueDisplay.classList.remove('hidden');
+                    document.getElementById('bank-section').classList.remove('hidden');
+                    samsungRow.classList.remove('hidden');
+                } else {
+                    valueDisplay.classList.add('hidden');
+                    document.getElementById('bank-section').classList.add('hidden');
+                    samsungRow.classList.add('hidden');
+                }
+
+                // Reset SamsungPay when coming back from "no trade-in"
                 document.getElementById('samsungpay').checked = false;
                 useSamsungPay = false;
             }
