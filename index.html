@@ -157,9 +157,9 @@
     <!-- Sticky Bottom Bar -->
     <div id="sticky-bar" class="hidden fixed bottom-0 left-0 right-0 bg-white border-t z-[60] shadow-lg">
         <div class="max-w-4xl mx-auto px-6 py-4">
-            <div class="flex items-center justify-between gap-x-3">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-y-1">
                 <!-- Left: price information -->
-                <div class="min-w-0 flex-1">
+                <div class="w-full">
                     <div id="sticky-device-name" class="font-semibold text-lg leading-tight"></div>
                     <div id="sticky-original-price" class="text-sm text-gray-500 hidden"></div>
                     <div id="sticky-pay-label" class="text-xs text-gray-500 mb-0.5"></div>
@@ -168,11 +168,13 @@
                 </div>
 
                 <!-- Right: compact Buy Now button -->
-                <button id="buy-now-btn"
-                        class="shrink-0 px-5 py-2 bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors hidden whitespace-nowrap"
-                        onclick="showBuyNowModal()">
-                    Buy now
-                </button>
+                <div class="w-full sm:w-auto flex justify-end pt-1">
+                    <button id="buy-now-btn"
+                            class="shrink-0 px-5 py-2 bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors hidden whitespace-nowrap"
+                            onclick="showBuyNowModal()">
+                        Buy now
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -699,10 +701,11 @@
             if (selectedStorageIndex === null) {
                 const fromPrice = selectedDevice.storageOptions[0].price;
                 document.getElementById('sticky-device-name').textContent = selectedDevice.name;
-                document.getElementById('sticky-original-price').textContent = '';
+                document.getElementById('sticky-original-price').classList.add('hidden');
                 document.getElementById('sticky-pay-label').textContent = 'From';
                 document.getElementById('sticky-final-price').innerHTML = `HK$${fromPrice.toLocaleString()}`;
                 document.getElementById('sticky-savings').classList.add('hidden');
+                document.getElementById('buy-now-btn').classList.add('hidden');
                 return;
             }
 
@@ -844,11 +847,28 @@
         function showGiftSelector() {
             // TODO: load real gifts from recommended-products.json
             // For now show 3 dummy gifts with price
-            const gifts = [
-                { name: 'Wireless Charger', sku: 'EP-T1510', price: 298 },
-                { name: 'Case',              sku: 'EF-ZS948',  price: 198 },
-                { name: 'Screen Protector',  sku: 'EF-US948',  price: 98 }
-            ];
+            const phoneSku = selectedDevice.sku || '';
+            let gifts = [];
+
+            if (phoneSku.startsWith('SM-S948')) {
+                gifts = [
+                    { name: '50W PD Power Adapter T5020',      sku: 'EP-T5020XBEGGB', price: 0 },
+                    { name: 'Galaxy S26 Ultra Slim Magnet Case', sku: 'EF-SS948CLEGWW', price: 0 },
+                    { name: 'Magnet Wireless Charger',            sku: 'EP-P2900BBEGWW', price: 50 }
+                ];
+            } else if (phoneSku.startsWith('SM-F966')) {
+                gifts = [
+                    { name: '50W PD Power Adapter T5020',      sku: 'EP-T5020XBEGGB', price: 0 },
+                    { name: 'Galaxy Z Fold7 Clear Magnet Case',  sku: 'GP-FFF966YCATW', price: 0 },
+                    { name: 'Magnet Wireless Charger',            sku: 'EP-P2900BBEGWW', price: 50 }
+                ];
+            } else if (phoneSku.startsWith('SM-F766')) {
+                gifts = [
+                    { name: '50W PD Power Adapter T5020',      sku: 'EP-T5020XBEGGB', price: 0 },
+                    { name: 'Galaxy Z Flip7 Capella',             sku: 'GP-FPF766PGBTW', price: 0 },
+                    { name: 'Magnet Wireless Charger',            sku: 'EP-P2900BBEGWW', price: 50 }
+                ];
+            }
 
             const container = document.getElementById('gift-options');
             container.innerHTML = '';
