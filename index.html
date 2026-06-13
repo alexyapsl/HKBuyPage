@@ -67,7 +67,7 @@
     </style>
 </head>
 <body>
-    <div class="max-w-4xl mx-auto px-6 pt-10 pb-24">
+    <div class="max-w-4xl mx-auto px-6 pt-10 pb-28 sm:pb-24">
         <!-- Header -->
         <div class="text-center mb-10">
             <div class="inline-flex items-center gap-x-2 px-4 py-1 rounded-full bg-blue-50 text-xs tracking-[1px] mb-4 text-[#007AFF]">
@@ -619,17 +619,13 @@
 
             document.getElementById('sticky-bar').classList.remove('hidden');
 
-            // If storage not yet selected, show "from" price
+            // If storage not yet selected, show "from" price (same visual position as final price on mobile)
             if (selectedStorageIndex === null) {
                 const fromPrice = selectedDevice.storageOptions[0].price;
                 document.getElementById('sticky-device-name').textContent = selectedDevice.name;
                 document.getElementById('sticky-original-price').textContent = '';
-                document.getElementById('sticky-final-price').innerHTML = `
-                    <div class="text-right">
-                        <div class="text-sm text-gray-500 mb-0.5">From</div>
-                        <div class="text-2xl font-semibold tabular-nums">HK$${fromPrice.toLocaleString()}</div>
-                    </div>
-                `;
+                document.getElementById('sticky-pay-label').textContent = 'From';
+                document.getElementById('sticky-final-price').innerHTML = `HK$${fromPrice.toLocaleString()}`;
                 document.getElementById('sticky-savings').classList.add('hidden');
                 return;
             }
@@ -647,6 +643,11 @@
 
             const finalPrice = Math.max(0, basePrice - bankRebate - samsungPayDiscount);
             const totalSavings = originalPrice - finalPrice;
+
+            // Ensure bank savings display updates when device/storage changes
+            if (document.getElementById('bank-section').classList.contains('hidden') === false) {
+                updateBankSavingsDisplay();
+            }
 
             document.getElementById('sticky-device-name').textContent = `${selectedDevice.name} • ${storageOpt.storage}`;
             document.getElementById('sticky-original-price').textContent = `Original: HK$${originalPrice.toLocaleString()}`;
@@ -698,6 +699,10 @@
         const origSelectNewDevice = window.selectNewDevice;
         window.selectNewDevice = function(...args) {
             document.getElementById('bank-savings-display')?.classList.add('hidden');
+            // Reset bank when device changes so next time bank section appears it recalcs
+            selectedBank = 'none';
+            document.getElementById('samsungpay').checked = false;
+            useSamsungPay = false;
             return origSelectNewDevice?.apply(this, args);
         };
     </script>
