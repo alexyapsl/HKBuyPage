@@ -163,6 +163,7 @@
                     <div id="sticky-original-price" class="text-sm text-gray-500"></div>
                 </div>
                 <div class="text-right">
+                    <div id="sticky-pay-label" class="text-xs text-gray-500 mb-0.5"></div>
                     <div id="sticky-final-price" class="text-2xl font-semibold tabular-nums"></div>
                     <div id="sticky-savings" class="text-emerald-600 text-sm"></div>
                 </div>
@@ -632,6 +633,20 @@
 
             document.getElementById('sticky-device-name').textContent = `${selectedDevice.name} • ${storageOpt.storage}`;
             document.getElementById('sticky-original-price').textContent = `Original: HK$${originalPrice.toLocaleString()}`;
+
+            // Dynamic pay label
+            let payLabel = '';
+            const hasTradeIn = tradeInValue > 0;
+            const hasBankPromo = (selectedBank && selectedBank !== 'none' && bankRebate > 0) || useSamsungPay;
+            if (hasTradeIn && hasBankPromo) {
+                payLabel = 'After Trade-In and Bank Promotion, you pay';
+            } else if (hasTradeIn) {
+                payLabel = 'After Trade-In, you pay';
+            } else if (hasBankPromo) {
+                payLabel = 'With Bank Promotion, you pay';
+            }
+            document.getElementById('sticky-pay-label').textContent = payLabel;
+
             document.getElementById('sticky-final-price').innerHTML = `HK$${finalPrice.toLocaleString()}`;
             
             const savingsEl = document.getElementById('sticky-savings');
