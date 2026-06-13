@@ -157,18 +157,19 @@
     <!-- Sticky Bottom Bar -->
     <div id="sticky-bar" class="hidden fixed bottom-0 left-0 right-0 bg-white border-t z-[60] shadow-lg">
         <div class="max-w-4xl mx-auto px-6 py-4">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-y-0.5">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-y-2 sm:gap-y-0">
+                <!-- Left: price information -->
                 <div>
                     <div id="sticky-device-name" class="font-semibold text-lg"></div>
                     <div id="sticky-original-price" class="text-sm text-gray-500 hidden"></div>
-                </div>
-                <div class="sm:text-right w-full sm:w-auto">
                     <div id="sticky-pay-label" class="text-xs text-gray-500 mb-0.5"></div>
                     <div id="sticky-final-price" class="text-2xl font-semibold tabular-nums"></div>
                     <div id="sticky-savings" class="text-emerald-600 text-sm"></div>
                 </div>
+
+                <!-- Right: Buy Now button (only after storage selected) -->
                 <button id="buy-now-btn"
-                        class="ml-4 px-6 py-2.5 bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors"
+                        class="px-6 py-2.5 bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors hidden"
                         onclick="showBuyNowModal()">
                     Buy now
                 </button>
@@ -329,6 +330,8 @@
                 document.getElementById('tradein-section').classList.remove('hidden');
                 // Keep step 4 hidden until trade-in is complete
                 document.getElementById('bank-section').classList.add('hidden');
+                // Show Buy Now button
+                document.getElementById('buy-now-btn').classList.remove('hidden');
                 // Auto scroll to trade-in
                 setTimeout(() => {
                     document.getElementById('tradein-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -336,6 +339,7 @@
             } else {
                 // Storage unselected
                 document.getElementById('tradein-section').classList.add('hidden');
+                document.getElementById('buy-now-btn').classList.add('hidden');
                 document.getElementById('bank-section').classList.add('hidden');
                 tradeInValue = 0;
                 selectedBank = 'none';
