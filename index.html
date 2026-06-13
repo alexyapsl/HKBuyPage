@@ -157,24 +157,22 @@
     <!-- Sticky Bottom Bar -->
     <div id="sticky-bar" class="hidden fixed bottom-0 left-0 right-0 bg-white border-t z-[60] shadow-lg">
         <div class="max-w-4xl mx-auto px-6 py-4">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-y-2 sm:gap-y-0">
+            <div class="flex items-center justify-between gap-x-3">
                 <!-- Left: price information -->
-                <div>
-                    <div id="sticky-device-name" class="font-semibold text-lg"></div>
+                <div class="min-w-0 flex-1">
+                    <div id="sticky-device-name" class="font-semibold text-lg leading-tight"></div>
                     <div id="sticky-original-price" class="text-sm text-gray-500 hidden"></div>
                     <div id="sticky-pay-label" class="text-xs text-gray-500 mb-0.5"></div>
                     <div id="sticky-final-price" class="text-2xl font-semibold tabular-nums"></div>
                     <div id="sticky-savings" class="text-emerald-600 text-sm"></div>
                 </div>
 
-                <!-- Right: Buy Now button (right aligned on all screens) -->
-                <div class="w-full sm:w-auto flex justify-end">
-                    <button id="buy-now-btn"
-                            class="px-6 py-2.5 bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors hidden"
-                            onclick="showBuyNowModal()">
-                        Buy now
-                    </button>
-                </div>
+                <!-- Right: Buy Now button – compact, right-aligned -->
+                <button id="buy-now-btn"
+                        class="shrink-0 px-6 py-[10px] bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors hidden whitespace-nowrap"
+                        onclick="showBuyNowModal()">
+                    Buy now
+                </button>
             </div>
         </div>
     </div>
@@ -775,94 +773,89 @@
             return origSelectNewDevice?.apply(this, args);
         };
 
-        // --- Buy Now Modal Logic ---
-        let selectedColor = null;
-        let selectedGifts = [];
+        // --- Buy Now Modal (exact flow from TradeInPriceCheck) ---
+        let selectedColorName = null;
+        let selectedColorHex  = null;
 
         function showBuyNowModal() {
+            // If already has any discount, skip straight to the warning popup
+            const hasDiscount = tradeInValue > 0 || (selectedBank && selectedBank !== 'none') || useSamsungPay;
+
+            if (hasDiscount) {
+                showTradeInWarningModal();
+                return;
+            }
+
+            // Otherwise show color picker first
             document.getElementById('buy-modal').classList.remove('hidden');
-            document.getElementById('color-step').classList.remove('hidden');
-            document.getElementById('gift-step').classList.add('hidden');
-            selectedColor = null;
-            selectedGifts = [];
-            renderColors();
+            renderColorChips();
         }
 
         function closeBuyModal() {
             document.getElementById('buy-modal').classList.add('hidden');
         }
 
-        function renderColors() {
+        function renderColorChips() {
             const container = document.getElementById('color-options');
             container.innerHTML = '';
-            const colorData = [
-                { name: 'Black',     bg: '#1f2937' },
-                { name: 'Blue',      bg: '#3b82f6' },
-                { name: 'Purple',    bg: '#8b5cf6' },
-                { name: 'Silver',    bg: '#9ca3af' },
-                { name: 'Gold',      bg: '#d4af37' }
+
+            // Hard-coded colors for now – will be replaced with real SKU colors later
+            const colorList = [
+                { name: 'Black',      hex: '#1f2937' },
+                { name: 'Blue',       hex: '#2563eb' },
+                { name: 'Purple',     hex: '#7c3aed' },
+                { name: 'Titanium',   hex: '#64748b' },
+                { name: 'Gold',       hex: '#d97706' }
             ];
-            colorData.forEach(item => {
-                const btn = document.createElement('div');
-                btn.className = `h-12 rounded-2xl border cursor-pointer transition-all ${selectedColor === item.name ? 'ring-2 ring-[#007AFF] border-[#007AFF]' : 'border-gray-300'}`;
-                btn.style.background = item.bg;
-                btn.onclick = () => {
-                    selectedColor = item.name;
-                    renderColors();
-                };
-                // add subtle inner shadow for premium look
-                btn.style.boxShadow = 'inset 0 1px 3px rgba(0,0,0,0.2)';
-                container.appendChild(btn);
-            });
-        }
 
-        function goToGiftStep() {
-            if (!selectedColor) {
-                alert('Please select a color');
-                return;
-            }
-            document.getElementById('color-step').classList.add('hidden');
-            document.getElementById('gift-step').classList.remove('hidden');
-            renderGifts();
-        }
-
-        function backToColorStep() {
-            document.getElementById('gift-step').classList.add('hidden');
-            document.getElementById('color-step').classList.remove('hidden');
-        }
-
-        function renderGifts() {
-            const container = document.getElementById('gift-options');
-            container.innerHTML = '';
-            const gifts = ['Wireless Charger', 'Case', 'Screen Protector', 'Buds', 'Watch Strap'];
-            gifts.forEach(g => {
-                const div = document.createElement('label');
-                div.className = 'flex items-center gap-3 border rounded-2xl px-4 py-3 cursor-pointer';
-                div.innerHTML = `
-                    <input type="checkbox" class="w-4 h-4" ${selectedGifts.includes(g) ? 'checked' : ''}>
-                    <span class="flex-1">${g}</span>
+            colorList.forEach(c => {
+                const chip = document.createElement('div');
+                chip.className = `flex items-center gap-3 px-4 py-3 border rounded-2xl cursor-pointer ${selectedColorName === c.name ? 'border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-200'}`;
+                chip.innerHTML = `
+                    <div class="color-chip w-7 h-7 rounded-full" style="background:${c.hex}"></div>
+                    <div class="font-medium">${c.name}</div>
                 `;
-                const cb = div.querySelector('input');
-                cb.onchange = () => {
-                    if (cb.checked) {
-                        if (selectedGifts.length < 3) selectedGifts.push(g);
-                        else { cb.checked = false; alert('Maximum 3 gifts'); }
-                    } else {
-                        selectedGifts = selectedGifts.filter(x => x !== g);
-                    }
+                chip.onclick = () => {
+                    selectedColorName = c.name;
+                    selectedColorHex  = c.hex;
+                    renderColorChips();
+                    // Auto-confirm after selection (same as TradeInPriceCheck)
+                    setTimeout(confirmColorSelection, 120);
                 };
-                container.appendChild(div);
+                container.appendChild(chip);
             });
         }
 
-        function showFinalPopup() {
+        function confirmColorSelection() {
+            if (!selectedColorName) return;
             document.getElementById('buy-modal').classList.add('hidden');
-            document.getElementById('success-popup').classList.remove('hidden');
+            showTradeInWarningModal();
+        }
+
+        function showTradeInWarningModal() {
+            document.getElementById('tradein-warning-modal').classList.remove('hidden');
+        }
+
+        function closeTradeInWarningModal() {
+            document.getElementById('tradein-warning-modal').classList.add('hidden');
+        }
+
+        function confirmTradeInAndRedirect() {
+            closeTradeInWarningModal();
+
+            // Construct the final magic link (exact same pattern as TradeInPriceCheck)
+            const modelName = selectedDevice ? selectedDevice.name.replace(/ /g, '') : '';
+            const storageLabel = selectedStorageIndex !== null && selectedDevice ? selectedDevice.storageOptions[selectedStorageIndex].storage : '';
+
+            const colorParam   = selectedColorName ? `&color=${encodeURIComponent(selectedColorName)}` : '';
+            const url = `https://www.samsung.com/hk/smartphones/galaxy-${modelName.toLowerCase()}/buy/?model=${storageLabel}${colorParam}`;
+
+            window.open(url, '_blank');
         }
 
         function closeAllModals() {
-            document.getElementById('success-popup').classList.add('hidden');
             document.getElementById('buy-modal').classList.add('hidden');
+            document.getElementById('tradein-warning-modal').classList.add('hidden');
         }
 
         // Show/hide Buy Now button when sticky bar is visible
