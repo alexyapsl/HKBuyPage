@@ -140,6 +140,12 @@
                 <!-- Populated by JS -->
             </div>
 
+            <!-- SamsungPay checkbox -->
+            <div id="samsungpay-row" class="hidden mt-3 flex items-center gap-x-2">
+                <input type="checkbox" id="samsungpay" onchange="toggleSamsungPay()" class="w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
+                <label for="samsungpay" class="text-sm text-gray-700 cursor-pointer">Pay with SamsungPay</label>
+            </div>
+
             <!-- Bank savings display -->
             <div id="bank-savings-display" class="hidden mt-3 px-4 py-3 bg-blue-50 border border-blue-200 rounded-2xl text-sm text-blue-700">
                 <div id="bank-savings-total" class="font-medium"></div>
@@ -199,6 +205,7 @@
         let selectedStorageIndex = null;
         let tradeInValue = 0;
         let selectedBank = 'none';
+        let useSamsungPay = false;
         let devices = []; // loaded from devices.json
 
         function init() {
@@ -247,6 +254,9 @@
             document.getElementById('storage-section').classList.remove('hidden');
             document.getElementById('tradein-section').classList.add('hidden');
             document.getElementById('bank-section').classList.add('hidden');
+            document.getElementById('samsungpay-row').classList.add('hidden');
+            document.getElementById('samsungpay').checked = false;
+            useSamsungPay = false;
 
             // Populate storage
             const storageSelect = document.getElementById('storage');
@@ -398,6 +408,7 @@
 
             // Show step 4 only after trade-in storage selected
             document.getElementById('bank-section').classList.remove('hidden');
+            document.getElementById('samsungpay-row').classList.remove('hidden');
             updateStickyBar();
         }
 
@@ -405,18 +416,23 @@
             const checked = document.getElementById('no-tradein').checked;
             const fields = document.getElementById('tradein-fields');
             const valueDisplay = document.getElementById('tradein-value-display');
+            const samsungRow = document.getElementById('samsungpay-row');
             if (checked) {
                 fields.style.display = 'none';
                 valueDisplay.classList.add('hidden');
                 tradeInValue = 0;
                 // Show step 4 immediately when "no trade-in" is selected
                 document.getElementById('bank-section').classList.remove('hidden');
+                samsungRow.classList.remove('hidden');
             } else {
                 fields.style.display = '';
                 valueDisplay.classList.add('hidden');
                 tradeInValue = 0;
                 // Hide step 4 when unchecking (until they complete trade-in fields)
                 document.getElementById('bank-section').classList.add('hidden');
+                samsungRow.classList.add('hidden');
+                document.getElementById('samsungpay').checked = false;
+                useSamsungPay = false;
             }
             updateStickyBar();
         }
@@ -463,6 +479,13 @@
             return { percentRebate, fixedRebate, fixedName: rule.fixedDiscount?.name || null, totalRebate };
         }
 
+        function calculateSamsungPayDiscount(originalPrice) {
+            if (originalPrice <= 3000) return 50;
+            if (originalPrice <= 6000) return 100;
+            if (originalPrice <= 10000) return 200;
+            return 0;
+        }
+
         // --- Bank promotion buttons ---
         function setupBankButtons() {
             const container = document.getElementById('bank-buttons');
@@ -503,13 +526,16 @@
             const originalPrice = storageOpt.price;
 
             const bankCalc = calculateBankRebate(originalPrice, selectedBank);
-            if (bankCalc.totalRebate <= 0) {
+            if (bankCalc.totalRebate <= 0 && !useSamsungPay) {
                 display.classList.add('hidden');
                 return;
             }
 
+            const samsungPayDiscount = useSamsungPay ? calculateSamsungPayDiscount(originalPrice) : 0;
+            const grandTotal = bankCalc.totalRebate + samsungPayDiscount;
+
             // Total line
-            totalEl.innerHTML = `Bank promotion savings: <span class="font-semibold">HK$${bankCalc.totalRebate.toLocaleString()}</span>`;
+            totalEl.innerHTML = `Bank promotion savings: <span class="font-semibold">HK$${grandTotal.toLocaleString()}</span>`;
 
             // Breakdown lines
             linesEl.innerHTML = '';
@@ -523,8 +549,19 @@
                 fixedLine.textContent = `${bankCalc.fixedName || 'Special discount'} HK$${bankCalc.fixedRebate.toLocaleString()}`;
                 linesEl.appendChild(fixedLine);
             }
+            if (samsungPayDiscount > 0) {
+                const samsungLine = document.createElement('div');
+                samsungLine.textContent = `SamsungPay only discount HK$${samsungPayDiscount.toLocaleString()}`;
+                linesEl.appendChild(samsungLine);
+            }
 
             display.classList.remove('hidden');
+        }
+
+        function toggleSamsungPay() {
+            useSamsungPay = document.getElementById('samsungpay').checked;
+            updateBankSavingsDisplay();
+            updateStickyBar();
         }
 
         // --- Sticky bar logic ---
@@ -560,8 +597,9 @@
                 ? calculateBankRebate(originalPrice, selectedBank)
                 : { percentRebate: 0, fixedRebate: 0, totalRebate: 0 };
             const bankRebate = bankCalc.totalRebate || 0;
+            const samsungPayDiscount = useSamsungPay ? calculateSamsungPayDiscount(originalPrice) : 0;
 
-            const finalPrice = Math.max(0, basePrice - bankRebate);
+            const finalPrice = Math.max(0, basePrice - bankRebate - samsungPayDiscount);
             const totalSavings = originalPrice - finalPrice;
 
             document.getElementById('sticky-device-name').textContent = `${selectedDevice.name} • ${storageOpt.storage}`;
