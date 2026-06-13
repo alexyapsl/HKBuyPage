@@ -264,7 +264,7 @@
             selectedDevice.storageOptions.forEach((opt, i) => {
                 const option = document.createElement('option');
                 option.value = i;
-                option.textContent = `${opt.storage} — HK$${opt.price.toLocaleString()}`;
+                option.textContent = opt.storage;
                 storageSelect.appendChild(option);
             });
 
