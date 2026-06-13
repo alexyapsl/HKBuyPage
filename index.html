@@ -177,7 +177,7 @@
         </div>
     </div>
 
-    <!-- Color Picker Modal (same as TradeInPriceCheck) -->
+    <!-- Color Picker Modal -->
     <div id="color-modal" class="hidden fixed inset-0 bg-black/50 z-[70] flex items-end sm:items-center justify-center">
         <div class="bg-white w-full sm:w-[420px] sm:rounded-3xl rounded-t-3xl p-6 shadow-xl">
             <div class="flex items-center justify-between mb-5">
@@ -191,13 +191,24 @@
                 <button onclick="closeColorModal()" class="flex-1 py-3.5 rounded-2xl border border-gray-300 text-sm font-medium">Cancel</button>
                 <button id="confirm-color-btn" onclick="confirmColorSelection()"
                         class="flex-1 py-3.5 rounded-2xl samsung-btn text-sm font-medium disabled:opacity-50" disabled>
-                    Continue to checkout
+                    Continue
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Trade-in Warning / Reminder Modal -->
+    <!-- Gift Selection Modal -->
+    <div id="gift-modal" class="hidden fixed inset-0 bg-black/50 z-[75] flex items-end sm:items-center justify-center">
+        <div class="bg-white w-full sm:w-[420px] sm:rounded-3xl rounded-t-3xl p-6 shadow-xl">
+            <div class="flex items-center justify-between mb-5">
+                <div class="font-semibold text-xl">Choose a gift</div>
+                <button onclick="skipGiftAndContinue()" class="text-sm text-[#007AFF]">Skip</button>
+            </div>
+            <div id="gift-options" class="space-y-2 mb-6"></div>
+        </div>
+    </div>
+
+    <!-- Trade-in Warning Modal -->
     <div id="tradein-warning-modal" class="hidden fixed inset-0 bg-black/50 z-[80] flex items-end sm:items-center justify-center">
         <div class="bg-white w-full sm:w-[420px] sm:rounded-3xl rounded-t-3xl p-6 shadow-xl">
             <div class="flex items-center justify-between mb-4">
