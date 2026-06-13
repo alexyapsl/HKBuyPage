@@ -240,9 +240,9 @@
             selectedDevice = recommendedProducts[idx];
             selectedStorageIndex = null;
 
-            // Reset downstream values
+            // Reset downstream values (preserve selectedBank so it can be recalculated on new price)
             tradeInValue = 0;
-            selectedBank = 'none';
+            // IMPORTANT: do NOT reset selectedBank here — bank choice must survive device change
             document.getElementById('no-tradein').checked = false;
             document.getElementById('tradein-fields').style.display = '';
             document.getElementById('brand').value = '';
@@ -256,6 +256,7 @@
             document.getElementById('tradein-section').classList.add('hidden');
             document.getElementById('bank-section').classList.add('hidden');
             document.getElementById('samsungpay-row').classList.add('hidden');
+            // Keep bank visual selection intact but clear SamsungPay
             document.getElementById('samsungpay').checked = false;
             useSamsungPay = false;
 
@@ -424,6 +425,19 @@
             setTimeout(() => {
                 document.getElementById('bank-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 150);
+
+            // If a bank was previously selected on another device, restore visual + recalc
+            if (selectedBank && selectedBank !== 'none') {
+                setTimeout(() => {
+                    document.querySelectorAll('#bank-buttons button').forEach(b => {
+                        if (b.textContent.toLowerCase() === selectedBank) {
+                            b.classList.add('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30');
+                        }
+                    });
+                    updateBankSavingsDisplay();
+                    updateStickyBar();
+                }, 80);
+            }
 
             updateStickyBar();
         }
@@ -699,8 +713,7 @@
         const origSelectNewDevice = window.selectNewDevice;
         window.selectNewDevice = function(...args) {
             document.getElementById('bank-savings-display')?.classList.add('hidden');
-            // Reset bank when device changes so next time bank section appears it recalcs
-            selectedBank = 'none';
+            // Do NOT reset selectedBank — we want to preserve and recalc the bank choice
             document.getElementById('samsungpay').checked = false;
             useSamsungPay = false;
             return origSelectNewDevice?.apply(this, args);
