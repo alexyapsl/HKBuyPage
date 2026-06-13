@@ -139,6 +139,12 @@
             <div class="flex items-center gap-3" id="bank-buttons">
                 <!-- Populated by JS -->
             </div>
+
+            <!-- Bank savings display -->
+            <div id="bank-savings-display" class="hidden mt-3 px-4 py-3 bg-blue-50 border border-blue-200 rounded-2xl text-sm text-blue-700">
+                <div>Bank promotion savings: <span id="bank-savings-amount" class="font-semibold"></span></div>
+                <div id="bank-savings-detail" class="text-xs text-blue-600 mt-0.5"></div>
+            </div>
         </div>
     </div>
 
@@ -476,10 +482,45 @@
                     selectedBank = bank.key;
                     document.querySelectorAll('#bank-buttons button').forEach(b => b.classList.remove('!border-[#007AFF]', 'ring-2'));
                     btn.classList.add('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30');
+                    updateBankSavingsDisplay();
                     updateStickyBar();
                 };
                 container.appendChild(btn);
             });
+        }
+
+        function updateBankSavingsDisplay() {
+            const display = document.getElementById('bank-savings-display');
+            const amountEl = document.getElementById('bank-savings-amount');
+            const detailEl = document.getElementById('bank-savings-detail');
+
+            if (!selectedDevice || selectedStorageIndex === null || !selectedBank || selectedBank === 'none') {
+                display.classList.add('hidden');
+                return;
+            }
+
+            const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
+            const originalPrice = storageOpt.price;
+
+            const bankCalc = calculateBankRebate(originalPrice, selectedBank);
+            if (bankCalc.totalRebate <= 0) {
+                display.classList.add('hidden');
+                return;
+            }
+
+            amountEl.textContent = `HK$${bankCalc.totalRebate.toLocaleString()}`;
+
+            // Build detail line
+            let detail = '';
+            if (bankCalc.percentRebate > 0) {
+                detail += `${Math.round(bankCalc.percentRebate / originalPrice * 100)}% rebate`;
+            }
+            if (bankCalc.fixedRebate > 0) {
+                if (detail) detail += ' + ';
+                detail += bankCalc.fixedName || 'Special discount';
+            }
+            detailEl.textContent = detail;
+            display.classList.remove('hidden');
         }
 
         // --- Sticky bar logic ---
@@ -547,6 +588,13 @@
             await loadDevices();
             init();
             setupBankButtons();
+        };
+
+        // Reset bank savings display on device/storage change
+        const origSelectNewDevice = window.selectNewDevice;
+        window.selectNewDevice = function(...args) {
+            document.getElementById('bank-savings-display')?.classList.add('hidden');
+            return origSelectNewDevice?.apply(this, args);
         };
     </script>
 </body>
