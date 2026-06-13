@@ -480,9 +480,9 @@
         }
 
         function calculateSamsungPayDiscount(originalPrice) {
-            if (originalPrice <= 3000) return 50;
-            if (originalPrice <= 6000) return 100;
-            if (originalPrice <= 10000) return 200;
+            if (originalPrice >= 10000) return 200;
+            if (originalPrice >= 6000) return 100;
+            if (originalPrice >= 3000) return 50;
             return 0;
         }
 
