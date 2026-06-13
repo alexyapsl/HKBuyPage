@@ -167,12 +167,14 @@
                     <div id="sticky-savings" class="text-emerald-600 text-sm"></div>
                 </div>
 
-                <!-- Right: Buy Now button (only after storage selected) -->
-                <button id="buy-now-btn"
-                        class="px-6 py-2.5 bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors hidden"
-                        onclick="showBuyNowModal()">
-                    Buy now
-                </button>
+                <!-- Right: Buy Now button (right aligned on all screens) -->
+                <div class="w-full sm:w-auto flex justify-end">
+                    <button id="buy-now-btn"
+                            class="px-6 py-2.5 bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors hidden"
+                            onclick="showBuyNowModal()">
+                        Buy now
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -793,15 +795,23 @@
         function renderColors() {
             const container = document.getElementById('color-options');
             container.innerHTML = '';
-            const colors = ['Black', 'Blue', 'Purple', 'Silver', 'Gold'];
-            colors.forEach(c => {
-                const btn = document.createElement('button');
-                btn.className = `px-4 py-3 border rounded-2xl text-sm ${selectedColor === c ? 'border-[#007AFF] ring-2 ring-[#007AFF]/30' : 'border-gray-200'}`;
-                btn.textContent = c;
+            const colorData = [
+                { name: 'Black',     bg: '#1f2937' },
+                { name: 'Blue',      bg: '#3b82f6' },
+                { name: 'Purple',    bg: '#8b5cf6' },
+                { name: 'Silver',    bg: '#9ca3af' },
+                { name: 'Gold',      bg: '#d4af37' }
+            ];
+            colorData.forEach(item => {
+                const btn = document.createElement('div');
+                btn.className = `h-12 rounded-2xl border cursor-pointer transition-all ${selectedColor === item.name ? 'ring-2 ring-[#007AFF] border-[#007AFF]' : 'border-gray-300'}`;
+                btn.style.background = item.bg;
                 btn.onclick = () => {
-                    selectedColor = c;
+                    selectedColor = item.name;
                     renderColors();
                 };
+                // add subtle inner shadow for premium look
+                btn.style.boxShadow = 'inset 0 1px 3px rgba(0,0,0,0.2)';
                 container.appendChild(btn);
             });
         }
