@@ -89,7 +89,7 @@
         <!-- Step 2: Storage -->
         <div class="mb-12 hidden" id="storage-section">
             <div class="section-title mb-3">2. Choose storage</div>
-            <select id="storage" onchange="updateSelectedDeviceStorage()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none">
+            <select id="storage" onchange="updateSelectedDeviceStorage()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white">
                 <option value="">Select storage</option>
             </select>
         </div>
@@ -109,19 +109,19 @@
             <div class="space-y-4" id="tradein-fields">
                 <div>
                     <label class="section-title mb-2 block">Brand</label>
-                    <select id="brand" onchange="updateModelsNewFlow()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none">
+                    <select id="brand" onchange="updateModelsNewFlow()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white">
                         <option value="">Select brand</option>
                     </select>
                 </div>
                 <div>
                     <label class="section-title mb-2 block">Model</label>
-                    <select id="model" onchange="updateStorageNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none disabled:bg-gray-50">
+                    <select id="model" onchange="updateStorageNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white disabled:bg-white disabled:text-gray-500">
                         <option value="">Select model</option>
                     </select>
                 </div>
                 <div>
                     <label class="section-title mb-2 block">Storage</label>
-                    <select id="tradein-storage" onchange="updateTradeInPriceNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none disabled:bg-gray-50">
+                    <select id="tradein-storage" onchange="updateTradeInPriceNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white disabled:bg-white disabled:text-gray-500">
                         <option value="">Select storage</option>
                     </select>
                 </div>
