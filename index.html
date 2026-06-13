@@ -167,7 +167,7 @@
                     <div id="sticky-savings" class="text-emerald-600 text-sm"></div>
                 </div>
 
-                <!-- Right: compact Buy Now button, right aligned, same row -->
+                <!-- Right: compact Buy Now button -->
                 <button id="buy-now-btn"
                         class="shrink-0 px-5 py-2 bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors hidden whitespace-nowrap"
                         onclick="showBuyNowModal()">
@@ -775,13 +775,18 @@
             return origSelectNewDevice?.apply(this, args);
         };
 
-        // --- Buy Now flow (exact copy from TradeInPriceCheck) ---
+        // --- Buy Now flow (magic link + 3 gifts) ---
         let selectedBuyColorName = null;
         let selectedBuyColorHex  = null;
+        let selectedGiftSku      = null;
 
         function showBuyNowModal() {
+            if (!selectedDevice || selectedStorageIndex === null) return;
+
             selectedBuyColorName = null;
             selectedBuyColorHex  = null;
+            selectedGiftSku      = null;
+
             document.getElementById('color-modal').classList.remove('hidden');
             renderColorChips();
         }
@@ -813,14 +818,50 @@
                     selectedBuyColorName = c.name;
                     selectedBuyColorHex  = c.hex;
                     renderColorChips();
-                    // Auto-proceed after picking color (same UX as TradeInPriceCheck)
                     setTimeout(() => {
                         closeColorModal();
-                        showTradeInWarningModal();
+                        showGiftSelector();
                     }, 80);
                 };
                 container.appendChild(chip);
             });
+        }
+
+        function showGiftSelector() {
+            // TODO: load real gifts from recommended-products.json
+            // For now show 3 dummy gifts with price
+            const gifts = [
+                { name: 'Wireless Charger', sku: 'EP-T1510', price: 298 },
+                { name: 'Case',              sku: 'EF-ZS948',  price: 198 },
+                { name: 'Screen Protector',  sku: 'EF-US948',  price: 98 }
+            ];
+
+            const container = document.getElementById('gift-options');
+            container.innerHTML = '';
+
+            gifts.forEach(g => {
+                const div = document.createElement('div');
+                div.className = 'flex items-center justify-between border rounded-2xl px-4 py-3 cursor-pointer hover:bg-gray-50';
+                div.innerHTML = `
+                    <div>
+                        <div class="font-medium">${g.name}</div>
+                        <div class="text-xs text-gray-500">Add HK$${g.price}</div>
+                    </div>
+                    <button class="px-4 py-1 text-sm rounded-full border border-[#007AFF] text-[#007AFF]">Select</button>
+                `;
+                div.onclick = () => {
+                    selectedGiftSku = g.sku;
+                    document.getElementById('gift-modal').classList.add('hidden');
+                    showTradeInWarningModal();
+                };
+                container.appendChild(div);
+            });
+
+            document.getElementById('gift-modal').classList.remove('hidden');
+        }
+
+        function closeGiftModal() {
+            document.getElementById('gift-modal').classList.add('hidden');
         }
 
         function showTradeInWarningModal() {
@@ -834,14 +875,15 @@
         function confirmTradeInAndRedirect() {
             closeTradeInWarningModal();
 
-            // Build the final cart URL (exact same logic as TradeInPriceCheck)
             if (!selectedDevice || selectedStorageIndex === null) return;
 
-            const modelSlug   = selectedDevice.name.toLowerCase().replace(/ /g, '');
-            const storageVal  = selectedDevice.storageOptions[selectedStorageIndex].storage;
-            const colorParam  = selectedBuyColorName ? `&color=${encodeURIComponent(selectedBuyColorName)}` : '';
+            const phoneSku = selectedDevice.sku || 'SM-S9480ZKPTGY'; // fallback
+            const base  = 'https://www.samsung.com/hk/offer/magic/';
+            let url = `${base}?productCode[1]=${phoneSku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
 
-            const url = `https://www.samsung.com/hk/smartphones/galaxy-${modelSlug}/buy/?model=${storageVal}${colorParam}`;
+            if (selectedGiftSku) {
+                url = `${base}?productCode[1]=${phoneSku}&productQty[1]=1&productCode[2]=${selectedGiftSku}&productQty[2]=1&store=B2C`;
+            }
 
             window.open(url, '_blank');
         }
