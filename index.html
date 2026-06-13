@@ -125,6 +125,11 @@
                         <option value="">Select storage</option>
                     </select>
                 </div>
+
+                <!-- Trade-in value display -->
+                <div id="tradein-value-display" class="hidden mt-3 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-2xl text-sm text-emerald-700">
+                    Your device trade-in value is <span id="tradein-value-amount" class="font-semibold"></span>
+                </div>
             </div>
         </div>
 
@@ -287,6 +292,7 @@
             const brand = document.getElementById('brand').value;
             const modelSelect = document.getElementById('model');
             const storageSelect = document.getElementById('tradein-storage');
+            const valueDisplay = document.getElementById('tradein-value-display');
 
             if (!brand) {
                 // Brand cleared
@@ -294,6 +300,7 @@
                 modelSelect.disabled = true;
                 storageSelect.innerHTML = '<option value="">Select storage</option>';
                 storageSelect.disabled = true;
+                valueDisplay.classList.add('hidden');
                 tradeInValue = 0;
                 document.getElementById('bank-section').classList.add('hidden');
                 updateStickyBar();
@@ -313,6 +320,7 @@
             // Reset downstream
             storageSelect.innerHTML = '<option value="">Select storage</option>';
             storageSelect.disabled = true;
+            valueDisplay.classList.add('hidden');
             tradeInValue = 0;
             document.getElementById('bank-section').classList.add('hidden');
             updateStickyBar();
@@ -322,11 +330,13 @@
             const brand = document.getElementById('brand').value;
             const model = document.getElementById('model').value;
             const storageSelect = document.getElementById('tradein-storage');
+            const valueDisplay = document.getElementById('tradein-value-display');
 
             if (!model) {
                 // Model cleared
                 storageSelect.innerHTML = '<option value="">Select storage</option>';
                 storageSelect.disabled = true;
+                valueDisplay.classList.add('hidden');
                 tradeInValue = 0;
                 document.getElementById('bank-section').classList.add('hidden');
                 updateStickyBar();
@@ -343,6 +353,7 @@
                 storageSelect.appendChild(opt);
             });
 
+            valueDisplay.classList.add('hidden');
             tradeInValue = 0;
             document.getElementById('bank-section').classList.add('hidden');
             updateStickyBar();
@@ -352,9 +363,12 @@
             const brand = document.getElementById('brand').value;
             const model = document.getElementById('model').value;
             const storage = document.getElementById('tradein-storage').value;
+            const valueDisplay = document.getElementById('tradein-value-display');
+            const valueAmount = document.getElementById('tradein-value-amount');
 
             if (!brand || !model || !storage) {
                 tradeInValue = 0;
+                valueDisplay.classList.add('hidden');
                 document.getElementById('bank-section').classList.add('hidden');
                 updateStickyBar();
                 return;
@@ -368,6 +382,14 @@
 
             tradeInValue = device ? device.trade_in_price : 0;
 
+            // Show trade-in value message
+            if (tradeInValue > 0) {
+                valueAmount.textContent = `HK$${tradeInValue.toLocaleString()}`;
+                valueDisplay.classList.remove('hidden');
+            } else {
+                valueDisplay.classList.add('hidden');
+            }
+
             // Show step 4 only after trade-in storage selected
             document.getElementById('bank-section').classList.remove('hidden');
             updateStickyBar();
@@ -376,13 +398,16 @@
         function toggleNoTradeInNewFlow() {
             const checked = document.getElementById('no-tradein').checked;
             const fields = document.getElementById('tradein-fields');
+            const valueDisplay = document.getElementById('tradein-value-display');
             if (checked) {
                 fields.style.display = 'none';
+                valueDisplay.classList.add('hidden');
                 tradeInValue = 0;
                 // Show step 4 immediately when "no trade-in" is selected
                 document.getElementById('bank-section').classList.remove('hidden');
             } else {
                 fields.style.display = '';
+                valueDisplay.classList.add('hidden');
                 tradeInValue = 0;
                 // Hide step 4 when unchecking (until they complete trade-in fields)
                 document.getElementById('bank-section').classList.add('hidden');
