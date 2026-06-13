@@ -167,9 +167,9 @@
                     <div id="sticky-savings" class="text-emerald-600 text-sm"></div>
                 </div>
 
-                <!-- Right: Buy Now button – compact, right-aligned -->
+                <!-- Right: compact Buy Now button, right aligned, same row -->
                 <button id="buy-now-btn"
-                        class="shrink-0 px-6 py-[10px] bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors hidden whitespace-nowrap"
+                        class="shrink-0 px-5 py-2 bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors hidden whitespace-nowrap"
                         onclick="showBuyNowModal()">
                     Buy now
                 </button>
@@ -177,40 +177,42 @@
         </div>
     </div>
 
-    <!-- Buy Now Modal -->
-    <div id="buy-modal" class="hidden fixed inset-0 bg-black/50 z-[70] flex items-end sm:items-center justify-center">
+    <!-- Color Picker Modal (same as TradeInPriceCheck) -->
+    <div id="color-modal" class="hidden fixed inset-0 bg-black/50 z-[70] flex items-end sm:items-center justify-center">
         <div class="bg-white w-full sm:w-[420px] sm:rounded-3xl rounded-t-3xl p-6 shadow-xl">
-            <div class="flex items-center justify-between mb-4">
-                <div class="font-semibold text-xl">Choose your options</div>
-                <button onclick="closeBuyModal()" class="text-2xl leading-none text-gray-400 hover:text-gray-600">&times;</button>
+            <div class="flex items-center justify-between mb-5">
+                <div class="font-semibold text-xl">Choose color</div>
+                <button onclick="closeColorModal()" class="text-2xl leading-none text-gray-400 hover:text-gray-600">&times;</button>
             </div>
 
-            <!-- Color selection -->
-            <div id="color-step">
-                <div class="section-title mb-2">1. Select color</div>
-                <div id="color-options" class="grid grid-cols-3 gap-3 mb-6"></div>
-                <button onclick="goToGiftStep()" class="w-full samsung-btn py-3 rounded-2xl">Continue</button>
-            </div>
+            <div id="color-options" class="grid grid-cols-1 gap-2 mb-6"></div>
 
-            <!-- Gift selection -->
-            <div id="gift-step" class="hidden">
-                <div class="section-title mb-2">2. Choose your gifts (up to 3)</div>
-                <div id="gift-options" class="space-y-2 mb-6"></div>
-                <div class="flex gap-3">
-                    <button onclick="backToColorStep()" class="flex-1 border py-3 rounded-2xl">Back</button>
-                    <button onclick="showFinalPopup()" class="flex-1 samsung-btn py-3 rounded-2xl">Confirm</button>
-                </div>
+            <div class="flex gap-3">
+                <button onclick="closeColorModal()" class="flex-1 py-3.5 rounded-2xl border border-gray-300 text-sm font-medium">Cancel</button>
+                <button id="confirm-color-btn" onclick="confirmColorSelection()"
+                        class="flex-1 py-3.5 rounded-2xl samsung-btn text-sm font-medium disabled:opacity-50" disabled>
+                    Continue to checkout
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Final Success Popup -->
-    <div id="success-popup" class="hidden fixed inset-0 bg-black/50 z-[80] flex items-center justify-center">
-        <div class="bg-white mx-5 max-w-md w-full rounded-3xl p-8 text-center shadow-2xl">
-            <div class="text-6xl mb-4">🎉</div>
-            <div class="text-2xl font-semibold mb-2">Thank you!</div>
-            <div class="text-gray-600 mb-6">Your order has been placed. We will contact you within 24 hours to confirm details.</div>
-            <button onclick="closeAllModals()" class="w-full samsung-btn py-3 rounded-2xl">Done</button>
+    <!-- Trade-in Warning / Reminder Modal -->
+    <div id="tradein-warning-modal" class="hidden fixed inset-0 bg-black/50 z-[80] flex items-end sm:items-center justify-center">
+        <div class="bg-white w-full sm:w-[420px] sm:rounded-3xl rounded-t-3xl p-6 shadow-xl">
+            <div class="flex items-center justify-between mb-4">
+                <div class="font-semibold text-xl text-gray-900">Important reminder</div>
+                <button onclick="closeTradeInWarningModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
+            </div>
+
+            <div class="text-sm text-gray-700 leading-relaxed mb-6">
+                Adding product to cart, remember to add your trade in device in the cart with IMEI and device condition again to enjoy the guarantee trade in price
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="closeTradeInWarningModal()" class="flex-1 py-3.5 rounded-2xl border border-gray-300 text-sm font-medium">Cancel</button>
+                <button onclick="confirmTradeInAndRedirect()" class="flex-1 py-3.5 rounded-2xl samsung-btn text-sm font-medium">OK</button>
+            </div>
         </div>
     </div>
 
@@ -773,63 +775,52 @@
             return origSelectNewDevice?.apply(this, args);
         };
 
-        // --- Buy Now Modal (exact flow from TradeInPriceCheck) ---
-        let selectedColorName = null;
-        let selectedColorHex  = null;
+        // --- Buy Now flow (exact copy from TradeInPriceCheck) ---
+        let selectedBuyColorName = null;
+        let selectedBuyColorHex  = null;
 
         function showBuyNowModal() {
-            // If already has any discount, skip straight to the warning popup
-            const hasDiscount = tradeInValue > 0 || (selectedBank && selectedBank !== 'none') || useSamsungPay;
-
-            if (hasDiscount) {
-                showTradeInWarningModal();
-                return;
-            }
-
-            // Otherwise show color picker first
-            document.getElementById('buy-modal').classList.remove('hidden');
+            selectedBuyColorName = null;
+            selectedBuyColorHex  = null;
+            document.getElementById('color-modal').classList.remove('hidden');
             renderColorChips();
         }
 
-        function closeBuyModal() {
-            document.getElementById('buy-modal').classList.add('hidden');
+        function closeColorModal() {
+            document.getElementById('color-modal').classList.add('hidden');
         }
 
         function renderColorChips() {
             const container = document.getElementById('color-options');
             container.innerHTML = '';
 
-            // Hard-coded colors for now – will be replaced with real SKU colors later
             const colorList = [
-                { name: 'Black',      hex: '#1f2937' },
-                { name: 'Blue',       hex: '#2563eb' },
-                { name: 'Purple',     hex: '#7c3aed' },
-                { name: 'Titanium',   hex: '#64748b' },
-                { name: 'Gold',       hex: '#d97706' }
+                { name: 'Black',    hex: '#1f2937' },
+                { name: 'Blue',     hex: '#2563eb' },
+                { name: 'Purple',   hex: '#7c3aed' },
+                { name: 'Titanium', hex: '#64748b' },
+                { name: 'Gold',     hex: '#d97706' }
             ];
 
             colorList.forEach(c => {
                 const chip = document.createElement('div');
-                chip.className = `flex items-center gap-3 px-4 py-3 border rounded-2xl cursor-pointer ${selectedColorName === c.name ? 'border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-200'}`;
+                chip.className = `flex items-center gap-3 px-4 py-3 border rounded-2xl cursor-pointer ${selectedBuyColorName === c.name ? 'border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-200'}`;
                 chip.innerHTML = `
                     <div class="color-chip w-7 h-7 rounded-full" style="background:${c.hex}"></div>
                     <div class="font-medium">${c.name}</div>
                 `;
                 chip.onclick = () => {
-                    selectedColorName = c.name;
-                    selectedColorHex  = c.hex;
+                    selectedBuyColorName = c.name;
+                    selectedBuyColorHex  = c.hex;
                     renderColorChips();
-                    // Auto-confirm after selection (same as TradeInPriceCheck)
-                    setTimeout(confirmColorSelection, 120);
+                    // Auto-proceed after picking color (same UX as TradeInPriceCheck)
+                    setTimeout(() => {
+                        closeColorModal();
+                        showTradeInWarningModal();
+                    }, 80);
                 };
                 container.appendChild(chip);
             });
-        }
-
-        function confirmColorSelection() {
-            if (!selectedColorName) return;
-            document.getElementById('buy-modal').classList.add('hidden');
-            showTradeInWarningModal();
         }
 
         function showTradeInWarningModal() {
@@ -843,19 +834,16 @@
         function confirmTradeInAndRedirect() {
             closeTradeInWarningModal();
 
-            // Construct the final magic link (exact same pattern as TradeInPriceCheck)
-            const modelName = selectedDevice ? selectedDevice.name.replace(/ /g, '') : '';
-            const storageLabel = selectedStorageIndex !== null && selectedDevice ? selectedDevice.storageOptions[selectedStorageIndex].storage : '';
+            // Build the final cart URL (exact same logic as TradeInPriceCheck)
+            if (!selectedDevice || selectedStorageIndex === null) return;
 
-            const colorParam   = selectedColorName ? `&color=${encodeURIComponent(selectedColorName)}` : '';
-            const url = `https://www.samsung.com/hk/smartphones/galaxy-${modelName.toLowerCase()}/buy/?model=${storageLabel}${colorParam}`;
+            const modelSlug   = selectedDevice.name.toLowerCase().replace(/ /g, '');
+            const storageVal  = selectedDevice.storageOptions[selectedStorageIndex].storage;
+            const colorParam  = selectedBuyColorName ? `&color=${encodeURIComponent(selectedBuyColorName)}` : '';
+
+            const url = `https://www.samsung.com/hk/smartphones/galaxy-${modelSlug}/buy/?model=${storageVal}${colorParam}`;
 
             window.open(url, '_blank');
-        }
-
-        function closeAllModals() {
-            document.getElementById('buy-modal').classList.add('hidden');
-            document.getElementById('tradein-warning-modal').classList.add('hidden');
         }
 
         // Show/hide Buy Now button when sticky bar is visible
