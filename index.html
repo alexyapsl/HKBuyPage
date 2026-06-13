@@ -142,8 +142,8 @@
 
             <!-- Bank savings display -->
             <div id="bank-savings-display" class="hidden mt-3 px-4 py-3 bg-blue-50 border border-blue-200 rounded-2xl text-sm text-blue-700">
-                <div>Bank promotion savings: <span id="bank-savings-amount" class="font-semibold"></span></div>
-                <div id="bank-savings-detail" class="text-xs text-blue-600 mt-0.5"></div>
+                <div id="bank-savings-total" class="font-medium"></div>
+                <div id="bank-savings-lines" class="mt-1 text-xs text-blue-600 space-y-0.5"></div>
             </div>
         </div>
     </div>
@@ -491,8 +491,8 @@
 
         function updateBankSavingsDisplay() {
             const display = document.getElementById('bank-savings-display');
-            const amountEl = document.getElementById('bank-savings-amount');
-            const detailEl = document.getElementById('bank-savings-detail');
+            const totalEl = document.getElementById('bank-savings-total');
+            const linesEl = document.getElementById('bank-savings-lines');
 
             if (!selectedDevice || selectedStorageIndex === null || !selectedBank || selectedBank === 'none') {
                 display.classList.add('hidden');
@@ -508,18 +508,22 @@
                 return;
             }
 
-            amountEl.textContent = `HK$${bankCalc.totalRebate.toLocaleString()}`;
+            // Total line
+            totalEl.innerHTML = `Bank promotion savings: <span class="font-semibold">HK$${bankCalc.totalRebate.toLocaleString()}</span>`;
 
-            // Build detail line
-            let detail = '';
+            // Breakdown lines
+            linesEl.innerHTML = '';
             if (bankCalc.percentRebate > 0) {
-                detail += `${Math.round(bankCalc.percentRebate / originalPrice * 100)}% rebate`;
+                const pctLine = document.createElement('div');
+                pctLine.textContent = `Credit card rebate HK$${bankCalc.percentRebate.toLocaleString()}`;
+                linesEl.appendChild(pctLine);
             }
             if (bankCalc.fixedRebate > 0) {
-                if (detail) detail += ' + ';
-                detail += bankCalc.fixedName || 'Special discount';
+                const fixedLine = document.createElement('div');
+                fixedLine.textContent = `${bankCalc.fixedName || 'Special discount'} HK$${bankCalc.fixedRebate.toLocaleString()}`;
+                linesEl.appendChild(fixedLine);
             }
-            detailEl.textContent = detail;
+
             display.classList.remove('hidden');
         }
 
