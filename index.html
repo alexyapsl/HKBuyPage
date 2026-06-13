@@ -269,6 +269,11 @@
             });
 
             updateStickyBar();
+
+            // Auto scroll to storage
+            setTimeout(() => {
+                document.getElementById('storage-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 150);
         }
 
         function updateSelectedDeviceStorage() {
@@ -280,6 +285,10 @@
                 document.getElementById('tradein-section').classList.remove('hidden');
                 // Keep step 4 hidden until trade-in is complete
                 document.getElementById('bank-section').classList.add('hidden');
+                // Auto scroll to trade-in
+                setTimeout(() => {
+                    document.getElementById('tradein-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 150);
             } else {
                 // Storage unselected
                 document.getElementById('tradein-section').classList.add('hidden');
@@ -409,6 +418,12 @@
             // Show step 4 only after trade-in storage selected
             document.getElementById('bank-section').classList.remove('hidden');
             document.getElementById('samsungpay-row').classList.remove('hidden');
+
+            // Auto scroll to bank / SamsungPay
+            setTimeout(() => {
+                document.getElementById('bank-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 150);
+
             updateStickyBar();
         }
 
@@ -424,6 +439,11 @@
                 // Show step 4 immediately when "no trade-in" is selected
                 document.getElementById('bank-section').classList.remove('hidden');
                 samsungRow.classList.remove('hidden');
+
+                // Auto scroll to bank / SamsungPay
+                setTimeout(() => {
+                    document.getElementById('bank-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 150);
             } else {
                 fields.style.display = '';
                 valueDisplay.classList.add('hidden');
@@ -507,6 +527,14 @@
                     btn.classList.add('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30');
                     updateBankSavingsDisplay();
                     updateStickyBar();
+
+                    // Auto scroll to SamsungPay when bank selected
+                    setTimeout(() => {
+                        const samsungRow = document.getElementById('samsungpay-row');
+                        if (samsungRow && !samsungRow.classList.contains('hidden')) {
+                            samsungRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    }, 200);
                 };
                 container.appendChild(btn);
             });
