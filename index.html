@@ -754,7 +754,7 @@
             updateStickyBar();
         }
 
-        // --- Sticky bar logic (aggressive simple version) ---
+        // --- Sticky bar logic (smart labels + price + button) ---
         function updateStickyBar() {
             const sticky = document.getElementById('sticky-bar');
             const nameEl = document.getElementById('sticky-device-name');
@@ -785,10 +785,38 @@
 
             // AFTER storage selected
             const opt = selectedDevice.storageOptions[selectedStorageIndex];
+            const originalPrice = opt.price;
+            const bankCalc = (selectedBank && selectedBank !== 'none')
+                ? calculateBankRebate(originalPrice, selectedBank)
+                : { percentRebate: 0, fixedRebate: 0, totalRebate: 0 };
+            const bankRebate = bankCalc.totalRebate || 0;
+            const samsungPayDiscount = useSamsungPay ? calculateSamsungPayDiscount(originalPrice) : 0;
+
+            const finalPrice = Math.max(0, originalPrice - tradeInValue - bankRebate - samsungPayDiscount);
+            const totalSavings = originalPrice - finalPrice;
+
             nameEl.textContent = `${selectedDevice.name} • ${opt.storage}`;
-            payEl.textContent = 'You pay';
-            priceEl.innerHTML = `HK$${opt.price.toLocaleString()}`;
-            saveEl.style.display = 'none';
+
+            // Smart pay label
+            const hasTradeIn = tradeInValue > 0;
+            const hasBankPromo = (selectedBank && selectedBank !== 'none' && bankRebate > 0) || useSamsungPay;
+
+            let payLabel = 'You pay';
+            if (hasTradeIn && hasBankPromo) payLabel = 'After Trade-In and Bank Promotion, you pay';
+            else if (hasTradeIn) payLabel = 'After Trade-In, you pay';
+            else if (hasBankPromo) payLabel = 'With Bank Promotion, you pay';
+
+            payEl.textContent = payLabel;
+            priceEl.innerHTML = `HK$${finalPrice.toLocaleString()}`;
+
+            // Savings
+            if (totalSavings > 0) {
+                saveEl.textContent = `You save HK$${totalSavings.toLocaleString()}`;
+                saveEl.style.display = 'block';
+            } else {
+                saveEl.style.display = 'none';
+            }
+
             buyBtn.style.display = 'inline-block';
         }
 
