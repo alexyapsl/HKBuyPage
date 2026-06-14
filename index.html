@@ -154,23 +154,24 @@
         </div>
     </div>
 
-    <!-- Sticky Bottom Bar -->
+    <!-- Sticky Bottom Bar (price left, Buy Now right on same row) -->
     <div id="sticky-bar" class="hidden fixed bottom-0 left-0 right-0 bg-white border-t z-[60] shadow-lg">
-        <div class="max-w-4xl mx-auto px-6 py-4">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-y-1">
+        <div class="max-w-4xl mx-auto px-6 py-3.5">
+            <div class="flex items-center justify-between gap-x-4">
                 <!-- Left: price information -->
-                <div class="w-full">
-                    <div id="sticky-device-name" class="font-semibold text-lg leading-tight"></div>
-                    <div id="sticky-original-price" class="text-sm text-gray-500 hidden"></div>
-                    <div id="sticky-pay-label" class="text-xs text-gray-500 mb-0.5"></div>
-                    <div id="sticky-final-price" class="text-2xl font-semibold tabular-nums"></div>
-                    <div id="sticky-savings" class="text-emerald-600 text-sm"></div>
+                <div class="min-w-0 flex-1">
+                    <div id="sticky-device-name" class="font-semibold text-base sm:text-lg leading-tight truncate"></div>
+                    <div id="sticky-pay-label" class="text-xs text-gray-500"></div>
+                    <div class="flex items-baseline gap-x-2">
+                        <div id="sticky-final-price" class="text-2xl font-semibold tabular-nums"></div>
+                        <div id="sticky-savings" class="text-emerald-600 text-sm hidden"></div>
+                    </div>
                 </div>
 
-                <!-- Right: compact Buy Now button -->
-                <div class="w-full sm:w-auto flex justify-end pt-1">
+                <!-- Right: Buy Now button - fixed width, always same row -->
+                <div class="flex-shrink-0">
                     <button id="buy-now-btn"
-                            class="shrink-0 px-5 py-2 bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors hidden whitespace-nowrap"
+                            class="px-6 py-3 bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors hidden whitespace-nowrap shadow-sm"
                             onclick="showBuyNowModal()">
                         Buy now
                     </button>
@@ -199,14 +200,14 @@
         </div>
     </div>
 
-    <!-- Gift Selection Modal -->
-    <div id="gift-modal" class="hidden fixed inset-0 bg-black/50 z-[75] flex items-end sm:items-center justify-center">
-        <div class="bg-white w-full sm:w-[420px] sm:rounded-3xl rounded-t-3xl p-6 shadow-xl">
-            <div class="flex items-center justify-between mb-5">
-                <div class="font-semibold text-xl">Choose a gift</div>
-                <button onclick="skipGiftAndContinue()" class="text-sm text-[#007AFF]">Skip</button>
+    <!-- Gift Selection Modal (images + 3 gift choices, no Skip) -->
+    <div id="gift-modal" class="hidden fixed inset-0 bg-black/50 z-[120] flex items-end lg:items-center justify-center">
+        <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-3xl p-6">
+            <div class="flex items-center justify-between mb-4">
+                <div class="font-semibold text-xl">Choose your gift</div>
+                <button onclick="closeGiftModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
             </div>
-            <div id="gift-options" class="space-y-2 mb-6"></div>
+            <div id="gift-options" class="space-y-3"></div>
         </div>
     </div>
 
@@ -230,16 +231,21 @@
     </div>
 
     <script>
-        // Same device data + logic from TradeInPush (simplified for demo)
+        // Recommended products with real color + gift data (from recommended-products.json)
         const recommendedProducts = [
             {
                 name: "Galaxy S26 Ultra",
                 sku: "SM-S9480ZKPTGY",
                 image: "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-578324-sm-s9480zsptgy-550823970?imbypass=true",
                 storageOptions: [
-                    { storage: "256GB+12GB", price: 10998 },
-                    { storage: "512GB+12GB", price: 11998 },
-                    { storage: "1TB+16GB", price: 14198 }
+                    {
+                        storage: "1TB+16GB", price: 14198,
+                        colors: [
+                            { name: "Black", sku: "SM-S9480ZKPTGY", gift1: "S26U_Gift001", gift2: "S26U_Gift002", gift3: "S26U_Gift003", inStock: true },
+                            { name: "Sky Blue", sku: "SM-S9480LBPTGY", gift1: "S26U_Gift001", gift2: "S26U_Gift002", gift3: "S26U_Gift003", inStock: true },
+                            { name: "Cobalt Violet", sku: "SM-S9480ZVPTGY", gift1: "S26U_Gift001", gift2: "S26U_Gift002", gift3: "S26U_Gift003", inStock: true }
+                        ]
+                    }
                 ]
             },
             {
@@ -247,9 +253,12 @@
                 sku: "SM-F9660DBGTGY",
                 image: "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-547656345?imbypass=true",
                 storageOptions: [
-                    { storage: "256GB+12GB", price: 12998 },
-                    { storage: "512GB+12GB", price: 13998 },
-                    { storage: "1TB+16GB", price: 15998 }
+                    {
+                        storage: "256GB+12GB", price: 12998,
+                        colors: [
+                            { name: "Black", sku: "SM-F9660DBGTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: true }
+                        ]
+                    }
                 ]
             },
             {
@@ -257,8 +266,12 @@
                 sku: "SM-F7660DBATGY",
                 image: "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660dbatgy-547656635?imbypass=true",
                 storageOptions: [
-                    { storage: "256GB+12GB", price: 8998 },
-                    { storage: "512GB+12GB", price: 9998 }
+                    {
+                        storage: "256GB+12GB", price: 8998,
+                        colors: [
+                            { name: "Black", sku: "SM-F7660DBATGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: true }
+                        ]
+                    }
                 ]
             }
         ];
@@ -269,6 +282,25 @@
         let selectedBank = 'none';
         let useSamsungPay = false;
         let devices = []; // loaded from devices.json
+
+        // Gift mapping (copied from TradeInPriceCheck)
+        const giftMap = {
+            "S26U_Gift001": { sku: "EP-T5020XBEGGB", name: "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)", image: "https://images.samsung.com/is/image/samsung/p6pim/hk/ep-t5020xbeggb/gallery/hk-50w-power-adapter-duo-ep-t5020-ep-t5020xbeggb-542105839?$1164_776_PNG$", price: 0 },
+            "S26U_Gift002": { sku: "EF-SS948CLEGWW", name: "Galaxy S26 Ultra Slim Magnet Case", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-galaxy-s26ultra-ss948-ef-ss948clegww-550973073?$1164_776_PNG$", price: 0 },
+            "S26U_Gift003": { sku: "EP-P2900BBEGWW", name: "Magnet Wireless Charger", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-ep-p2900-ep-p2900bbegww-550976156?$1164_776_PNG$", price: 50 },
+            "Fold7_Gift001": { sku: "EP-T5020XBEGGB", name: "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)", image: "https://images.samsung.com/is/image/samsung/p6pim/hk/ep-t5020xbeggb/gallery/hk-50w-power-adapter-duo-ep-t5020-ep-t5020xbeggb-542105839?$1164_776_PNG$", price: 0 },
+            "Fold7_Gift002": { sku: "GP-FFF966YCATW", name: "Galaxy Z Fold7 Clear Magnet Case", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/f2507/gallery/hk-en-galaxy-z-fold7-clear-magnet-case-gp-fff966ycatw-542105839?$1164_776_PNG$", price: 0 },
+            "Fold7_Gift003": { sku: "EP-P2900BBEGWW", name: "Magnet Wireless Charger", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-ep-p2900-ep-p2900bbegww-550976156?$1164_776_PNG$", price: 50 },
+            "Flip7_Gift001": { sku: "EP-T5020XBEGGB", name: "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)", image: "https://images.samsung.com/is/image/samsung/p6pim/hk/ep-t5020xbeggb/gallery/hk-50w-power-adapter-duo-ep-t5020-ep-t5020xbeggb-542105839?$1164_776_PNG$", price: 0 },
+            "Flip7_Gift002": { sku: "GP-FPF766PGBTW", name: "Galaxy Z Flip7 Capella", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/f2507/gallery/hk-en-galaxy-z-flip7-capella-gp-fpf766pgbtw-550976156?$1164_776_PNG$", price: 0 },
+            "Flip7_Gift003": { sku: "EP-P2900BBEGWW", name: "Magnet Wireless Charger", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-ep-p2900-ep-p2900bbegww-550976156?$1164_776_PNG$", price: 50 },
+            "S26P_Gift001": { sku: "EP-T5020XBEGGB", name: "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)", image: "https://images.samsung.com/is/image/samsung/p6pim/hk/ep-t5020xbeggb/gallery/hk-50w-power-adapter-duo-ep-t5020-ep-t5020xbeggb-542105839?$1164_776_PNG$", price: 0 },
+            "S26P_Gift002": { sku: "EF-CS947CTEGWW", name: "Galaxy S26+ Clear Magnet Case", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-galaxy-s26plus-cs947-ef-cs947ctegww-550974561?$1164_776_PNG$", price: 0 },
+            "S26P_Gift003": { sku: "EP-P2900BBEGWW", name: "Magnet Wireless Charger", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-ep-p2900-ep-p2900bbegww-550976156?$1164_776_PNG$", price: 50 },
+            "S26B_Gift001": { sku: "EP-T5020XBEGGB", name: "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)", image: "https://images.samsung.com/is/image/samsung/p6pim/hk/ep-t5020xbeggb/gallery/hk-50w-power-adapter-duo-ep-t5020-ep-t5020xbeggb-542105839?$1164_776_PNG$", price: 0 },
+            "S26B_Gift002": { sku: "EF-CS942CTEGWW", name: "Galaxy S26 Clear Magnet Case", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-galaxy-s26-cs942-ef-cs942ctegww-550974547?$1164_776_PNG$", price: 0 },
+            "S26B_Gift003": { sku: "EP-P2900BBEGWW", name: "Magnet Wireless Charger", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-ep-p2900-ep-p2900bbegww-550976156?$1164_776_PNG$", price: 50 }
+        };
 
         function init() {
             renderDeviceSelection();
@@ -792,60 +824,166 @@
             return origSelectNewDevice?.apply(this, args);
         };
 
-        // --- Buy Now flow (magic link + 3 gifts) ---
-        let selectedBuyColorName = null;
-        let selectedBuyColorHex  = null;
-        let selectedGiftSku      = null;
+        // --- Buy Now flow (ported exactly from TradeInPriceCheck) ---
+        let currentModalProductIdx = null;
+        let currentModalCard = null;
+        let selectedColorSku = null;
+        let selectedGiftSku = null;
+        let pendingMagicUrl = null;
 
         function showBuyNowModal() {
             if (!selectedDevice || selectedStorageIndex === null) return;
 
-            selectedBuyColorName = null;
-            selectedBuyColorHex  = null;
-            selectedGiftSku      = null;
+            const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
+            if (!storageOpt.colors || storageOpt.colors.length === 0) {
+                alert('This device has no color options configured.');
+                return;
+            }
 
-            document.getElementById('color-modal').classList.remove('hidden');
-            renderColorChips();
-        }
+            currentModalProductIdx = null; // not used in HKBuyPage
+            currentModalCard = null;
+            selectedColorSku = null;
+            selectedGiftSku = null;
 
-        function closeColorModal() {
-            document.getElementById('color-modal').classList.add('hidden');
-        }
+            const modal = document.getElementById('color-modal');
+            const optionsContainer = document.getElementById('color-options');
+            const confirmBtn = document.getElementById('confirm-color-btn');
+            if (!confirmBtn) { console.error('confirm-color-btn missing'); return; }
 
-        function renderColorChips() {
-            const container = document.getElementById('color-options');
-            container.innerHTML = '';
+            optionsContainer.innerHTML = '';
 
-            const colorList = [
-                { name: 'Black',    hex: '#1f2937' },
-                { name: 'Blue',     hex: '#2563eb' },
-                { name: 'Purple',   hex: '#7c3aed' },
-                { name: 'Titanium', hex: '#64748b' },
-                { name: 'Gold',     hex: '#d97706' }
-            ];
-
-            colorList.forEach(c => {
-                const chip = document.createElement('div');
-                chip.className = `flex items-center gap-3 px-4 py-3 border rounded-2xl cursor-pointer ${selectedBuyColorName === c.name ? 'border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-200'}`;
-                chip.innerHTML = `
-                    <div class="color-chip w-7 h-7 rounded-full" style="background:${c.hex}"></div>
-                    <div class="font-medium">${c.name}</div>
+            storageOpt.colors.forEach((color, i) => {
+                const isOos = color.inStock === false;
+                const div = document.createElement('div');
+                div.className = `flex items-center justify-between px-4 py-3.5 border border-gray-200 rounded-2xl transition-colors color-option ${isOos ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-[#007AFF]'}`;
+                div.innerHTML = `
+                    <div class="flex items-center gap-x-3">
+                        <div class="w-5 h-5 rounded-full border border-gray-200" style="background: ${getColorHex(color.name)}"></div>
+                        <div class="font-medium text-gray-900">${color.name}</div>
+                        ${isOos ? '<span class="text-[10px] text-red-500 ml-1">Out of stock</span>' : ''}
+                    </div>
+                    <div class="text-xs text-gray-400">${storageOpt.storage}</div>
                 `;
-                chip.onclick = () => {
-                    selectedBuyColorName = c.name;
-                    selectedBuyColorHex  = c.hex;
-                    renderColorChips();
-                    setTimeout(() => {
-                        closeColorModal();
-                        showGiftSelectorModal();
-                    }, 80);
-                };
-                container.appendChild(chip);
+                if (!isOos) {
+                    div.onclick = () => {
+                        optionsContainer.querySelectorAll('.color-option').forEach(el => el.classList.remove('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]'));
+                        div.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
+                        selectedColorSku = color.sku;
+                        confirmBtn.disabled = false;
+                    };
+                    if (i === 0) {
+                        setTimeout(() => {
+                            div.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
+                            selectedColorSku = color.sku;
+                            confirmBtn.disabled = false;
+                        }, 10);
+                    }
+                }
+                optionsContainer.appendChild(div);
             });
+
+            confirmBtn.onclick = () => confirmColorSelection();
+            confirmBtn.disabled = true;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function getColorHex(colorName) {
+            const map = {
+                'Titanium Black': '#1f2937', 'Titanium Grey': '#6b7280', 'Titanium Silver': '#d1d5db',
+                'Titanium Blue': '#3b82f6', 'Navy': '#1e3a8a', 'Silver Shadow': '#9ca3af',
+                'Mint': '#86efac', 'Graphite': '#374151', 'Blue': '#2563eb', 'Silver': '#e5e7eb',
+                'Black': '#1f2937', 'Sky Blue': '#0ea5e9', 'Cobalt Violet': '#7c3aed', 'Pink Gold': '#f472b6'
+            };
+            return map[colorName] || '#9ca3af';
+        }
+
+        function closeColorModal(keepState = false) {
+            const modal = document.getElementById('color-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            if (!keepState) {
+                selectedColorSku = null;
+                currentModalProductIdx = null;
+                currentModalCard = null;
+            }
+        }
+
+        function confirmColorSelection() {
+            if (!selectedColorSku) return;
+            closeColorModal(true);
+            showGiftModal();
         }
 
 
 
+        function showGiftModal() {
+            let giftModal = document.getElementById('gift-modal');
+            if (!giftModal) {
+                giftModal = document.createElement('div');
+                giftModal.id = 'gift-modal';
+                giftModal.className = 'hidden fixed inset-0 bg-black/50 z-[120] flex items-end lg:items-center justify-center';
+                giftModal.innerHTML = `
+                    <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-3xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="font-semibold text-xl">Choose your gift</div>
+                            <button onclick="closeGiftModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
+                        </div>
+                        <div id="gift-options" class="space-y-3"></div>
+                    </div>
+                `;
+                document.body.appendChild(giftModal);
+            }
+
+            const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
+            const color = storageOpt.colors.find(c => c.sku === selectedColorSku);
+            if (!color) { alert('Color not found'); return; }
+
+            const optionsContainer = giftModal.querySelector('#gift-options');
+            optionsContainer.innerHTML = '';
+
+            const gifts = [color.gift1, color.gift2, color.gift3];
+
+            gifts.forEach((giftCode) => {
+                const info = giftMap[giftCode] || { name: giftCode, image: '', price: 0 };
+                const price = info.price || 0;
+                const priceLabel = price > 0 
+                    ? `<div class="text-xs text-[#007AFF] mt-0.5 font-medium">Add $${price}</div>` 
+                    : `<div class="text-xs text-emerald-600 mt-0.5">Free gift</div>`;
+                
+                const btn = document.createElement('button');
+                btn.className = 'w-full flex items-center gap-4 p-4 border border-gray-200 rounded-2xl hover:border-[#007AFF] text-left';
+                btn.innerHTML = `
+                    <img src="${info.image}" class="w-16 h-16 object-contain rounded-xl border" alt="${info.name}">
+                    <div>
+                        <div class="font-medium text-gray-900">${info.name}</div>
+                        ${priceLabel}
+                    </div>
+                `;
+                btn.onclick = () => {
+                    const giftInfo = giftMap[giftCode] || {};
+                    selectedGiftSku = giftInfo.sku || giftCode;
+                    closeGiftModal();
+                    pendingMagicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&productCode[2]=${selectedGiftSku}&productQty[2]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
+                    showTradeInWarningModal();
+                };
+                optionsContainer.appendChild(btn);
+            });
+
+            giftModal.classList.remove('hidden');
+            giftModal.classList.add('flex');
+        }
+
+        function closeGiftModal() {
+            const giftModal = document.getElementById('gift-modal');
+            if (giftModal) {
+                giftModal.classList.remove('flex');
+                giftModal.classList.add('hidden');
+            }
+        }
+
+        // Trade-in warning modal + redirect (same magic link)
         function showTradeInWarningModal() {
             document.getElementById('tradein-warning-modal').classList.remove('hidden');
         }
@@ -856,18 +994,10 @@
 
         function confirmTradeInAndRedirect() {
             closeTradeInWarningModal();
-
-            if (!selectedDevice || selectedStorageIndex === null) return;
-
-            const phoneSku = selectedDevice.sku || 'SM-S9480ZKPTGY'; // fallback
-            const base  = 'https://www.samsung.com/hk/offer/magic/';
-            let url = `${base}?productCode[1]=${phoneSku}&productQty[1]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
-
-            if (selectedGiftSku) {
-                url = `${base}?productCode[1]=${phoneSku}&productQty[1]=1&productCode[2]=${selectedGiftSku}&productQty[2]=1&store=B2C`;
+            if (pendingMagicUrl) {
+                window.open(pendingMagicUrl, '_blank');
             }
-
-            window.open(url, '_blank');
+            pendingMagicUrl = null;
         }
 
         // Show/hide Buy Now button when sticky bar is visible
