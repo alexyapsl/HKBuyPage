@@ -231,13 +231,27 @@
     </div>
 
     <script>
-        // Recommended products with real color + gift data (from recommended-products.json)
+        // Recommended products with real color + gift data (expanded from recommended-products.json)
         const recommendedProducts = [
             {
                 name: "Galaxy S26 Ultra",
                 sku: "SM-S9480ZKPTGY",
                 image: "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-578324-sm-s9480zsptgy-550823970?imbypass=true",
                 storageOptions: [
+                    {
+                        storage: "256GB+12GB", price: 10998,
+                        colors: [
+                            { name: "Black", sku: "SM-S9480ZKOTGY", gift1: "S26U_Gift001", gift2: "S26U_Gift002", gift3: "S26U_Gift003", inStock: true },
+                            { name: "Sky Blue", sku: "SM-S9480LBOTGY", gift1: "S26U_Gift001", gift2: "S26U_Gift002", gift3: "S26U_Gift003", inStock: true }
+                        ]
+                    },
+                    {
+                        storage: "512GB+12GB", price: 11998,
+                        colors: [
+                            { name: "Black", sku: "SM-S9480ZKP TGY", gift1: "S26U_Gift001", gift2: "S26U_Gift002", gift3: "S26U_Gift003", inStock: true },
+                            { name: "Sky Blue", sku: "SM-S9480LBP TGY", gift1: "S26U_Gift001", gift2: "S26U_Gift002", gift3: "S26U_Gift003", inStock: true }
+                        ]
+                    },
                     {
                         storage: "1TB+16GB", price: 14198,
                         colors: [
@@ -258,6 +272,12 @@
                         colors: [
                             { name: "Black", sku: "SM-F9660DBGTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: true }
                         ]
+                    },
+                    {
+                        storage: "512GB+12GB", price: 13998,
+                        colors: [
+                            { name: "Black", sku: "SM-F9660DBGTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: true }
+                        ]
                     }
                 ]
             },
@@ -268,6 +288,12 @@
                 storageOptions: [
                     {
                         storage: "256GB+12GB", price: 8998,
+                        colors: [
+                            { name: "Black", sku: "SM-F7660DBATGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: true }
+                        ]
+                    },
+                    {
+                        storage: "512GB+12GB", price: 9998,
                         colors: [
                             { name: "Black", sku: "SM-F7660DBATGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: true }
                         ]
@@ -365,10 +391,11 @@
 
             updateStickyBar();
 
-            // Auto scroll to storage
+            // Auto scroll to storage (ensure section is visible first)
             setTimeout(() => {
-                document.getElementById('storage-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 150);
+                const storageSec = document.getElementById('storage-section');
+                if (storageSec) storageSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 250);
         }
 
         function updateSelectedDeviceStorage() {
@@ -729,8 +756,8 @@
 
             document.getElementById('sticky-bar').classList.remove('hidden');
 
-            // If storage not yet selected, show "from" price (same visual position as final price on mobile)
-            if (selectedStorageIndex === null) {
+            // If storage not yet selected (or invalid), show "from" price
+            if (selectedStorageIndex === null || isNaN(selectedStorageIndex)) {
                 const fromPrice = selectedDevice.storageOptions[0].price;
                 document.getElementById('sticky-device-name').textContent = selectedDevice.name;
                 document.getElementById('sticky-original-price').classList.add('hidden');
