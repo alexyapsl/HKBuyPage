@@ -402,7 +402,7 @@
             storageSec.classList.remove('hidden');
             setTimeout(() => {
                 storageSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 180);
+            }, 120);
         }
 
         function updateSelectedDeviceStorage() {
@@ -1028,7 +1028,8 @@
         window.updateStickyBar = function() {
             origUpdateStickyBar?.();
             const btn = document.getElementById('buy-now-btn');
-            if (btn) btn.style.display = document.getElementById('sticky-bar').classList.contains('hidden') ? 'none' : '';
+            const sticky = document.getElementById('sticky-bar');
+            if (btn) btn.style.display = (sticky.style.display === 'none') ? 'none' : '';
         };
     </script>
 </body>
