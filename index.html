@@ -278,6 +278,12 @@
                         colors: [
                             { name: "Black", sku: "SM-F9660DBGTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: true }
                         ]
+                    },
+                    {
+                        storage: "1TB+16GB", price: 15998,
+                        colors: [
+                            { name: "Black", sku: "SM-F9660DBGTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: true }
+                        ]
                     }
                 ]
             },
@@ -371,7 +377,8 @@
             document.getElementById('tradein-storage').disabled = true;
 
             // Step 2 only
-            document.getElementById('storage-section').classList.remove('hidden');
+            const storageSec = document.getElementById('storage-section');
+            storageSec.classList.remove('hidden');
             document.getElementById('tradein-section').classList.add('hidden');
             document.getElementById('bank-section').classList.add('hidden');
             document.getElementById('samsungpay-row').classList.add('hidden');
@@ -391,11 +398,10 @@
 
             updateStickyBar();
 
-            // Auto scroll to storage (ensure section is visible first)
+            // Auto scroll to storage: ensure visible then scroll
             setTimeout(() => {
-                const storageSec = document.getElementById('storage-section');
-                if (storageSec) storageSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 250);
+                storageSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
         }
 
         function updateSelectedDeviceStorage() {
