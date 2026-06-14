@@ -231,17 +231,20 @@
     </div>
 
     <script>
-        // Recommended products - FULL data from recommended-products.json (aligned with Google Sheet)
+        // Recommended products - filtered from Google Sheet (showInHKBuyPage = TRUE only)
         const recommendedProducts = [
             {
                 name: "Galaxy S26 Ultra",
                 sku: "SM-S9480ZKPTGY",
-                image: "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-578324-sm-s9480zsptgy-550823970?imbypass=true",
+                image: "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-sm-s9480zkptgy-550821367?imbypass=true",
                 storageOptions: [
                     { storage: "256GB+12GB", price: 10198, colors: [
                         { name: "Black", sku: "SM-S9480ZKITGY", gift1: "S26U_Gift001", gift2: "S26U_Gift002", gift3: "S26U_Gift003", inStock: true },
-                        { name: "Sky Blue", sku: "SM-S9480LBITGY", gift1: "S26U_Gift001", gift2: "S26U_Gift002", gift3: "S26U_Gift003", inStock: false },
-                        { name: "Cobalt Violet", sku: "SM-S9480ZVITGY", gift1: "S26U_Gift001", gift2: "S26U_Gift002", gift3: "S26U_Gift003", inStock: true }
+                        { name: "Sky Blue", sku: "SM-S9480LBITGY", gift1: "S26U_Gift001", gift2: "S26U_Gift002", gift3: "S26U_Gift003", inStock: true },
+                        { name: "Cobalt Violet", sku: "SM-S9480ZVITGY", gift1: "S26U_Gift001", gift2: "S26U_Gift002", gift3: "S26U_Gift003", inStock: true },
+                        { name: "White", sku: "SM-S9480ZWITGY", gift1: "S26U_Gift001", gift2: "S26U_Gift002", gift3: "S26U_Gift003", inStock: true },
+                        { name: "Pink Gold", sku: "SM-S9480ZDITGY", gift1: "S26U_Gift001", gift2: "S26U_Gift002", gift3: "S26U_Gift003", inStock: true },
+                        { name: "Silver Shadow", sku: "SM-S9480ZSITGY", gift1: "S26U_Gift001", gift2: "S26U_Gift002", gift3: "S26U_Gift003", inStock: true }
                     ]},
                     { storage: "512GB+12GB", price: 11798, colors: [
                         { name: "Black", sku: "SM-S9480ZKOTGY", gift1: "S26U_Gift001", gift2: "S26U_Gift002", gift3: "S26U_Gift003", inStock: true },
@@ -261,62 +264,25 @@
                 ]
             },
             {
-                name: "Galaxy S26+",
-                sku: "SM-S9470ZKOTGY",
-                image: "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26plus-s947-578324-sm-s9470zsptgy-550823970?imbypass=true",
-                storageOptions: [
-                    { storage: "256GB+12GB", price: 8598, colors: [
-                        { name: "Silver Shadow", sku: "SM-S9470ZSOTGY", gift1: "S26P_Gift001", gift2: "S26P_Gift002", gift3: "S26P_Gift003", inStock: true },
-                        { name: "Black", sku: "SM-S9470ZKITGY", gift1: "S26P_Gift001", gift2: "S26P_Gift002", gift3: "S26P_Gift003", inStock: true },
-                        { name: "Sky Blue", sku: "SM-S9470LBITGY", gift1: "S26P_Gift001", gift2: "S26P_Gift002", gift3: "S26P_Gift003", inStock: true }
-                    ]},
-                    { storage: "512GB+12GB", price: 10198, colors: [
-                        { name: "Black", sku: "SM-S9470ZKOTGY", gift1: "S26P_Gift001", gift2: "S26P_Gift002", gift3: "S26P_Gift003", inStock: true },
-                        { name: "Sky Blue", sku: "SM-S9470LBOTGY", gift1: "S26P_Gift001", gift2: "S26P_Gift002", gift3: "S26P_Gift003", inStock: true },
-                        { name: "Cobalt Violet", sku: "SM-S9470ZVOTGY", gift1: "S26P_Gift001", gift2: "S26P_Gift002", gift3: "S26P_Gift003", inStock: true },
-                        { name: "White", sku: "SM-S9470ZWOTGY", gift1: "S26P_Gift001", gift2: "S26P_Gift002", gift3: "S26P_Gift003", inStock: true },
-                        { name: "Pink Gold", sku: "SM-S9470ZDOTGY", gift1: "S26P_Gift001", gift2: "S26P_Gift002", gift3: "S26P_Gift003", inStock: true }
-                    ]}
-                ]
-            },
-            {
-                name: "Galaxy S26",
-                sku: "SM-S9420ZKPTGY",
-                image: "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-s942-578324-sm-s9420zsptgy-550823970?imbypass=true",
-                storageOptions: [
-                    { storage: "256GB+12GB", price: 6898, colors: [
-                        { name: "Black", sku: "SM-S9420ZKOTGY", gift1: "S26B_Gift001", gift2: "S26B_Gift002", gift3: "S26B_Gift003", inStock: true }
-                    ]},
-                    { storage: "512GB+12GB", price: 8498, colors: [
-                        { name: "Black", sku: "SM-S9420ZKPTGY", gift1: "S26B_Gift001", gift2: "S26B_Gift002", gift3: "S26B_Gift003", inStock: true },
-                        { name: "Sky Blue", sku: "SM-S9420LBPTGY", gift1: "S26B_Gift001", gift2: "S26B_Gift002", gift3: "S26B_Gift003", inStock: true },
-                        { name: "Cobalt Violet", sku: "SM-S9420ZVPTGY", gift1: "S26B_Gift001", gift2: "S26B_Gift002", gift3: "S26B_Gift003", inStock: true },
-                        { name: "White", sku: "SM-S9420ZWPTGY", gift1: "S26B_Gift001", gift2: "S26B_Gift002", gift3: "S26B_Gift003", inStock: true },
-                        { name: "Pink Gold", sku: "SM-S9420ZDPTGY", gift1: "S26B_Gift001", gift2: "S26B_Gift002", gift3: "S26B_Gift003", inStock: true },
-                        { name: "Silver Shadow", sku: "SM-S9420ZSPTGY", gift1: "S26B_Gift001", gift2: "S26B_Gift002", gift3: "S26B_Gift003", inStock: true }
-                    ]}
-                ]
-            },
-            {
                 name: "Galaxy Z Fold7",
                 sku: "SM-F9660DBGTGY",
                 image: "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-547656345?imbypass=true",
                 storageOptions: [
                     { storage: "256GB+12GB", price: 15198, colors: [
                         { name: "Blue Shadow", sku: "SM-F9660DBDTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: true },
-                        { name: "Silver Shadow", sku: "SM-F9660ZSDTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: false },
-                        { name: "Jetblack", sku: "SM-F9660ZKDTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: false },
+                        { name: "Silver Shadow", sku: "SM-F9660ZSDTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: true },
+                        { name: "Jetblack", sku: "SM-F9660ZKDTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: true },
                         { name: "Mint", sku: "SM-F9660LGDTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: true }
                     ]},
                     { storage: "512GB+12GB", price: 16798, colors: [
                         { name: "Blue Shadow", sku: "SM-F9660DBGTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: true },
                         { name: "Silver Shadow", sku: "SM-F9660ZSGTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: true },
                         { name: "Jetblack", sku: "SM-F9660ZKGTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: true },
-                        { name: "Mint", sku: "SM-F9660LGGTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: false }
+                        { name: "Mint", sku: "SM-F9660LGGTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: true }
                     ]},
                     { storage: "1TB+16GB", price: 0, colors: [
-                        { name: "Blue Shadow", sku: "SM-F9660DBHTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: false },
-                        { name: "Jetblack", sku: "SM-F9660ZKHTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: false }
+                        { name: "Blue Shadow", sku: "SM-F9660DBHTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: true },
+                        { name: "Jetblack", sku: "SM-F9660ZKHTGY", gift1: "Fold7_Gift001", gift2: "Fold7_Gift002", gift3: "Fold7_Gift003", inStock: true }
                     ]}
                 ]
             },
@@ -325,17 +291,17 @@
                 sku: "SM-F7660DBATGY",
                 image: "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660dbatgy-547656635?imbypass=true",
                 storageOptions: [
-                    { storage: "256GB+12GB", price: 0, colors: [
-                        { name: "Blue Shadow", sku: "SM-F7660DBATGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: false },
-                        { name: "Jetblack", sku: "SM-F7660ZKATGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: false },
-                        { name: "Coralred", sku: "SM-F7660ZRATGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: false },
-                        { name: "Mint", sku: "SM-F7660LGATGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: false }
+                    { storage: "256GB+12GB", price: 8698, colors: [
+                        { name: "Blue Shadow", sku: "SM-F7660DBATGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: true },
+                        { name: "Jetblack", sku: "SM-F7660ZKATGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: true },
+                        { name: "Coralred", sku: "SM-F7660ZRATGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: true },
+                        { name: "Mint", sku: "SM-F7660LGATGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: true }
                     ]},
                     { storage: "512GB+12GB", price: 0, colors: [
-                        { name: "Blue Shadow", sku: "SM-F7660DBETGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: false },
-                        { name: "Jetblack", sku: "SM-F7660ZKETGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: false },
-                        { name: "Coralred", sku: "SM-F7660ZRETGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: false },
-                        { name: "Mint", sku: "SM-F7660LGETGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: false }
+                        { name: "Blue Shadow", sku: "SM-F7660DBETGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: true },
+                        { name: "Jetblack", sku: "SM-F7660ZKETGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: true },
+                        { name: "Coralred", sku: "SM-F7660ZRETGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: true },
+                        { name: "Mint", sku: "SM-F7660LGETGY", gift1: "Flip7_Gift001", gift2: "Flip7_Gift002", gift3: "Flip7_Gift003", inStock: true }
                     ]}
                 ]
             }
@@ -431,11 +397,12 @@
 
             updateStickyBar();
 
-            // Auto scroll to storage: ensure visible then scroll (more robust)
+            // Auto scroll to storage — make sure the section is visible first
+            storageSec.style.display = '';
+            storageSec.classList.remove('hidden');
             setTimeout(() => {
-                storageSec.style.display = 'block'; // force reflow in case it was hidden
                 storageSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 120);
+            }, 180);
         }
 
         function updateSelectedDeviceStorage() {
@@ -789,12 +756,15 @@
 
         // --- Sticky bar logic ---
         function updateStickyBar() {
+            const sticky = document.getElementById('sticky-bar');
             if (!selectedDevice) {
-                document.getElementById('sticky-bar').classList.add('hidden');
+                sticky.classList.add('hidden');
                 return;
             }
 
-            document.getElementById('sticky-bar').classList.remove('hidden');
+            sticky.classList.remove('hidden');
+            // Force content update even if styles are off
+            sticky.style.display = 'block';
 
             // Show price in all cases
             const hasValidStorage = selectedStorageIndex !== null && !isNaN(selectedStorageIndex);
