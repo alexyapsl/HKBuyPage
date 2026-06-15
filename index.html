@@ -1029,7 +1029,9 @@
             origUpdateStickyBar?.();
             const btn = document.getElementById('buy-now-btn');
             const sticky = document.getElementById('sticky-bar');
-            if (btn) btn.style.display = (sticky.style.display === 'none') ? 'none' : '';
+            // Only show Buy Now button if sticky is visible AND storage has been selected
+            const hasStorage = window.selectedStorageIndex != null && !isNaN(window.selectedStorageIndex);
+            if (btn) btn.style.display = (sticky.style.display === 'none' || !hasStorage) ? 'none' : '';
         };
     </script>
 </body>
