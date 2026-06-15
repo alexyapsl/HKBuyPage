@@ -1029,8 +1029,8 @@
             origUpdateStickyBar?.();
             const btn = document.getElementById('buy-now-btn');
             const sticky = document.getElementById('sticky-bar');
-            // Only show Buy Now button if sticky is visible AND storage has been selected
-            const hasStorage = window.selectedStorageIndex != null && !isNaN(window.selectedStorageIndex);
+            // Use the actual local variable (not window.*)
+            const hasStorage = (typeof selectedStorageIndex !== 'undefined' && selectedStorageIndex !== null && !isNaN(selectedStorageIndex));
             if (btn) btn.style.display = (sticky.style.display === 'none' || !hasStorage) ? 'none' : '';
         };
     </script>
