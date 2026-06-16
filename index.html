@@ -92,6 +92,8 @@
             <select id="storage" onchange="updateSelectedDeviceStorage()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white">
                 <option value="">Select storage</option>
             </select>
+            <!-- LSV PreOrder Savings line -->
+            <div id="lsv-savings-line" class="hidden mt-2 text-sm text-emerald-600 font-medium"></div>
         </div>
 
         <!-- Step 3: Trade-in Device -->
@@ -313,6 +315,7 @@
         let selectedBank = 'none';
         let useSamsungPay = false;
         let devices = []; // loaded from devices.json
+let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
         // Gift mapping (copied from TradeInPriceCheck)
         const giftMap = {
@@ -336,6 +339,24 @@
         function init() {
             renderDeviceSelection();
             populateBrandsNewFlow();
+        }
+
+        async function loadLSVData() {
+            try {
+                const res = await fetch('recommendations.json');
+                const data = await res.json();
+                lsvMap = {};
+                (data.products || []).forEach(p => {
+                    if (!p.showInHKBuyPage) return;
+                    const key = `${p.model}|${p.storage}`;
+                    if (!lsvMap[key] || p.lsvDiscount > (lsvMap[key].lsvDiscount || 0)) {
+                        lsvMap[key] = { rrp: p.rrp, lsvDiscount: p.lsvDiscount || 0 };
+                    }
+                });
+                console.log('Loaded LSV data for', Object.keys(lsvMap).length, 'storage tiers');
+            } catch (e) {
+                console.warn('Could not load recommendations.json for LSV discounts', e);
+            }
         }
 
         function renderDeviceSelection() {
@@ -408,6 +429,22 @@
         function updateSelectedDeviceStorage() {
             const storageSelect = document.getElementById('storage');
             selectedStorageIndex = parseInt(storageSelect.value);
+
+            // Handle LSV savings line
+            const lsvLine = document.getElementById('lsv-savings-line');
+            if (selectedDevice && selectedStorageIndex !== null && !isNaN(selectedStorageIndex)) {
+                const opt = selectedDevice.storageOptions[selectedStorageIndex];
+                const key = `${selectedDevice.name}|${opt.storage}`;
+                const lsvInfo = lsvMap[key];
+                if (lsvInfo && lsvInfo.lsvDiscount > 0) {
+                    lsvLine.innerHTML = `PreOrder only Storage Upgrade Savings: HK$${lsvInfo.lsvDiscount.toLocaleString()}`;
+                    lsvLine.classList.remove('hidden');
+                } else {
+                    lsvLine.classList.add('hidden');
+                }
+            } else {
+                lsvLine.classList.add('hidden');
+            }
 
             if (selectedStorageIndex !== null && !isNaN(selectedStorageIndex)) {
                 // Show step 3
@@ -786,13 +823,20 @@
             // AFTER storage selected
             const opt = selectedDevice.storageOptions[selectedStorageIndex];
             const originalPrice = opt.price;
+
+            // LSV discount (PreOrder storage upgrade savings)
+            const key = `${selectedDevice.name}|${opt.storage}`;
+            const lsvInfo = lsvMap[key] || { rrp: originalPrice, lsvDiscount: 0 };
+            const lsvDiscount = lsvInfo.lsvDiscount || 0;
+
             const bankCalc = (selectedBank && selectedBank !== 'none')
                 ? calculateBankRebate(originalPrice, selectedBank)
                 : { percentRebate: 0, fixedRebate: 0, totalRebate: 0 };
             const bankRebate = bankCalc.totalRebate || 0;
             const samsungPayDiscount = useSamsungPay ? calculateSamsungPayDiscount(originalPrice) : 0;
 
-            const finalPrice = Math.max(0, originalPrice - tradeInValue - bankRebate - samsungPayDiscount);
+            // Final price: apply LSV first, then trade-in + bank promos
+            const finalPrice = Math.max(0, originalPrice - lsvDiscount - tradeInValue - bankRebate - samsungPayDiscount);
             const totalSavings = originalPrice - finalPrice;
 
             nameEl.textContent = `${selectedDevice.name} • ${opt.storage}`;
@@ -800,18 +844,43 @@
             // Smart pay label
             const hasTradeIn = tradeInValue > 0;
             const hasBankPromo = (selectedBank && selectedBank !== 'none' && bankRebate > 0) || useSamsungPay;
+            const hasLSV = lsvDiscount > 0;
 
             let payLabel = 'You pay';
-            if (hasTradeIn && hasBankPromo) payLabel = 'After Trade-In and Bank Promotion, you pay';
+            if (hasLSV && hasTradeIn && hasBankPromo) payLabel = 'After Storage Savings, Trade-In and Bank Promotion, you pay';
+            else if (hasLSV && hasTradeIn) payLabel = 'After Storage Savings and Trade-In, you pay';
+            else if (hasLSV && hasBankPromo) payLabel = 'After Storage Savings and Bank Promotion, you pay';
+            else if (hasLSV) payLabel = 'After Storage Savings, you pay';
+            else if (hasTradeIn && hasBankPromo) payLabel = 'After Trade-In and Bank Promotion, you pay';
             else if (hasTradeIn) payLabel = 'After Trade-In, you pay';
             else if (hasBankPromo) payLabel = 'With Bank Promotion, you pay';
 
             payEl.textContent = payLabel;
             priceEl.innerHTML = `HK$${finalPrice.toLocaleString()}`;
 
-            // Savings
+            // Savings breakdown (trade-in, bank, samsungpay, + LSV)
             if (totalSavings > 0) {
-                saveEl.textContent = `You save HK$${totalSavings.toLocaleString()}`;
+                saveEl.innerHTML = '';
+                if (lsvDiscount > 0) {
+                    const l = document.createElement('div');
+                    l.textContent = `Storage upgrade savings HK$${lsvDiscount.toLocaleString()}`;
+                    saveEl.appendChild(l);
+                }
+                if (tradeInValue > 0) {
+                    const t = document.createElement('div');
+                    t.textContent = `Trade-in HK$${tradeInValue.toLocaleString()}`;
+                    saveEl.appendChild(t);
+                }
+                if (bankRebate > 0) {
+                    const b = document.createElement('div');
+                    b.textContent = `Bank promotion HK$${bankRebate.toLocaleString()}`;
+                    saveEl.appendChild(b);
+                }
+                if (samsungPayDiscount > 0) {
+                    const s = document.createElement('div');
+                    s.textContent = `Samsung Pay HK$${samsungPayDiscount.toLocaleString()}`;
+                    saveEl.appendChild(s);
+                }
                 saveEl.style.display = 'block';
             } else {
                 saveEl.style.display = 'none';
@@ -833,6 +902,7 @@
 
         window.onload = async function() {
             await loadDevices();
+            await loadLSVData();
             init();
             setupBankButtons();
         };
