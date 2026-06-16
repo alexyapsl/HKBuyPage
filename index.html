@@ -912,6 +912,23 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             }
 
             buyBtn.style.display = 'inline-block';
+
+            // Adjust bottom padding so sticky bar never covers step 4 content
+            adjustContentPadding();
+        }
+
+        function adjustContentPadding() {
+            const sticky = document.getElementById('sticky-bar');
+            const main = document.querySelector('.max-w-4xl.mx-auto');
+            if (!sticky || !main) return;
+
+            if (sticky.style.display === 'none' || sticky.offsetHeight === 0 || !selectedDevice) {
+                main.style.paddingBottom = '28px';
+                return;
+            }
+
+            const h = sticky.offsetHeight + 24; // extra gap
+            main.style.paddingBottom = `${h}px`;
         }
 
         // Init
@@ -930,6 +947,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             await loadLSVData();
             init();
             setupBankButtons();
+            window.addEventListener('resize', () => {
+                if (typeof adjustContentPadding === 'function') adjustContentPadding();
+            });
         };
 
         // Reset bank savings display on device/storage change
