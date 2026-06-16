@@ -608,7 +608,24 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 d.storage === storage
             );
 
-            tradeInValue = device ? device.trade_in_price : 0;
+            // NEW trade-in calculation using baseCode + GTI/ETI logic
+            if (device && selectedDevice && selectedDevice.baseCode) {
+                const bc = selectedDevice.baseCode; // e.g. SM-S9480
+                const hasGTI = device.gti && device.gti[bc];
+                const tradeInPrice = hasGTI ? device.gti[bc] : (device.standardPrice || 0);
+                const extraRebate = device.eti ? (device.eti[bc] || 0) : 0;
+                tradeInValue = tradeInPrice + extraRebate;
+
+                // Store for savings display
+                window.currentTradeInCalc = {
+                    tradeInPrice,
+                    extraRebate,
+                    isGuaranteed: !!hasGTI
+                };
+            } else {
+                tradeInValue = device ? (device.standardPrice || 0) : 0;
+                window.currentTradeInCalc = null;
+            }
 
             // Show trade-in value message
             if (tradeInValue > 0) {
@@ -617,6 +634,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             } else {
                 valueDisplay.classList.add('hidden');
             }
+
+            // Render new trade-in savings breakdown (total first, then breakdown)
+            renderTradeInSavingsBreakdown();
 
             // Show step 4 only after trade-in storage selected
             document.getElementById('bank-section').classList.remove('hidden');
@@ -641,6 +661,32 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             }
 
             updateStickyBar();
+        }
+
+        function renderTradeInSavingsBreakdown() {
+            const container = document.getElementById('tradein-value-display');
+            if (!container || !window.currentTradeInCalc || tradeInValue <= 0) return;
+
+            const calc = window.currentTradeInCalc;
+            let html = `<div class="font-medium">Trade-in savings: <span class="font-semibold">HK$${tradeInValue.toLocaleString()}</span></div>`;
+
+            if (calc.extraRebate > 0) {
+                if (calc.isGuaranteed) {
+                    html += `<div class="text-xs text-emerald-600 mt-1">Guaranteed Trade-in HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                } else {
+                    html += `<div class="text-xs text-emerald-600 mt-1">Trade-in HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                }
+                html += `<div class="text-xs text-emerald-600">Extra rebate HK$${calc.extraRebate.toLocaleString()}</div>`;
+            } else {
+                if (calc.isGuaranteed) {
+                    html += `<div class="text-xs text-emerald-600 mt-1">Guaranteed Trade-in HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                } else {
+                    html += `<div class="text-xs text-emerald-600 mt-1">Trade-in HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                }
+            }
+
+            // Replace the simple amount text with rich breakdown
+            container.innerHTML = html;
         }
 
         function toggleNoTradeInNewFlow() {
