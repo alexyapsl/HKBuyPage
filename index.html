@@ -353,7 +353,19 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                         lsvMap[key] = { rrp: p.rrp, lsvDiscount: p.lsvDiscount || 0 };
                     }
                 });
-                console.log('Loaded LSV data for', Object.keys(lsvMap).length, 'storage tiers');
+
+                // IMPORTANT: overwrite the hardcoded prices in recommendedProducts with the authoritative RRP from the sheet
+                // This ensures the base price used for LSV calculation is correct (sheet is source of truth)
+                recommendedProducts.forEach(prod => {
+                    prod.storageOptions.forEach(opt => {
+                        const key = `${prod.name}|${opt.storage}`;
+                        if (lsvMap[key] && lsvMap[key].rrp) {
+                            opt.price = lsvMap[key].rrp;
+                        }
+                    });
+                });
+
+                console.log('Loaded LSV data for', Object.keys(lsvMap).length, 'storage tiers and synced prices');
             } catch (e) {
                 console.warn('Could not load recommendations.json for LSV discounts', e);
             }
