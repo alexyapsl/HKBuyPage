@@ -166,9 +166,9 @@
                     <!-- Original RRP line (shown only when savings exist) -->
                     <div id="sticky-rrp-line" class="hidden mt-0.5 font-semibold text-sm text-gray-500 leading-tight truncate"></div>
                     <div id="sticky-pay-label" class="text-xs text-gray-500"></div>
-                    <div class="flex items-baseline gap-x-2">
+                    <div>
                         <div id="sticky-final-price" class="text-2xl font-semibold tabular-nums"></div>
-                        <div id="sticky-savings" class="text-emerald-600 text-sm hidden"></div>
+                        <div id="sticky-savings" class="text-emerald-600 text-sm hidden mt-0.5"></div>
                     </div>
                 </div>
 
@@ -859,7 +859,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const rrpLine = document.getElementById('sticky-rrp-line');
             if (rrpLine) {
                 if (totalSavings > 0) {
-                    rrpLine.textContent = `RRP: HK$${originalPrice.toLocaleString()}`;
+                    rrpLine.textContent = `Original: HK$${originalPrice.toLocaleString()}`;
                     rrpLine.classList.remove('hidden');
                 } else {
                     rrpLine.classList.add('hidden');
