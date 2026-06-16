@@ -463,10 +463,18 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (selectedStorageIndex !== null && !isNaN(selectedStorageIndex)) {
                 // Show step 3
                 document.getElementById('tradein-section').classList.remove('hidden');
-                // Keep step 4 hidden until trade-in is complete
+                // IMPORTANT: always hide bank section on storage change so user must re-complete step 3
                 document.getElementById('bank-section').classList.add('hidden');
-                // Show Buy Now button
+                // Show Buy Now button again (step 4 will appear after step 3 ends)
                 document.getElementById('buy-now-btn').classList.remove('hidden');
+
+                // Reset downstream state so step 4 is forced to re-appear only after new step 3 completion
+                tradeInValue = 0;
+                selectedBank = 'none';
+                useSamsungPay = false;
+                document.getElementById('samsungpay').checked = false;
+                document.getElementById('bank-savings-display').classList.add('hidden');
+
                 // Auto scroll to trade-in
                 setTimeout(() => {
                     document.getElementById('tradein-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -478,6 +486,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 document.getElementById('bank-section').classList.add('hidden');
                 tradeInValue = 0;
                 selectedBank = 'none';
+                useSamsungPay = false;
             }
 
             updateStickyBar();
