@@ -163,6 +163,8 @@
                 <!-- Left: price information -->
                 <div class="min-w-0 flex-1">
                     <div id="sticky-device-name" class="font-semibold text-base sm:text-lg leading-tight truncate"></div>
+                    <!-- Original RRP line (shown only when savings exist) -->
+                    <div id="sticky-rrp-line" class="hidden mt-0.5 font-semibold text-sm text-gray-500 leading-tight truncate"></div>
                     <div id="sticky-pay-label" class="text-xs text-gray-500"></div>
                     <div class="flex items-baseline gap-x-2">
                         <div id="sticky-final-price" class="text-2xl font-semibold tabular-nums"></div>
@@ -852,6 +854,17 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const totalSavings = originalPrice - finalPrice;
 
             nameEl.textContent = `${selectedDevice.name} • ${opt.storage}`;
+
+            // RRP original price line (only when any savings applied)
+            const rrpLine = document.getElementById('sticky-rrp-line');
+            if (rrpLine) {
+                if (totalSavings > 0) {
+                    rrpLine.textContent = `RRP: HK$${originalPrice.toLocaleString()}`;
+                    rrpLine.classList.remove('hidden');
+                } else {
+                    rrpLine.classList.add('hidden');
+                }
+            }
 
             // Smart pay label
             const hasTradeIn = tradeInValue > 0;
