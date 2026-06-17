@@ -639,10 +639,10 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (hint) hint.classList.add('hidden');
 
             storageOpt.colors.forEach((color, i) => {
-                // Look up authoritative product data from recommendations.json by SKU
-                const canonical = productBySku[color.sku] || color;
-                const isOos = canonical.InStockStatus === 'N';
-                const isEstoreOnly = !!(canonical.estoreExclusive || canonical.EstoreExclusive || canonical['Estore Exclusive']);
+                // Strictly use recommendations.json data only (InStockStatus)
+                const canonical = productBySku[color.sku];
+                const isOos = canonical ? canonical.InStockStatus === 'N' : false;
+                const isEstoreOnly = canonical ? !!(canonical.estoreExclusive || canonical.EstoreExclusive || canonical['Estore Exclusive']) : false;
                 const chip = document.createElement('div');
                 chip.className = `flex items-center gap-x-2 px-3 py-1.5 border rounded-2xl text-sm transition-all ${isOos ? 'opacity-40 bg-gray-50' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'}`;
                 chip.innerHTML = `
