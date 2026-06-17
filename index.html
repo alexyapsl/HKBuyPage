@@ -313,6 +313,7 @@
 
         let selectedDevice = null;
         let selectedStorageIndex = null;
+        let selectedSku = null; // SKU captured from Step 2 storage selection
         let tradeInValue = 0;
         let selectedBank = 'none';
         let useSamsungPay = false;
@@ -398,9 +399,17 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             selectedDevice = recommendedProducts[idx];
             selectedStorageIndex = null;
+            selectedSku = null; // Will be set when storage is chosen
 
-            // Reset downstream values (preserve selectedBank so it can be recalculated on new price)
+            // Reset Step 3 completely if user changes the new device
+            document.getElementById('brand').value = '';
+            document.getElementById('model').innerHTML = '<option value="">Select model</option>';
+            document.getElementById('model').disabled = true;
+            document.getElementById('tradein-storage').innerHTML = '<option value="">Select storage</option>';
+            document.getElementById('tradein-storage').disabled = true;
+            document.getElementById('tradein-value-display').classList.add('hidden');
             tradeInValue = 0;
+            window.currentTradeInCalc = null;
             // IMPORTANT: do NOT reset selectedBank here — bank choice must survive device change
             document.getElementById('no-tradein').checked = false;
             document.getElementById('tradein-fields').style.display = '';
@@ -461,6 +470,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             }
 
             if (selectedStorageIndex !== null && !isNaN(selectedStorageIndex)) {
+                // Capture SKU for trade-in lookup (use first color's SKU as representative)
+                const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
+                if (storageOpt && storageOpt.colors && storageOpt.colors.length > 0) {
+                    selectedSku = storageOpt.colors[0].sku;
+                }
+
                 // Show step 3
                 document.getElementById('tradein-section').classList.remove('hidden');
                 // IMPORTANT: always hide bank section on storage change so user must re-complete step 3
@@ -608,19 +623,35 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 d.storage === storage
             );
 
-            // NEW trade-in calculation using baseCode + GTI/ETI logic
-            if (device && selectedDevice && selectedDevice.baseCode) {
-                const bc = selectedDevice.baseCode; // e.g. SM-S9480
-                const hasGTI = device.gti && device.gti[bc];
-                const tradeInPrice = hasGTI ? device.gti[bc] : (device.standardPrice || 0);
-                const extraRebate = device.eti ? (device.eti[bc] || 0) : 0;
+            // NEW SKU-based trade-in calculation (per user's confirmed logic)
+            if (device && selectedSku) {
+                const sku = selectedSku;
+                
+                // Get GTI value for this SKU (treat 0 as not existing, per rule #5)
+                const gtiVal = device.gti && device.gti[sku] ? device.gti[sku] : 0;
+                // Get ETI value for this SKU
+                const etiVal = device.eti && device.eti[sku] ? device.eti[sku] : 0;
+                
+                let tradeInPrice = 0;
+                let isGuaranteed = false;
+                
+                if (gtiVal > 0) {
+                    tradeInPrice = gtiVal;
+                    isGuaranteed = true;
+                } else {
+                    tradeInPrice = device.standardPrice || 0;
+                    isGuaranteed = false;
+                }
+                
+                const extraRebate = etiVal;
                 tradeInValue = tradeInPrice + extraRebate;
 
                 // Store for savings display
                 window.currentTradeInCalc = {
                     tradeInPrice,
                     extraRebate,
-                    isGuaranteed: !!hasGTI
+                    isGuaranteed,
+                    sku
                 };
             } else {
                 tradeInValue = device ? (device.standardPrice || 0) : 0;
@@ -668,20 +699,23 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (!container || !window.currentTradeInCalc || tradeInValue <= 0) return;
 
             const calc = window.currentTradeInCalc;
-            let html = `<div class="font-medium">Trade-in savings: <span class="font-semibold">HK$${tradeInValue.toLocaleString()}</span></div>`;
-
+            
+            // Per user's requirement: Total first, then breakdown
+            // If GTI is used, show "Guaranteed Trade In Price"
+            let html = `<div class="font-medium">Total Trade In value: <span class="font-semibold">HK$${tradeInValue.toLocaleString()}</span></div>`;
+            
             if (calc.extraRebate > 0) {
                 if (calc.isGuaranteed) {
-                    html += `<div class="text-xs text-emerald-600 mt-1">Guaranteed Trade-in HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs text-emerald-600 mt-1">Guaranteed Trade In Price: HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 } else {
-                    html += `<div class="text-xs text-emerald-600 mt-1">Trade-in HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs text-emerald-600 mt-1">Trade In Price: HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 }
-                html += `<div class="text-xs text-emerald-600">Extra rebate HK$${calc.extraRebate.toLocaleString()}</div>`;
+                html += `<div class="text-xs text-emerald-600">Extra Trade In Rebate: HK$${calc.extraRebate.toLocaleString()}</div>`;
             } else {
                 if (calc.isGuaranteed) {
-                    html += `<div class="text-xs text-emerald-600 mt-1">Guaranteed Trade-in HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs text-emerald-600 mt-1">Guaranteed Trade In Price: HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 } else {
-                    html += `<div class="text-xs text-emerald-600 mt-1">Trade-in HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs text-emerald-600 mt-1">Trade In Price: HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 }
             }
 
