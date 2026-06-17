@@ -94,6 +94,13 @@
             </select>
             <!-- LSV PreOrder Savings line -->
             <div id="lsv-savings-line" class="hidden mt-2 text-sm text-emerald-600 font-medium"></div>
+
+            <!-- Inline Color Chip Selector for Step 2b (SKU resolution) -->
+            <div id="color-chips-section" class="hidden mt-4">
+                <div class="text-sm font-medium text-gray-700 mb-2">Step 2b – Select Color (required for trade-in SKU)</div>
+                <div id="color-chips" class="flex flex-wrap gap-2"></div>
+                <div id="selected-sku-hint" class="mt-2 text-xs text-emerald-600 hidden"></div>
+            </div>
         </div>
 
         <!-- Step 3: Trade-in Device -->
@@ -475,13 +482,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             }
 
             if (selectedStorageIndex !== null && !isNaN(selectedStorageIndex)) {
-                // Capture SKU for trade-in lookup (use first color's SKU as representative)
                 const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
-                if (storageOpt && storageOpt.colors && storageOpt.colors.length > 0) {
-                    selectedSku = storageOpt.colors[0].sku;
-                }
 
-                // Show step 3
+                // Show inline color chips for Step 2b SKU resolution
+                showColorChipsForSelectedStorage(storageOpt);
+
+                // Show step 3 (will be gated by color selection via color chips)
                 document.getElementById('tradein-section').classList.remove('hidden');
                 // IMPORTANT: always hide bank section on storage change so user must re-complete step 3
                 document.getElementById('bank-section').classList.add('hidden');
@@ -605,6 +611,67 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             tradeInValue = 0;
             document.getElementById('bank-section').classList.add('hidden');
             updateStickyBar();
+        }
+
+        function showColorChipsForSelectedStorage(storageOpt) {
+            const section = document.getElementById('color-chips-section');
+            const container = document.getElementById('color-chips');
+            const hint = document.getElementById('selected-sku-hint');
+
+            if (!section || !container || !storageOpt || !storageOpt.colors || storageOpt.colors.length === 0) {
+                if (section) section.classList.add('hidden');
+                return;
+            }
+
+            section.classList.remove('hidden');
+            container.innerHTML = '';
+            if (hint) hint.classList.add('hidden');
+
+            storageOpt.colors.forEach((color, i) => {
+                const isOos = color.inStock === false;
+                const chip = document.createElement('div');
+                chip.className = `flex items-center gap-x-2 px-3 py-1.5 border rounded-2xl text-sm cursor-pointer transition-all ${isOos ? 'opacity-40 cursor-not-allowed bg-gray-50' : 'hover:border-[#007AFF] hover:bg-blue-50'}`;
+                chip.innerHTML = `
+                    <div class="w-5 h-5 rounded-full border border-gray-300 flex-shrink-0" style="background: ${getColorHex(color.name)};"></div>
+                    <span class="font-medium text-gray-800">${color.name}</span>
+                    ${isOos ? '<span class="text-[10px] text-red-500 ml-1">(OOS)</span>' : ''}
+                `;
+
+                if (!isOos) {
+                    chip.onclick = () => {
+                        // Deselect all chips
+                        container.querySelectorAll('div').forEach(c => c.classList.remove('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]'));
+                        chip.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
+
+                        selectedSku = color.sku;
+
+                        if (hint) {
+                            hint.textContent = 'SKU locked: ' + selectedSku;
+                            hint.classList.remove('hidden');
+                        }
+
+                        // Enable trade-in section fully now
+                        const guard = document.getElementById('sku-guard');
+                        if (guard) guard.style.display = 'none';
+                    };
+
+                    // Auto-select first available color
+                    if (i === 0) {
+                        setTimeout(() => {
+                            chip.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
+                            selectedSku = color.sku;
+                            if (hint) {
+                                hint.textContent = 'SKU locked: ' + selectedSku;
+                                hint.classList.remove('hidden');
+                            }
+                            const guard = document.getElementById('sku-guard');
+                            if (guard) guard.style.display = 'none';
+                        }, 50);
+                    }
+                }
+
+                container.appendChild(chip);
+            });
         }
 
         function updateTradeInPriceNewFlow() {
