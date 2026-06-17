@@ -630,7 +630,14 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const hint = document.getElementById('selected-sku-hint');
 
             if (!section || !container || !storageOpt || !storageOpt.colors || storageOpt.colors.length === 0) {
-                if (section) section.classList.add('hidden');
+                if (section) section.style.display = 'none';
+                return;
+            }
+
+            // Ensure recommendations data is loaded before rendering chips
+            if (Object.keys(productBySku).length === 0) {
+                console.warn('productBySku empty, deferring color chips');
+                setTimeout(() => showColorChipsForSelectedStorage(storageOpt), 100);
                 return;
             }
 
@@ -639,8 +646,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (hint) hint.classList.add('hidden');
 
             storageOpt.colors.forEach((color, i) => {
-                // Robust lookup: try recommendations.json first, fall back to color object itself
-                const canonical = productBySku[color.sku] || color;
+                // Always prefer the authoritative product data from recommendations.json
+                // The input 'color' object may be from the hardcoded array and lack hexCode
+                const canonical = productBySku[color.sku] || { hexCode: null };
                 const isOos = canonical.InStockStatus === 'N' || canonical.inStock === false;
                 const isEstoreOnly = !!(canonical.estoreExclusive || canonical.EstoreExclusive || canonical['Estore Exclusive']);
                 const chip = document.createElement('div');
