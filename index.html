@@ -1150,6 +1150,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
         function confirmColorSelection() {
             if (!selectedColorSku) return;
+            selectedSku = selectedColorSku; // Capture SKU for trade-in GTI/ETI lookup
             closeColorModal(true);
             showGiftModal();
         }
