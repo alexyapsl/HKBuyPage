@@ -6,6 +6,7 @@
     <title>Buy Galaxy | Samsung HK</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="color-chips.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600&display=swap');
         
@@ -384,6 +385,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 });
 
                 console.log('Loaded LSV data for', Object.keys(lsvMap).length, 'storage tiers and synced prices');
+                window.productBySku = productBySku;
             } catch (e) {
                 console.warn('Could not load recommendations.json for LSV discounts', e);
             }
@@ -491,7 +493,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
 
                 // Show inline color chips for Step 2b SKU resolution
-                showColorChipsForSelectedStorage(storageOpt);
+                window.renderColorChips(storageOpt);
 
                 // Show step 3 (will be gated by color selection via color chips)
                 document.getElementById('tradein-section').classList.remove('hidden');
@@ -523,7 +525,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                     document.getElementById('tradein-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 150);
             } else {
-                // Storage unselected
+                // Storage unselected - hide color chips and downstream sections
+                if (window.hideColorChips) window.hideColorChips();
                 document.getElementById('tradein-section').classList.add('hidden');
                 document.getElementById('buy-now-btn').classList.add('hidden');
                 document.getElementById('bank-section').classList.add('hidden');
@@ -624,7 +627,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             updateStickyBar();
         }
 
-        function showColorChipsForSelectedStorage(storageOpt) {
+        function window.renderColorChips(storageOpt) {
             const section = document.getElementById('color-chips-section');
             const container = document.getElementById('color-chips');
             const hint = document.getElementById('selected-sku-hint');
@@ -636,7 +639,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             if (Object.keys(productBySku).length === 0) {
                 console.warn('productBySku empty, deferring color chips');
-                setTimeout(() => showColorChipsForSelectedStorage(storageOpt), 100);
+                setTimeout(() => window.renderColorChips(storageOpt), 100);
                 return;
             }
 
