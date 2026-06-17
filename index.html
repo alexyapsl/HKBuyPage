@@ -448,7 +448,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 const option = document.createElement('option');
                 option.value = i;
                 // Only use InStockStatus (per user instruction)
-                const allOos = opt.colors && opt.colors.length > 0 && opt.colors.every(c => c.InStockStatus === 'N' || c.inStock === false);
+                const allOos = opt.colors && opt.colors.length > 0 && opt.colors.every(c => c.InStockStatus === 'N');
                 option.textContent = opt.storage + (allOos ? ' (Out of Stock)' : '');
                 if (allOos) option.disabled = true;
                 storageSelect.appendChild(option);
@@ -636,8 +636,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (hint) hint.classList.add('hidden');
 
             storageOpt.colors.forEach((color, i) => {
-                // Support both InStockStatus (new) and inStock (legacy/hardcoded) until data is fully migrated
-                const isOos = color.InStockStatus === 'N' || color.inStock === false;
+                // Strictly follow latest recommendation.json schema (only InStockStatus)
+                const isOos = color.InStockStatus === 'N';
                 const isEstoreOnly = !!(color.estoreExclusive || color.EstoreExclusive || color['Estore Exclusive']);
                 const chip = document.createElement('div');
                 chip.className = `flex items-center gap-x-2 px-3 py-1.5 border rounded-2xl text-sm transition-all ${isOos ? 'opacity-40 bg-gray-50' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'}`;
