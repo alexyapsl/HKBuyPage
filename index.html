@@ -636,7 +636,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             if (Object.keys(productBySku).length === 0) {
                 console.warn('productBySku empty, deferring color chips');
-                setTimeout(() => showColorChipsForSelectedStorage(storageOpt), 150);
+                setTimeout(() => showColorChipsForSelectedStorage(storageOpt), 100);
                 return;
             }
 
@@ -650,13 +650,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 const isEstoreOnly = !!(canonical.estoreExclusive || canonical.EstoreExclusive || canonical['Estore Exclusive']);
 
                 const chip = document.createElement('div');
-                chip.className = `flex items-center gap-x-2 px-3 py-1.5 border rounded-2xl text-sm transition-all ${isOos ? 'opacity-40 bg-gray-50' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'}`;
-                chip.innerHTML = `
-                    <div class="w-5 h-5 rounded-full border border-gray-300 flex-shrink-0" style="background: ${canonical.hexCode || getColorHex(color.name)};"></div>
-                    <span class="font-medium text-gray-800">${color.name}</span>
-                    ${isOos ? '<span class="text-[10px] text-red-500 ml-1">Out of Stock</span>' : ''}
-                    ${isEstoreOnly ? '<span class="text-[10px] text-blue-600 ml-1">Samsung.com Only</span>' : ''}
-                `;
+                chip.className = 'flex items-center gap-x-2 px-3 py-1.5 border rounded-2xl text-sm transition-all ' + (isOos ? 'opacity-40 bg-gray-50' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50');
+                chip.innerHTML =
+                    '<div class="w-5 h-5 rounded-full border border-gray-300 flex-shrink-0" style="background: ' + (canonical.hexCode || getColorHex(color.name)) + ';"></div>' +
+                    '<span class="font-medium text-gray-800">' + color.name + '</span>' +
+                    (isOos ? '<span class="text-[10px] text-red-500 ml-1">Out of Stock</span>' : '') +
+                    (isEstoreOnly ? '<span class="text-[10px] text-blue-600 ml-1">Samsung.com Only</span>' : '');
 
                 if (!isOos) {
                     chip.onclick = () => {
