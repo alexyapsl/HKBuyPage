@@ -98,9 +98,10 @@
 
         <!-- Step 3: Trade-in Device -->
         <div class="mb-12 hidden" id="tradein-section">
-            <!-- Guard message when SKU not yet resolved -->
+            <!-- Guard message when SKU not yet resolved (explicit Step 2 split) -->
             <div id="sku-guard" class="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-2xl text-sm text-amber-700">
-                Please select <strong>Storage + Color</strong> on your recommended device above to unlock trade-in options.
+                <strong>Step 2b – Select Color</strong> on your recommended device above to resolve the exact SKU for trade-in GTI/ETI lookup.<br>
+                (Storage selected → now pick Color to unlock trade-in options)
             </div>
             <div class="flex items-center justify-between mb-3">
                 <div class="section-title">3. Trade-in your current device (optional)</div>
@@ -1084,58 +1085,16 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (!selectedDevice || selectedStorageIndex === null) return;
 
             const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
-            if (!storageOpt.colors || storageOpt.colors.length === 0) {
-                alert('This device has no color options configured.');
-                return;
-            }
 
-            currentModalProductIdx = null; // not used in HKBuyPage
+            // NEW: Skip color selection entirely for Buy Now flow (per user request)
+            // Go straight to gift selection. Use first available color SKU as default if needed for backend.
+            currentModalProductIdx = null;
             currentModalCard = null;
-            selectedColorSku = null;
+            selectedColorSku = (storageOpt.colors && storageOpt.colors.length > 0) ? storageOpt.colors[0].sku : null;
             selectedGiftSku = null;
 
-            const modal = document.getElementById('color-modal');
-            const optionsContainer = document.getElementById('color-options');
-            const confirmBtn = document.getElementById('confirm-color-btn');
-            if (!confirmBtn) { console.error('confirm-color-btn missing'); return; }
-
-            optionsContainer.innerHTML = '';
-
-            storageOpt.colors.forEach((color, i) => {
-                const isOos = color.inStock === false;
-                const div = document.createElement('div');
-                div.className = `flex items-center justify-between px-4 py-3.5 border border-gray-200 rounded-2xl transition-colors color-option ${isOos ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-[#007AFF]'}`;
-                div.innerHTML = `
-                    <div class="flex items-center gap-x-3">
-                        <div class="w-5 h-5 rounded-full border border-gray-200" style="background: ${getColorHex(color.name)}"></div>
-                        <div class="font-medium text-gray-900">${color.name}</div>
-                        ${isOos ? '<span class="text-[10px] text-red-500 ml-1">Out of stock</span>' : ''}
-                    </div>
-                    <div class="text-xs text-gray-400">${storageOpt.storage}</div>
-                `;
-                if (!isOos) {
-                    div.onclick = () => {
-                        optionsContainer.querySelectorAll('.color-option').forEach(el => el.classList.remove('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]'));
-                        div.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
-                        selectedColorSku = color.sku;
-                        confirmBtn.disabled = false;
-                    };
-                    if (i === 0) {
-                        setTimeout(() => {
-                            div.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
-                            selectedColorSku = color.sku;
-                            confirmBtn.disabled = false;
-                        }, 10);
-                    }
-                }
-                optionsContainer.appendChild(div);
-            });
-
-            confirmBtn.onclick = () => confirmColorSelection();
-            confirmBtn.disabled = true;
-
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            // Directly show gift modal, bypassing color modal
+            showGiftModal();
         }
 
         function getColorHex(colorName) {
