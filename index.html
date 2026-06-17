@@ -634,10 +634,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 return;
             }
 
-            // Ensure recommendations data is loaded before rendering chips
             if (Object.keys(productBySku).length === 0) {
                 console.warn('productBySku empty, deferring color chips');
-                setTimeout(() => showColorChipsForSelectedStorage(storageOpt), 100);
+                setTimeout(() => showColorChipsForSelectedStorage(storageOpt), 150);
                 return;
             }
 
@@ -646,11 +645,10 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (hint) hint.classList.add('hidden');
 
             storageOpt.colors.forEach((color, i) => {
-                // Always prefer the authoritative product data from recommendations.json
-                // The input 'color' object may be from the hardcoded array and lack hexCode
                 const canonical = productBySku[color.sku] || { hexCode: null };
                 const isOos = canonical.InStockStatus === 'N' || canonical.inStock === false;
                 const isEstoreOnly = !!(canonical.estoreExclusive || canonical.EstoreExclusive || canonical['Estore Exclusive']);
+
                 const chip = document.createElement('div');
                 chip.className = `flex items-center gap-x-2 px-3 py-1.5 border rounded-2xl text-sm transition-all ${isOos ? 'opacity-40 bg-gray-50' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'}`;
                 chip.innerHTML = `
@@ -662,37 +660,23 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
                 if (!isOos) {
                     chip.onclick = () => {
-                        // Deselect all chips
                         container.querySelectorAll('div').forEach(c => c.classList.remove('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]'));
                         chip.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
-
                         selectedSku = color.sku;
-
-                        if (hint) {
-                            hint.textContent = 'SKU locked: ' + selectedSku;
-                            hint.classList.remove('hidden');
-                        }
-
-                        // Enable trade-in section fully now
+                        if (hint) { hint.textContent = 'SKU locked: ' + selectedSku; hint.classList.remove('hidden'); }
                         const guard = document.getElementById('sku-guard');
                         if (guard) guard.style.display = 'none';
                     };
-
-                    // Auto-select first available color
                     if (i === 0) {
                         setTimeout(() => {
                             chip.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
                             selectedSku = color.sku;
-                            if (hint) {
-                                hint.textContent = 'SKU locked: ' + selectedSku;
-                                hint.classList.remove('hidden');
-                            }
+                            if (hint) { hint.textContent = 'SKU locked: ' + selectedSku; hint.classList.remove('hidden'); }
                             const guard = document.getElementById('sku-guard');
                             if (guard) guard.style.display = 'none';
                         }, 50);
                     }
                 }
-
                 container.appendChild(chip);
             });
         }
