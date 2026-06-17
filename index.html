@@ -331,6 +331,7 @@
         let useSamsungPay = false;
         let devices = []; // loaded from devices.json
 let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
+        let productBySku = {}; // sku -> full product data from recommendations.json
 
         // Gift mapping (copied from TradeInPriceCheck)
         const giftMap = {
@@ -361,7 +362,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 const res = await fetch('recommendations.json');
                 const data = await res.json();
                 lsvMap = {};
+                productBySku = {};
                 (data.products || []).forEach(p => {
+                    if (p.sku) productBySku[p.sku] = p;
                     if (!p.showInHKBuyPage) return;
                     const key = `${p.model}|${p.storage}`;
                     if (!lsvMap[key] || p.lsvDiscount > (lsvMap[key].lsvDiscount || 0)) {
@@ -636,9 +639,10 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (hint) hint.classList.add('hidden');
 
             storageOpt.colors.forEach((color, i) => {
-                // Strictly follow latest recommendation.json schema (only InStockStatus)
-                const isOos = color.InStockStatus === 'N';
-                const isEstoreOnly = !!(color.estoreExclusive || color.EstoreExclusive || color['Estore Exclusive']);
+                // Look up authoritative product data from recommendations.json by SKU
+                const canonical = productBySku[color.sku] || color;
+                const isOos = canonical.InStockStatus === 'N';
+                const isEstoreOnly = !!(canonical.estoreExclusive || canonical.EstoreExclusive || canonical['Estore Exclusive']);
                 const chip = document.createElement('div');
                 chip.className = `flex items-center gap-x-2 px-3 py-1.5 border rounded-2xl text-sm transition-all ${isOos ? 'opacity-40 bg-gray-50' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'}`;
                 chip.innerHTML = `
