@@ -88,16 +88,28 @@
 
         <!-- Step 2: Storage -->
         <div class="mb-12 hidden" id="storage-section">
-            <div class="section-title mb-3">2. Choose storage</div>
+            <div class="section-title mb-3">2. Choose storage and color</div>
             <select id="storage" onchange="updateSelectedDeviceStorage()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white">
                 <option value="">Select storage</option>
             </select>
             <!-- LSV PreOrder Savings line -->
             <div id="lsv-savings-line" class="hidden mt-2 text-sm text-emerald-600 font-medium"></div>
+
+            <!-- Inline Color Chip Selector for Step 2b (SKU resolution) -->
+            <div id="color-chips-section" class="hidden mt-4">
+                <div class="text-sm font-medium text-gray-700 mb-2">Select color</div>
+                <div id="color-chips" class="flex flex-wrap gap-2"></div>
+                <div id="selected-sku-hint" class="mt-2 text-xs text-emerald-600 hidden"></div>
+            </div>
         </div>
 
         <!-- Step 3: Trade-in Device -->
         <div class="mb-12 hidden" id="tradein-section">
+            <!-- Guard message when SKU not yet resolved (explicit Step 2 split) -->
+            <div id="sku-guard" class="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-2xl text-sm text-amber-700">
+                <strong>Step 2b – Select Color</strong> on your recommended device above to resolve the exact SKU for trade-in GTI/ETI lookup.<br>
+                (Storage selected → now pick Color to unlock trade-in options)
+            </div>
             <div class="flex items-center justify-between mb-3">
                 <div class="section-title">3. Trade-in your current device (optional)</div>
             </div>
@@ -313,11 +325,13 @@
 
         let selectedDevice = null;
         let selectedStorageIndex = null;
+        let selectedSku = null; // SKU captured from Step 2 storage selection
         let tradeInValue = 0;
         let selectedBank = 'none';
         let useSamsungPay = false;
         let devices = []; // loaded from devices.json
 let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
+        let productBySku = {}; // sku -> full product data from recommendations.json
 
         // Gift mapping (copied from TradeInPriceCheck)
         const giftMap = {
@@ -348,7 +362,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 const res = await fetch('recommendations.json');
                 const data = await res.json();
                 lsvMap = {};
+                productBySku = {};
                 (data.products || []).forEach(p => {
+                    if (p.sku) productBySku[p.sku] = p;
                     if (!p.showInHKBuyPage) return;
                     const key = `${p.model}|${p.storage}`;
                     if (!lsvMap[key] || p.lsvDiscount > (lsvMap[key].lsvDiscount || 0)) {
@@ -398,9 +414,17 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             selectedDevice = recommendedProducts[idx];
             selectedStorageIndex = null;
+            selectedSku = null; // Will be set when storage is chosen
 
-            // Reset downstream values (preserve selectedBank so it can be recalculated on new price)
+            // Reset Step 3 completely if user changes the new device
+            document.getElementById('brand').value = '';
+            document.getElementById('model').innerHTML = '<option value="">Select model</option>';
+            document.getElementById('model').disabled = true;
+            document.getElementById('tradein-storage').innerHTML = '<option value="">Select storage</option>';
+            document.getElementById('tradein-storage').disabled = true;
+            document.getElementById('tradein-value-display').classList.add('hidden');
             tradeInValue = 0;
+            window.currentTradeInCalc = null;
             // IMPORTANT: do NOT reset selectedBank here — bank choice must survive device change
             document.getElementById('no-tradein').checked = false;
             document.getElementById('tradein-fields').style.display = '';
@@ -426,7 +450,10 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             selectedDevice.storageOptions.forEach((opt, i) => {
                 const option = document.createElement('option');
                 option.value = i;
-                option.textContent = opt.storage;
+                // Only use InStockStatus (per user instruction)
+                const allOos = opt.colors && opt.colors.length > 0 && opt.colors.every(c => c.InStockStatus === 'N');
+                option.textContent = opt.storage + (allOos ? ' (Out of Stock)' : '');
+                if (allOos) option.disabled = true;
                 storageSelect.appendChild(option);
             });
 
@@ -461,7 +488,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             }
 
             if (selectedStorageIndex !== null && !isNaN(selectedStorageIndex)) {
-                // Show step 3
+                const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
+
+                // Show inline color chips for Step 2b SKU resolution
+                showColorChipsForSelectedStorage(storageOpt);
+
+                // Show step 3 (will be gated by color selection via color chips)
                 document.getElementById('tradein-section').classList.remove('hidden');
                 // IMPORTANT: always hide bank section on storage change so user must re-complete step 3
                 document.getElementById('bank-section').classList.add('hidden');
@@ -529,6 +561,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 storageSelect.innerHTML = '<option value="">Select storage</option>';
                 storageSelect.disabled = true;
                 valueDisplay.classList.add('hidden');
+                const colorSection2 = document.getElementById('color-chips-section');
+                if (colorSection2) colorSection2.classList.add('hidden');
                 tradeInValue = 0;
                 document.getElementById('bank-section').classList.add('hidden');
                 updateStickyBar();
@@ -565,6 +599,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 storageSelect.innerHTML = '<option value="">Select storage</option>';
                 storageSelect.disabled = true;
                 valueDisplay.classList.add('hidden');
+                // Hide color chips when storage unselected
+                const colorSection = document.getElementById('color-chips-section');
+                if (colorSection) colorSection.classList.add('hidden');
                 tradeInValue = 0;
                 document.getElementById('bank-section').classList.add('hidden');
                 updateStickyBar();
@@ -585,6 +622,63 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             tradeInValue = 0;
             document.getElementById('bank-section').classList.add('hidden');
             updateStickyBar();
+        }
+
+        function showColorChipsForSelectedStorage(storageOpt) {
+            const section = document.getElementById('color-chips-section');
+            const container = document.getElementById('color-chips');
+            const hint = document.getElementById('selected-sku-hint');
+
+            if (!section || !container || !storageOpt || !storageOpt.colors || storageOpt.colors.length === 0) {
+                if (section) section.style.display = 'none';
+                return;
+            }
+
+            if (Object.keys(productBySku).length === 0) {
+                console.warn('productBySku empty, deferring color chips');
+                setTimeout(() => showColorChipsForSelectedStorage(storageOpt), 150);
+                return;
+            }
+
+            section.classList.remove('hidden');
+            container.innerHTML = '';
+            if (hint) hint.classList.add('hidden');
+
+            storageOpt.colors.forEach((color, i) => {
+                const canonical = productBySku[color.sku] || { hexCode: null };
+                const isOos = canonical.InStockStatus === 'N' || canonical.inStock === false;
+                const isEstoreOnly = !!(canonical.estoreExclusive || canonical.EstoreExclusive || canonical['Estore Exclusive']);
+
+                const chip = document.createElement('div');
+                chip.className = `flex items-center gap-x-2 px-3 py-1.5 border rounded-2xl text-sm transition-all ${isOos ? 'opacity-40 bg-gray-50' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'}`;
+                chip.innerHTML = `
+                    <div class="w-5 h-5 rounded-full border border-gray-300 flex-shrink-0" style="background: ${canonical.hexCode || getColorHex(color.name)};"></div>
+                    <span class="font-medium text-gray-800">${color.name}</span>
+                    ${isOos ? '<span class="text-[10px] text-red-500 ml-1">Out of Stock</span>' : ''}
+                    ${isEstoreOnly ? '<span class="text-[10px] text-blue-600 ml-1">Samsung.com Only</span>' : ''}
+                `;
+
+                if (!isOos) {
+                    chip.onclick = () => {
+                        container.querySelectorAll('div').forEach(c => c.classList.remove('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]'));
+                        chip.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
+                        selectedSku = color.sku;
+                        if (hint) { hint.textContent = 'SKU locked: ' + selectedSku; hint.classList.remove('hidden'); }
+                        const guard = document.getElementById('sku-guard');
+                        if (guard) guard.style.display = 'none';
+                    };
+                    if (i === 0) {
+                        setTimeout(() => {
+                            chip.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
+                            selectedSku = color.sku;
+                            if (hint) { hint.textContent = 'SKU locked: ' + selectedSku; hint.classList.remove('hidden'); }
+                            const guard = document.getElementById('sku-guard');
+                            if (guard) guard.style.display = 'none';
+                        }, 50);
+                    }
+                }
+                container.appendChild(chip);
+            });
         }
 
         function updateTradeInPriceNewFlow() {
@@ -608,19 +702,42 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 d.storage === storage
             );
 
-            // NEW trade-in calculation using baseCode + GTI/ETI logic
-            if (device && selectedDevice && selectedDevice.baseCode) {
-                const bc = selectedDevice.baseCode; // e.g. SM-S9480
-                const hasGTI = device.gti && device.gti[bc];
-                const tradeInPrice = hasGTI ? device.gti[bc] : (device.standardPrice || 0);
-                const extraRebate = device.eti ? (device.eti[bc] || 0) : 0;
+            // NEW SKU-based trade-in calculation (per user's confirmed logic)
+            // Guard: require SKU to be resolved before allowing trade-in calc
+            if (!selectedSku) {
+                tradeInValue = 0;
+                valueDisplay.classList.add('hidden');
+                return;
+            }
+
+            if (device && selectedSku) {
+                const sku = selectedSku;
+                
+                // Get GTI value for this SKU (treat 0 as not existing, per rule #5)
+                const gtiVal = device.gti && device.gti[sku] ? device.gti[sku] : 0;
+                // Get ETI value for this SKU
+                const etiVal = device.eti && device.eti[sku] ? device.eti[sku] : 0;
+                
+                let tradeInPrice = 0;
+                let isGuaranteed = false;
+                
+                if (gtiVal > 0) {
+                    tradeInPrice = gtiVal;
+                    isGuaranteed = true;
+                } else {
+                    tradeInPrice = device.standardPrice || 0;
+                    isGuaranteed = false;
+                }
+                
+                const extraRebate = etiVal;
                 tradeInValue = tradeInPrice + extraRebate;
 
                 // Store for savings display
                 window.currentTradeInCalc = {
                     tradeInPrice,
                     extraRebate,
-                    isGuaranteed: !!hasGTI
+                    isGuaranteed,
+                    sku
                 };
             } else {
                 tradeInValue = device ? (device.standardPrice || 0) : 0;
@@ -668,20 +785,23 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (!container || !window.currentTradeInCalc || tradeInValue <= 0) return;
 
             const calc = window.currentTradeInCalc;
-            let html = `<div class="font-medium">Trade-in savings: <span class="font-semibold">HK$${tradeInValue.toLocaleString()}</span></div>`;
-
+            
+            // Per user's requirement: Total first, then breakdown
+            // If GTI is used, show "Guaranteed Trade In Price"
+            let html = `<div class="font-medium">Total Trade In value: <span class="font-semibold">HK$${tradeInValue.toLocaleString()}</span></div>`;
+            
             if (calc.extraRebate > 0) {
                 if (calc.isGuaranteed) {
-                    html += `<div class="text-xs text-emerald-600 mt-1">Guaranteed Trade-in HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs text-emerald-600 mt-1">Guaranteed Trade In Price: HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 } else {
-                    html += `<div class="text-xs text-emerald-600 mt-1">Trade-in HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs text-emerald-600 mt-1">Trade In Price: HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 }
-                html += `<div class="text-xs text-emerald-600">Extra rebate HK$${calc.extraRebate.toLocaleString()}</div>`;
+                html += `<div class="text-xs text-emerald-600">Extra Trade In Rebate: HK$${calc.extraRebate.toLocaleString()}</div>`;
             } else {
                 if (calc.isGuaranteed) {
-                    html += `<div class="text-xs text-emerald-600 mt-1">Guaranteed Trade-in HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs text-emerald-600 mt-1">Guaranteed Trade In Price: HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 } else {
-                    html += `<div class="text-xs text-emerald-600 mt-1">Trade-in HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs text-emerald-600 mt-1">Trade In Price: HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 }
             }
 
@@ -1039,58 +1159,16 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (!selectedDevice || selectedStorageIndex === null) return;
 
             const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
-            if (!storageOpt.colors || storageOpt.colors.length === 0) {
-                alert('This device has no color options configured.');
-                return;
-            }
 
-            currentModalProductIdx = null; // not used in HKBuyPage
+            // NEW: Skip color selection entirely for Buy Now flow (per user request)
+            // Go straight to gift selection. Use first available color SKU as default if needed for backend.
+            currentModalProductIdx = null;
             currentModalCard = null;
-            selectedColorSku = null;
+            selectedColorSku = (storageOpt.colors && storageOpt.colors.length > 0) ? storageOpt.colors[0].sku : null;
             selectedGiftSku = null;
 
-            const modal = document.getElementById('color-modal');
-            const optionsContainer = document.getElementById('color-options');
-            const confirmBtn = document.getElementById('confirm-color-btn');
-            if (!confirmBtn) { console.error('confirm-color-btn missing'); return; }
-
-            optionsContainer.innerHTML = '';
-
-            storageOpt.colors.forEach((color, i) => {
-                const isOos = color.inStock === false;
-                const div = document.createElement('div');
-                div.className = `flex items-center justify-between px-4 py-3.5 border border-gray-200 rounded-2xl transition-colors color-option ${isOos ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-[#007AFF]'}`;
-                div.innerHTML = `
-                    <div class="flex items-center gap-x-3">
-                        <div class="w-5 h-5 rounded-full border border-gray-200" style="background: ${getColorHex(color.name)}"></div>
-                        <div class="font-medium text-gray-900">${color.name}</div>
-                        ${isOos ? '<span class="text-[10px] text-red-500 ml-1">Out of stock</span>' : ''}
-                    </div>
-                    <div class="text-xs text-gray-400">${storageOpt.storage}</div>
-                `;
-                if (!isOos) {
-                    div.onclick = () => {
-                        optionsContainer.querySelectorAll('.color-option').forEach(el => el.classList.remove('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]'));
-                        div.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
-                        selectedColorSku = color.sku;
-                        confirmBtn.disabled = false;
-                    };
-                    if (i === 0) {
-                        setTimeout(() => {
-                            div.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
-                            selectedColorSku = color.sku;
-                            confirmBtn.disabled = false;
-                        }, 10);
-                    }
-                }
-                optionsContainer.appendChild(div);
-            });
-
-            confirmBtn.onclick = () => confirmColorSelection();
-            confirmBtn.disabled = true;
-
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            // Directly show gift modal, bypassing color modal
+            showGiftModal();
         }
 
         function getColorHex(colorName) {
@@ -1116,7 +1194,25 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
         function confirmColorSelection() {
             if (!selectedColorSku) return;
+            selectedSku = selectedColorSku; // Capture SKU for trade-in GTI/ETI lookup
             closeColorModal(true);
+            
+            // Enable Step 3 now that SKU is resolved
+            const guard = document.getElementById('sku-guard');
+            const tradeinSection = document.getElementById('tradein-section');
+            if (guard) guard.style.display = 'none';
+            if (tradeinSection) {
+                tradeinSection.classList.remove('hidden');
+                // Optionally show resolved SKU hint
+                const hint = document.createElement('div');
+                hint.className = 'text-xs text-emerald-600 mb-2';
+                hint.textContent = 'SKU resolved: ' + selectedSku;
+                const existingHint = tradeinSection.querySelector('.sku-hint');
+                if (existingHint) existingHint.remove();
+                hint.classList.add('sku-hint');
+                tradeinSection.insertBefore(hint, tradeinSection.firstChild.nextSibling);
+            }
+            
             showGiftModal();
         }
 
