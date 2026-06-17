@@ -98,6 +98,10 @@
 
         <!-- Step 3: Trade-in Device -->
         <div class="mb-12 hidden" id="tradein-section">
+            <!-- Guard message when SKU not yet resolved -->
+            <div id="sku-guard" class="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-2xl text-sm text-amber-700">
+                Please select <strong>Storage + Color</strong> on your recommended device above to unlock trade-in options.
+            </div>
             <div class="flex items-center justify-between mb-3">
                 <div class="section-title">3. Trade-in your current device (optional)</div>
             </div>
@@ -624,6 +628,13 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             );
 
             // NEW SKU-based trade-in calculation (per user's confirmed logic)
+            // Guard: require SKU to be resolved before allowing trade-in calc
+            if (!selectedSku) {
+                tradeInValue = 0;
+                valueDisplay.classList.add('hidden');
+                return;
+            }
+
             if (device && selectedSku) {
                 const sku = selectedSku;
                 
@@ -1152,6 +1163,23 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (!selectedColorSku) return;
             selectedSku = selectedColorSku; // Capture SKU for trade-in GTI/ETI lookup
             closeColorModal(true);
+            
+            // Enable Step 3 now that SKU is resolved
+            const guard = document.getElementById('sku-guard');
+            const tradeinSection = document.getElementById('tradein-section');
+            if (guard) guard.style.display = 'none';
+            if (tradeinSection) {
+                tradeinSection.classList.remove('hidden');
+                // Optionally show resolved SKU hint
+                const hint = document.createElement('div');
+                hint.className = 'text-xs text-emerald-600 mb-2';
+                hint.textContent = 'SKU resolved: ' + selectedSku;
+                const existingHint = tradeinSection.querySelector('.sku-hint');
+                if (existingHint) existingHint.remove();
+                hint.classList.add('sku-hint');
+                tradeinSection.insertBefore(hint, tradeinSection.firstChild.nextSibling);
+            }
+            
             showGiftModal();
         }
 
