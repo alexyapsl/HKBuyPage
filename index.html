@@ -266,8 +266,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 renderDeviceSelection();
             });
             populateBrandsNewFlow();
-            // Load gifts.json (non-blocking)
+            // Load gifts.json + bankpromo.json (non-blocking)
             loadGifts();
+            loadBankPromo();
         }
 
         async function loadLSVData() {
@@ -321,6 +322,20 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             } catch (e) {
                 console.warn('Could not load step1models.json', e);
                 recommendedProducts = [];
+            }
+        }
+
+        async function loadBankPromo() {
+            try {
+                const res = await fetch('bankpromo.json');
+                const data = await res.json();
+                // Convert array to key-based map for backward compatibility
+                bankPromotionRules = {};
+                data.forEach(b => { bankPromotionRules[b.key] = b; });
+                console.log('Loaded bankpromo.json with', data.length, 'banks');
+            } catch (e) {
+                console.warn('Could not load bankpromo.json', e);
+                bankPromotionRules = {};
             }
         }
 
@@ -838,25 +853,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         }
 
         // Bank promotion rules (exact copy from TradeInPush)
-        const bankPromotionRules = {
-            "hsbc": {
-                tiers: [
-                    { max: 99999, percent: 0.04 }
-                ],
-                maximum: 400,
-                fixedDiscount: null
-            },
-            "boc": {
-                tiers: [
-                    { max: 2999,  percent: 0.00 },
-                    { max: 9999,  percent: 0.04 },
-                    { max: 14999, percent: 0.05 },
-                    { max: 99999, percent: 0.06 }
-                ],
-                maximum: 2000,
-                fixedDiscount: { name: "BOC Visa Card Weekend Offer", value: 200 }
-            }
-        };
+        let bankPromotionRules = {}; // loaded from bankpromo.json
 
         function calculateBankRebate(originalPrice, bankKey) {
             const rule = bankPromotionRules[bankKey];
