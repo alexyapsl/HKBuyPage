@@ -719,6 +719,14 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                             if (bankSec) {
                                 bankSec.classList.remove('hidden');
                                 setupBankButtons();
+
+                                // Auto-select BOC on first load of Step 4 and immediately show its savings
+                                if (bankPromotionRules && bankPromotionRules.boc) {
+                                    selectedBank = 'boc';
+                                    setupBankButtons(); // re-render so BOC shows selected
+                                    updateBankSavingsDisplay();
+                                    updateStickyBar();
+                                }
                             }
                         };
 
