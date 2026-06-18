@@ -932,8 +932,14 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
             const originalPrice = storageOpt.price;
 
+            // LSV discount for current selection
+            const lsvKey = `${selectedDevice.name}|${storageOpt.storage}`;
+            const lsvInfo = lsvMap[lsvKey] || { rrp: originalPrice, lsvDiscount: 0 };
+            const lsvDiscountLocal = lsvInfo.lsvDiscount || 0;
+
             const samsungPayDiscountLocal = useSamsungPay ? calculateSamsungPayDiscount(originalPrice) : 0;
-            const bankCalc = calculateBankRebate(originalPrice, selectedBank, samsungPayDiscountLocal);
+            const discountInCartLocal = lsvDiscountLocal + samsungPayDiscountLocal;
+            const bankCalc = calculateBankRebate(originalPrice, selectedBank, discountInCartLocal);
             if (bankCalc.totalRebate <= 0 && !useSamsungPay) {
                 display.classList.add('hidden');
                 return;
