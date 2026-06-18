@@ -1322,7 +1322,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
                     // Build magic link according to Mode + language-based oosLink
                     const canonical = productBySku[selectedColorSku] || {};
-                    const oosLink = (language === 'hk') ? canonical['oosLink hk'] : canonical['oosLink hk_em'];
+                    const oosLink = (language === 'hk') ? canonical.oosLink : canonical.oosLinkEn;
                     const oosParam = oosLink ? `&oosLink=${encodeURIComponent(oosLink)}` : '';
 
                     let magicUrl;
