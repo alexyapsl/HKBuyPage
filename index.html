@@ -674,6 +674,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             container.innerHTML = '';
             if (hint) hint.classList.add('hidden');
 
+            // Ensure color is never pre-selected when chips are shown
+            selectedSku = null;
+
             // Auto-scroll to color chips section after rendering chips
             setTimeout(() => {
                 section.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -709,24 +712,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                             }, 120);
                         }
                     };
-                    if (i === 0) {
-                        setTimeout(() => {
-                            chip.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
-                            selectedSku = color.sku;
-                            if (hint) { hint.textContent = 'SKU locked: ' + selectedSku; hint.classList.remove('hidden'); }
-                            const guard = document.getElementById('sku-guard');
-                            if (guard) guard.style.display = 'none';
-
-                            // Reveal + auto-scroll to Step 3 for pre-selected first color (when all OOS false)
-                            const tradeInSec0 = document.getElementById('tradein-section');
-                            if (tradeInSec0) {
-                                tradeInSec0.classList.remove('hidden');
-                                setTimeout(() => {
-                                    tradeInSec0.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                }, 120);
-                            }
-                        }, 50);
-                    }
+                    // No auto-selection of first color on any device.
+                    // All colors must start unselected so the user explicitly chooses.
                 }
                 container.appendChild(chip);
             });
