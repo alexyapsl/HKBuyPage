@@ -330,6 +330,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         let productBySku = {}; // sku -> full product data from recommendations.json
         let gifts = []; // loaded from gifts.json (new source of truth)
 
+        // Language setting: "hk" = Chinese site, "hk_en" = English site (current default)
+        let language = "hk_en";
+
         function init() {
             renderDeviceSelection();
             populateBrandsNewFlow();
@@ -1317,14 +1320,18 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 btn.onclick = () => {
                     closeGiftModal();
 
-                    // Build magic link according to Mode
+                    // Build magic link according to Mode + language-based oosLink
+                    const canonical = productBySku[selectedColorSku] || {};
+                    const oosLink = (language === 'hk') ? canonical['oosLink hk'] : canonical['oosLink hk_em'];
+                    const oosParam = oosLink ? `&oosLink=${encodeURIComponent(oosLink)}` : '';
+
                     let magicUrl;
                     if (mode === 'AddCode') {
                         // voucherCode path (no productCode[2])
-                        magicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&store=B2C&voucherCode=${encodeURIComponent(skuOrCode)}&newCart=true`;
+                        magicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&store=B2C&voucherCode=${encodeURIComponent(skuOrCode)}&newCart=true${oosParam}`;
                     } else {
                         // AddSKU (default)
-                        magicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&productCode[2]=${skuOrCode}&productQty[2]=1&store=B2C&newCart=true`;
+                        magicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&productCode[2]=${skuOrCode}&productQty[2]=1&store=B2C&newCart=true${oosParam}`;
                     }
 
                     pendingMagicUrl = magicUrl;
