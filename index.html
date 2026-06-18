@@ -328,29 +328,13 @@
         let devices = []; // loaded from devices.json
 let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         let productBySku = {}; // sku -> full product data from recommendations.json
-
-        // Gift mapping (copied from TradeInPriceCheck)
-        const giftMap = {
-            "S26U_Gift001": { sku: "EP-T5020XBEGGB", name: "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)", image: "https://images.samsung.com/is/image/samsung/p6pim/hk/ep-t5020xbeggb/gallery/hk-50w-power-adapter-duo-ep-t5020-ep-t5020xbeggb-542105839?$1164_776_PNG$", price: 0 },
-            "S26U_Gift002": { sku: "EF-SS948CLEGWW", name: "Galaxy S26 Ultra Slim Magnet Case", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-galaxy-s26ultra-ss948-ef-ss948clegww-550973073?$1164_776_PNG$", price: 0 },
-            "S26U_Gift003": { sku: "EP-P2900BBEGWW", name: "Magnet Wireless Charger", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-ep-p2900-ep-p2900bbegww-550976156?$1164_776_PNG$", price: 50 },
-            "Fold7_Gift001": { sku: "EP-T5020XBEGGB", name: "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)", image: "https://images.samsung.com/is/image/samsung/p6pim/hk/ep-t5020xbeggb/gallery/hk-50w-power-adapter-duo-ep-t5020-ep-t5020xbeggb-542105839?$1164_776_PNG$", price: 0 },
-            "Fold7_Gift002": { sku: "GP-FFF966YCATW", name: "Galaxy Z Fold7 Clear Magnet Case", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/f2507/gallery/hk-en-galaxy-z-fold7-clear-magnet-case-gp-fff966ycatw-542105839?$1164_776_PNG$", price: 0 },
-            "Fold7_Gift003": { sku: "EP-P2900BBEGWW", name: "Magnet Wireless Charger", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-ep-p2900-ep-p2900bbegww-550976156?$1164_776_PNG$", price: 50 },
-            "Flip7_Gift001": { sku: "EP-T5020XBEGGB", name: "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)", image: "https://images.samsung.com/is/image/samsung/p6pim/hk/ep-t5020xbeggb/gallery/hk-50w-power-adapter-duo-ep-t5020-ep-t5020xbeggb-542105839?$1164_776_PNG$", price: 0 },
-            "Flip7_Gift002": { sku: "GP-FPF766PGBTW", name: "Galaxy Z Flip7 Capella", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/f2507/gallery/hk-en-galaxy-z-flip7-capella-gp-fpf766pgbtw-550976156?$1164_776_PNG$", price: 0 },
-            "Flip7_Gift003": { sku: "EP-P2900BBEGWW", name: "Magnet Wireless Charger", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-ep-p2900-ep-p2900bbegww-550976156?$1164_776_PNG$", price: 50 },
-            "S26P_Gift001": { sku: "EP-T5020XBEGGB", name: "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)", image: "https://images.samsung.com/is/image/samsung/p6pim/hk/ep-t5020xbeggb/gallery/hk-50w-power-adapter-duo-ep-t5020-ep-t5020xbeggb-542105839?$1164_776_PNG$", price: 0 },
-            "S26P_Gift002": { sku: "EF-CS947CTEGWW", name: "Galaxy S26+ Clear Magnet Case", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-galaxy-s26plus-cs947-ef-cs947ctegww-550974561?$1164_776_PNG$", price: 0 },
-            "S26P_Gift003": { sku: "EP-P2900BBEGWW", name: "Magnet Wireless Charger", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-ep-p2900-ep-p2900bbegww-550976156?$1164_776_PNG$", price: 50 },
-            "S26B_Gift001": { sku: "EP-T5020XBEGGB", name: "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)", image: "https://images.samsung.com/is/image/samsung/p6pim/hk/ep-t5020xbeggb/gallery/hk-50w-power-adapter-duo-ep-t5020-ep-t5020xbeggb-542105839?$1164_776_PNG$", price: 0 },
-            "S26B_Gift002": { sku: "EF-CS942CTEGWW", name: "Galaxy S26 Clear Magnet Case", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-galaxy-s26-cs942-ef-cs942ctegww-550974547?$1164_776_PNG$", price: 0 },
-            "S26B_Gift003": { sku: "EP-P2900BBEGWW", name: "Magnet Wireless Charger", image: "https://images.samsung.com/is/image/samsung/p6pim/hk_en/s2602/gallery/hk-en-ep-p2900-ep-p2900bbegww-550976156?$1164_776_PNG$", price: 50 }
-        };
+        let gifts = []; // loaded from gifts.json (new source of truth)
 
         function init() {
             renderDeviceSelection();
             populateBrandsNewFlow();
+            // Load gifts.json (non-blocking)
+            loadGifts();
         }
 
         async function loadLSVData() {
@@ -382,6 +366,17 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 console.log('Loaded LSV data for', Object.keys(lsvMap).length, 'storage tiers and synced prices');
             } catch (e) {
                 console.warn('Could not load recommendations.json for LSV discounts', e);
+            }
+        }
+
+        async function loadGifts() {
+            try {
+                const res = await fetch('gifts.json');
+                gifts = await res.json();
+                console.log('Loaded gifts.json with', gifts.length, 'entries');
+            } catch (e) {
+                console.warn('Could not load gifts.json, falling back to empty list', e);
+                gifts = [];
             }
         }
 
@@ -1284,29 +1279,54 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const optionsContainer = giftModal.querySelector('#gift-options');
             optionsContainer.innerHTML = '';
 
-            const gifts = [color.gift1, color.gift2, color.gift3];
+            // NEW: filter gifts.json by Parent Model + Active
+            const applicableGifts = (gifts || []).filter(g =>
+                g['Parent Model'] === selectedDevice.name &&
+                g.Active === 'Y'
+            );
 
-            gifts.forEach((giftCode) => {
-                const info = giftMap[giftCode] || { name: giftCode, image: '', price: 0 };
-                const price = info.price || 0;
-                const priceLabel = price > 0 
-                    ? `<div class="text-xs text-[#007AFF] mt-0.5 font-medium">Add $${price}</div>` 
+            if (applicableGifts.length === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'text-sm text-gray-500 p-4 border rounded-2xl';
+                empty.textContent = 'No gifts available for this model.';
+                optionsContainer.appendChild(empty);
+            }
+
+            applicableGifts.forEach((gift) => {
+                const giftCode = gift.GiftCode;
+                const name = gift['SKU Name'] || giftCode;
+                const image = gift['SKU Image'] || '';
+                const priceStr = gift.Price || 'Free';
+                const mode = gift.Mode;
+                const skuOrCode = gift['SKU_PromoCode'];
+
+                const priceLabel = (priceStr && priceStr !== 'Free')
+                    ? `<div class="text-xs text-[#007AFF] mt-0.5 font-medium">Add ${priceStr}</div>`
                     : `<div class="text-xs text-emerald-600 mt-0.5">Free gift</div>`;
-                
+
                 const btn = document.createElement('button');
                 btn.className = 'w-full flex items-center gap-4 p-4 border border-gray-200 rounded-2xl hover:border-[#007AFF] text-left';
                 btn.innerHTML = `
-                    <img src="${info.image}" class="w-16 h-16 object-contain rounded-xl border" alt="${info.name}">
+                    <img src="${image}" class="w-16 h-16 object-contain rounded-xl border" alt="${name}">
                     <div>
-                        <div class="font-medium text-gray-900">${info.name}</div>
+                        <div class="font-medium text-gray-900">${name}</div>
                         ${priceLabel}
                     </div>
                 `;
                 btn.onclick = () => {
-                    const giftInfo = giftMap[giftCode] || {};
-                    selectedGiftSku = giftInfo.sku || giftCode;
                     closeGiftModal();
-                    pendingMagicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&productCode[2]=${selectedGiftSku}&productQty[2]=1&store=B2C&oosLink=www.samsung.com/hk/offer&app=true`;
+
+                    // Build magic link according to Mode
+                    let magicUrl;
+                    if (mode === 'AddCode') {
+                        // voucherCode path (no productCode[2])
+                        magicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&store=B2C&voucherCode=${encodeURIComponent(skuOrCode)}&newCart=true`;
+                    } else {
+                        // AddSKU (default)
+                        magicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&productCode[2]=${skuOrCode}&productQty[2]=1&store=B2C&newCart=true`;
+                    }
+
+                    pendingMagicUrl = magicUrl;
                     showTradeInWarningModal();
                 };
                 optionsContainer.appendChild(btn);
