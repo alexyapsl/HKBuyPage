@@ -223,6 +223,30 @@
         </div>
     </div>
 
+    <!-- Samsung Shop App Modal (NEW - between Gift and Important reminder) -->
+    <div id="samsung-shop-modal" class="hidden fixed inset-0 bg-black/50 z-[110] flex items-end lg:items-center justify-center">
+        <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-3xl p-6">
+            <div class="flex items-center justify-between mb-4">
+                <div class="font-semibold text-xl text-gray-900">Checkout with Samsung Shop App</div>
+                <button onclick="closeSamsungShopModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
+            </div>
+
+            <div class="text-sm text-gray-700 leading-relaxed mb-5">
+                Checkout with Samsung Shop App to enjoy app only discounts, get latest promotion, and an amazing shopping experience.
+            </div>
+
+            <div class="flex items-center gap-2 mb-6">
+                <input type="checkbox" id="add-to-app" checked class="w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
+                <label for="add-to-app" class="text-sm text-gray-700">Add my product(s) to Samsung Shop App</label>
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="downloadSamsungShopApp()" class="flex-1 py-3.5 rounded-2xl border border-gray-300 text-sm font-medium">Download App</button>
+                <button onclick="proceedFromSamsungShopModal()" class="flex-1 py-3.5 rounded-2xl samsung-btn text-sm font-medium">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Trade-in Warning Modal -->
     <div id="tradein-warning-modal" class="hidden fixed inset-0 bg-black/50 z-[80] flex items-end sm:items-center justify-center">
         <div class="bg-white w-full sm:w-[420px] sm:rounded-3xl rounded-t-3xl p-6 shadow-xl">
@@ -1412,7 +1436,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                     }
 
                     pendingMagicUrl = magicUrl;
-                    showTradeInWarningModal();
+                    showSamsungShopModal();   // NEW: Samsung Shop App modal before Important reminder
                 };
                 optionsContainer.appendChild(btn);
             });
@@ -1444,6 +1468,42 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 window.open(pendingMagicUrl, '_blank');
             }
             pendingMagicUrl = null;
+        }
+
+        // --- Samsung Shop App Modal (NEW) ---
+        function showSamsungShopModal() {
+            const modal = document.getElementById('samsung-shop-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            } else {
+                // fallback if modal not found for some reason
+                showTradeInWarningModal();
+            }
+        }
+
+        function closeSamsungShopModal() {
+            const modal = document.getElementById('samsung-shop-modal');
+            if (modal) {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }
+        }
+
+        function downloadSamsungShopApp() {
+            // Open Samsung Shop one-link in new tab
+            window.open('https://samsungshop.onelink.me/6zKq/z089lfy4', '_blank');
+            // Do NOT close the modal; user may want to come back and click "Add to Cart"
+        }
+
+        function proceedFromSamsungShopModal() {
+            const modal = document.getElementById('samsung-shop-modal');
+            if (modal) {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }
+            // Continue to Important reminder as original flow
+            showTradeInWarningModal();
         }
 
         // Show/hide Buy Now button when sticky bar is visible
