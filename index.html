@@ -757,7 +757,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             // Guard: require SKU to be resolved before allowing trade-in calc
             if (!selectedSku) {
                 tradeInValue = 0;
-                valueDisplay.classList.add('hidden');
+                if (valueDisplay) valueDisplay.classList.add('hidden');
                 return;
             }
 
@@ -797,10 +797,10 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             // Show trade-in value message
             if (tradeInValue > 0) {
-                valueAmount.textContent = `HK$${tradeInValue.toLocaleString()}`;
-                valueDisplay.classList.remove('hidden');
+                if (valueAmount) valueAmount.textContent = `HK$${tradeInValue.toLocaleString()}`;
+                if (valueDisplay) valueDisplay.classList.remove('hidden');
             } else {
-                valueDisplay.classList.add('hidden');
+                if (valueDisplay) valueDisplay.classList.add('hidden');
             }
 
             // Render new trade-in savings breakdown (total first, then breakdown)
@@ -833,7 +833,10 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
         function renderTradeInSavingsBreakdown() {
             const container = document.getElementById('tradein-value-display');
-            if (!container || !window.currentTradeInCalc || tradeInValue <= 0) return;
+            if (!container || !window.currentTradeInCalc || tradeInValue <= 0) {
+                if (container) container.classList.add('hidden');
+                return;
+            }
 
             const calc = window.currentTradeInCalc;
             
