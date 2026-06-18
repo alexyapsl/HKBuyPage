@@ -412,9 +412,16 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             selectedStorageIndex = null;
             selectedSku = null; // Will be set when storage is chosen
 
-            // Reset color chips visibility when changing device
+            // Clear LSV savings line and any sticky bar savings when device changes
+            const lsvLine = document.getElementById('lsv-savings-line');
+            if (lsvLine) { lsvLine.classList.add('hidden'); lsvLine.innerHTML = ''; }
+
+            // Hide color chips when changing device
             const colorSectionReset = document.getElementById('color-chips-section');
             if (colorSectionReset) colorSectionReset.classList.add('hidden');
+
+            // Ensure sticky bar is refreshed so LSV savings, prices, etc. are cleared
+            updateStickyBar();
 
             // Reset Step 3 completely if user changes the new device
             document.getElementById('brand').value = '';
@@ -1220,7 +1227,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 'Titanium Black': '#1f2937', 'Titanium Grey': '#6b7280', 'Titanium Silver': '#d1d5db',
                 'Titanium Blue': '#3b82f6', 'Navy': '#1e3a8a', 'Silver Shadow': '#9ca3af',
                 'Mint': '#86efac', 'Graphite': '#374151', 'Blue': '#2563eb', 'Silver': '#e5e7eb',
-                'Black': '#1f2937', 'Sky Blue': '#0ea5e9', 'Cobalt Violet': '#7c3aed', 'Pink Gold': '#f472b6'
+                'Black': '#1f2937', 'Sky Blue': '#0ea5e9', 'Cobalt Violet': '#696881', 'Pink Gold': '#f472b6'
             };
             return map[colorName] || '#9ca3af';
         }
