@@ -1002,9 +1002,11 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 btn.className = `px-4 py-3 rounded-2xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] transition-all ${isSelected ? '!border-[#007AFF] ring-2 ring-[#007AFF]/30' : 'border-gray-200 hover:border-gray-300'}`;
 
                 if (bank.logo) {
+                    const isBoc = bank.key === 'boc';
                     btn.innerHTML = `
                         <img src="${bank.logo}" alt="${bank.name}" class="h-8 w-auto object-contain">
                         <span class="text-xs text-gray-600">${bank.name}</span>
+                        ${isBoc ? `<span class="text-[9px] text-[#007AFF] font-medium mt-0.5">Recommended</span>` : ''}
                     `;
                 } else {
                     // Generic credit card icon for "Other"
