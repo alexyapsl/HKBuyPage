@@ -284,6 +284,10 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         // Language setting: "hk" = Chinese site, "hk_en" = English site (current default)
         let language = "hk_en";
 
+        // Detect inapp=true from the HKBuyPage URL itself
+        const urlParams = new URLSearchParams(window.location.search);
+        const isInApp = urlParams.get('inapp') === 'true';
+
         function init() {
             // Load step1models.json first (Step 1 cards)
             loadStep1Models().then(() => {
@@ -1472,6 +1476,17 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
         // --- Samsung Shop App Modal (NEW) ---
         function showSamsungShopModal() {
+            // If the HKBuyPage URL itself contains inapp=true, skip the popup
+            // and force app=true on the magic link
+            if (isInApp) {
+                if (pendingMagicUrl && !pendingMagicUrl.includes('app=true')) {
+                    const separator = pendingMagicUrl.includes('?') ? '&' : '?';
+                    pendingMagicUrl += `${separator}app=true`;
+                }
+                showTradeInWarningModal();
+                return;
+            }
+
             const modal = document.getElementById('samsung-shop-modal');
             if (modal) {
                 modal.classList.remove('hidden');
