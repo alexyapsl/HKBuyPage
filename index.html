@@ -958,6 +958,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         function setupBankButtons() {
             const container = document.getElementById('bank-buttons');
             container.innerHTML = '';
+            // Ensure the top of every bank logo is vertically aligned (even when one has a badge below it)
+            container.classList.add('flex', 'items-start');
 
             // Guard: if bankpromo.json hasn't finished loading yet, retry shortly
             if (!bankPromotionRules || Object.keys(bankPromotionRules).length === 0) {
@@ -998,7 +1000,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             bankList.forEach(bank => {
                 const isSelected = selectedBank === bank.key;
                 const wrapper = document.createElement('div');
-                wrapper.className = 'flex flex-col items-center';
+                // self-start ensures top of buttons align even when BOC has the Recommended badge below
+                wrapper.className = 'flex flex-col items-center self-start';
 
                 const btn = document.createElement('button');
                 btn.className = `px-4 py-3 rounded-2xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] transition-all ${isSelected ? '!border-[#007AFF] ring-2 ring-[#007AFF]/30' : 'border-gray-200 hover:border-gray-300'}`;
