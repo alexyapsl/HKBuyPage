@@ -1109,29 +1109,27 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             payEl.textContent = payLabel;
             priceEl.innerHTML = `HK$${finalPrice.toLocaleString()}`;
 
-            // Savings breakdown (trade-in, bank, samsungpay, + LSV)
+            // NEW simplified 2-line savings summary
+            const totalCartDiscount = lsvDiscount + samsungPayDiscount;   // shown as "Discount in cart"
+            const totalRebate = bankRebate + tradeInValue;               // shown as "Rebate"
+
             if (totalSavings > 0) {
                 saveEl.innerHTML = '';
-                if (lsvDiscount > 0) {
-                    const l = document.createElement('div');
-                    l.textContent = `Storage upgrade savings HK$${lsvDiscount.toLocaleString()}`;
-                    saveEl.appendChild(l);
+
+                // Line 1: Discount in cart (storage upgrade + Samsung Pay)
+                if (totalCartDiscount > 0) {
+                    const d1 = document.createElement('div');
+                    d1.textContent = `Discount in cart: HK$${totalCartDiscount.toLocaleString()}`;
+                    saveEl.appendChild(d1);
                 }
-                if (tradeInValue > 0) {
-                    const t = document.createElement('div');
-                    t.textContent = `Trade-in HK$${tradeInValue.toLocaleString()}`;
-                    saveEl.appendChild(t);
+
+                // Line 2: Rebate (bank promotion + trade-in total)
+                if (totalRebate > 0) {
+                    const r1 = document.createElement('div');
+                    r1.textContent = `Rebate: HK$${totalRebate.toLocaleString()}`;
+                    saveEl.appendChild(r1);
                 }
-                if (bankRebate > 0) {
-                    const b = document.createElement('div');
-                    b.textContent = `Bank promotion HK$${bankRebate.toLocaleString()}`;
-                    saveEl.appendChild(b);
-                }
-                if (samsungPayDiscount > 0) {
-                    const s = document.createElement('div');
-                    s.textContent = `Samsung Pay HK$${samsungPayDiscount.toLocaleString()}`;
-                    saveEl.appendChild(s);
-                }
+
                 saveEl.style.display = 'block';
             } else {
                 saveEl.style.display = 'none';
