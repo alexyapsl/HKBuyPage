@@ -1498,6 +1498,16 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
         function proceedFromSamsungShopModal() {
             const modal = document.getElementById('samsung-shop-modal');
+            const checkbox = document.getElementById('add-to-app');
+
+            // If checkbox is checked, append app=true to the magic URL
+            if (checkbox && checkbox.checked && pendingMagicUrl) {
+                if (!pendingMagicUrl.includes('app=true')) {
+                    const separator = pendingMagicUrl.includes('?') ? '&' : '?';
+                    pendingMagicUrl += `${separator}app=true`;
+                }
+            }
+
             if (modal) {
                 modal.classList.remove('flex');
                 modal.classList.add('hidden');
