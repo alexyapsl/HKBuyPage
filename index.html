@@ -1054,7 +1054,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 nameEl.textContent = selectedDevice.name;
                 payEl.textContent = 'From';
                 const fromPrice = selectedDevice.storageOptions[0].price;
-                priceEl.innerHTML = `HK$${fromPrice.toLocaleString()}`;
+                priceEl.innerHTML = `HK$${formatPrice(fromPrice)}`;
                 saveEl.style.display = 'none';
                 buyBtn.style.display = 'none';
                 return;
@@ -1085,7 +1085,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const rrpLine = document.getElementById('sticky-rrp-line');
             if (rrpLine) {
                 if (totalSavings > 0) {
-                    rrpLine.textContent = `Original: HK$${originalPrice.toLocaleString()}`;
+                    rrpLine.textContent = `Original: HK$${formatPrice(originalPrice)}`;
                     rrpLine.classList.remove('hidden');
                 } else {
                     rrpLine.classList.add('hidden');
@@ -1107,7 +1107,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             else if (hasBankPromo) payLabel = 'With Bank Promotion, you pay';
 
             payEl.textContent = payLabel;
-            priceEl.innerHTML = `HK$${finalPrice.toLocaleString()}`;
+            priceEl.innerHTML = `HK$${formatPrice(finalPrice)}`;
 
             // NEW simplified 2-line savings summary
             const totalCartDiscount = lsvDiscount + samsungPayDiscount;   // shown as "Discount in cart"
@@ -1119,14 +1119,14 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 // Line 1: Discount in cart (storage upgrade + Samsung Pay)
                 if (totalCartDiscount > 0) {
                     const d1 = document.createElement('div');
-                    d1.textContent = `Discount in cart: HK$${totalCartDiscount.toLocaleString()}`;
+                    d1.textContent = `Discount in cart: HK$${formatPrice(totalCartDiscount)}`;
                     saveEl.appendChild(d1);
                 }
 
                 // Line 2: Rebate (bank promotion + trade-in total)
                 if (totalRebate > 0) {
                     const r1 = document.createElement('div');
-                    r1.textContent = `Rebate: HK$${totalRebate.toLocaleString()}`;
+                    r1.textContent = `Rebate: HK$${formatPrice(totalRebate)}`;
                     saveEl.appendChild(r1);
                 }
 
@@ -1139,6 +1139,13 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             // Adjust bottom padding so sticky bar never covers step 4 content
             adjustContentPadding();
+        }
+
+        // Price formatter: always 2 decimal places when cents exist
+        function formatPrice(n) {
+            if (!n) return '0.00';
+            if (Number.isInteger(n)) return n.toLocaleString();
+            return n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
         function adjustContentPadding() {
