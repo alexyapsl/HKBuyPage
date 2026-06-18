@@ -484,6 +484,15 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 // Also hide trade-in section (Step 3) so user cannot proceed without selecting color again
                 const tradeInSectionEl = document.getElementById('tradein-section');
                 if (tradeInSectionEl) tradeInSectionEl.classList.add('hidden');
+                // IMPORTANT: always uncheck "I have no device to trade-in" so user must re-decide
+                const noTradeInChk = document.getElementById('no-tradein');
+                if (noTradeInChk) {
+                    noTradeInChk.checked = false;
+                    // Also make sure the trade-in fields are visible again (in case they were hidden)
+                    const fields = document.getElementById('tradein-fields');
+                    if (fields) fields.style.display = '';
+                }
+                tradeInValue = 0;
                 // Buy Now button should only appear after color (SKU) is selected, not just storage
 
                 // Reset downstream state so step 4 is forced to re-appear only after new step 3 completion
