@@ -333,6 +333,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 bankPromotionRules = {};
                 data.forEach(b => { bankPromotionRules[b.key] = b; });
                 console.log('Loaded bankpromo.json with', data.length, 'banks');
+
+                // If the user has already reached Step 4, refresh the bank buttons so the logos appear
+                const bankSection = document.getElementById('bank-section');
+                if (bankSection && !bankSection.classList.contains('hidden')) {
+                    setupBankButtons();
+                }
             } catch (e) {
                 console.warn('Could not load bankpromo.json', e);
                 bankPromotionRules = {};
@@ -678,6 +684,29 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                                 tradeInSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
                             }, 120);
                         }
+
+                        // Show bank section (Step 4) only after bank promo data is ready
+                        const showBankSection = () => {
+                            const bankSec = document.getElementById('bank-section');
+                            if (bankSec) {
+                                bankSec.classList.remove('hidden');
+                                setupBankButtons();
+                            }
+                        };
+
+                        if (Object.keys(bankPromotionRules).length > 0) {
+                            showBankSection();
+                        } else {
+                            // Wait a bit and try again (bankpromo.json still loading)
+                            setTimeout(() => {
+                                if (Object.keys(bankPromotionRules).length > 0) {
+                                    showBankSection();
+                                } else {
+                                    // final fallback – show it anyway (will be empty or only "Other")
+                                    showBankSection();
+                                }
+                            }, 400);
+                        }
                     };
                     // No auto-selection of first color on any device.
                     // All colors must start unselected so the user explicitly chooses.
@@ -902,6 +931,30 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const container = document.getElementById('bank-buttons');
             container.innerHTML = '';
 
+            // Guard: if bankpromo.json hasn't finished loading yet, retry shortly
+            if (!bankPromotionRules || Object.keys(bankPromotionRules).length === 0) {
+                setTimeout(() => {
+                    if (bankPromotionRules && Object.keys(bankPromotionRules).length > 0) {
+                        setupBankButtons();
+                    }
+                }, 300);
+                // Render only "Other" for now so the UI doesn't look broken
+                const otherBtn = document.createElement('button');
+                otherBtn.className = `px-4 py-3 rounded-2xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] border-gray-200`;
+                otherBtn.innerHTML = `
+                    <div class="h-8 w-12 flex items-center justify-center text-2xl text-gray-400">💳</div>
+                    <span class="text-xs text-gray-600">Other</span>
+                `;
+                otherBtn.onclick = () => {
+                    selectedBank = 'none';
+                    setupBankButtons();
+                    updateBankSavingsDisplay();
+                    updateStickyBar();
+                };
+                container.appendChild(otherBtn);
+                return;
+            }
+
             // Build button list from bankpromo.json data (via bankPromotionRules)
             const bankList = [
                 { key: 'none', name: 'Other', logo: null },           // generic credit card
@@ -950,6 +1003,18 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
                 container.appendChild(btn);
             });
+        }
+
+        // Safe wrapper: if bank promo data is not loaded yet, wait and retry
+        function ensureBankButtons() {
+            if (Object.keys(bankPromotionRules || {}).length === 0) {
+                // Try again shortly (bankpromo.json still loading on first visit)
+                setTimeout(() => {
+                    if (Object.keys(bankPromotionRules || {}).length > 0) {
+                        setupBankButtons();
+                    }
+                }, 350);
+            }
         }
 
         function updateBankSavingsDisplay() {
