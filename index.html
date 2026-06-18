@@ -105,11 +105,7 @@
 
         <!-- Step 3: Trade-in Device -->
         <div class="mb-12 hidden" id="tradein-section">
-            <!-- Guard message when SKU not yet resolved (explicit Step 2 split) -->
-            <div id="sku-guard" class="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-2xl text-sm text-amber-700">
-                <strong>Step 2b – Select Color</strong> on your recommended device above to resolve the exact SKU for trade-in GTI/ETI lookup.<br>
-                (Storage selected → now pick Color to unlock trade-in options)
-            </div>
+
             <div class="flex items-center justify-between mb-3">
                 <div class="section-title">3. Trade-in your current device (optional)</div>
             </div>
@@ -416,6 +412,10 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             selectedStorageIndex = null;
             selectedSku = null; // Will be set when storage is chosen
 
+            // Reset color chips visibility when changing device
+            const colorSectionReset = document.getElementById('color-chips-section');
+            if (colorSectionReset) colorSectionReset.classList.add('hidden');
+
             // Reset Step 3 completely if user changes the new device
             document.getElementById('brand').value = '';
             document.getElementById('model').innerHTML = '<option value="">Select model</option>';
@@ -444,14 +444,21 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             document.getElementById('samsungpay').checked = false;
             useSamsungPay = false;
 
-            // Populate storage
+            // Populate storage (mark OOS if ALL colors are out of stock)
             const storageSelect = document.getElementById('storage');
             storageSelect.innerHTML = '<option value="">Select storage</option>';
             selectedDevice.storageOptions.forEach((opt, i) => {
                 const option = document.createElement('option');
                 option.value = i;
-                // Only use InStockStatus (per user instruction)
-                const allOos = opt.colors && opt.colors.length > 0 && opt.colors.every(c => c.InStockStatus === 'N');
+
+                // Compute OOS using same rule as color chips (productBySku + fallback)
+                let allOos = false;
+                if (opt.colors && opt.colors.length > 0) {
+                    allOos = opt.colors.every(color => {
+                        const canonical = productBySku[color.sku] || {};
+                        return (canonical.InStockStatus === 'N' || canonical.inStock === false);
+                    });
+                }
                 option.textContent = opt.storage + (allOos ? ' (Out of Stock)' : '');
                 if (allOos) option.disabled = true;
                 storageSelect.appendChild(option);
@@ -469,7 +476,15 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
         function updateSelectedDeviceStorage() {
             const storageSelect = document.getElementById('storage');
+            const prevStorageIndex = selectedStorageIndex;
             selectedStorageIndex = parseInt(storageSelect.value);
+
+            // If storage is cleared or changed, reset color selection
+            if (isNaN(selectedStorageIndex) || selectedStorageIndex === null || selectedStorageIndex !== prevStorageIndex) {
+                selectedSku = null;
+                const colorSection = document.getElementById('color-chips-section');
+                if (colorSection) colorSection.classList.add('hidden');
+            }
 
             // Handle LSV savings line
             const lsvLine = document.getElementById('lsv-savings-line');
@@ -491,10 +506,18 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
 
                 // Show inline color chips for Step 2b SKU resolution
+                const colorSectionEl = document.getElementById('color-chips-section');
+                const wasHidden = colorSectionEl && colorSectionEl.classList.contains('hidden');
                 showColorChipsForSelectedStorage(storageOpt);
 
-                // Show step 3 (will be gated by color selection via color chips)
-                document.getElementById('tradein-section').classList.remove('hidden');
+                // Auto scroll to color chips if it was hidden or newly shown
+                if (colorSectionEl && wasHidden && !colorSectionEl.classList.contains('hidden')) {
+                    setTimeout(() => {
+                        colorSectionEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 180);
+                }
+
+                // Do NOT show step 3 here – wait until a color (SKU) is actually selected
                 // IMPORTANT: always hide bank section on storage change so user must re-complete step 3
                 document.getElementById('bank-section').classList.add('hidden');
                 // Show Buy Now button again (step 4 will appear after step 3 ends)
@@ -644,6 +667,11 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             container.innerHTML = '';
             if (hint) hint.classList.add('hidden');
 
+            // Auto-scroll to color chips section after rendering chips
+            setTimeout(() => {
+                section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 120);
+
             storageOpt.colors.forEach((color, i) => {
                 const canonical = productBySku[color.sku] || { hexCode: null };
                 const isOos = canonical.InStockStatus === 'N' || canonical.inStock === false;
@@ -660,12 +688,19 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
                 if (!isOos) {
                     chip.onclick = () => {
-                        container.querySelectorAll('div').forEach(c => c.classList.remove('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]'));
+                        container.querySelectorAll('div').forEach(c => c.classList.remove('!border-[#007AFF]', 'ring-1', 'ring-1'));
                         chip.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
                         selectedSku = color.sku;
                         if (hint) { hint.textContent = 'SKU locked: ' + selectedSku; hint.classList.remove('hidden'); }
-                        const guard = document.getElementById('sku-guard');
-                        if (guard) guard.style.display = 'none';
+                        // Reveal Step 3 only after color (SKU) is actually selected
+                        const tradeInSec = document.getElementById('tradein-section');
+                        if (tradeInSec) {
+                            tradeInSec.classList.remove('hidden');
+                            // Auto-scroll to Step 3 when it becomes visible
+                            setTimeout(() => {
+                                tradeInSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }, 120);
+                        }
                     };
                     if (i === 0) {
                         setTimeout(() => {
@@ -674,6 +709,15 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                             if (hint) { hint.textContent = 'SKU locked: ' + selectedSku; hint.classList.remove('hidden'); }
                             const guard = document.getElementById('sku-guard');
                             if (guard) guard.style.display = 'none';
+
+                            // Reveal + auto-scroll to Step 3 for pre-selected first color (when all OOS false)
+                            const tradeInSec0 = document.getElementById('tradein-section');
+                            if (tradeInSec0) {
+                                tradeInSec0.classList.remove('hidden');
+                                setTimeout(() => {
+                                    tradeInSec0.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                }, 120);
+                            }
                         }, 50);
                     }
                 }
