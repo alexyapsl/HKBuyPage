@@ -932,7 +932,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
             const originalPrice = storageOpt.price;
 
-            const bankCalc = calculateBankRebate(originalPrice, selectedBank);
+            const samsungPayDiscountLocal = useSamsungPay ? calculateSamsungPayDiscount(originalPrice) : 0;
+            const bankCalc = calculateBankRebate(originalPrice, selectedBank, samsungPayDiscountLocal);
             if (bankCalc.totalRebate <= 0 && !useSamsungPay) {
                 display.classList.add('hidden');
                 return;
@@ -1009,11 +1010,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const lsvInfo = lsvMap[key] || { rrp: originalPrice, lsvDiscount: 0 };
             const lsvDiscount = lsvInfo.lsvDiscount || 0;
 
+            const samsungPayDiscount = useSamsungPay ? calculateSamsungPayDiscount(originalPrice) : 0;
+            const discountInCartForBank = lsvDiscount + samsungPayDiscount;
             const bankCalc = (selectedBank && selectedBank !== 'none')
-                ? calculateBankRebate(originalPrice, selectedBank)
+                ? calculateBankRebate(originalPrice, selectedBank, discountInCartForBank)
                 : { percentRebate: 0, fixedRebate: 0, totalRebate: 0 };
             const bankRebate = bankCalc.totalRebate || 0;
-            const samsungPayDiscount = useSamsungPay ? calculateSamsungPayDiscount(originalPrice) : 0;
 
             // Final price: apply LSV first, then trade-in + bank promos
             const finalPrice = Math.max(0, originalPrice - lsvDiscount - tradeInValue - bankRebate - samsungPayDiscount);
@@ -1048,6 +1050,13 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             payEl.textContent = payLabel;
             priceEl.innerHTML = `HK$${formatPrice(finalPrice)}`;
+
+            // Re-calculate bank rebate using the correct (originalPrice - discountInCart) base
+            const lsvForBank = lsvDiscount || 0;
+            const samsungForBank = useSamsungPay ? calculateSamsungPayDiscount(originalPrice) : 0;
+            const discountInCartForBank = lsvForBank + samsungForBank;
+            const bankCalcCorrected = calculateBankRebate(originalPrice, selectedBank, discountInCartForBank);
+            bankRebate = bankCalcCorrected.totalRebate;   // override with correct value
 
             // NEW simplified 2-line savings summary
             const totalCartDiscount = lsvDiscount + samsungPayDiscount;   // shown as "Discount in cart"
