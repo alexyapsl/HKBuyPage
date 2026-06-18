@@ -481,6 +481,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 // Do NOT show step 3 here – wait until a color (SKU) is actually selected
                 // IMPORTANT: always hide bank section on storage change so user must re-complete step 3
                 document.getElementById('bank-section').classList.add('hidden');
+                // Also hide trade-in section (Step 3) so user cannot proceed without selecting color again
+                const tradeInSectionEl = document.getElementById('tradein-section');
+                if (tradeInSectionEl) tradeInSectionEl.classList.add('hidden');
                 // Buy Now button should only appear after color (SKU) is selected, not just storage
 
                 // Reset downstream state so step 4 is forced to re-appear only after new step 3 completion
