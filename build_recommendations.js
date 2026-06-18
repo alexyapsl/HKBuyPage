@@ -9,7 +9,7 @@ const headers = lines[0].split(',');
 
 // Map header names to indices
 const headerMap = {};
-headers.forEach((h, i) => headerMap[h.trim()] = i);
+headers.forEach((h, i) => headerMap[h.replace(/"/g,'').trim()] = i);
 
 const products = [];
 
@@ -26,7 +26,7 @@ for (let i = 1; i < lines.length; i++) {
     colorEn: values[headerMap['Color en_HK']] || '',
     colorZh: values[headerMap['color zh_HK']] || '',
     hexCode: values[headerMap['Hex Code']] || '',
-    showInHKBuyPage: values[headerMap['showInHKBuyPage']] === 'TRUE',
+    showInHKBuyPage: (values[headerMap['showInHKBuyPage']] || '').replace(/"/g,'').trim().toUpperCase() === 'TRUE',
     estoreExclusive: values[headerMap['Estore Exclusive']] === 'Y',
     sku: values[headerMap['SKU']] || '',
     rrp: parseInt(values[headerMap['RRP']]) || 0,
