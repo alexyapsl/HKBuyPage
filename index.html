@@ -997,6 +997,23 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             useSamsungPay = document.getElementById('samsungpay').checked;
             updateBankSavingsDisplay();
             updateStickyBar();
+
+            // Auto-scroll to the savings panel when SamsungPay is turned ON
+            // (mirrors the existing behavior when a bank button is clicked)
+            if (useSamsungPay) {
+                setTimeout(() => {
+                    const savingsPanel = document.getElementById('bank-savings-display');
+                    if (savingsPanel && !savingsPanel.classList.contains('hidden')) {
+                        savingsPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        // fallback: scroll to bank section if savings panel is not shown yet
+                        const bankSection = document.getElementById('bank-section');
+                        if (bankSection) {
+                            bankSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    }
+                }, 120);
+            }
         }
 
         // --- Sticky bar logic (smart labels + price + button) ---
