@@ -996,17 +996,17 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             ];
 
             bankList.forEach(bank => {
-                const btn = document.createElement('button');
                 const isSelected = selectedBank === bank.key;
+                const wrapper = document.createElement('div');
+                wrapper.className = 'flex flex-col items-center';
 
+                const btn = document.createElement('button');
                 btn.className = `px-4 py-3 rounded-2xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] transition-all ${isSelected ? '!border-[#007AFF] ring-2 ring-[#007AFF]/30' : 'border-gray-200 hover:border-gray-300'}`;
 
                 if (bank.logo) {
-                    const isBoc = bank.key === 'boc';
                     btn.innerHTML = `
                         <img src="${bank.logo}" alt="${bank.name}" class="h-8 w-auto object-contain">
                         <span class="text-xs text-gray-600">${bank.name}</span>
-                        ${isBoc ? `<span class="text-[9px] text-[#007AFF] font-medium mt-0.5">Recommended</span>` : ''}
                     `;
                 } else {
                     // Generic credit card icon for "Other"
@@ -1031,7 +1031,17 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                     }, 200);
                 };
 
-                container.appendChild(btn);
+                wrapper.appendChild(btn);
+
+                // Recommended badge for BOC - placed OUTSIDE the button box so all bank boxes stay the same size
+                if (bank.key === 'boc') {
+                    const badge = document.createElement('div');
+                    badge.className = 'mt-1.5 text-[9px] bg-[#007AFF] text-white px-2 py-0.5 rounded font-medium';
+                    badge.textContent = 'Recommended';
+                    wrapper.appendChild(badge);
+                }
+
+                container.appendChild(wrapper);
             });
         }
 
