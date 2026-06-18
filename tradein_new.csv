@@ -1,0 +1,28 @@
+Brand,TradeInBaseCode,Model,Storage,Recommendation 1,Recommendation 2,Standad Price,SM-S9480_ETI,SM-F9660_ETI,SM-F7660_ETI,SM-S9480_GTI,SM-F9660_GTI,SM-F7660_GTI
+Samsung,SM-F7410,Galaxy Z Flip6,512GB,Galaxy Z Flip7,,3800,100,150,50,,4000,4000
+Samsung,SM-F7310,Galaxy Z Flip5,512GB,Galaxy Z Flip7,,1800,100,150,50,,2000,2000
+Samsung,SM-F7210,Galaxy Z Flip4,512GB,Galaxy Z Flip7,,1100,100,150,50,,1300,1300
+Samsung,SM-F9560,Galaxy Z Fold6,1TB,Galaxy S26 Ultra,Galaxy Z Fold7,7700,100,150,,7900,7900,
+Samsung,SM-F9460,Galaxy Z Fold5,1TB,Galaxy S26 Ultra,Galaxy Z Fold7,3300,100,150,,3500,3500,
+Samsung,SM-F9360,Galaxy Z Fold4,1TB,Galaxy S26 Ultra,Galaxy Z Fold7,2100,100,150,,2300,2300,
+Samsung,SM-F9560,Galaxy Z Fold6,512GB,Galaxy S26 Ultra,Galaxy Z Fold7,7700,100,150,,7900,7900,
+Samsung,SM-F9460,Galaxy Z Fold5,512GB,Galaxy S26 Ultra,Galaxy Z Fold7,3300,100,150,,3500,3500,
+Samsung,SM-F9360,Galaxy Z Fold4,512GB,Galaxy S26 Ultra,Galaxy Z Fold7,2100,100,150,,2300,2300,
+Samsung,SM-S7110,Galaxy S23 FE,128GB,Galaxy Z Flip7,,900,100,,,,,,
+Samsung,SM-S7110,Galaxy S23 FE,256GB,Galaxy Z Flip7,,1000,100,,,,,,
+Samsung,SM-S9110,Galaxy S23,512GB,Galaxy Z Flip7,,1900,100,,,,,,
+Samsung,SM-S9210,Galaxy S24,512GB,Galaxy Z Flip7,,2800,100,150,50,3000,,,,
+Samsung,SM-S9160,Galaxy S23+,512GB,Galaxy Z Flip7,,2100,100,150,50,2300,,,,
+Samsung,SM-S9260,Galaxy S24+,512GB,Galaxy Z Flip7,,3300,100,150,50,3500,,,,,
+Samsung,SM-S9180,Galaxy S23 Ultra,1TB,Galaxy S26 Ultra,Galaxy Z Fold7,4400,100,,,4600,,,,,
+Samsung,SM-S9280,Galaxy S24 Ultra,1TB,Galaxy S26 Ultra,Galaxy Z Fold7,5900,100,,,6100,,,,,
+Samsung,SM-S9380,Galaxy S25 Ultra,1TB,Galaxy S26 Ultra,Galaxy Z Fold7,6500,100,,,6700,,,,,
+Apple,A1920,iPhone XS,256GB,Galaxy S26 Ultra,Galaxy Z Fold7,1500,100,,,1700,,,,,
+Apple,A1920,iPhone XS,512GB,Galaxy S26 Ultra,Galaxy Z Fold7,2000,100,,,2200,,,,,
+Apple,A1920,iPhone XS,1TB,Galaxy S26 Ultra,Galaxy Z Fold7,3000,100,,,3200,,,,,
+Apple,A3294,iPhone 16 Pro,1TB,Galaxy S26 Ultra,Galaxy Z Fold7,6600,100,,,6800,,,,,
+Apple,A3104,iPhone 15 Pro,1TB,Galaxy S26 Ultra,Galaxy Z Fold7,4400,100,,,4600,,,,,
+Apple,A2892,iPhone 14 Pro,1TB,Galaxy S26 Ultra,Galaxy Z Fold7,3000,100,,,3200,,,,,
+Apple,A2896,iPhone 14 Pro Max,1TB,Galaxy S26 Ultra,Galaxy Z Fold7,3700,100,,,3900,,,,,
+Apple,A3108,iPhone 15 Pro Max,1TB,Galaxy S26 Ultra,Galaxy Z Fold7,5300,100,,,5500,,,,,
+Apple,A3297,iPhone 16 Pro Max,1TB,Galaxy S26 Ultra,Galaxy Z Fold7,7300,100,,,7500,,,,,
