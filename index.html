@@ -936,10 +936,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const totalEl = document.getElementById('bank-savings-total');
             const linesEl = document.getElementById('bank-savings-lines');
 
-            if (!selectedDevice || selectedStorageIndex === null || !selectedBank || selectedBank === 'none') {
+            if (!selectedDevice || selectedStorageIndex === null) {
                 display.classList.add('hidden');
                 return;
             }
+            // Allow SamsungPay-only case even when bank = 'none'
+            const hasBankSelection = selectedBank && selectedBank !== 'none';
 
             const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
             const originalPrice = storageOpt.price;
@@ -951,7 +953,13 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             const samsungPayDiscountLocal = useSamsungPay ? calculateSamsungPayDiscount(originalPrice) : 0;
             const discountInCartLocal = lsvDiscountLocal + samsungPayDiscountLocal;
-            const bankCalc = calculateBankRebate(originalPrice, selectedBank, discountInCartLocal);
+            let bankCalc;
+            if (hasBankSelection) {
+                bankCalc = calculateBankRebate(originalPrice, selectedBank, discountInCartLocal);
+            } else {
+                bankCalc = { percentRebate: 0, fixedRebate: 0, totalRebate: 0 };
+            }
+
             if (bankCalc.totalRebate <= 0 && !useSamsungPay) {
                 display.classList.add('hidden');
                 return;
@@ -960,8 +968,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const samsungPayDiscount = useSamsungPay ? calculateSamsungPayDiscount(originalPrice) : 0;
             const grandTotal = bankCalc.totalRebate + samsungPayDiscount;
 
-            // Total line
-            totalEl.innerHTML = `Bank promotion savings: <span class="font-semibold">HK$${grandTotal.toLocaleString()}</span>`;
+            // Total line - adapt label for SamsungPay-only case
+            const totalLabel = hasBankSelection ? 'Bank promotion savings' : 'SamsungPay savings';
+            totalEl.innerHTML = `${totalLabel}: <span class="font-semibold">HK$${grandTotal.toLocaleString()}</span>`;
 
             // Breakdown lines
             linesEl.innerHTML = '';
