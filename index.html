@@ -855,19 +855,21 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         // Bank promotion rules (exact copy from TradeInPush)
         let bankPromotionRules = {}; // loaded from bankpromo.json
 
-        function calculateBankRebate(originalPrice, bankKey) {
+        function calculateBankRebate(originalPrice, bankKey, discountInCart = 0) {
             const rule = bankPromotionRules[bankKey];
             if (!rule || originalPrice <= 0) return { percentRebate: 0, fixedRebate: 0, totalRebate: 0 };
 
+            const basePrice = Math.max(0, originalPrice - discountInCart);
+
             let percent = 0;
             for (const tier of rule.tiers) {
-                if (originalPrice <= tier.max) {
+                if (basePrice < tier.max) {          // CHANGED: <= → <
                     percent = tier.percent;
                     break;
                 }
             }
 
-            let percentRebate = Math.floor(originalPrice * percent * 100) / 100;
+            let percentRebate = Math.floor(basePrice * percent * 100) / 100;
             if (percentRebate > rule.maximum) percentRebate = rule.maximum;
 
             const fixedRebate = rule.fixedDiscount ? rule.fixedDiscount.value : 0;
