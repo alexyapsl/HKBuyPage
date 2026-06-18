@@ -1051,13 +1051,6 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             payEl.textContent = payLabel;
             priceEl.innerHTML = `HK$${formatPrice(finalPrice)}`;
 
-            // Re-calculate bank rebate using the correct (originalPrice - discountInCart) base
-            const lsvForBank = lsvDiscount || 0;
-            const samsungForBank = useSamsungPay ? calculateSamsungPayDiscount(originalPrice) : 0;
-            const discountInCartForBank = lsvForBank + samsungForBank;
-            const bankCalcCorrected = calculateBankRebate(originalPrice, selectedBank, discountInCartForBank);
-            bankRebate = bankCalcCorrected.totalRebate;   // override with correct value
-
             // NEW simplified 2-line savings summary
             const totalCartDiscount = lsvDiscount + samsungPayDiscount;   // shown as "Discount in cart"
             const totalRebate = bankRebate + tradeInValue;               // shown as "Rebate"
