@@ -901,21 +901,41 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         function setupBankButtons() {
             const container = document.getElementById('bank-buttons');
             container.innerHTML = '';
-            
-            const banks = [
-                { key: 'none', label: 'None' },
-                { key: 'hsbc', label: 'HSBC' },
-                { key: 'boc', label: 'BOC' }
+
+            // Build button list from bankpromo.json data (via bankPromotionRules)
+            const bankList = [
+                { key: 'none', name: 'Other', logo: null },           // generic credit card
+                ...Object.entries(bankPromotionRules)
+                    .filter(([k]) => k !== 'none')
+                    .map(([k, rule]) => ({
+                        key: k,
+                        name: rule.name,
+                        logo: rule.logo
+                    }))
             ];
-            
-            banks.forEach(bank => {
+
+            bankList.forEach(bank => {
                 const btn = document.createElement('button');
-                btn.className = `px-4 py-2 rounded-xl border text-sm ${bank.key === 'none' ? 'border-gray-300' : 'border-gray-200'}`;
-                btn.textContent = bank.label;
+                const isSelected = selectedBank === bank.key;
+
+                btn.className = `px-4 py-3 rounded-2xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] transition-all ${isSelected ? '!border-[#007AFF] ring-2 ring-[#007AFF]/30' : 'border-gray-200 hover:border-gray-300'}`;
+
+                if (bank.logo) {
+                    btn.innerHTML = `
+                        <img src="${bank.logo}" alt="${bank.name}" class="h-8 w-auto object-contain">
+                        <span class="text-xs text-gray-600">${bank.name}</span>
+                    `;
+                } else {
+                    // Generic credit card icon for "Other"
+                    btn.innerHTML = `
+                        <div class="h-8 w-12 flex items-center justify-center text-2xl text-gray-400">💳</div>
+                        <span class="text-xs text-gray-600">${bank.name}</span>
+                    `;
+                }
+
                 btn.onclick = () => {
                     selectedBank = bank.key;
-                    document.querySelectorAll('#bank-buttons button').forEach(b => b.classList.remove('!border-[#007AFF]', 'ring-2'));
-                    btn.classList.add('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30');
+                    setupBankButtons();           // re-render to update selection border
                     updateBankSavingsDisplay();
                     updateStickyBar();
 
@@ -927,6 +947,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                         }
                     }, 200);
                 };
+
                 container.appendChild(btn);
             });
         }
