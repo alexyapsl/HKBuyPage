@@ -629,6 +629,24 @@
       "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
       "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
       "gifts": []
+    },
+    {
+      "model": "Galaxy S25 Ultra",
+      "baseCode": "SM-S9380",
+      "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-sm-s9480zwotgy-550821557?imbypass=true",
+      "storage": "256GB+12GB",
+      "colorEn": "White",
+      "colorZh": "星霜白",
+      "hexCode": "#f4f5f7",
+      "showInHKBuyPage": true,
+      "estoreExclusive": false,
+      "sku": "SM-S9380ZWITGY",
+      "rrp": 10198,
+      "lsvDiscount": 0,
+      "InStockStatus": "N",
+      "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+      "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+      "gifts": []
     }
   ]
 }

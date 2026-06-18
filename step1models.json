@@ -204,5 +204,21 @@
         ]
       }
     ]
+  },
+  {
+    "name": "Galaxy S25 Ultra",
+    "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-sm-s9480zwotgy-550821557?imbypass=true",
+    "storageOptions": [
+      {
+        "storage": "256GB+12GB",
+        "price": 10198,
+        "colors": [
+          {
+            "name": "White",
+            "sku": "SM-S9380ZWITGY"
+          }
+        ]
+      }
+    ]
   }
 ]
