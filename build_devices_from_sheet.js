@@ -1,21 +1,19 @@
 const fs = require('fs');
 const path = require('path');
 
-// Raw CSV content from Google Sheet (fetched)
+// Use the latest CSV (recommendation columns removed)
 const csvContent = fs.readFileSync(path.join(__dirname, 'tradein_new.csv'), 'utf8');
 
 const lines = csvContent.trim().split('\n');
-const headers = lines[0].split(',');
+const headers = parseCSVLine(lines[0], 100);
 
 // Find indices of key columns
 const brandIdx = headers.indexOf('Brand');
 const modelIdx = headers.indexOf('Model');
 const storageIdx = headers.indexOf('Storage');
-const stdPriceIdx = headers.indexOf('Standad Price'); // note the typo in header
-const rec1Idx = headers.indexOf('Recommendation 1');
-const rec2Idx = headers.indexOf('Recommendation 2');
+const stdPriceIdx = headers.indexOf('Standad Price');
 
-// Find all ETI and GTI columns (they end with _ETI or _GTI)
+// Dynamically find all ETI and GTI columns
 const etiCols = headers.filter(h => h.endsWith('_ETI'));
 const gtiCols = headers.filter(h => h.endsWith('_GTI'));
 
@@ -25,13 +23,11 @@ const devices = [];
 
 for (let i = 1; i < lines.length; i++) {
   if (!lines[i].trim()) continue;
-  
-  // Handle quoted fields properly (simple split won't work well with quotes)
-  // For simplicity, we'll use a more robust parsing approach
+
   const values = parseCSVLine(lines[i], headers.length);
-  
-  if (values.length < headers.length) {
-    console.warn('Skipping line ' + i + ': only ' + values.length + ' fields (expected ' + headers.length + ')');
+
+  if (values.length !== headers.length) {
+    console.warn('Skipping line ' + i + ': field count mismatch (' + values.length + ' vs ' + headers.length + ')');
     continue;
   }
 
@@ -45,27 +41,31 @@ for (let i = 1; i < lines.length; i++) {
     brand,
     model,
     storage,
-    recommendation1: values[rec1Idx] || '',
-    recommendation2: values[rec2Idx] || '',
+    recommendation1: values[headers.indexOf('Recommendation 1')] || '',
+    recommendation2: values[headers.indexOf('Recommendation 2')] || '',
     standardPrice,
     eti: {},
     gti: {}
   };
 
-  // Populate ETI values (keep even if empty — app falls back to standardPrice)
+  // ETI — skip N/A and empty
   etiCols.forEach(col => {
     const colIdx = headers.indexOf(col);
     const sku = col.replace('_ETI', '');
-    const val = parseInt(values[colIdx]) || 0;
-    device.eti[sku] = val;   // always write (0 or value)
+    const raw = (values[colIdx] || '').trim().toUpperCase();
+    if (raw === 'N/A' || raw === 'NA' || raw === '') return;
+    const val = parseInt(values[colIdx]);
+    if (!isNaN(val)) device.eti[sku] = val;
   });
 
-  // Populate GTI values (keep even if empty — app falls back to standardPrice)
+  // GTI — skip N/A and empty
   gtiCols.forEach(col => {
     const colIdx = headers.indexOf(col);
     const sku = col.replace('_GTI', '');
-    const val = parseInt(values[colIdx]) || 0;
-    device.gti[sku] = val;   // always write (0 or value)
+    const raw = (values[colIdx] || '').trim().toUpperCase();
+    if (raw === 'N/A' || raw === 'NA' || raw === '') return;
+    const val = parseInt(values[colIdx]);
+    if (!isNaN(val)) device.gti[sku] = val;
   });
 
   devices.push(device);
@@ -79,35 +79,53 @@ fs.writeFileSync(
 
 console.log(`Generated devices.json with ${devices.length} entries`);
 
-// Helper to parse CSV line handling quotes + tolerant padding for missing trailing commas
+// Correct RFC-4180 CSV parser that properly handles quoted fields
 function parseCSVLine(line, expectedLength) {
   const result = [];
-  let current = '';
-  let inQuotes = false;
-  
-  for (let i = 0; i < line.length; i++) {
-    const char = line[i];
-    
-    if (char === '"') {
-      inQuotes = !inQuotes;
-    } else if (char === ',' && !inQuotes) {
-      result.push(current.trim());
-      current = '';
-    } else {
-      current += char;
+  let i = 0;
+  const len = line.length;
+
+  while (i < len) {
+    let field = '';
+    let inQuotes = false;
+
+    if (line[i] === '"') {
+      inQuotes = true;
+      i++;
     }
-  }
-  result.push(current.trim());
 
-  // Pad with empty strings if line is short (handles missing trailing commas)
-  while (result.length < expectedLength) {
-    result.push('');
+    while (i < len) {
+      const ch = line[i];
+
+      if (inQuotes) {
+        if (ch === '"') {
+          if (i + 1 < len && line[i + 1] === '"') {
+            field += '"';
+            i += 2;
+            continue;
+          }
+          inQuotes = false;
+          i++;
+          // consume the closing quote and continue to next field
+          if (i < len && line[i] === ',') i++;
+          break;
+        }
+        field += ch;
+        i++;
+      } else {
+        if (ch === ',') {
+          i++;
+          break;
+        }
+        field += ch;
+        i++;
+      }
+    }
+
+    result.push(field.trim());
   }
 
-  // If somehow longer, trim to expected
-  if (result.length > expectedLength) {
-    return result.slice(0, expectedLength);
-  }
-
+  while (result.length < expectedLength) result.push('');
+  if (result.length > expectedLength) return result.slice(0, expectedLength);
   return result;
 }
