@@ -1,1 +1,3 @@
-﻿# SSH test 2026-06-13 00:09
+﻿# HKBuyPage
+
+Test message — single-SKU source of truth fix merged to main (2026-06-19).
