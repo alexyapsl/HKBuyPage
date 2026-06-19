@@ -1319,7 +1319,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         // --- Buy Now flow (ported exactly from TradeInPriceCheck) ---
         let currentModalProductIdx = null;
         let currentModalCard = null;
-        let selectedColorSku = null;
+        // selectedColorSku removed - using selectedSku as single source of truth
         let selectedGiftSku = null;
         let pendingMagicUrl = null;
 
@@ -1329,10 +1329,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
 
             // NEW: Skip color selection entirely for Buy Now flow (per user request)
-            // Go straight to gift selection. Use first available color SKU as default if needed for backend.
+            // Go straight to gift selection. Respect already-selected SKU if present; otherwise fall back to first.
             currentModalProductIdx = null;
             currentModalCard = null;
-            selectedColorSku = (storageOpt.colors && storageOpt.colors.length > 0) ? storageOpt.colors[0].sku : null;
+            if (!selectedSku && storageOpt.colors && storageOpt.colors.length > 0) {
+                selectedSku = storageOpt.colors[0].sku;
+            }
             selectedGiftSku = null;
 
             // Directly show gift modal, bypassing color modal
@@ -1361,8 +1363,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         }
 
         function confirmColorSelection() {
-            if (!selectedColorSku) return;
-            selectedSku = selectedColorSku; // Capture SKU for trade-in GTI/ETI lookup
+            if (!selectedSku) return;
+            // selectedSku is already set by the color chip onclick
             closeColorModal(true);
             
             // Enable Step 3 now that SKU is resolved
