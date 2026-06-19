@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Raw CSV content from Google Sheet (fetched)
-const csvContent = fs.readFileSync(path.join(__dirname, 'tradein_sku_clean.csv'), 'utf8');
+const csvContent = fs.readFileSync(path.join(__dirname, 'tradein_new.csv'), 'utf8');
 
 const lines = csvContent.trim().split('\n');
 const headers = lines[0].split(',');
@@ -28,9 +28,12 @@ for (let i = 1; i < lines.length; i++) {
   
   // Handle quoted fields properly (simple split won't work well with quotes)
   // For simplicity, we'll use a more robust parsing approach
-  const values = parseCSVLine(lines[i]);
+  const values = parseCSVLine(lines[i], headers.length);
   
-  if (values.length < headers.length) continue;
+  if (values.length < headers.length) {
+    console.warn('Skipping line ' + i + ': only ' + values.length + ' fields (expected ' + headers.length + ')');
+    continue;
+  }
 
   const brand = values[brandIdx];
   const model = values[modelIdx];
@@ -49,24 +52,20 @@ for (let i = 1; i < lines.length; i++) {
     gti: {}
   };
 
-  // Populate ETI values
+  // Populate ETI values (keep even if empty — app falls back to standardPrice)
   etiCols.forEach(col => {
     const colIdx = headers.indexOf(col);
     const sku = col.replace('_ETI', '');
     const val = parseInt(values[colIdx]) || 0;
-    if (val > 0) {
-      device.eti[sku] = val;
-    }
+    device.eti[sku] = val;   // always write (0 or value)
   });
 
-  // Populate GTI values
+  // Populate GTI values (keep even if empty — app falls back to standardPrice)
   gtiCols.forEach(col => {
     const colIdx = headers.indexOf(col);
     const sku = col.replace('_GTI', '');
     const val = parseInt(values[colIdx]) || 0;
-    if (val > 0) {
-      device.gti[sku] = val;
-    }
+    device.gti[sku] = val;   // always write (0 or value)
   });
 
   devices.push(device);
@@ -80,8 +79,8 @@ fs.writeFileSync(
 
 console.log(`Generated devices.json with ${devices.length} entries`);
 
-// Helper to parse CSV line handling quotes
-function parseCSVLine(line) {
+// Helper to parse CSV line handling quotes + tolerant padding for missing trailing commas
+function parseCSVLine(line, expectedLength) {
   const result = [];
   let current = '';
   let inQuotes = false;
@@ -99,6 +98,16 @@ function parseCSVLine(line) {
     }
   }
   result.push(current.trim());
-  
+
+  // Pad with empty strings if line is short (handles missing trailing commas)
+  while (result.length < expectedLength) {
+    result.push('');
+  }
+
+  // If somehow longer, trim to expected
+  if (result.length > expectedLength) {
+    return result.slice(0, expectedLength);
+  }
+
   return result;
 }
