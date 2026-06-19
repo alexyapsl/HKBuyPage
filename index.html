@@ -1356,7 +1356,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             modal.classList.remove('flex');
             modal.classList.add('hidden');
             if (!keepState) {
-                selectedColorSku = null;
+                selectedSku = null;
                 currentModalProductIdx = null;
                 currentModalCard = null;
             }
@@ -1407,7 +1407,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             }
 
             const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
-            const color = storageOpt.colors.find(c => c.sku === selectedColorSku);
+            const color = storageOpt.colors.find(c => c.sku === selectedSku);
             if (!color) { alert('Color not found'); return; }
 
             const optionsContainer = giftModal.querySelector('#gift-options');
@@ -1451,17 +1451,17 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                     closeGiftModal();
 
                     // Build magic link according to Mode + language-based oosLink
-                    const canonical = productBySku[selectedColorSku] || {};
+                    const canonical = productBySku[selectedSku] || {};
                     const oosLink = (language === 'hk') ? canonical.oosLink : canonical.oosLinkEn;
                     const oosParam = oosLink ? `&oosLink=${encodeURIComponent(oosLink)}` : '';
 
                     let magicUrl;
                     if (mode === 'AddCode') {
                         // voucherCode path (no productCode[2])
-                        magicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&store=B2C&voucherCode=${encodeURIComponent(skuOrCode)}&newCart=true${oosParam}`;
+                        magicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedSku}&productQty[1]=1&store=B2C&voucherCode=${encodeURIComponent(skuOrCode)}&newCart=true${oosParam}`;
                     } else {
                         // AddSKU (default)
-                        magicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedColorSku}&productQty[1]=1&productCode[2]=${skuOrCode}&productQty[2]=1&store=B2C&newCart=true${oosParam}`;
+                        magicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedSku}&productQty[1]=1&productCode[2]=${skuOrCode}&productQty[2]=1&store=B2C&newCart=true${oosParam}`;
                     }
 
                     pendingMagicUrl = magicUrl;
