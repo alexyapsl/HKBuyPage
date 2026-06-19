@@ -111,6 +111,17 @@ Recommended deployment:
 - Or any static hosting (Netlify, Vercel, S3, etc.).
 - No backend or environment variables required.
 
+### URL Parameters
+
+- `?inapp=true` — Hides the sticky bottom bar and adjusts spacing for in-app / embedded use cases (e.g., opened from within the Samsung Shop app or an iframe).
+- `?debug=analytics` — Enables verbose console logging of all Adobe Analytics / GA4 tracking events for QA and debugging.
+
+You can combine both parameters:
+
+```
+https://alexyapsl.github.io/HKBuyPage/?inapp=true&debug=analytics
+```
+
 ---
 
 ## Future Improvements (Ideas)

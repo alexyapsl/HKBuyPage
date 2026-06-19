@@ -396,6 +396,16 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         }
 
         function selectNewDevice(idx, cardEl) {
+            // Track device selection
+            const product = recommendedProducts[idx];
+            if (product) {
+                trackEvent(
+                    'product_option-flagship pdp-option selector-option_click3',
+                    `device:${product.name}`,
+                    { model: product.name }
+                );
+            }
+
             // Deselect all
             document.querySelectorAll('#device-selection .device-card').forEach(el => el.classList.remove('selected'));
             cardEl.classList.add('selected');
@@ -477,6 +487,16 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const storageSelect = document.getElementById('storage');
             const prevStorageIndex = selectedStorageIndex;
             selectedStorageIndex = parseInt(storageSelect.value);
+
+            // Track storage selection
+            if (selectedDevice && !isNaN(selectedStorageIndex)) {
+                const opt = selectedDevice.storageOptions[selectedStorageIndex];
+                trackEvent(
+                    'product_option-flagship pdp-option selector-option_click3',
+                    `storage:${opt.storage}`,
+                    { storage: opt.storage, model: selectedDevice.name }
+                );
+            }
 
             // If storage is cleared or changed, reset color selection
             if (isNaN(selectedStorageIndex) || selectedStorageIndex === null || selectedStorageIndex !== prevStorageIndex) {
@@ -706,6 +726,13 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                         selectedSku = color.sku;
                         if (hint) { hint.textContent = 'SKU: ' + selectedSku; hint.classList.remove('sehk-hidden'); }
 
+                        // Track color selection
+                        trackEvent(
+                            'product_option-flagship pdp-option selector-option_click3',
+                            `color:${color.name}`,
+                            { sku: color.sku, color: color.name, model: selectedDevice ? selectedDevice.name : '' }
+                        );
+
                         // Reveal Step 3 (trade-in) after color is selected.
                         const tradeInSec = document.getElementById('tradein-section');
                         if (tradeInSec) {
@@ -875,6 +902,23 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             // Show step 4 only after trade-in storage selected
             document.getElementById('bank-section').classList.remove('sehk-hidden');
             document.getElementById('samsungpay-row').classList.remove('sehk-hidden');
+
+            // Track trade-in selection
+            if (window.currentTradeInCalc) {
+                const calc = window.currentTradeInCalc;
+                trackEvent(
+                    'product_option-flagship pdp-option selector-option_click3',
+                    `tradein:${device ? device.brand + ' ' + device.model : 'unknown'}`,
+                    { tradein_value: tradeInValue, tradein_device: device ? device.model : '', sku: selectedSku }
+                );
+            } else if (tradeInValue === 0) {
+                // Likely the "no trade-in" path
+                trackEvent(
+                    'product_option-flagship pdp-option selector-option_click3',
+                    'tradein:none',
+                    { tradein_value: 0 }
+                );
+            }
 
             // FORCE BOC selection when Step 4 is shown for the first time
             if (bankPromotionRules && bankPromotionRules.boc && (!selectedBank || selectedBank === 'none')) {
@@ -1049,6 +1093,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                     <span class="text-xs text-gray-600">Other</span>
                 `;
                 otherBtn.onclick = () => {
+                    // Track bank selection ("Other")
+                    trackEvent(
+                        'product_option-flagship pdp-option selector-option_click3',
+                        'bank:Other',
+                        { bank: 'Other' }
+                    );
                     selectedBank = 'none';
                     setupBankButtons();
                     updateBankSavingsDisplay();
@@ -1073,6 +1123,19 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             bankList.forEach(bank => {
                 const isSelected = selectedBank === bank.key;
                 const wrapper = document.createElement('div');
+
+                wrapper.onclick = () => {
+                    // Track bank selection
+                    trackEvent(
+                        'product_option-flagship pdp-option selector-option_click3',
+                        `bank:${bank.name}`,
+                        { bank: bank.key }
+                    );
+                    selectedBank = bank.key;
+                    setupBankButtons();
+                    updateBankSavingsDisplay();
+                    updateStickyBar();
+                };
                 // self-start ensures top of buttons align even when BOC has the Recommended badge below
                 wrapper.className = 'flex flex-col items-center self-start';
 
@@ -1197,6 +1260,14 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
         function toggleSamsungPay() {
             useSamsungPay = document.getElementById('samsungpay').checked;
+
+            // Track Samsung Pay toggle
+            trackEvent(
+                'product_option-flagship pdp-option selector-option_click3',
+                useSamsungPay ? 'payment:samsungpay' : 'payment:samsungpay_off',
+                { payment_method: useSamsungPay ? 'samsungpay' : 'none' }
+            );
+
             updateBankSavingsDisplay();
             updateStickyBar();
 
@@ -1631,6 +1702,26 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const hasStorage = (typeof selectedStorageIndex !== 'undefined' && selectedStorageIndex !== null && !isNaN(selectedStorageIndex));
             if (btn) btn.style.display = (sticky.classList.contains('sehk-hidden') || !hasStorage) ? 'none' : '';
         };
+
+        // =====================================================
+        // Adobe Analytics + GA4 Tracking via Data Layer (AEM-ready)
+        // =====================================================
+        window.dataLayer = window.dataLayer || [];
+
+        function trackEvent(action, label, extra = {}) {
+            const payload = {
+                event: 'pd_buying_tool_interaction',
+                an_tr: action,
+                an_ca: 'option click',
+                an_ac: 'pd buying tool',
+                an_la: label,
+                ...extra
+            };
+            window.dataLayer.push(payload);
+
+            // Console debug when ?debug=analytics OR always show in console during development
+            console.log('[Analytics]', payload);
+        }
     </script>
 </body>
 </html>
