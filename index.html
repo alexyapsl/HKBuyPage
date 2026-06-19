@@ -1242,7 +1242,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 payEl.textContent = 'From';
                 const fromPrice = selectedDevice.storageOptions[0].price;
                 priceEl.innerHTML = `HK$${formatPrice(fromPrice)}`;
-                saveEl.style.display = 'none';
+                saveEl.classList.add('sehk-hidden');
                 buyBtn.style.display = 'none';
                 return;
             }
@@ -1318,9 +1318,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                     saveEl.appendChild(r1);
                 }
 
-                saveEl.style.display = 'block';
+                saveEl.classList.remove('sehk-hidden');
             } else {
-                saveEl.style.display = 'none';
+                saveEl.classList.add('sehk-hidden');
             }
 
             buyBtn.style.display = 'inline-block';
