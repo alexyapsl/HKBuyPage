@@ -64,6 +64,10 @@
         .sticky-bar {
             box-shadow: 0 -4px 6px -1px rgb(0 0 0 / 0.1), 0 -2px 4px -2px rgb(0 0 0 / 0.1);
         }
+
+        .sehk-hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -87,24 +91,24 @@
         </div>
 
         <!-- Step 2: Storage -->
-        <div class="mb-12 hidden" id="storage-section">
+        <div class="mb-12 sehk-hidden" id="storage-section">
             <div class="section-title mb-3">2. Choose storage and color</div>
             <select id="storage" onchange="updateSelectedDeviceStorage()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white">
                 <option value="">Select storage</option>
             </select>
             <!-- LSV PreOrder Savings line -->
-            <div id="lsv-savings-line" class="hidden mt-2 text-sm text-emerald-600 font-medium"></div>
+            <div id="lsv-savings-line" class="sehk-hidden mt-2 text-sm text-emerald-600 font-medium"></div>
 
             <!-- Inline Color Chip Selector for Step 2b (SKU resolution) -->
-            <div id="color-chips-section" class="hidden mt-4">
+            <div id="color-chips-section" class="sehk-hidden mt-4">
                 <div class="text-sm font-medium text-gray-700 mb-2">Select color</div>
                 <div id="color-chips" class="flex flex-wrap gap-2"></div>
-                <div id="selected-sku-hint" class="mt-2 text-xs text-emerald-600 hidden"></div>
+                <div id="selected-sku-hint" class="mt-2 text-xs text-emerald-600 sehk-hidden"></div>
             </div>
         </div>
 
         <!-- Step 3: Trade-in Device -->
-        <div class="mb-12 hidden" id="tradein-section">
+        <div class="mb-12 sehk-hidden" id="tradein-section">
 
             <div class="flex items-center justify-between mb-3">
                 <div class="section-title">3. Trade-in your current device (optional)</div>
@@ -137,27 +141,27 @@
                 </div>
 
                 <!-- Trade-in value display -->
-                <div id="tradein-value-display" class="hidden mt-3 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-2xl text-sm text-emerald-700">
+                <div id="tradein-value-display" class="sehk-hidden mt-3 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-2xl text-sm text-emerald-700">
                     Your device trade-in value is <span id="tradein-value-amount" class="font-semibold"></span>
                 </div>
             </div>
         </div>
 
         <!-- Step 4: Bank Promotion -->
-        <div class="mb-8 hidden" id="bank-section">
+        <div class="mb-8 sehk-hidden" id="bank-section">
             <div class="section-title mb-3">4. Bank promotion (optional)</div>
             <div class="flex items-start gap-3" id="bank-buttons">
                 <!-- Populated by JS -->
             </div>
 
             <!-- SamsungPay checkbox -->
-            <div id="samsungpay-row" class="hidden mt-3 flex items-center gap-x-2">
+            <div id="samsungpay-row" class="sehk-hidden mt-3 flex items-center gap-x-2">
                 <input type="checkbox" id="samsungpay" onchange="toggleSamsungPay()" class="w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
                 <label for="samsungpay" class="text-sm text-gray-700 cursor-pointer">Pay with SamsungPay</label>
             </div>
 
             <!-- Bank savings display -->
-            <div id="bank-savings-display" class="hidden mt-3 px-4 py-3 bg-blue-50 border border-blue-200 rounded-2xl text-sm text-blue-700">
+            <div id="bank-savings-display" class="sehk-hidden mt-3 px-4 py-3 bg-blue-50 border border-blue-200 rounded-2xl text-sm text-blue-700">
                 <div id="bank-savings-total" class="font-medium"></div>
                 <div id="bank-savings-lines" class="mt-1 text-xs text-blue-600 space-y-0.5"></div>
             </div>
@@ -165,25 +169,25 @@
     </div>
 
     <!-- Sticky Bottom Bar (price left, Buy Now right on same row) -->
-    <div id="sticky-bar" class="hidden fixed bottom-0 left-0 right-0 bg-white border-t z-[60] shadow-lg">
+    <div id="sticky-bar" class="sehk-hidden fixed bottom-0 left-0 right-0 bg-white border-t z-[60] shadow-lg">
         <div class="max-w-4xl mx-auto px-6 py-3.5">
             <div class="flex items-center justify-between gap-x-4">
                 <!-- Left: price information -->
                 <div class="min-w-0 flex-1">
                     <div id="sticky-device-name" class="font-semibold text-sm sm:text-lg leading-tight truncate"></div>
                     <!-- Original RRP line (shown only when savings exist) -->
-                    <div id="sticky-rrp-line" class="hidden mt-0.5 font-semibold text-sm text-gray-500 leading-tight truncate"></div>
+                    <div id="sticky-rrp-line" class="sehk-hidden mt-0.5 font-semibold text-sm text-gray-500 leading-tight truncate"></div>
                     <div id="sticky-pay-label" class="text-xs text-gray-500"></div>
                     <div>
                         <div id="sticky-final-price" class="text-2xl font-semibold tabular-nums"></div>
-                        <div id="sticky-savings" class="text-emerald-600 text-sm hidden mt-0.5"></div>
+                        <div id="sticky-savings" class="text-emerald-600 text-sm sehk-hidden mt-0.5"></div>
                     </div>
                 </div>
 
                 <!-- Right: Buy Now button - fixed width, always same row -->
                 <div class="flex-shrink-0">
                     <button id="buy-now-btn"
-                            class="px-6 py-3 bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors hidden whitespace-nowrap shadow-sm"
+                            class="px-6 py-3 bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors sehk-hidden whitespace-nowrap shadow-sm"
                             onclick="showBuyNowModal()">
                         Buy now
                     </button>
@@ -193,7 +197,7 @@
     </div>
 
     <!-- Color Picker Modal -->
-    <div id="color-modal" class="hidden fixed inset-0 bg-black/50 z-[70] flex items-end sm:items-center justify-center">
+    <div id="color-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[70] flex items-end sm:items-center justify-center">
         <div class="bg-white w-full sm:w-[420px] sm:rounded-3xl rounded-t-3xl p-6 shadow-xl">
             <div class="flex items-center justify-between mb-5">
                 <div class="font-semibold text-xl">Choose color</div>
@@ -213,7 +217,7 @@
     </div>
 
     <!-- Gift Selection Modal (images + 3 gift choices, no Skip) -->
-    <div id="gift-modal" class="hidden fixed inset-0 bg-black/50 z-[120] flex items-end lg:items-center justify-center">
+    <div id="gift-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[120] flex items-end lg:items-center justify-center">
         <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-3xl p-6">
             <div class="flex items-center justify-between mb-4">
                 <div class="font-semibold text-xl">Choose your gift</div>
@@ -224,7 +228,7 @@
     </div>
 
     <!-- Samsung Shop App Modal (NEW - between Gift and Important reminder) -->
-    <div id="samsung-shop-modal" class="hidden fixed inset-0 bg-black/50 z-[110] flex items-end lg:items-center justify-center">
+    <div id="samsung-shop-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[110] flex items-end lg:items-center justify-center">
         <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-3xl p-6">
             <div class="flex items-center justify-between mb-4">
                 <div class="font-semibold text-xl text-gray-900">Checkout with Samsung Shop App</div>
@@ -248,7 +252,7 @@
     </div>
 
     <!-- Trade-in Warning Modal -->
-    <div id="tradein-warning-modal" class="hidden fixed inset-0 bg-black/50 z-[80] flex items-end sm:items-center justify-center">
+    <div id="tradein-warning-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[80] flex items-end sm:items-center justify-center">
         <div class="bg-white w-full sm:w-[420px] sm:rounded-3xl rounded-t-3xl p-6 shadow-xl">
             <div class="flex items-center justify-between mb-4">
                 <div class="font-semibold text-xl text-gray-900">Important reminder</div>
@@ -364,7 +368,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
                 // If the user has already reached Step 4, refresh the bank buttons so the logos appear
                 const bankSection = document.getElementById('bank-section');
-                if (bankSection && !bankSection.classList.contains('hidden')) {
+                if (bankSection && !bankSection.classList.contains('sehk-hidden')) {
                     setupBankButtons();
                 }
             } catch (e) {
@@ -402,11 +406,11 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             // Clear LSV savings line and any sticky bar savings when device changes
             const lsvLine = document.getElementById('lsv-savings-line');
-            if (lsvLine) { lsvLine.classList.add('hidden'); lsvLine.innerHTML = ''; }
+            if (lsvLine) { lsvLine.classList.add('sehk-hidden'); lsvLine.innerHTML = ''; }
 
             // Hide color chips when changing device
             const colorSectionReset = document.getElementById('color-chips-section');
-            if (colorSectionReset) colorSectionReset.classList.add('hidden');
+            if (colorSectionReset) colorSectionReset.classList.add('sehk-hidden');
 
             // Ensure sticky bar is refreshed so LSV savings, prices, etc. are cleared
             updateStickyBar();
@@ -417,7 +421,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             document.getElementById('model').disabled = true;
             document.getElementById('tradein-storage').innerHTML = '<option value="">Select storage</option>';
             document.getElementById('tradein-storage').disabled = true;
-            document.getElementById('tradein-value-display').classList.add('hidden');
+            document.getElementById('tradein-value-display').classList.add('sehk-hidden');
             tradeInValue = 0;
             window.currentTradeInCalc = null;
             // IMPORTANT: do NOT reset selectedBank here — bank choice must survive device change
@@ -431,10 +435,10 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             // Step 2 only
             const storageSec = document.getElementById('storage-section');
-            storageSec.classList.remove('hidden');
-            document.getElementById('tradein-section').classList.add('hidden');
-            document.getElementById('bank-section').classList.add('hidden');
-            document.getElementById('samsungpay-row').classList.add('hidden');
+            storageSec.classList.remove('sehk-hidden');
+            document.getElementById('tradein-section').classList.add('sehk-hidden');
+            document.getElementById('bank-section').classList.add('sehk-hidden');
+            document.getElementById('samsungpay-row').classList.add('sehk-hidden');
             // Keep bank visual selection intact but clear SamsungPay
             document.getElementById('samsungpay').checked = false;
             useSamsungPay = false;
@@ -463,7 +467,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             // Auto scroll to storage — make sure the section is visible first
             storageSec.style.display = '';
-            storageSec.classList.remove('hidden');
+            storageSec.classList.remove('sehk-hidden');
             setTimeout(() => {
                 storageSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 120);
@@ -478,7 +482,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (isNaN(selectedStorageIndex) || selectedStorageIndex === null || selectedStorageIndex !== prevStorageIndex) {
                 selectedSku = null;
                 const colorSection = document.getElementById('color-chips-section');
-                if (colorSection) colorSection.classList.add('hidden');
+                if (colorSection) colorSection.classList.add('sehk-hidden');
             }
 
             // Handle LSV savings line
@@ -489,12 +493,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 const lsvInfo = lsvMap[key];
                 if (lsvInfo && lsvInfo.lsvDiscount > 0) {
                     lsvLine.innerHTML = `PreOrder only Storage Upgrade Savings: HK$${lsvInfo.lsvDiscount.toLocaleString()}`;
-                    lsvLine.classList.remove('hidden');
+                    lsvLine.classList.remove('sehk-hidden');
                 } else {
-                    lsvLine.classList.add('hidden');
+                    lsvLine.classList.add('sehk-hidden');
                 }
             } else {
-                lsvLine.classList.add('hidden');
+                lsvLine.classList.add('sehk-hidden');
             }
 
             if (selectedStorageIndex !== null && !isNaN(selectedStorageIndex)) {
@@ -502,11 +506,11 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
                 // Show inline color chips for Step 2b SKU resolution
                 const colorSectionEl = document.getElementById('color-chips-section');
-                const wasHidden = colorSectionEl && colorSectionEl.classList.contains('hidden');
+                const wasHidden = colorSectionEl && colorSectionEl.classList.contains('sehk-hidden');
                 showColorChipsForSelectedStorage(storageOpt);
 
                 // Auto scroll to color chips if it was hidden or newly shown
-                if (colorSectionEl && wasHidden && !colorSectionEl.classList.contains('hidden')) {
+                if (colorSectionEl && wasHidden && !colorSectionEl.classList.contains('sehk-hidden')) {
                     setTimeout(() => {
                         colorSectionEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }, 180);
@@ -514,10 +518,10 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
                 // Do NOT show step 3 here – wait until a color (SKU) is actually selected
                 // IMPORTANT: always hide bank section on storage change so user must re-complete step 3
-                document.getElementById('bank-section').classList.add('hidden');
+                document.getElementById('bank-section').classList.add('sehk-hidden');
                 // Also hide trade-in section (Step 3) so user cannot proceed without selecting color again
                 const tradeInSectionEl = document.getElementById('tradein-section');
-                if (tradeInSectionEl) tradeInSectionEl.classList.add('hidden');
+                if (tradeInSectionEl) tradeInSectionEl.classList.add('sehk-hidden');
                 // IMPORTANT: always uncheck "I have no device to trade-in" so user must re-decide
                 const noTradeInChk = document.getElementById('no-tradein');
                 if (noTradeInChk) {
@@ -534,7 +538,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 selectedBank = 'none';
                 useSamsungPay = false;
                 document.getElementById('samsungpay').checked = false;
-                document.getElementById('bank-savings-display').classList.add('hidden');
+                document.getElementById('bank-savings-display').classList.add('sehk-hidden');
 
                 // Clear any previously highlighted bank buttons
                 document.querySelectorAll('#bank-buttons button').forEach(b => b.classList.remove('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30'));
@@ -545,7 +549,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 document.getElementById('model').disabled = true;
                 document.getElementById('tradein-storage').innerHTML = '<option value="">Select storage</option>';
                 document.getElementById('tradein-storage').disabled = true;
-                document.getElementById('tradein-value-display').classList.add('hidden');
+                document.getElementById('tradein-value-display').classList.add('sehk-hidden');
 
                 // Auto scroll to trade-in
                 setTimeout(() => {
@@ -553,9 +557,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 }, 150);
             } else {
                 // Storage unselected
-                document.getElementById('tradein-section').classList.add('hidden');
-                document.getElementById('buy-now-btn').classList.add('hidden');
-                document.getElementById('bank-section').classList.add('hidden');
+                document.getElementById('tradein-section').classList.add('sehk-hidden');
+                document.getElementById('buy-now-btn').classList.add('sehk-hidden');
+                document.getElementById('bank-section').classList.add('sehk-hidden');
                 tradeInValue = 0;
                 selectedBank = 'none';
                 useSamsungPay = false;
@@ -589,11 +593,11 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 modelSelect.disabled = true;
                 storageSelect.innerHTML = '<option value="">Select storage</option>';
                 storageSelect.disabled = true;
-                valueDisplay.classList.add('hidden');
+                valueDisplay.classList.add('sehk-hidden');
                 const colorSection2 = document.getElementById('color-chips-section');
-                if (colorSection2) colorSection2.classList.add('hidden');
+                if (colorSection2) colorSection2.classList.add('sehk-hidden');
                 tradeInValue = 0;
-                document.getElementById('bank-section').classList.add('hidden');
+                document.getElementById('bank-section').classList.add('sehk-hidden');
                 updateStickyBar();
                 return;
             }
@@ -611,9 +615,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             // Reset downstream
             storageSelect.innerHTML = '<option value="">Select storage</option>';
             storageSelect.disabled = true;
-            valueDisplay.classList.add('hidden');
+            valueDisplay.classList.add('sehk-hidden');
             tradeInValue = 0;
-            document.getElementById('bank-section').classList.add('hidden');
+            document.getElementById('bank-section').classList.add('sehk-hidden');
             updateStickyBar();
         }
 
@@ -627,12 +631,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 // Model cleared
                 storageSelect.innerHTML = '<option value="">Select storage</option>';
                 storageSelect.disabled = true;
-                valueDisplay.classList.add('hidden');
+                valueDisplay.classList.add('sehk-hidden');
                 // Hide color chips when storage unselected
                 const colorSection = document.getElementById('color-chips-section');
-                if (colorSection) colorSection.classList.add('hidden');
+                if (colorSection) colorSection.classList.add('sehk-hidden');
                 tradeInValue = 0;
-                document.getElementById('bank-section').classList.add('hidden');
+                document.getElementById('bank-section').classList.add('sehk-hidden');
                 updateStickyBar();
                 return;
             }
@@ -647,9 +651,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 storageSelect.appendChild(opt);
             });
 
-            valueDisplay.classList.add('hidden');
+            valueDisplay.classList.add('sehk-hidden');
             tradeInValue = 0;
-            document.getElementById('bank-section').classList.add('hidden');
+            document.getElementById('bank-section').classList.add('sehk-hidden');
             updateStickyBar();
         }
 
@@ -669,9 +673,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 return;
             }
 
-            section.classList.remove('hidden');
+            section.classList.remove('sehk-hidden');
             container.innerHTML = '';
-            if (hint) hint.classList.add('hidden');
+            if (hint) hint.classList.add('sehk-hidden');
 
             // Ensure color is never pre-selected when chips are shown
             selectedSku = null;
@@ -700,12 +704,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                         container.querySelectorAll('div').forEach(c => c.classList.remove('!border-[#007AFF]', 'ring-1', 'ring-1'));
                         chip.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
                         selectedSku = color.sku;
-                        if (hint) { hint.textContent = 'SKU: ' + selectedSku; hint.classList.remove('hidden'); }
+                        if (hint) { hint.textContent = 'SKU: ' + selectedSku; hint.classList.remove('sehk-hidden'); }
 
                         // Reveal Step 3 (trade-in) after color is selected.
                         const tradeInSec = document.getElementById('tradein-section');
                         if (tradeInSec) {
-                            tradeInSec.classList.remove('hidden');
+                            tradeInSec.classList.remove('sehk-hidden');
                             setTimeout(() => {
                                 tradeInSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
                             }, 120);
@@ -713,13 +717,13 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
                         // Always hide bank section until user re-completes Step 3
                         const bankSec = document.getElementById('bank-section');
-                        if (bankSec) bankSec.classList.add('hidden');
+                        if (bankSec) bankSec.classList.add('sehk-hidden');
 
                         window.currentTradeInCalc = null;
                         tradeInValue = 0;
 
                         const buyBtn = document.getElementById('buy-now-btn');
-                        if (buyBtn) buyBtn.classList.remove('hidden');
+                        if (buyBtn) buyBtn.classList.remove('sehk-hidden');
 
                         // Preserve "No trade-in" checkbox state when changing color
                         const noTradeInChk = document.getElementById('no-tradein');
@@ -745,12 +749,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                                 const samsungRow = document.getElementById('samsungpay-row');
 
                                 if (fields) fields.style.display = 'none';
-                                if (valueDisplay) valueDisplay.classList.add('hidden');
+                                if (valueDisplay) valueDisplay.classList.add('sehk-hidden');
                                 tradeInValue = 0;
 
                                 const bankSecEl = document.getElementById('bank-section');
-                                if (bankSecEl) bankSecEl.classList.remove('hidden');
-                                if (samsungRow) samsungRow.classList.remove('hidden');
+                                if (bankSecEl) bankSecEl.classList.remove('sehk-hidden');
+                                if (samsungRow) samsungRow.classList.remove('sehk-hidden');
 
                                 // Auto-select BOC
                                 if (bankPromotionRules && bankPromotionRules.boc) {
@@ -770,7 +774,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                         const showBankSection = () => {
                             const bankSecEl = document.getElementById('bank-section');
                             if (bankSecEl) {
-                                bankSecEl.classList.remove('hidden');
+                                bankSecEl.classList.remove('sehk-hidden');
                                 setupBankButtons();
 
                                 // ALWAYS auto-select BOC when Step 4 first appears (even on first visit)
@@ -803,8 +807,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             if (!brand || !model || !storage) {
                 tradeInValue = 0;
-                valueDisplay.classList.add('hidden');
-                document.getElementById('bank-section').classList.add('hidden');
+                valueDisplay.classList.add('sehk-hidden');
+                document.getElementById('bank-section').classList.add('sehk-hidden');
                 updateStickyBar();
                 return;
             }
@@ -819,7 +823,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             // Guard: require SKU to be resolved before allowing trade-in calc
             if (!selectedSku) {
                 tradeInValue = 0;
-                if (valueDisplay) valueDisplay.classList.add('hidden');
+                if (valueDisplay) valueDisplay.classList.add('sehk-hidden');
                 return;
             }
 
@@ -860,17 +864,17 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             // Show trade-in value message
             if (tradeInValue > 0) {
                 if (valueAmount) valueAmount.textContent = `HK$${tradeInValue.toLocaleString()}`;
-                if (valueDisplay) valueDisplay.classList.remove('hidden');
+                if (valueDisplay) valueDisplay.classList.remove('sehk-hidden');
             } else {
-                if (valueDisplay) valueDisplay.classList.add('hidden');
+                if (valueDisplay) valueDisplay.classList.add('sehk-hidden');
             }
 
             // Render new trade-in savings breakdown (total first, then breakdown)
             renderTradeInSavingsBreakdown();
 
             // Show step 4 only after trade-in storage selected
-            document.getElementById('bank-section').classList.remove('hidden');
-            document.getElementById('samsungpay-row').classList.remove('hidden');
+            document.getElementById('bank-section').classList.remove('sehk-hidden');
+            document.getElementById('samsungpay-row').classList.remove('sehk-hidden');
 
             // FORCE BOC selection when Step 4 is shown for the first time
             if (bankPromotionRules && bankPromotionRules.boc && (!selectedBank || selectedBank === 'none')) {
@@ -906,7 +910,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         function renderTradeInSavingsBreakdown() {
             const container = document.getElementById('tradein-value-display');
             if (!container || !window.currentTradeInCalc || tradeInValue <= 0) {
-                if (container) container.classList.add('hidden');
+                if (container) container.classList.add('sehk-hidden');
                 return;
             }
 
@@ -943,11 +947,11 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             if (checked) {
                 fields.style.display = 'none';
-                valueDisplay.classList.add('hidden');
+                valueDisplay.classList.add('sehk-hidden');
                 tradeInValue = 0;
                 // Show step 4 immediately when "no trade-in" is selected
-                document.getElementById('bank-section').classList.remove('hidden');
-                samsungRow.classList.remove('hidden');
+                document.getElementById('bank-section').classList.remove('sehk-hidden');
+                samsungRow.classList.remove('sehk-hidden');
 
                 // FORCE BOC selection when Step 4 is shown via "no trade-in" checkbox
                 if (bankPromotionRules && bankPromotionRules.boc) {
@@ -974,13 +978,13 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 const storage = document.getElementById('tradein-storage').value;
 
                 if (brand && model && storage && tradeInValue > 0) {
-                    valueDisplay.classList.remove('hidden');
-                    document.getElementById('bank-section').classList.remove('hidden');
-                    samsungRow.classList.remove('hidden');
+                    valueDisplay.classList.remove('sehk-hidden');
+                    document.getElementById('bank-section').classList.remove('sehk-hidden');
+                    samsungRow.classList.remove('sehk-hidden');
                 } else {
-                    valueDisplay.classList.add('hidden');
-                    document.getElementById('bank-section').classList.add('hidden');
-                    samsungRow.classList.add('hidden');
+                    valueDisplay.classList.add('sehk-hidden');
+                    document.getElementById('bank-section').classList.add('sehk-hidden');
+                    samsungRow.classList.add('sehk-hidden');
                 }
 
                 // Reset SamsungPay when coming back from "no trade-in"
@@ -1097,7 +1101,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                     // Auto scroll to SamsungPay when bank selected
                     setTimeout(() => {
                         const samsungRow = document.getElementById('samsungpay-row');
-                        if (samsungRow && !samsungRow.classList.contains('hidden')) {
+                        if (samsungRow && !samsungRow.classList.contains('sehk-hidden')) {
                             samsungRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         }
                     }, 200);
@@ -1135,7 +1139,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const linesEl = document.getElementById('bank-savings-lines');
 
             if (!selectedDevice || selectedStorageIndex === null) {
-                display.classList.add('hidden');
+                display.classList.add('sehk-hidden');
                 return;
             }
             // Allow SamsungPay-only case even when bank = 'none'
@@ -1159,7 +1163,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             }
 
             if (bankCalc.totalRebate <= 0 && !useSamsungPay) {
-                display.classList.add('hidden');
+                display.classList.add('sehk-hidden');
                 return;
             }
 
@@ -1188,7 +1192,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 linesEl.appendChild(samsungLine);
             }
 
-            display.classList.remove('hidden');
+            display.classList.remove('sehk-hidden');
         }
 
         function toggleSamsungPay() {
@@ -1201,7 +1205,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (useSamsungPay) {
                 setTimeout(() => {
                     const savingsPanel = document.getElementById('bank-savings-display');
-                    if (savingsPanel && !savingsPanel.classList.contains('hidden')) {
+                    if (savingsPanel && !savingsPanel.classList.contains('sehk-hidden')) {
                         savingsPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     } else {
                         // fallback: scroll to bank section if savings panel is not shown yet
@@ -1224,11 +1228,11 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const buyBtn = document.getElementById('buy-now-btn');
 
             if (!selectedDevice) {
-                sticky.style.display = 'none';
+                sticky.classList.add('sehk-hidden');
                 return;
             }
 
-            sticky.style.display = 'block';
+            sticky.classList.remove('sehk-hidden');
 
             const hasStorage = selectedStorageIndex !== null && !isNaN(selectedStorageIndex);
 
@@ -1270,9 +1274,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (rrpLine) {
                 if (totalSavings > 0) {
                     rrpLine.textContent = `Original: HK$${formatPrice(originalPrice)}`;
-                    rrpLine.classList.remove('hidden');
+                    rrpLine.classList.remove('sehk-hidden');
                 } else {
-                    rrpLine.classList.add('hidden');
+                    rrpLine.classList.add('sehk-hidden');
                 }
             }
 
@@ -1337,7 +1341,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const main = document.querySelector('.max-w-4xl.mx-auto');
             if (!sticky || !main) return;
 
-            if (sticky.style.display === 'none' || sticky.offsetHeight === 0 || !selectedDevice) {
+            if (sticky.classList.contains('sehk-hidden') || sticky.offsetHeight === 0 || !selectedDevice) {
                 main.style.paddingBottom = '28px';
                 return;
             }
@@ -1370,7 +1374,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         // Reset bank savings display on device/storage change
         const origSelectNewDevice = window.selectNewDevice;
         window.selectNewDevice = function(...args) {
-            document.getElementById('bank-savings-display')?.classList.add('hidden');
+            document.getElementById('bank-savings-display')?.classList.add('sehk-hidden');
             // Do NOT reset selectedBank — we want to preserve and recalc the bank choice
             document.getElementById('samsungpay').checked = false;
             useSamsungPay = false;
@@ -1415,7 +1419,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         function closeColorModal(keepState = false) {
             const modal = document.getElementById('color-modal');
             modal.classList.remove('flex');
-            modal.classList.add('hidden');
+            modal.classList.add('sehk-hidden');
             if (!keepState) {
                 selectedSku = null;
                 currentModalProductIdx = null;
@@ -1433,7 +1437,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const tradeinSection = document.getElementById('tradein-section');
             if (guard) guard.style.display = 'none';
             if (tradeinSection) {
-                tradeinSection.classList.remove('hidden');
+                tradeinSection.classList.remove('sehk-hidden');
                 // Optionally show resolved SKU hint
                 const hint = document.createElement('div');
                 hint.className = 'text-xs text-emerald-600 mb-2';
@@ -1454,7 +1458,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (!giftModal) {
                 giftModal = document.createElement('div');
                 giftModal.id = 'gift-modal';
-                giftModal.className = 'hidden fixed inset-0 bg-black/50 z-[120] flex items-end lg:items-center justify-center';
+                giftModal.className = 'sehk-hidden fixed inset-0 bg-black/50 z-[120] flex items-end lg:items-center justify-center';
                 giftModal.innerHTML = `
                     <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-3xl p-6">
                         <div class="flex items-center justify-between mb-4">
@@ -1531,7 +1535,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 optionsContainer.appendChild(btn);
             });
 
-            giftModal.classList.remove('hidden');
+            giftModal.classList.remove('sehk-hidden');
             giftModal.classList.add('flex');
         }
 
@@ -1539,17 +1543,17 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const giftModal = document.getElementById('gift-modal');
             if (giftModal) {
                 giftModal.classList.remove('flex');
-                giftModal.classList.add('hidden');
+                giftModal.classList.add('sehk-hidden');
             }
         }
 
         // Trade-in warning modal + redirect (same magic link)
         function showTradeInWarningModal() {
-            document.getElementById('tradein-warning-modal').classList.remove('hidden');
+            document.getElementById('tradein-warning-modal').classList.remove('sehk-hidden');
         }
 
         function closeTradeInWarningModal() {
-            document.getElementById('tradein-warning-modal').classList.add('hidden');
+            document.getElementById('tradein-warning-modal').classList.add('sehk-hidden');
         }
 
         function confirmTradeInAndRedirect() {
@@ -1575,7 +1579,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             const modal = document.getElementById('samsung-shop-modal');
             if (modal) {
-                modal.classList.remove('hidden');
+                modal.classList.remove('sehk-hidden');
                 modal.classList.add('flex');
             } else {
                 // fallback if modal not found for some reason
@@ -1587,7 +1591,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const modal = document.getElementById('samsung-shop-modal');
             if (modal) {
                 modal.classList.remove('flex');
-                modal.classList.add('hidden');
+                modal.classList.add('sehk-hidden');
             }
         }
 
@@ -1611,7 +1615,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             if (modal) {
                 modal.classList.remove('flex');
-                modal.classList.add('hidden');
+                modal.classList.add('sehk-hidden');
             }
             // Continue to Important reminder as original flow
             showTradeInWarningModal();
@@ -1625,7 +1629,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const sticky = document.getElementById('sticky-bar');
             // Use the actual local variable (not window.*)
             const hasStorage = (typeof selectedStorageIndex !== 'undefined' && selectedStorageIndex !== null && !isNaN(selectedStorageIndex));
-            if (btn) btn.style.display = (sticky.style.display === 'none' || !hasStorage) ? 'none' : '';
+            if (btn) btn.style.display = (sticky.classList.contains('sehk-hidden') || !hasStorage) ? 'none' : '';
         };
     </script>
 </body>
