@@ -124,6 +124,4 @@ Recommended deployment:
 
 ## Contact / Ownership
 
-Maintained by the Samsung HK eCommerce team.
-
 For questions about the data, contact the person managing the Google Sheet.
