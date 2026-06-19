@@ -701,48 +701,91 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                         chip.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
                         selectedSku = color.sku;
                         if (hint) { hint.textContent = 'SKU: ' + selectedSku; hint.classList.remove('hidden'); }
-                        // Reveal Step 3 + Buy Now only after color (SKU) is actually selected
-                        const buyBtn = document.getElementById('buy-now-btn');
-                        if (buyBtn) buyBtn.classList.remove('hidden');
+
+                        // Reveal Step 3 (trade-in) after color is selected.
                         const tradeInSec = document.getElementById('tradein-section');
                         if (tradeInSec) {
                             tradeInSec.classList.remove('hidden');
-                            // Auto-scroll to Step 3 when it becomes visible
                             setTimeout(() => {
                                 tradeInSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
                             }, 120);
                         }
 
-                        // Show bank section (Step 4) only after bank promo data is ready
-                        const showBankSection = () => {
-                            const bankSec = document.getElementById('bank-section');
-                            if (bankSec) {
-                                bankSec.classList.remove('hidden');
-                                setupBankButtons();
+                        // Always hide bank section until user re-completes Step 3
+                        const bankSec = document.getElementById('bank-section');
+                        if (bankSec) bankSec.classList.add('hidden');
 
-                                // Auto-select BOC on first load of Step 4 and immediately show its savings
+                        window.currentTradeInCalc = null;
+                        tradeInValue = 0;
+
+                        const buyBtn = document.getElementById('buy-now-btn');
+                        if (buyBtn) buyBtn.classList.remove('hidden');
+
+                        // Preserve "No trade-in" checkbox state when changing color
+                        const noTradeInChk = document.getElementById('no-tradein');
+                        const wasNoTradeIn = noTradeInChk && noTradeInChk.checked;
+
+                        // BEST CASE: If user already has a trade-in selected, recalculate with new SKU
+                        const brand = document.getElementById('brand')?.value;
+                        const model = document.getElementById('model')?.value;
+                        const storage = document.getElementById('tradein-storage')?.value;
+                        if (brand && model && storage && !wasNoTradeIn) {
+                            setTimeout(() => {
+                                updateTradeInPriceNewFlow();
+                            }, 50);
+                        }
+
+                        // If "No trade-in" was checked before color change, restore it and directly show Step 4
+                        if (wasNoTradeIn && noTradeInChk) {
+                            noTradeInChk.checked = true;
+                            // Trigger the same logic as toggleNoTradeInNewFlow()
+                            setTimeout(() => {
+                                const fields = document.getElementById('tradein-fields');
+                                const valueDisplay = document.getElementById('tradein-value-display');
+                                const samsungRow = document.getElementById('samsungpay-row');
+
+                                if (fields) fields.style.display = 'none';
+                                if (valueDisplay) valueDisplay.classList.add('hidden');
+                                tradeInValue = 0;
+
+                                const bankSecEl = document.getElementById('bank-section');
+                                if (bankSecEl) bankSecEl.classList.remove('hidden');
+                                if (samsungRow) samsungRow.classList.remove('hidden');
+
+                                // Auto-select BOC
                                 if (bankPromotionRules && bankPromotionRules.boc) {
                                     selectedBank = 'boc';
-                                    setupBankButtons(); // re-render so BOC shows selected
+                                    setupBankButtons();
+                                    updateBankSavingsDisplay();
+                                    updateStickyBar();
+                                }
+
+                                setTimeout(() => {
+                                    if (bankSecEl) bankSecEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                }, 150);
+                            }, 60);
+                        }
+
+                        // Show bank section (Step 4) only after bank promo data is ready
+                        const showBankSection = () => {
+                            const bankSecEl = document.getElementById('bank-section');
+                            if (bankSecEl) {
+                                bankSecEl.classList.remove('hidden');
+                                setupBankButtons();
+
+                                // ALWAYS auto-select BOC when Step 4 first appears (even on first visit)
+                                if (bankPromotionRules && bankPromotionRules.boc) {
+                                    selectedBank = 'boc';
+                                    setupBankButtons();
                                     updateBankSavingsDisplay();
                                     updateStickyBar();
                                 }
                             }
                         };
 
-                        if (Object.keys(bankPromotionRules).length > 0) {
-                            showBankSection();
-                        } else {
-                            // Wait a bit and try again (bankpromo.json still loading)
-                            setTimeout(() => {
-                                if (Object.keys(bankPromotionRules).length > 0) {
-                                    showBankSection();
-                                } else {
-                                    // final fallback – show it anyway (will be empty or only "Other")
-                                    showBankSection();
-                                }
-                            }, 400);
-                        }
+                        // Do NOT auto-show Step 4 here.
+                        // Bank section (Step 4) should only appear after user completes Step 3
+                        // (selects a trade-in device or checks "I have no device to trade-in").
                     };
                     // No auto-selection of first color on any device.
                     // All colors must start unselected so the user explicitly chooses.
@@ -829,6 +872,16 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             document.getElementById('bank-section').classList.remove('hidden');
             document.getElementById('samsungpay-row').classList.remove('hidden');
 
+            // FORCE BOC selection when Step 4 is shown for the first time
+            if (bankPromotionRules && bankPromotionRules.boc && (!selectedBank || selectedBank === 'none')) {
+                selectedBank = 'boc';
+                setTimeout(() => {
+                    setupBankButtons();
+                    updateBankSavingsDisplay();
+                    updateStickyBar();
+                }, 80);
+            }
+
             // Auto scroll to bank / SamsungPay
             setTimeout(() => {
                 document.getElementById('bank-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -895,6 +948,14 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 // Show step 4 immediately when "no trade-in" is selected
                 document.getElementById('bank-section').classList.remove('hidden');
                 samsungRow.classList.remove('hidden');
+
+                // FORCE BOC selection when Step 4 is shown via "no trade-in" checkbox
+                if (bankPromotionRules && bankPromotionRules.boc) {
+                    selectedBank = 'boc';
+                    setupBankButtons();
+                    updateBankSavingsDisplay();
+                    updateStickyBar();
+                }
 
                 // Auto scroll to bank / SamsungPay
                 setTimeout(() => {
