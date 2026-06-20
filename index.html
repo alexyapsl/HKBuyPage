@@ -1121,17 +1121,24 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 return;
             }
 
-            // Build button list from bankpromo.json data (via bankPromotionRules)
-            const bankList = [
-                { key: 'none', name: 'Other', logo: null },           // generic credit card
-                ...Object.entries(bankPromotionRules)
-                    .filter(([k]) => k !== 'none')
-                    .map(([k, rule]) => ({
-                        key: k,
-                        name: rule.name,
-                        logo: rule.logo
-                    }))
-            ];
+            // === BANK BUTTON ORDER (edit this array to control sequence) ===
+            // Put 'none' (Other) wherever you want it in the list.
+            // Keys must match the keys in bankpromo.json (e.g. 'boc', 'hsbc').
+            const bankOrder = ['boc', 'hsbc', 'none'];
+
+            // Build ordered bank button list
+            const bankList = bankOrder.map(key => {
+                if (key === 'none') {
+                    return { key: 'none', name: 'Other', logo: null };
+                }
+                const rule = bankPromotionRules[key];
+                if (!rule) return null; // skip if not present in bankpromo.json
+                return {
+                    key,
+                    name: rule.name,
+                    logo: rule.logo
+                };
+            }).filter(Boolean); // remove any missing entries
 
             bankList.forEach(bank => {
                 const isSelected = selectedBank === bank.key;
