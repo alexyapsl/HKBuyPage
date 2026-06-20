@@ -117,7 +117,8 @@
             <!-- No Trade-In Checkbox -->
             <div class="mb-4 flex items-center gap-x-2">
                 <input type="checkbox" id="no-tradein" onchange="toggleNoTradeInNewFlow()" class="w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
-                <label for="no-tradein" class="text-sm text-gray-700 cursor-pointer">I have no device to trade-in</label>
+                <label for="no-tradein" class="text-sm text-gray-700 cursor-pointer">My trade in device is not listed here OR I do not have a device to trade in</label>
+                <div id="no-tradein-helper" class="sehk-hidden mt-1.5 ml-6 text-xs text-gray-500">If you cannot find your trade in device here, you may still be able to find them on our cart page full trade in device list.</div>
             </div>
 
             <div class="space-y-4" id="tradein-fields">
@@ -988,10 +989,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const fields = document.getElementById('tradein-fields');
             const valueDisplay = document.getElementById('tradein-value-display');
             const samsungRow = document.getElementById('samsungpay-row');
+            const helper = document.getElementById('no-tradein-helper');
 
             if (checked) {
                 fields.style.display = 'none';
                 valueDisplay.classList.add('sehk-hidden');
+                if (helper) helper.classList.remove('sehk-hidden');
                 tradeInValue = 0;
                 // Show step 4 immediately when "no trade-in" is selected
                 document.getElementById('bank-section').classList.remove('sehk-hidden');
@@ -1012,6 +1015,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             } else {
                 // User un-checked "no trade-in" → restore previous selection and recalculate
                 fields.style.display = '';
+                if (helper) helper.classList.add('sehk-hidden');
 
                 // Re-evaluate the three dropdowns to restore trade-in value
                 updateTradeInPriceNewFlow();
