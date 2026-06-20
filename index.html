@@ -440,8 +440,11 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             tradeInValue = 0;
             window.currentTradeInCalc = null;
             // IMPORTANT: do NOT reset selectedBank here — bank choice must survive device change
-            document.getElementById('no-tradein').checked = false;
+            const noTradeInReset = document.getElementById('no-tradein');
+            if (noTradeInReset) noTradeInReset.checked = false;
             document.getElementById('tradein-fields').style.display = '';
+            const helperReset = document.getElementById('no-tradein-helper');
+            if (helperReset) helperReset.classList.add('sehk-hidden');
             document.getElementById('brand').value = '';
             document.getElementById('model').innerHTML = '<option value="">Select model</option>';
             document.getElementById('model').disabled = true;
@@ -555,6 +558,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                     const fields = document.getElementById('tradein-fields');
                     if (fields) fields.style.display = '';
                 }
+                const helperEl = document.getElementById('no-tradein-helper');
+                if (helperEl) helperEl.classList.add('sehk-hidden');
                 tradeInValue = 0;
                 // Buy Now button should only appear after color (SKU) is selected, not just storage
 
