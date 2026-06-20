@@ -115,10 +115,14 @@
             </div>
 
             <!-- No Trade-In Checkbox -->
-            <div class="mb-4 flex items-center gap-x-2">
-                <input type="checkbox" id="no-tradein" onchange="toggleNoTradeInNewFlow()" class="w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
-                <label for="no-tradein" class="text-sm text-gray-700 cursor-pointer">My trade in device is not listed here OR I do not have a device to trade in</label>
-                <div id="no-tradein-helper" class="sehk-hidden mt-1.5 ml-6 text-xs text-gray-500">If you cannot find your trade in device here, you may still be able to find them on our cart page full trade in device list.</div>
+            <div class="mb-2">
+                <div class="flex items-center gap-x-2">
+                    <input type="checkbox" id="no-tradein" onchange="toggleNoTradeInNewFlow()" class="w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
+                    <label for="no-tradein" class="text-sm text-gray-700 cursor-pointer">My trade in device is not listed here OR I do not have a device to trade in</label>
+                </div>
+                <div id="no-tradein-helper" class="sehk-hidden mt-2 ml-6 text-xs text-gray-600 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+                    If you cannot find your trade in device here, you may still be able to find them on our cart page full trade in device list.
+                </div>
             </div>
 
             <div class="space-y-4" id="tradein-fields">
