@@ -37,8 +37,8 @@ async function buildGifts() {
                         GiftCode: giftCode,
                         Mode: getValue(values, rawHeaders, slot.modeIdx),
                         SKU_PromoCode: getValue(values, rawHeaders, slot.promoIdx),
-                        'SKU Name': getValue(values, rawHeaders, slot.nameEnIdx),
-                        'SKU Name ZH': getValue(values, rawHeaders, slot.nameZhIdx),
+                        'GiftNameEN': getValue(values, rawHeaders, slot.nameEnIdx),
+                        'GiftNameZH': getValue(values, rawHeaders, slot.nameZhIdx),
                         'SKU Image': getValue(values, rawHeaders, slot.imageIdx),
                         Price: getValue(values, rawHeaders, slot.priceIdx),
                         'Parent Model': getValue(values, rawHeaders, slot.parentIdx),
@@ -59,8 +59,8 @@ async function buildGifts() {
                     GiftCode: v[headerMap['GiftCode']] || '',
                     Mode: v[headerMap['Mode']] || '',
                     SKU_PromoCode: v[headerMap['SKU_PromoCode']] || '',
-                    'SKU Name': v[headerMap['SKU Name']] || v[headerMap['SKU_Name_EN']] || '',
-                    'SKU Name ZH': v[headerMap['SKU Name ZH']] || v[headerMap['SKU_Name_ZH']] || '',
+                    'GiftNameEN': v[headerMap['Gift Name EN']] || v[headerMap['Gift_Name_EN']] || '',
+                    'GiftNameZH': v[headerMap['Gift Name ZH']] || v[headerMap['Gift_Name_ZH']] || '',
                     'SKU Image': v[headerMap['SKU Image']] || '',
                     Price: v[headerMap['Price']] || '',
                     'Parent Model': v[headerMap['Parent Model']] || '',
@@ -101,8 +101,8 @@ function extractGiftSlots(headers) {
         // For each gift code we find the corresponding column indices for other fields
         const modeHeader = headers.find(h => h.startsWith('Mode'));
         const promoHeader = headers.find(h => h.startsWith('SKU_PromoCode'));
-        const nameEnHeader = headers.find(h => h.includes('SKU_Name_EN') || h.includes('SKU Name'));
-        const nameZhHeader = headers.find(h => h.includes('SKU_Name_ZH'));
+        const nameEnHeader = headers.find(h => h.includes('Gift_Name_EN') || h.includes('Gift Name EN'));
+        const nameZhHeader = headers.find(h => h.includes('Gift_Name_ZH') || h.includes('Gift Name ZH'));
         const imageHeader = headers.find(h => h.includes('SKU Image'));
         const priceHeader = headers.find(h => h.startsWith('Price'));
         const parentHeader = headers.find(h => h.includes('Parent Model'));
