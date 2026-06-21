@@ -1,7 +1,10 @@
 [
   {
     "key": "boc",
-    "name": "BOC",
+    "name": {
+      "en": "BOC",
+      "zh": "中國銀行"
+    },
     "logo": "https://companieslogo.com/img/orig/2388.HK_BIG-9ff8bfa3.png?t=1720244490",
     "tiers": [
       {
@@ -23,7 +26,10 @@
     ],
     "maximum": 2000,
     "fixedDiscount": {
-      "name": "BOC Visa Card Weekend Offer",
+      "name": {
+        "en": "BOC Visa Card Weekend Offer",
+        "zh": "中銀 Visa 週末優惠"
+      },
       "value": 200
     },
     "priority": 1,
@@ -31,7 +37,10 @@
   },
   {
     "key": "hsbc",
-    "name": "HSBC",
+    "name": {
+      "en": "HSBC",
+      "zh": "匯豐"
+    },
     "logo": "https://create.hsbc/content/dam/brandhub/brand/ld-history/hexagon_1192x671.jpg",
     "tiers": [
       {

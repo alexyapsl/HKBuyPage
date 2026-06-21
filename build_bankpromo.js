@@ -25,8 +25,11 @@ async function buildBankPromo() {
             if (values.length < headers.length) continue;
 
             const bank = {
-                key: (values[headerMap['Bank Name']] || '').toLowerCase().replace(/\s+/g, ''),
-                name: values[headerMap['Bank Name']] || '',
+                key: (values[headerMap['Bank Name EN']] || values[headerMap['Bank Name']] || '').toLowerCase().replace(/\s+/g, ''),
+                name: {
+                    en: values[headerMap['Bank Name EN']] || values[headerMap['Bank Name']] || '',
+                    zh: values[headerMap['Bank Name ZH']] || ''
+                },
                 logo: values[headerMap['Logo']] || '',
                 tiers: [],
                 maximum: parseInt(values[headerMap['Maximum']]) || 0,
@@ -53,11 +56,18 @@ async function buildBankPromo() {
                 }
             });
 
-            // Fixed discount (if present)
-            const fixedName = values[headerMap['FixedDiscount1']] || '';
+            // Fixed discount (if present) - bilingual
+            const fixedNameEn = values[headerMap['FixedDiscount1 EN']] || values[headerMap['FixedDiscount1']] || '';
+            const fixedNameZh = values[headerMap['FixedDiscount1 ZH']] || '';
             const fixedValue = parseInt(values[headerMap['Fixed Discount1 Value']]) || 0;
-            if (fixedName && fixedValue > 0) {
-                bank.fixedDiscount = { name: fixedName, value: fixedValue };
+            if ((fixedNameEn || fixedNameZh) && fixedValue > 0) {
+                bank.fixedDiscount = {
+                    name: {
+                        en: fixedNameEn,
+                        zh: fixedNameZh || fixedNameEn
+                    },
+                    value: fixedValue
+                };
             }
 
             if (bank.key) banks.push(bank);
