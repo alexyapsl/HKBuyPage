@@ -1209,24 +1209,24 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 return;
             }
 
-            // === BANK BUTTON ORDER (edit this array to control sequence) ===
-            // Put 'none' (Other) wherever you want it in the list.
-            // Keys must match the keys in bankpromo.json (e.g. 'boc', 'hsbc').
-            const bankOrder = ['boc', 'hsbc', 'none'];
+            // === DYNAMIC BANK BUTTON ORDER ===
+            // Read banks from bankpromo.json (sorted by Recommended column, ascending)
+            // 'Other' is always appended last.
+            const bankList = Object.keys(bankPromotionRules)
+                .map(key => {
+                    const rule = bankPromotionRules[key];
+                    return {
+                        key,
+                        name: rule.name,
+                        logo: rule.logo,
+                        recommended: rule.recommended ?? 999
+                    };
+                })
+                .sort((a, b) => a.recommended - b.recommended)   // lower number = higher priority (leftmost)
+                .map(({ key, name, logo }) => ({ key, name, logo }));
 
-            // Build ordered bank button list
-            const bankList = bankOrder.map(key => {
-                if (key === 'none') {
-                    return { key: 'none', name: 'Other', logo: null };
-                }
-                const rule = bankPromotionRules[key];
-                if (!rule) return null; // skip if not present in bankpromo.json
-                return {
-                    key,
-                    name: rule.name,
-                    logo: rule.logo
-                };
-            }).filter(Boolean); // remove any missing entries
+            // Always append 'Other' as the last option
+            bankList.push({ key: 'none', name: 'Other', logo: null });
 
             bankList.forEach(bank => {
                 const isSelected = selectedBank === bank.key;
