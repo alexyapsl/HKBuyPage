@@ -811,7 +811,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 const chip = document.createElement('div');
                 chip.className = `flex items-center gap-x-2 px-3 py-1.5 border rounded-2xl text-sm transition-all ${isOos ? 'opacity-40 bg-gray-50' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'}`;
                 chip.innerHTML = `
-                    <div class="w-5 h-5 rounded-full border border-gray-300 flex-shrink-0" style="background: ${canonical.hexCode || getColorHex(color.name)};"></div>
+                    <div class="w-5 h-5 rounded-full border border-gray-300 flex-shrink-0" style="background: ${canonical.hexCode || '#9ca3af'};"></div>
                     <span class="font-medium text-gray-800">${color.name}</span>
                     ${isOos ? '<span class="text-[10px] text-red-500 ml-1">Out of Stock</span>' : ''}
                     ${isEstoreOnly ? '<span class="text-[10px] text-blue-600 ml-1">Samsung.com Only</span>' : ''}
@@ -1586,16 +1586,6 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             // Directly show gift modal, bypassing color modal
             showGiftModal();
-        }
-
-        function getColorHex(colorName) {
-            const map = {
-                'Titanium Black': '#1f2937', 'Titanium Grey': '#6b7280', 'Titanium Silver': '#d1d5db',
-                'Titanium Blue': '#3b82f6', 'Navy': '#1e3a8a', 'Silver Shadow': '#9ca3af',
-                'Mint': '#86efac', 'Graphite': '#374151', 'Blue': '#2563eb', 'Silver': '#e5e7eb',
-                'Black': '#1f2937', 'Sky Blue': '#0ea5e9', 'Cobalt Violet': '#696881', 'Pink Gold': '#f472b6'
-            };
-            return map[colorName] || '#9ca3af';
         }
 
         function closeColorModal(keepState = false) {
