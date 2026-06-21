@@ -93,9 +93,9 @@
         <!-- Step 2: Storage -->
         <div class="mb-12 sehk-hidden" id="storage-section">
             <div class="section-title mb-3">2. Choose storage and color</div>
-            <select id="storage" onchange="updateSelectedDeviceStorage()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white">
-                <option value="">Select storage</option>
-            </select>
+            <!-- Storage Chip Selector (replaces native <select>) -->
+            <div class="text-sm font-medium text-gray-700 mb-2">Select storage</div>
+            <div id="storage-chips" class="flex flex-wrap gap-2 mb-2"></div>
             <!-- LSV PreOrder Savings line -->
             <div id="lsv-savings-line" class="sehk-hidden mt-2 text-sm text-emerald-600 font-medium"></div>
 
@@ -461,25 +461,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             document.getElementById('samsungpay').checked = false;
             useSamsungPay = false;
 
-            // Populate storage (mark OOS if ALL colors are out of stock)
-            const storageSelect = document.getElementById('storage');
-            storageSelect.innerHTML = '<option value="">Select storage</option>';
-            selectedDevice.storageOptions.forEach((opt, i) => {
-                const option = document.createElement('option');
-                option.value = i;
-
-                // Compute OOS using same rule as color chips (productBySku + fallback)
-                let allOos = false;
-                if (opt.colors && opt.colors.length > 0) {
-                    allOos = opt.colors.every(color => {
-                        const canonical = productBySku[color.sku] || {};
-                        return (canonical.InStockStatus === 'N' || canonical.inStock === false);
-                    });
-                }
-                option.textContent = opt.storage + (allOos ? ' (Out of Stock)' : '');
-                if (allOos) option.disabled = true;
-                storageSelect.appendChild(option);
-            });
+            // Render storage chips (replaces native <select>)
+            renderStorageChips();
 
             updateStickyBar();
 
@@ -491,6 +474,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             }, 120);
         }
 
+        // updateSelectedDeviceStorage() is now replaced by renderStorageChips()
+        // Kept as a no-op stub for any legacy references.
         function updateSelectedDeviceStorage() {
             const storageSelect = document.getElementById('storage');
             const prevStorageIndex = selectedStorageIndex;
@@ -512,6 +497,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 const colorSection = document.getElementById('color-chips-section');
                 if (colorSection) colorSection.classList.add('sehk-hidden');
             }
+
+            // Re-render storage chips to update active state
+            renderStorageChips();
 
             // Handle LSV savings line
             const lsvLine = document.getElementById('lsv-savings-line');
@@ -536,6 +524,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 const colorSectionEl = document.getElementById('color-chips-section');
                 const wasHidden = colorSectionEl && colorSectionEl.classList.contains('sehk-hidden');
                 showColorChipsForSelectedStorage(storageOpt);
+
+                // Re-render storage chips to reflect new active selection
+                renderStorageChips();
 
                 // Auto scroll to color chips if it was hidden or newly shown
                 if (colorSectionEl && wasHidden && !colorSectionEl.classList.contains('sehk-hidden')) {
@@ -685,6 +676,103 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             tradeInValue = 0;
             document.getElementById('bank-section').classList.add('sehk-hidden');
             updateStickyBar();
+        }
+
+        // --- Storage chips renderer (button style matching color chips) ---
+        function renderStorageChips() {
+            const container = document.getElementById('storage-chips');
+            if (!container || !selectedDevice || !selectedDevice.storageOptions) return;
+
+            container.innerHTML = '';
+
+            selectedDevice.storageOptions.forEach((opt, idx) => {
+                // Determine if ALL colors for this storage are OOS
+                let allOos = false;
+                if (opt.colors && opt.colors.length > 0) {
+                    allOos = opt.colors.every(color => {
+                        const canonical = productBySku[color.sku] || {};
+                        return (canonical.InStockStatus === 'N' || canonical.inStock === false);
+                    });
+                }
+
+                // Check for LSV discount on this storage
+                const key = `${selectedDevice.name}|${opt.storage}`;
+                const lsvInfo = lsvMap[key];
+                const hasLsv = lsvInfo && lsvInfo.lsvDiscount > 0;
+
+                const chip = document.createElement('div');
+                chip.className = `px-4 py-2 border rounded-2xl text-sm flex items-center gap-2 transition-all ${allOos ? 'opacity-40 bg-gray-50 cursor-not-allowed' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'} ${selectedStorageIndex === idx ? '!border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-300'}`;
+
+                let inner = `<span class="font-medium text-gray-800">${opt.storage}</span>`;
+                if (hasLsv) {
+                    inner += `<span class="text-[10px] text-emerald-600 ml-1">Upgrade discounts available</span>`;
+                }
+                if (allOos) {
+                    inner += `<span class="text-[10px] text-red-500 ml-1">Out of Stock</span>`;
+                }
+                chip.innerHTML = inner;
+
+                if (!allOos) {
+                    chip.onclick = () => {
+                        // Track storage selection (same event name as before)
+                        trackEvent(
+                            'product_option-flagship pdp-option selector-option_click3',
+                            `storage:${opt.storage}`,
+                            { storage: opt.storage, model: selectedDevice.name }
+                        );
+
+                        selectedStorageIndex = idx;
+                        selectedSku = null;
+
+                        // Hide color chips until new storage is chosen
+                        const colorSection = document.getElementById('color-chips-section');
+                        if (colorSection) colorSection.classList.add('sehk-hidden');
+
+                        // Re-render chips (to show active state)
+                        renderStorageChips();
+
+                        // Show LSV savings line if applicable
+                        const lsvLine = document.getElementById('lsv-savings-line');
+                        if (lsvInfo && lsvInfo.lsvDiscount > 0) {
+                            lsvLine.innerHTML = `PreOrder only Storage Upgrade Savings: HK$${lsvInfo.lsvDiscount.toLocaleString()}`;
+                            lsvLine.classList.remove('sehk-hidden');
+                        } else {
+                            lsvLine.classList.add('sehk-hidden');
+                        }
+
+                        // Show color chips for the newly selected storage
+                        const colorSectionEl = document.getElementById('color-chips-section');
+                        const wasHidden = colorSectionEl && colorSectionEl.classList.contains('sehk-hidden');
+                        showColorChipsForSelectedStorage(opt);
+
+                        if (colorSectionEl && wasHidden && !colorSectionEl.classList.contains('sehk-hidden')) {
+                            setTimeout(() => {
+                                colorSectionEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }, 180);
+                        }
+
+                        // Hide downstream sections until color is chosen
+                        document.getElementById('tradein-section').classList.add('sehk-hidden');
+                        document.getElementById('bank-section').classList.add('sehk-hidden');
+                        document.getElementById('buy-now-btn').classList.add('sehk-hidden');
+
+                        // Reset trade-in state
+                        tradeInValue = 0;
+                        selectedBank = 'none';
+                        useSamsungPay = false;
+                        const noTradeInChk = document.getElementById('no-tradein');
+                        if (noTradeInChk) noTradeInChk.checked = false;
+                        const fields = document.getElementById('tradein-fields');
+                        if (fields) fields.style.display = '';
+                        const helperEl = document.getElementById('no-tradein-helper');
+                        if (helperEl) helperEl.classList.add('sehk-hidden');
+
+                        updateStickyBar();
+                    };
+                }
+
+                container.appendChild(chip);
+            });
         }
 
         function showColorChipsForSelectedStorage(storageOpt) {
