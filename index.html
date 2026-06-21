@@ -1097,9 +1097,10 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 document.getElementById('bank-section').classList.remove('sehk-hidden');
                 samsungRow.classList.remove('sehk-hidden');
 
-                // FORCE BOC selection when Step 4 is shown via "no trade-in" checkbox
-                if (bankPromotionRules && bankPromotionRules.boc) {
-                    selectedBank = 'boc';
+                // Auto-select the bank that has isRecommended: true (from Priority/Recommendation columns)
+                const recommendedBankKey = Object.keys(bankPromotionRules).find(k => bankPromotionRules[k].isRecommended);
+                if (recommendedBankKey) {
+                    selectedBank = recommendedBankKey;
                     setupBankButtons();
                     updateBankSavingsDisplay();
                     updateStickyBar();
@@ -1210,8 +1211,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             }
 
             // === DYNAMIC BANK BUTTON ORDER ===
-            // Read banks from bankpromo.json (sorted by Recommended column, ascending)
+            // Read banks from bankpromo.json (sorted by Priority column, ascending)
             // 'Other' is always appended last.
+            // The bank with isRecommended=true gets auto-selected and shows a blue badge.
             const bankList = Object.keys(bankPromotionRules)
                 .map(key => {
                     const rule = bankPromotionRules[key];
@@ -1219,14 +1221,15 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                         key,
                         name: rule.name,
                         logo: rule.logo,
-                        recommended: rule.recommended ?? 999
+                        priority: rule.priority ?? 999,
+                        isRecommended: !!rule.isRecommended
                     };
                 })
-                .sort((a, b) => a.recommended - b.recommended)   // lower number = higher priority (leftmost)
-                .map(({ key, name, logo }) => ({ key, name, logo }));
+                .sort((a, b) => a.priority - b.priority)   // lower number = higher priority (leftmost)
+                .map(({ key, name, logo, isRecommended }) => ({ key, name, logo, isRecommended }));
 
             // Always append 'Other' as the last option
-            bankList.push({ key: 'none', name: 'Other', logo: null });
+            bankList.push({ key: 'none', name: 'Other', logo: null, isRecommended: false });
 
             bankList.forEach(bank => {
                 const isSelected = selectedBank === bank.key;
@@ -1280,8 +1283,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
                 wrapper.appendChild(btn);
 
-                // Recommended badge for BOC - placed OUTSIDE the button box so all bank boxes stay the same size
-                if (bank.key === 'boc') {
+                // Recommended badge - placed OUTSIDE the button box so all bank boxes stay the same size
+                if (bank.isRecommended) {
                     const badge = document.createElement('div');
                     badge.className = 'mt-1.5 text-[9px] bg-[#007AFF] text-white px-2 py-0.5 rounded font-medium';
                     badge.textContent = 'Recommended';

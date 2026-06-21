@@ -1,25 +1,12 @@
 [
   {
-    "key": "hsbc",
-    "name": "HSBC",
-    "logo": "https://create.hsbc/content/dam/brandhub/brand/ld-history/hexagon_1192x671.jpg",
-    "tiers": [
-      {
-        "max": 100000,
-        "percent": 0.04
-      }
-    ],
-    "maximum": 400,
-    "fixedDiscount": null
-  },
-  {
     "key": "boc",
     "name": "BOC",
     "logo": "https://companieslogo.com/img/orig/2388.HK_BIG-9ff8bfa3.png?t=1720244490",
     "tiers": [
       {
         "max": 3000,
-        "percent": 0.01
+        "percent": 0
       },
       {
         "max": 10000,
@@ -38,6 +25,38 @@
     "fixedDiscount": {
       "name": "BOC Visa Card Weekend Offer",
       "value": 200
-    }
+    },
+    "priority": 1,
+    "isRecommended": true
+  },
+  {
+    "key": "hsbc",
+    "name": "HSBC",
+    "logo": "https://create.hsbc/content/dam/brandhub/brand/ld-history/hexagon_1192x671.jpg",
+    "tiers": [
+      {
+        "max": 100000,
+        "percent": 0.04
+      }
+    ],
+    "maximum": 400,
+    "fixedDiscount": null,
+    "priority": 3,
+    "isRecommended": false
+  },
+  {
+    "key": "standardchartered",
+    "name": "Standard Chartered",
+    "logo": "https://www.sc.com/en/tachyon/sites/66/content/images/sc-lock-up-english-grey-rgb.png?resize=944%2C532",
+    "tiers": [
+      {
+        "max": 100000,
+        "percent": 0.04
+      }
+    ],
+    "maximum": 500,
+    "fixedDiscount": null,
+    "priority": 2,
+    "isRecommended": false
   }
 ]

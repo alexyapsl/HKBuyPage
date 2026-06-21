@@ -31,7 +31,8 @@ async function buildBankPromo() {
                 tiers: [],
                 maximum: parseInt(values[headerMap['Maximum']]) || 0,
                 fixedDiscount: null,
-                recommended: parseInt(values[headerMap['Recommended']]) || 999
+                priority: parseInt(values[headerMap['Priority']]) || 999,
+                isRecommended: (values[headerMap['Recommendation']] || '').toUpperCase() === 'Y'
             };
 
             // Parse tiers
