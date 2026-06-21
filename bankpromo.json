@@ -26,8 +26,8 @@
       "name": "BOC Visa Card Weekend Offer",
       "value": 200
     },
-    "priority": 2,
-    "isRecommended": false
+    "priority": 1,
+    "isRecommended": true
   },
   {
     "key": "hsbc",
@@ -41,22 +41,7 @@
     ],
     "maximum": 400,
     "fixedDiscount": null,
-    "priority": 1,
-    "isRecommended": true
-  },
-  {
-    "key": "standardchartered",
-    "name": "Standard Chartered",
-    "logo": "https://www.sc.com/en/tachyon/sites/66/content/images/sc-lock-up-english-grey-rgb.png?resize=944%2C532",
-    "tiers": [
-      {
-        "max": 100000,
-        "percent": 0.04
-      }
-    ],
-    "maximum": 500,
-    "fixedDiscount": null,
-    "priority": 3,
+    "priority": 2,
     "isRecommended": false
   }
 ]
