@@ -878,14 +878,14 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 const chip = document.createElement('div');
                 chip.className = `flex items-center gap-x-2 px-3 py-1.5 border rounded-2xl text-sm transition-all ${isOos ? 'opacity-40 bg-gray-50' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'}`;
 
-                // Resolve bilingual color name (prefer object, then fallback to Chinese fields on canonical/product)
+                // Resolve bilingual color name (prefer object, then fallback to data fields)
                 let colorNameDisplay = color.name;
                 if (typeof color.name === 'object') {
                     colorNameDisplay = color.name[lang] || color.name.en;
-                } else if (canonical.ColorNameZH || canonical.ColorNameEN) {
+                } else if (canonical.colorZh || canonical.colorEn) {
                     colorNameDisplay = (lang === 'zh')
-                        ? (canonical.ColorNameZH || canonical.ColorNameEN)
-                        : (canonical.ColorNameEN || canonical.ColorNameZH);
+                        ? (canonical.colorZh || canonical.colorEn)
+                        : (canonical.colorEn || canonical.colorZh);
                 }
 
                 const oosLabel = isOos ? `<span class="text-[10px] text-red-500 ml-1">${t('outOfStock')}</span>` : '';
