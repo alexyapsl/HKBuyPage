@@ -297,6 +297,71 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         const urlParams = new URLSearchParams(window.location.search);
         const isInApp = urlParams.get('inapp') === 'true';
 
+        // === Language & i18n helpers ===
+        function getCurrentLang() {
+            // Allow manual override via query param for testing
+            const param = new URLSearchParams(window.location.search).get('lang');
+            if (param === 'zh') return 'zh';
+            if (param === 'en') return 'en';
+
+            const path = window.location.pathname.toLowerCase();
+            if (path.includes('/hk/')) return 'zh';
+            return 'en'; // default + /hk_en/
+        }
+
+        const lang = getCurrentLang();
+
+        // Bilingual UI text (extend this object for all visible strings)
+        const uiText = {
+            // Step titles
+            step1Title: { en: '1. Select your new device', zh: '1. 選擇您的新裝置' },
+            step2Title: { en: '2. Choose storage and color', zh: '2. 選擇儲存空間與色彩' },
+            step2SelectStorage: { en: 'Select storage', zh: '選擇儲存空間' },
+            step2SelectColor: { en: 'Select color', zh: '選擇色彩' },
+
+            // Badges
+            outOfStock: { en: 'Out of Stock', zh: '已售竭' },
+            samsungComOnly: { en: 'Samsung.com Only', zh: '僅限 Samsung.com' },
+            recommended: { en: 'Recommended', zh: '推薦' },
+            upgradeDiscounts: { en: 'Upgrade discounts available', zh: '升級優惠可供使用' },
+
+            // Sticky bar
+            stickyFrom: { en: 'From', zh: '由' },
+            stickyYouPay: { en: 'You pay', zh: '您需支付' },
+            stickyAfterStorage: { en: 'After storage upgrade savings', zh: '儲存空間升級優惠後' },
+            stickyBuyNow: { en: 'Buy now', zh: '立即購買' },
+
+            // Savings lines
+            preorderSavings: { en: 'PreOrder only Storage Upgrade Savings', zh: '預購僅儲存空間升級優惠' },
+
+            // Trade-in section
+            tradeinTitle: { en: '3. Trade-in your current device (optional)', zh: '3. 費舊換新您的現有裝置（選填）' },
+            noTradeinLabel: { en: 'My trade in device is not listed here OR I do not have a device to trade in', zh: '我的以舊換新裝置未列在此處 或 我沒有可以以舊換新的裝置' },
+            noTradeinHelper: { en: 'If you cannot find your trade in device here, you may still be able to find them on our cart page full trade in device list.', zh: '如果您在此處找不到可以以舊換新的裝置，您仍可能在購物車全面以舊換新裝置清單中找到它們。' },
+
+            // Bank section
+            bankTitle: { en: '4. Bank promotion (optional)', zh: '4. 銀行優惠（選填）' },
+            payWithSamsungPay: { en: 'Pay with SamsungPay', zh: '使用 Samsung Pay 支付' },
+            bankRecommended: { en: 'Recommended', zh: '推薦' },
+
+            // Gift modal
+            giftModalTitle: { en: 'Choose your gift', zh: '選擇您的禮品' },
+            giftNoAvailable: { en: 'No gifts available for this model.', zh: '此模式暫無禮品可供選擇。' },
+
+            // Color modal
+            colorModalTitle: { en: 'Choose color', zh: '選擇色彩' },
+            colorCancel: { en: 'Cancel', zh: '取消' },
+            colorContinue: { en: 'Continue', zh: '繼續' },
+
+            otherBank: { en: 'Other', zh: '其他' },
+        };
+
+        function t(key) {
+            const entry = uiText[key];
+            if (!entry) return key;
+            return entry[lang] || entry.en || key;
+        }
+
         function init() {
             // Load step1models.json first (Step 1 cards)
             loadStep1Models().then(() => {
@@ -1217,19 +1282,22 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const bankList = Object.keys(bankPromotionRules)
                 .map(key => {
                     const rule = bankPromotionRules[key];
+                    const name = (typeof rule.name === 'object')
+                        ? (rule.name[lang] || rule.name.en)
+                        : rule.name;
                     return {
                         key,
-                        name: rule.name,
+                        name,
                         logo: rule.logo,
                         priority: rule.priority ?? 999,
                         isRecommended: !!rule.isRecommended
                     };
                 })
-                .sort((a, b) => a.priority - b.priority)   // lower number = higher priority (leftmost)
+                .sort((a, b) => a.priority - b.priority)
                 .map(({ key, name, logo, isRecommended }) => ({ key, name, logo, isRecommended }));
 
             // Always append 'Other' as the last option
-            bankList.push({ key: 'none', name: 'Other', logo: null, isRecommended: false });
+            bankList.push({ key: 'none', name: t('otherBank'), logo: null, isRecommended: false });
 
             bankList.forEach(bank => {
                 const isSelected = selectedBank === bank.key;
@@ -1634,7 +1702,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 giftModal.innerHTML = `
                     <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-3xl p-6">
                         <div class="flex items-center justify-between mb-4">
-                            <div class="font-semibold text-xl">Choose your gift</div>
+                            <div class="font-semibold text-xl">${t('giftModalTitle')}</div>
                             <button onclick="closeGiftModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
                         </div>
                         <div id="gift-options" class="space-y-3"></div>
@@ -1659,7 +1727,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (applicableGifts.length === 0) {
                 const empty = document.createElement('div');
                 empty.className = 'text-sm text-gray-500 p-4 border rounded-2xl';
-                empty.textContent = 'No gifts available for this model.';
+                empty.textContent = t('giftNoAvailable');
                 optionsContainer.appendChild(empty);
             }
 
