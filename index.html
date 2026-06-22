@@ -347,6 +347,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             // Gift modal
             giftModalTitle: { en: 'Choose your gift', zh: '選擇您的禮品' },
             giftNoAvailable: { en: 'No gifts available for this model.', zh: '此模式暫無禮品可供選擇。' },
+            giftAddPrice: { en: 'Add {price}', zh: '添加 {price}' },
+            giftFree: { en: 'Free gift', zh: '免費禮品' },
 
             // Color modal
             colorModalTitle: { en: 'Choose color', zh: '選擇色彩' },
@@ -1768,8 +1770,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 const skuOrCode = gift['SKU_PromoCode'];
 
                 const priceLabel = (priceStr && priceStr !== 'Free')
-                    ? `<div class="text-xs text-[#007AFF] mt-0.5 font-medium">Add ${priceStr}</div>`
-                    : `<div class="text-xs text-emerald-600 mt-0.5">Free gift</div>`;
+                    ? `<div class="text-xs text-[#007AFF] mt-0.5 font-medium">${t('giftAddPrice').replace('{price}', priceStr)}</div>`
+                    : `<div class="text-xs text-emerald-600 mt-0.5">${t('giftFree')}</div>`;
 
                 const btn = document.createElement('button');
                 btn.className = 'w-full flex items-center gap-4 p-4 border border-gray-200 rounded-2xl hover:border-[#007AFF] text-left';
