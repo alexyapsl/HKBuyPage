@@ -1737,19 +1737,6 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const optionsContainer = giftModal.querySelector('#gift-options');
             optionsContainer.innerHTML = '';
 
-            // NEW: filter gifts.json by Parent Model + Active
-            const applicableGifts = (gifts || []).filter(g =>
-                g['Parent Model'] === selectedDevice.name &&
-                g.Active === 'Y'
-            );
-
-            if (uniqueApplicableGifts.length === 0) {
-                const empty = document.createElement('div');
-                empty.className = 'text-sm text-gray-500 p-4 border rounded-2xl';
-                empty.textContent = t('giftNoAvailable');
-                optionsContainer.appendChild(empty);
-            }
-
             // Dedupe by GiftCode + pick correct language name
             const seen = new Set();
             const uniqueApplicableGifts = (gifts || []).filter(g => {
@@ -1758,6 +1745,13 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 seen.add(g.GiftCode);
                 return true;
             });
+
+            if (uniqueApplicableGifts.length === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'text-sm text-gray-500 p-4 border rounded-2xl';
+                empty.textContent = t('giftNoAvailable');
+                optionsContainer.appendChild(empty);
+            }
 
             uniqueApplicableGifts.forEach((gift) => {
                 const giftCode = gift.GiftCode;
