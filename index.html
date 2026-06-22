@@ -877,9 +877,17 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
                 const chip = document.createElement('div');
                 chip.className = `flex items-center gap-x-2 px-3 py-1.5 border rounded-2xl text-sm transition-all ${isOos ? 'opacity-40 bg-gray-50' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'}`;
-                const colorNameDisplay = (typeof color.name === 'object')
-                    ? (color.name[lang] || color.name.en)
-                    : color.name;
+
+                // Resolve bilingual color name (prefer object, then fallback to Chinese fields on canonical/product)
+                let colorNameDisplay = color.name;
+                if (typeof color.name === 'object') {
+                    colorNameDisplay = color.name[lang] || color.name.en;
+                } else if (canonical.ColorNameZH || canonical.ColorNameEN) {
+                    colorNameDisplay = (lang === 'zh')
+                        ? (canonical.ColorNameZH || canonical.ColorNameEN)
+                        : (canonical.ColorNameEN || canonical.ColorNameZH);
+                }
+
                 const oosLabel = isOos ? `<span class="text-[10px] text-red-500 ml-1">${t('outOfStock')}</span>` : '';
                 const storeLabel = isEstoreOnly ? `<span class="text-[10px] text-blue-600 ml-1">${t('samsungComOnly')}</span>` : '';
                 chip.innerHTML = `
@@ -896,11 +904,11 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                         selectedSku = color.sku;
                         if (hint) { hint.textContent = 'SKU: ' + selectedSku; hint.classList.remove('sehk-hidden'); }
 
-                        // Track color selection
+                        // Track color selection (use resolved display name)
                         trackEvent(
                             'product_option-flagship pdp-option selector-option_click3',
-                            `color:${color.name}`,
-                            { sku: color.sku, color: color.name, model: selectedDevice ? selectedDevice.name : '' }
+                            `color:${colorNameDisplay}`,
+                            { sku: color.sku, color: colorNameDisplay, model: selectedDevice ? selectedDevice.name : '' }
                         );
 
                         // Reveal Step 3 (trade-in) after color is selected.
