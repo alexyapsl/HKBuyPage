@@ -127,19 +127,19 @@
 
             <div class="space-y-4" id="tradein-fields">
                 <div>
-                    <label class="section-title mb-2 block">Brand</label>
+                    <label class="section-title mb-2 block" id="brand-label">Brand</label>
                     <select id="brand" onchange="updateModelsNewFlow()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white">
                         <option value="">Select brand</option>
                     </select>
                 </div>
                 <div>
-                    <label class="section-title mb-2 block">Model</label>
+                    <label class="section-title mb-2 block" id="model-label">Model</label>
                     <select id="model" onchange="updateStorageNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white disabled:bg-white disabled:text-gray-500">
                         <option value="">Select model</option>
                     </select>
                 </div>
                 <div>
-                    <label class="section-title mb-2 block">Storage</label>
+                    <label class="section-title mb-2 block" id="tradein-storage-label">Storage</label>
                     <select id="tradein-storage" onchange="updateTradeInPriceNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white disabled:bg-white disabled:text-gray-500">
                         <option value="">Select storage</option>
                     </select>
@@ -147,7 +147,7 @@
 
                 <!-- Trade-in value display -->
                 <div id="tradein-value-display" class="sehk-hidden mt-3 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-2xl text-sm text-emerald-700">
-                    Your device trade-in value is <span id="tradein-value-amount" class="font-semibold"></span>
+                    <span id="tradein-value-prefix">Your device trade-in value is</span> <span id="tradein-value-amount" class="font-semibold"></span>
                 </div>
             </div>
         </div>
@@ -240,13 +240,13 @@
                 <button onclick="closeSamsungShopModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
             </div>
 
-            <div class="text-sm text-gray-700 leading-relaxed mb-5">
+            <div id="samsung-shop-desc" class="text-sm text-gray-700 leading-relaxed mb-5">
                 Checkout with Samsung Shop App to enjoy app only discounts, get latest promotion, and an amazing shopping experience.
             </div>
 
             <div class="flex items-center gap-2 mb-6">
                 <input type="checkbox" id="add-to-app" checked class="w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
-                <label for="add-to-app" class="text-sm text-gray-700">Add my product(s) to Samsung Shop App</label>
+                <label for="add-to-app" id="add-to-app-label" class="text-sm text-gray-700">Add my product(s) to Samsung Shop App</label>
             </div>
 
             <div class="flex gap-3">
@@ -260,16 +260,16 @@
     <div id="tradein-warning-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[80] flex items-end sm:items-center justify-center">
         <div class="bg-white w-full sm:w-[420px] sm:rounded-3xl rounded-t-3xl p-6 shadow-xl">
             <div class="flex items-center justify-between mb-4">
-                <div class="font-semibold text-xl text-gray-900">Important reminder</div>
+                <div id="tradein-warning-title" class="font-semibold text-xl text-gray-900">Important reminder</div>
                 <button onclick="closeTradeInWarningModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
             </div>
 
-            <div class="text-sm text-gray-700 leading-relaxed mb-6">
+            <div id="tradein-warning-body" class="text-sm text-gray-700 leading-relaxed mb-6">
                 Adding product to cart, remember to add your trade in device in the cart with IMEI and device condition again to enjoy the guarantee trade in price
             </div>
 
             <div class="flex gap-3">
-                <button onclick="closeTradeInWarningModal()" class="flex-1 py-3.5 rounded-2xl border border-gray-300 text-sm font-medium">Cancel</button>
+                <button id="tradein-warning-cancel" onclick="closeTradeInWarningModal()" class="flex-1 py-3.5 rounded-2xl border border-gray-300 text-sm font-medium">Cancel</button>
                 <button onclick="confirmTradeInAndRedirect()" class="flex-1 py-3.5 rounded-2xl samsung-btn text-sm font-medium">OK</button>
             </div>
         </div>
@@ -356,6 +356,32 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             colorContinue: { en: 'Continue', zh: '繼續' },
 
             otherBank: { en: 'Other', zh: '其他' },
+
+            // Trade-in warning modal
+            tradeinWarningTitle: { en: 'Important reminder', zh: '重要提醒' },
+            tradeinWarningBody: { en: 'Adding product to cart, remember to add your trade in device in the cart with IMEI and device condition again to enjoy the guarantee trade in price', zh: '產品已加入購物車，請記得在購物車內再次添加以舊換新裝置，並輸入 IMEI 及裝置狀況，以確保享有保證以舊換新價格。' },
+
+            // Trade-in labels
+            selectBrand: { en: 'Select brand', zh: '選擇品牌' },
+            selectModel: { en: 'Select model', zh: '選擇型號' },
+            selectStorageTradein: { en: 'Select storage', zh: '選擇儲存空間' },
+            tradeinValuePrefix: { en: 'Your device trade-in value is', zh: '您的裝置以舊換新價值為' },
+            skuResolved: { en: 'SKU resolved:', zh: 'SKU 已解析：' },
+
+            // Savings display
+            specialDiscount: { en: 'Special discount', zh: '特別優惠' },
+            creditCardRebate: { en: 'Credit card rebate HK$', zh: '信用卡反還 HK$' },
+            samsungPayOnlyDiscount: { en: 'SamsungPay only discount HK$', zh: 'Samsung Pay 僅限優惠 HK$' },
+            fixedDiscountSavings: { en: 'Special discount HK$', zh: '特別優惠 HK$' },
+
+            // Samsung Shop modal
+            samsungShopModalTitle: { en: 'Checkout with Samsung Shop App', zh: '使用 Samsung Shop App 結帳' },
+            samsungShopModalDesc: { en: 'Checkout with Samsung Shop App to enjoy app only discounts, get latest promotion, and an amazing shopping experience.', zh: '使用 Samsung Shop App 結帳以享受 App 專屬優惠、最新推廣及優質購物體驗。' },
+            addToAppLabel: { en: 'Add my product(s) to Samsung Shop App', zh: '將我的產品添加到 Samsung Shop App' },
+
+            // Common buttons / labels
+            cancel: { en: 'Cancel', zh: '取消' },
+            confirm: { en: 'Confirm', zh: '確認' },
         };
 
         function t(key) {
@@ -363,6 +389,62 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (!entry) return key;
             return entry[lang] || entry.en || key;
         }
+
+        /**
+         * Applies current language to all static labels and dynamic sections
+         * Call after init() and on language change (if needed without reload)
+         */
+        function applyLanguage() {
+            // Step 2 labels
+            const storageLabel = document.getElementById('tradein-storage-label');
+            if (storageLabel) storageLabel.textContent = t('step2SelectStorage');
+
+            const colorLabel = document.getElementById('color-label');
+            if (colorLabel) colorLabel.textContent = t('step2SelectColor');
+
+            // Trade-in section labels
+            const brandLabel = document.getElementById('brand-label');
+            if (brandLabel) brandLabel.textContent = t('selectBrand');
+
+            const modelLabel = document.getElementById('model-label');
+            if (modelLabel) modelLabel.textContent = t('selectModel');
+
+            const storageTradeinLabel = document.getElementById('tradein-storage-label');
+            if (storageTradeinLabel) storageTradeinLabel.textContent = t('selectStorageTradein');
+
+            // Trade-in value line
+            const tradeinValueLine = document.getElementById('tradein-value-display');
+            if (tradeinValueLine) {
+                // Re-apply when value is shown later (dynamic)
+            }
+
+            // Samsung Shop modal
+            const shopDesc = document.getElementById('samsung-shop-desc');
+            if (shopDesc) shopDesc.textContent = t('samsungShopModalDesc');
+
+            const addToAppLabel = document.getElementById('add-to-app-label');
+            if (addToAppLabel) addToAppLabel.textContent = t('addToAppLabel');
+
+            // Note: Bank buttons, gift options, and savings lines are already
+            // re-rendered dynamically with t() in their respective functions.
+
+            // Trade-in value prefix line
+            const prefixEl = document.getElementById('tradein-value-prefix');
+            if (prefixEl) prefixEl.textContent = t('tradeinValuePrefix');
+
+            // Trade-in warning modal
+            const warningTitle = document.getElementById('tradein-warning-title');
+            if (warningTitle) warningTitle.textContent = t('tradeinWarningTitle');
+
+            const warningBody = document.getElementById('tradein-warning-body');
+            if (warningBody) warningBody.textContent = t('tradeinWarningBody');
+
+            const warningCancel = document.getElementById('tradein-warning-cancel');
+            if (warningCancel) warningCancel.textContent = t('cancel');
+        }
+
+        // Expose for console debugging if needed
+        window.applyLanguage = applyLanguage;
 
         function init() {
             // Load step1models.json first (Step 1 cards)
@@ -373,6 +455,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             // Load gifts.json + bankpromo.json (non-blocking)
             loadGifts();
             loadBankPromo();
+
+            // Apply language strings after initial render
+            setTimeout(applyLanguage, 50);
         }
 
         async function loadLSVData() {
@@ -902,7 +987,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                         container.querySelectorAll('div').forEach(c => c.classList.remove('!border-[#007AFF]', 'ring-1', 'ring-1'));
                         chip.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
                         selectedSku = color.sku;
-                        if (hint) { hint.textContent = 'SKU: ' + selectedSku; hint.classList.remove('sehk-hidden'); }
+                        if (hint) { hint.textContent = t('skuResolved') + ' ' + selectedSku; hint.classList.remove('sehk-hidden'); }
 
                         // Track color selection (use resolved display name)
                         trackEvent(
@@ -1439,21 +1524,21 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             linesEl.innerHTML = '';
             if (bankCalc.percentRebate > 0) {
                 const pctLine = document.createElement('div');
-                pctLine.textContent = `Credit card rebate HK$${bankCalc.percentRebate.toLocaleString()}`;
+                pctLine.textContent = `${t('creditCardRebate')}${bankCalc.percentRebate.toLocaleString()}`;
                 linesEl.appendChild(pctLine);
             }
             if (bankCalc.fixedRebate > 0) {
                 const fixedNameRaw = bankCalc.fixedName;
                 const fixedNameDisplay = (fixedNameRaw && typeof fixedNameRaw === 'object')
                     ? (fixedNameRaw[lang] || fixedNameRaw.en)
-                    : (fixedNameRaw || 'Special discount');
+                    : (fixedNameRaw || t('specialDiscount'));
                 const fixedLine = document.createElement('div');
                 fixedLine.textContent = `${fixedNameDisplay} HK$${bankCalc.fixedRebate.toLocaleString()}`;
                 linesEl.appendChild(fixedLine);
             }
             if (samsungPayDiscount > 0) {
                 const samsungLine = document.createElement('div');
-                samsungLine.textContent = `SamsungPay only discount HK$${samsungPayDiscount.toLocaleString()}`;
+                samsungLine.textContent = `${t('samsungPayOnlyDiscount')}${samsungPayDiscount.toLocaleString()}`;
                 linesEl.appendChild(samsungLine);
             }
 
