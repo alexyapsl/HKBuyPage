@@ -76,15 +76,15 @@
         <div class="text-center mb-10">
             <div class="inline-flex items-center gap-x-2 px-4 py-1 rounded-full bg-blue-50 text-xs tracking-[1px] mb-4 text-[#007AFF]">
                 <div class="w-2 h-2 bg-[#007AFF] rounded-full animate-pulse"></div>
-                <span class="font-medium">NEW FLOW • PRODUCT FIRST</span>
+                <span id="new-flow-badge" class="font-medium">NEW FLOW • PRODUCT FIRST</span>
             </div>
-            <h1 class="text-5xl font-semibold tracking-tighter heading-font text-gray-900">Choose your new Galaxy.<br>Then trade in.</h1>
-            <p class="text-xl text-gray-600 mt-3 max-w-md mx-auto">Simple. Transparent. Instant savings.</p>
+            <h1 id="hero-title" class="text-5xl font-semibold tracking-tighter heading-font text-gray-900">Choose your new Galaxy.<br>Then trade in.</h1>
+            <p id="hero-subtitle" class="text-xl text-gray-600 mt-3 max-w-md mx-auto">Simple. Transparent. Instant savings.</p>
         </div>
 
         <!-- Step 1: Choose New Device -->
         <div class="mb-12">
-            <div class="section-title mb-3">1. Select your new device</div>
+            <div class="section-title mb-3" id="step1-title">1. Select your new device</div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="device-selection">
                 <!-- Populated by JS -->
             </div>
@@ -92,9 +92,9 @@
 
         <!-- Step 2: Storage -->
         <div class="mb-12 sehk-hidden" id="storage-section">
-            <div class="section-title mb-3">2. Choose storage and color</div>
+            <div class="section-title mb-3" id="step2-title">2. Choose storage and color</div>
             <!-- Storage Chip Selector (replaces native <select>) -->
-            <div class="text-sm font-medium text-gray-700 mb-2">Select storage</div>
+            <div class="text-sm font-medium text-gray-700 mb-2" id="storage-label">Select storage</div>
             <div id="storage-chips" class="flex flex-wrap gap-2 mb-2"></div>
             <!-- LSV PreOrder Savings line -->
             <div id="lsv-savings-line" class="sehk-hidden mt-2 text-sm text-emerald-600 font-medium"></div>
@@ -382,6 +382,21 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             // Common buttons / labels
             cancel: { en: 'Cancel', zh: '取消' },
             confirm: { en: 'Confirm', zh: '確認' },
+
+            // Header / Hero
+            newFlowBadge: { en: 'NEW FLOW • PRODUCT FIRST', zh: '新流程 • 產品優先' },
+            heroTitle: { en: 'Choose your new Galaxy.<br>Then trade in.', zh: '選擇您的新 Galaxy。<br>然後以舊換新。' },
+            heroSubtitle: { en: 'Simple. Transparent. Instant savings.', zh: '簡單。透明。即時節省。' },
+
+            // Dynamic / JS injected strings
+            selectBrandOption: { en: 'Select brand', zh: '選擇品牌' },
+            selectModelOption: { en: 'Select model', zh: '選擇型號' },
+            selectStorageOption: { en: 'Select storage', zh: '選擇儲存空間' },
+            upgradeDiscountsAvailable: { en: 'Upgrade discounts available', zh: '升級優惠可供使用' },
+            totalTradeInValue: { en: 'Total Trade In value: HK$', zh: '以舊換新總值：HK$' },
+            tradeInPriceLabel: { en: 'Trade In Price: HK$', zh: '以舊換新價格：HK$' },
+            downloadApp: { en: 'Download App', zh: '下載 App' },
+            addToCart: { en: 'Add to Cart', zh: '加入購物車' },
         };
 
         function t(key) {
@@ -441,6 +456,26 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             const warningCancel = document.getElementById('tradein-warning-cancel');
             if (warningCancel) warningCancel.textContent = t('cancel');
+
+            // Header block
+            const badge = document.getElementById('new-flow-badge');
+            if (badge) badge.textContent = t('newFlowBadge');
+
+            const heroTitle = document.getElementById('hero-title');
+            if (heroTitle) heroTitle.innerHTML = t('heroTitle');
+
+            const heroSub = document.getElementById('hero-subtitle');
+            if (heroSub) heroSub.textContent = t('heroSubtitle');
+
+            // NEW: Step headers + storage label (the texts you asked for)
+            const step1 = document.getElementById('step1-title');
+            if (step1) step1.textContent = t('step1Title');
+
+            const step2 = document.getElementById('step2-title');
+            if (step2) step2.textContent = t('step2Title');
+
+            const storageLabel = document.getElementById('storage-label');
+            if (storageLabel) storageLabel.textContent = t('step2SelectStorage');
         }
 
         // Expose for console debugging if needed
