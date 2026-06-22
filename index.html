@@ -1722,6 +1722,10 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                     </div>
                 `;
                 document.body.appendChild(giftModal);
+            } else {
+                // Ensure title is always updated when re-opening (handles lang change without reload)
+                const titleEl = giftModal.querySelector('.font-semibold.text-xl');
+                if (titleEl) titleEl.textContent = t('giftModalTitle');
             }
 
             const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
