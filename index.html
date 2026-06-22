@@ -1741,16 +1741,27 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 g.Active === 'Y'
             );
 
-            if (applicableGifts.length === 0) {
+            if (uniqueApplicableGifts.length === 0) {
                 const empty = document.createElement('div');
                 empty.className = 'text-sm text-gray-500 p-4 border rounded-2xl';
                 empty.textContent = t('giftNoAvailable');
                 optionsContainer.appendChild(empty);
             }
 
-            applicableGifts.forEach((gift) => {
+            // Dedupe by GiftCode + pick correct language name
+            const seen = new Set();
+            const uniqueApplicableGifts = (gifts || []).filter(g => {
+                if (g['Parent Model'] !== selectedDevice.name || g.Active !== 'Y') return false;
+                if (seen.has(g.GiftCode)) return false;
+                seen.add(g.GiftCode);
+                return true;
+            });
+
+            uniqueApplicableGifts.forEach((gift) => {
                 const giftCode = gift.GiftCode;
-                const name = gift['SKU Name'] || giftCode;
+                const name = (lang === 'zh')
+                    ? (gift.GiftNameZH || gift.GiftNameEN || giftCode)
+                    : (gift.GiftNameEN || gift.GiftNameZH || giftCode);
                 const image = gift['SKU Image'] || '';
                 const priceStr = gift.Price || 'Free';
                 const mode = gift.Mode;
