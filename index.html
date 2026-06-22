@@ -101,7 +101,7 @@
 
             <!-- Inline Color Chip Selector for Step 2b (SKU resolution) -->
             <div id="color-chips-section" class="sehk-hidden mt-4">
-                <div class="text-sm font-medium text-gray-700 mb-2">Select color</div>
+                <div id="color-label" class="text-sm font-medium text-gray-700 mb-2">Select color</div>
                 <div id="color-chips" class="flex flex-wrap gap-2"></div>
                 <div id="selected-sku-hint" class="mt-2 text-xs text-emerald-600 sehk-hidden"></div>
             </div>
@@ -205,14 +205,14 @@
     <div id="color-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[70] flex items-end sm:items-center justify-center">
         <div class="bg-white w-full sm:w-[420px] sm:rounded-3xl rounded-t-3xl p-6 shadow-xl">
             <div class="flex items-center justify-between mb-5">
-                <div class="font-semibold text-xl">Choose color</div>
+                <div class="font-semibold text-xl">${t('colorModalTitle')}</div>
                 <button onclick="closeColorModal()" class="text-2xl leading-none text-gray-400 hover:text-gray-600">&times;</button>
             </div>
 
             <div id="color-options" class="grid grid-cols-1 gap-2 mb-6"></div>
 
             <div class="flex gap-3">
-                <button onclick="closeColorModal()" class="flex-1 py-3.5 rounded-2xl border border-gray-300 text-sm font-medium">Cancel</button>
+                <button onclick="closeColorModal()" class="flex-1 py-3.5 rounded-2xl border border-gray-300 text-sm font-medium">${t('colorCancel')}</button>
                 <button id="confirm-color-btn" onclick="confirmColorSelection()"
                         class="flex-1 py-3.5 rounded-2xl samsung-btn text-sm font-medium disabled:opacity-50" disabled>
                     Continue
@@ -875,11 +875,16 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
                 const chip = document.createElement('div');
                 chip.className = `flex items-center gap-x-2 px-3 py-1.5 border rounded-2xl text-sm transition-all ${isOos ? 'opacity-40 bg-gray-50' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'}`;
+                const colorNameDisplay = (typeof color.name === 'object')
+                    ? (color.name[lang] || color.name.en)
+                    : color.name;
+                const oosLabel = isOos ? `<span class="text-[10px] text-red-500 ml-1">${t('outOfStock')}</span>` : '';
+                const storeLabel = isEstoreOnly ? `<span class="text-[10px] text-blue-600 ml-1">${t('samsungComOnly')}</span>` : '';
                 chip.innerHTML = `
                     <div class="w-5 h-5 rounded-full border border-gray-300 flex-shrink-0" style="background: ${canonical.hexCode || '#9ca3af'};"></div>
-                    <span class="font-medium text-gray-800">${color.name}</span>
-                    ${isOos ? '<span class="text-[10px] text-red-500 ml-1">Out of Stock</span>' : ''}
-                    ${isEstoreOnly ? '<span class="text-[10px] text-blue-600 ml-1">Samsung.com Only</span>' : ''}
+                    <span class="font-medium text-gray-800">${colorNameDisplay}</span>
+                    ${oosLabel}
+                    ${storeLabel}
                 `;
 
                 if (!isOos) {
@@ -1226,9 +1231,13 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (percentRebate > rule.maximum) percentRebate = rule.maximum;
 
             const fixedRebate = rule.fixedDiscount ? rule.fixedDiscount.value : 0;
+            const fixedNameRaw = rule.fixedDiscount?.name || null;
+            const fixedName = (fixedNameRaw && typeof fixedNameRaw === 'object')
+                ? (fixedNameRaw[lang] || fixedNameRaw.en)
+                : fixedNameRaw;
             const totalRebate = percentRebate + fixedRebate;
 
-            return { percentRebate, fixedRebate, fixedName: rule.fixedDiscount?.name || null, totalRebate };
+            return { percentRebate, fixedRebate, fixedName, totalRebate };
         }
 
         function calculateSamsungPayDiscount(originalPrice) {
@@ -1424,8 +1433,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 linesEl.appendChild(pctLine);
             }
             if (bankCalc.fixedRebate > 0) {
+                const fixedNameRaw = bankCalc.fixedName;
+                const fixedNameDisplay = (fixedNameRaw && typeof fixedNameRaw === 'object')
+                    ? (fixedNameRaw[lang] || fixedNameRaw.en)
+                    : (fixedNameRaw || 'Special discount');
                 const fixedLine = document.createElement('div');
-                fixedLine.textContent = `${bankCalc.fixedName || 'Special discount'} HK$${bankCalc.fixedRebate.toLocaleString()}`;
+                fixedLine.textContent = `${fixedNameDisplay} HK$${bankCalc.fixedRebate.toLocaleString()}`;
                 linesEl.appendChild(fixedLine);
             }
             if (samsungPayDiscount > 0) {
