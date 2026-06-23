@@ -127,19 +127,19 @@
 
             <div class="space-y-4" id="tradein-fields">
                 <div>
-                    <label class="section-title mb-2 block" id="brand-label">Select brand</label>
+                    <label class="section-title mb-2 block" id="brand-label"></label>
                     <select id="brand" onchange="updateModelsNewFlow()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white">
                         <option value="">Select brand</option>
                     </select>
                 </div>
                 <div>
-                    <label class="section-title mb-2 block" id="model-label">Select model</label>
+                    <label class="section-title mb-2 block" id="model-label"></label>
                     <select id="model" onchange="updateStorageNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white disabled:bg-white disabled:text-gray-500">
                         <option value="">Select model</option>
                     </select>
                 </div>
                 <div>
-                    <label class="section-title mb-2 block" id="tradein-storage-label">Storage</label>
+                    <label class="section-title mb-2 block" id="tradein-storage-label"></label>
                     <select id="tradein-storage" onchange="updateTradeInPriceNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white disabled:bg-white disabled:text-gray-500">
                         <option value="">Select storage</option>
                     </select>
@@ -797,7 +797,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         function populateBrandsNewFlow() {
             const brandSelect = document.getElementById('brand');
             const uniqueBrands = [...new Set(devices.map(d => d.brand))].sort();
-            brandSelect.innerHTML = '<option value="">Select brand</option>';
+            brandSelect.innerHTML = `<option value="">${t('selectBrandOption')}</option>`;
             uniqueBrands.forEach(b => {
                 const opt = document.createElement('option');
                 opt.value = b;
@@ -814,7 +814,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             if (!brand) {
                 // Brand cleared
-                modelSelect.innerHTML = '<option value="">Select model</option>';
+                modelSelect.innerHTML = `<option value="">${t('selectModelOption')}</option>`;
                 modelSelect.disabled = true;
                 storageSelect.innerHTML = '<option value="">Select storage</option>';
                 storageSelect.disabled = true;
@@ -838,7 +838,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             });
 
             // Reset downstream
-            storageSelect.innerHTML = '<option value="">Select storage</option>';
+            storageSelect.innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
             storageSelect.disabled = true;
             valueDisplay.classList.add('sehk-hidden');
             tradeInValue = 0;
