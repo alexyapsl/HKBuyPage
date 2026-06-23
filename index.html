@@ -487,6 +487,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             const samsungPayLabel = document.getElementById('samsungpay-label');
             if (samsungPayLabel) samsungPayLabel.textContent = t('payWithSamsungPay');
+
+            // Step 3 dropdown placeholder options
+            const brandFirst = document.getElementById('brand');
+            if (brandFirst && brandFirst.options[0]) brandFirst.options[0].textContent = t('selectBrandOption');
+            const modelFirst = document.getElementById('model');
+            if (modelFirst && modelFirst.options[0]) modelFirst.options[0].textContent = t('selectModelOption');
         }
 
         // Expose for console debugging if needed
