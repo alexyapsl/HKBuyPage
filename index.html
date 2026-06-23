@@ -520,7 +520,10 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             loadBankPromo();
 
             // Apply language strings after initial render
-            setTimeout(applyLanguage, 50);
+            setTimeout(() => {
+                applyLanguage();
+                refreshTradeInPlaceholders();
+            }, 60);
         }
 
         async function loadLSVData() {
@@ -815,6 +818,17 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 opt.textContent = b;
                 brandSelect.appendChild(opt);
             });
+            // Ensure the three trade-in first options stay bilingual after population
+            refreshTradeInPlaceholders();
+        }
+
+        function refreshTradeInPlaceholders() {
+            const brandFirst = document.getElementById('brand');
+            if (brandFirst && brandFirst.options[0]) brandFirst.options[0].textContent = t('selectBrandOption');
+            const modelFirst = document.getElementById('model');
+            if (modelFirst && modelFirst.options[0]) modelFirst.options[0].textContent = t('selectModelOption');
+            const storageFirst = document.getElementById('tradein-storage');
+            if (storageFirst && storageFirst.options[0]) storageFirst.options[0].textContent = t('selectStorageOption');
         }
 
         function updateModelsNewFlow() {
