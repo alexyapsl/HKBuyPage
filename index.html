@@ -481,6 +481,14 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const noTradeInHelper = document.getElementById('no-tradein-helper-text');
             if (noTradeInHelper) noTradeInHelper.textContent = t('noTradeinHelper');
 
+            // Step 3 trade-in dropdown labels (they are empty in HTML)
+            const brandLab = document.getElementById('brand-label');
+            if (brandLab) brandLab.textContent = t('selectBrand');
+            const modelLab = document.getElementById('model-label');
+            if (modelLab) modelLab.textContent = t('selectModel');
+            const storageLab = document.getElementById('tradein-storage-label');
+            if (storageLab) storageLab.textContent = t('selectStorageTradein');
+
             // Step 4 - Bank section
             const step4 = document.getElementById('step4-title');
             if (step4) step4.textContent = t('bankTitle');
