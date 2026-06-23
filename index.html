@@ -1643,7 +1643,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const grandTotal = bankCalc.totalRebate + samsungPayDiscount;
 
             // Total line - adapt label for SamsungPay-only case
-            const totalLabel = hasBankSelection ? 'Bank promotion savings' : 'SamsungPay savings';
+            const totalLabel = hasBankSelection ? (getLngStr('bankSavingsLabel') || 'Bank promotion savings') : (getLngStr('spaySavingsLabel') || 'SamsungPay savings');
             totalEl.innerHTML = `${totalLabel}: <span class="font-semibold">HK$${grandTotal.toLocaleString()}</span>`;
 
             // Breakdown lines
@@ -1723,7 +1723,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (!hasStorage) {
                 // BEFORE storage selected
                 nameEl.textContent = selectedDevice.name;
-                payEl.textContent = 'From';
+                payEl.textContent = getLngStr('fromLabel') || 'From';
                 const fromPrice = selectedDevice.storageOptions[0].price;
                 priceEl.innerHTML = `HK$${formatPrice(fromPrice)}`;
                 saveEl.classList.add('sehk-hidden');
@@ -1769,14 +1769,14 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const hasBankPromo = (selectedBank && selectedBank !== 'none' && bankRebate > 0) || useSamsungPay;
             const hasLSV = lsvDiscount > 0;
 
-            let payLabel = 'You pay';
-            if (hasLSV && hasTradeIn && hasBankPromo) payLabel = 'After Storage Savings, Trade-In and Bank Promotion, you pay';
-            else if (hasLSV && hasTradeIn) payLabel = 'After Storage Savings and Trade-In, you pay';
-            else if (hasLSV && hasBankPromo) payLabel = 'After Storage Savings and Bank Promotion, you pay';
-            else if (hasLSV) payLabel = 'After Storage Savings, you pay';
-            else if (hasTradeIn && hasBankPromo) payLabel = 'After Trade-In and Bank Promotion, you pay';
-            else if (hasTradeIn) payLabel = 'After Trade-In, you pay';
-            else if (hasBankPromo) payLabel = 'With Bank Promotion, you pay';
+            let payLabel = getLngStr('payLabelDefault') || 'You pay';
+            if (hasLSV && hasTradeIn && hasBankPromo) payLabel = getLngStr('payLabelAll');
+            else if (hasLSV && hasTradeIn) payLabel = getLngStr('payLabelStorageTI');
+            else if (hasLSV && hasBankPromo) payLabel = getLngStr('payLabelStorageBank');
+            else if (hasLSV) payLabel = getLngStr('payLabelStorage');
+            else if (hasTradeIn && hasBankPromo) payLabel = getLngStr('payLabelTIBank');
+            else if (hasTradeIn) payLabel = getLngStr('payLabelTI');
+            else if (hasBankPromo) payLabel = getLngStr('payLabelBank');
 
             payEl.textContent = payLabel;
             priceEl.innerHTML = `HK$${formatPrice(finalPrice)}`;
@@ -1791,14 +1791,14 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 // Line 1: Discount in cart (storage upgrade + Samsung Pay)
                 if (totalCartDiscount > 0) {
                     const d1 = document.createElement('div');
-                    d1.textContent = `Discount in cart: HK$${formatPrice(totalCartDiscount)}`;
+                    d1.textContent = `${getLngStr('discountInCart') || 'Discount in cart:'} HK$${formatPrice(totalCartDiscount)}`;
                     saveEl.appendChild(d1);
                 }
 
                 // Line 2: Rebate (bank promotion + trade-in total)
                 if (totalRebate > 0) {
                     const r1 = document.createElement('div');
-                    r1.textContent = `Rebate: HK$${formatPrice(totalRebate)}`;
+                    r1.textContent = `${getLngStr('rebateLabel') || 'Rebate:'} HK$${formatPrice(totalRebate)}`;
                     saveEl.appendChild(r1);
                 }
 
