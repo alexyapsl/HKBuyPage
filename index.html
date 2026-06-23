@@ -111,16 +111,16 @@
         <div class="mb-12 sehk-hidden" id="tradein-section">
 
             <div class="flex items-center justify-between mb-3">
-                <div class="section-title">3. Trade-in your current device (optional)</div>
+                <div class="section-title" id="step3-title">3. Trade-in your current device (optional)</div>
             </div>
 
             <!-- No Trade-In Checkbox -->
             <div class="mb-2">
                 <div class="flex items-center gap-x-2">
                     <input type="checkbox" id="no-tradein" onchange="toggleNoTradeInNewFlow()" class="w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
-                    <label for="no-tradein" class="text-sm text-gray-700 cursor-pointer">My trade in device is not listed here OR I do not have a device to trade in</label>
+                    <label for="no-tradein" class="text-sm text-gray-700 cursor-pointer" id="no-tradein-label">My trade in device is not listed here OR I do not have a device to trade in</label>
                 </div>
-                <div id="no-tradein-helper" class="sehk-hidden mt-2 ml-6 text-xs text-gray-600 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+                <div id="no-tradein-helper" class="sehk-hidden mt-2 ml-6 text-xs text-gray-600 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2" id="no-tradein-helper-text">
                     If you cannot find your trade in device here, you may still be able to find them on our cart page full trade in device list.
                 </div>
             </div>
@@ -335,7 +335,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             preorderSavings: { en: 'PreOrder only Storage Upgrade Savings', zh: '預購僅儲存空間升級優惠' },
 
             // Trade-in section
-            tradeinTitle: { en: '3. Trade-in your current device (optional)', zh: '3. 費舊換新您的現有裝置（選填）' },
+            tradeinTitle: { en: '3. Trade-in your current device (optional)', zh: '3. 以舊換新您的現有裝置（選填）' },
             noTradeinLabel: { en: 'My trade in device is not listed here OR I do not have a device to trade in', zh: '我的以舊換新裝置未列在此處 或 我沒有可以以舊換新的裝置' },
             noTradeinHelper: { en: 'If you cannot find your trade in device here, you may still be able to find them on our cart page full trade in device list.', zh: '如果您在此處找不到可以以舊換新的裝置，您仍可能在購物車全面以舊換新裝置清單中找到它們。' },
 
@@ -476,6 +476,16 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             const storageChipLabel = document.getElementById('storage-label');
             if (storageChipLabel) storageChipLabel.textContent = t('step2SelectStorage');
+
+            // Step 3 - Trade-in section
+            const step3 = document.getElementById('step3-title');
+            if (step3) step3.textContent = t('tradeinTitle');
+
+            const noTradeInLabel = document.getElementById('no-tradein-label');
+            if (noTradeInLabel) noTradeInLabel.textContent = t('noTradeinLabel');
+
+            const noTradeInHelper = document.getElementById('no-tradein-helper-text');
+            if (noTradeInHelper) noTradeInHelper.textContent = t('noTradeinHelper');
         }
 
         // Expose for console debugging if needed
