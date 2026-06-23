@@ -250,8 +250,8 @@
             </div>
 
             <div class="flex gap-3">
-                <button onclick="downloadSamsungShopApp()" class="flex-1 py-3.5 rounded-2xl border border-gray-300 text-sm font-medium">Download App</button>
-                <button onclick="proceedFromSamsungShopModal()" class="flex-1 py-3.5 rounded-2xl samsung-btn text-sm font-medium">Add to Cart</button>
+                <button onclick="downloadSamsungShopApp()" data-i18n="downloadAppBtn" class="flex-1 py-3.5 rounded-2xl border border-gray-300 text-sm font-medium">Download App</button>
+                <button onclick="proceedFromSamsungShopModal()" data-i18n="addToCartBtn" class="flex-1 py-3.5 rounded-2xl samsung-btn text-sm font-medium">Add to Cart</button>
             </div>
         </div>
     </div>
@@ -270,7 +270,7 @@
 
             <div class="flex gap-3">
                 <button id="tradein-warning-cancel" onclick="closeTradeInWarningModal()" class="flex-1 py-3.5 rounded-2xl border border-gray-300 text-sm font-medium">Cancel</button>
-                <button onclick="confirmTradeInAndRedirect()" class="flex-1 py-3.5 rounded-2xl samsung-btn text-sm font-medium">OK</button>
+                <button onclick="confirmTradeInAndRedirect()" data-i18n="okBtn" class="flex-1 py-3.5 rounded-2xl samsung-btn text-sm font-medium">OK</button>
             </div>
         </div>
     </div>
@@ -1355,16 +1355,16 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             
             if (calc.extraRebate > 0) {
                 if (calc.isGuaranteed) {
-                    html += `<div class="text-xs text-emerald-600 mt-1">Guaranteed Trade In Price: HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs text-emerald-600 mt-1">${getLngStr('gtiLabel') || 'Guaranteed Trade In Price:'} HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 } else {
-                    html += `<div class="text-xs text-emerald-600 mt-1">Trade In Price: HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs text-emerald-600 mt-1">${getLngStr('tiLabel') || 'Trade In Price:'} HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 }
-                html += `<div class="text-xs text-emerald-600">Extra Trade In Rebate: HK$${calc.extraRebate.toLocaleString()}</div>`;
+                html += `<div class="text-xs text-emerald-600">${getLngStr('extraRebateLabel') || 'Extra Trade In Rebate:'} HK$${calc.extraRebate.toLocaleString()}</div>`;
             } else {
                 if (calc.isGuaranteed) {
-                    html += `<div class="text-xs text-emerald-600 mt-1">Guaranteed Trade In Price: HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs text-emerald-600 mt-1">${getLngStr('gtiLabel') || 'Guaranteed Trade In Price:'} HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 } else {
-                    html += `<div class="text-xs text-emerald-600 mt-1">Trade In Price: HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs text-emerald-600 mt-1">${getLngStr('tiLabel') || 'Trade In Price:'} HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 }
             }
 
