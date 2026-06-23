@@ -129,19 +129,19 @@
                 <div>
                     <label class="section-title mb-2 block" id="brand-label"></label>
                     <select id="brand" onchange="updateModelsNewFlow()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white">
-                        <option value="">Select brand</option>
+                        <option value=""></option>
                     </select>
                 </div>
                 <div>
                     <label class="section-title mb-2 block" id="model-label"></label>
                     <select id="model" onchange="updateStorageNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white disabled:bg-white disabled:text-gray-500">
-                        <option value="">Select model</option>
+                        <option value=""></option>
                     </select>
                 </div>
                 <div>
                     <label class="section-title mb-2 block" id="tradein-storage-label"></label>
                     <select id="tradein-storage" onchange="updateTradeInPriceNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white disabled:bg-white disabled:text-gray-500">
-                        <option value="">Select storage</option>
+                        <option value=""></option>
                     </select>
                 </div>
 
@@ -824,7 +824,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 // Brand cleared
                 modelSelect.innerHTML = `<option value="">${t('selectModelOption')}</option>`;
                 modelSelect.disabled = true;
-                storageSelect.innerHTML = '<option value="">Select storage</option>';
+                storageSelect.innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
                 storageSelect.disabled = true;
                 valueDisplay.classList.add('sehk-hidden');
                 const colorSection2 = document.getElementById('color-chips-section');
@@ -836,7 +836,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             }
 
             modelSelect.disabled = false;
-            modelSelect.innerHTML = '<option value="">Select model</option>';
+            modelSelect.innerHTML = `<option value="">${t('selectModelOption')}</option>`;
             const models = [...new Set(devices.filter(d => d.brand === brand).map(d => d.model))].sort();
             models.forEach(m => {
                 const opt = document.createElement('option');
@@ -862,7 +862,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             if (!model) {
                 // Model cleared
-                storageSelect.innerHTML = '<option value="">Select storage</option>';
+                storageSelect.innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
                 storageSelect.disabled = true;
                 valueDisplay.classList.add('sehk-hidden');
                 // Hide color chips when storage unselected
@@ -875,7 +875,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             }
 
             storageSelect.disabled = false;
-            storageSelect.innerHTML = '<option value="">Select storage</option>';
+            storageSelect.innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
             const storages = [...new Set(devices.filter(d => d.brand === brand && d.model === model).map(d => d.storage))].sort();
             storages.forEach(s => {
                 const opt = document.createElement('option');
