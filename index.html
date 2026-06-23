@@ -76,15 +76,15 @@
         <div class="text-center mb-10">
             <div class="inline-flex items-center gap-x-2 px-4 py-1 rounded-full bg-blue-50 text-xs tracking-[1px] mb-4 text-[#007AFF]">
                 <div class="w-2 h-2 bg-[#007AFF] rounded-full animate-pulse"></div>
-                <span id="new-flow-badge" class="font-medium">NEW FLOW • PRODUCT FIRST</span>
+                <span id="new-flow-badge" data-i18n="badgeText" class="font-medium">NEW FLOW • PRODUCT FIRST</span>
             </div>
-            <h1 id="hero-title" class="text-5xl font-semibold tracking-tighter heading-font text-gray-900">Choose your new Galaxy.<br>Then trade in.</h1>
-            <p id="hero-subtitle" class="text-xl text-gray-600 mt-3 max-w-md mx-auto">Simple. Transparent. Instant savings.</p>
+            <h1 id="hero-title" data-i18n="mainTitle" class="text-5xl font-semibold tracking-tighter heading-font text-gray-900">Choose your new Galaxy.<br>Then trade in.</h1>
+            <p id="hero-subtitle" data-i18n="mainSubtitle" class="text-xl text-gray-600 mt-3 max-w-md mx-auto">Simple. Transparent. Instant savings.</p>
         </div>
 
         <!-- Step 1: Choose New Device -->
         <div class="mb-12">
-            <div class="section-title mb-3" id="step1-title">1. Select your new device</div>
+            <div class="section-title mb-3" data-i18n="step1Title" id="step1-title">1. Select your new device</div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="device-selection">
                 <!-- Populated by JS -->
             </div>
@@ -92,16 +92,16 @@
 
         <!-- Step 2: Storage -->
         <div class="mb-12 sehk-hidden" id="storage-section">
-            <div class="section-title mb-3" id="step2-title">2. Choose storage and color</div>
+            <div class="section-title mb-3" data-i18n="step2Title" id="step2-title">2. Choose storage and color</div>
             <!-- Storage Chip Selector (replaces native <select>) -->
-            <div class="text-sm font-medium text-gray-700 mb-2" id="storage-label">Select storage</div>
+            <div class="text-sm font-medium text-gray-700 mb-2" data-i18n="selectStoragePlaceholder" id="storage-label">Select storage</div>
             <div id="storage-chips" class="flex flex-wrap gap-2 mb-2"></div>
             <!-- LSV PreOrder Savings line -->
             <div id="lsv-savings-line" class="sehk-hidden mt-2 text-sm text-emerald-600 font-medium"></div>
 
             <!-- Inline Color Chip Selector for Step 2b (SKU resolution) -->
             <div id="color-chips-section" class="sehk-hidden mt-4">
-                <div id="color-label" class="text-sm font-medium text-gray-700 mb-2">Select color</div>
+                <div id="color-label" data-i18n="selectColorTitle" class="text-sm font-medium text-gray-700 mb-2">Select color</div>
                 <div id="color-chips" class="flex flex-wrap gap-2"></div>
                 <div id="selected-sku-hint" class="mt-2 text-xs text-emerald-600 sehk-hidden"></div>
             </div>
@@ -111,35 +111,35 @@
         <div class="mb-12 sehk-hidden" id="tradein-section">
 
             <div class="flex items-center justify-between mb-3">
-                <div class="section-title" id="step3-title">3. Trade-in your current device (optional)</div>
+                <div class="section-title" data-i18n="step3Title" id="step3-title">3. Trade-in your current device (optional)</div>
             </div>
 
             <!-- No Trade-In Checkbox -->
             <div class="mb-2">
                 <div class="flex items-center gap-x-2">
                     <input type="checkbox" id="no-tradein" onchange="toggleNoTradeInNewFlow()" class="w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
-                    <label for="no-tradein" class="text-sm text-gray-700 cursor-pointer" id="no-tradein-label">My trade in device is not listed here OR I do not have a device to trade in</label>
+                    <label for="no-tradein" data-i18n="noTradeInLabel" class="text-sm text-gray-700 cursor-pointer" id="no-tradein-label">My trade in device is not listed here OR I do not have a device to trade in</label>
                 </div>
-                <div id="no-tradein-helper" class="sehk-hidden mt-2 ml-6 text-xs text-gray-600 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2" id="no-tradein-helper-text">
+                <div id="no-tradein-helper" data-i18n="noTradeInHelper" class="sehk-hidden mt-2 ml-6 text-xs text-gray-600 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2" id="no-tradein-helper-text">
                     If you cannot find your trade in device here, you may still be able to find them on our cart page full trade in device list.
                 </div>
             </div>
 
             <div class="space-y-4" id="tradein-fields">
                 <div>
-                    <label class="section-title mb-2 block" id="brand-label"></label>
+                    <label class="section-title mb-2 block" data-i18n="brandLabel" id="brand-label"></label>
                     <select id="brand" onchange="updateModelsNewFlow()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white">
                         <option value=""></option>
                     </select>
                 </div>
                 <div>
-                    <label class="section-title mb-2 block" id="model-label"></label>
+                    <label class="section-title mb-2 block" data-i18n="modelLabel" id="model-label"></label>
                     <select id="model" onchange="updateStorageNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white disabled:bg-white disabled:text-gray-500">
                         <option value=""></option>
                     </select>
                 </div>
                 <div>
-                    <label class="section-title mb-2 block" id="tradein-storage-label"></label>
+                    <label class="section-title mb-2 block" data-i18n="storageLabel" id="tradein-storage-label"></label>
                     <select id="tradein-storage" onchange="updateTradeInPriceNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white disabled:bg-white disabled:text-gray-500">
                         <option value=""></option>
                     </select>
@@ -154,7 +154,7 @@
 
         <!-- Step 4: Bank Promotion -->
         <div class="mb-8 sehk-hidden" id="bank-section">
-            <div class="section-title mb-3" id="step4-title">4. Bank promotion (optional)</div>
+            <div class="section-title mb-3" data-i18n="step4Title" id="step4-title">4. Bank promotion (optional)</div>
             <div class="flex items-start gap-3" id="bank-buttons">
                 <!-- Populated by JS -->
             </div>
@@ -162,7 +162,7 @@
             <!-- SamsungPay checkbox -->
             <div id="samsungpay-row" class="sehk-hidden mt-3 flex items-center gap-x-2">
                 <input type="checkbox" id="samsungpay" onchange="toggleSamsungPay()" class="w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
-                <label for="samsungpay" class="text-sm text-gray-700 cursor-pointer" id="samsungpay-label">Pay with SamsungPay</label>
+                <label for="samsungpay" data-i18n="samsungPayLabel" class="text-sm text-gray-700 cursor-pointer" id="samsungpay-label">Pay with SamsungPay</label>
             </div>
 
             <!-- Bank savings display -->
@@ -182,7 +182,7 @@
                     <div id="sticky-device-name" class="font-semibold text-sm sm:text-lg leading-tight truncate"></div>
                     <!-- Original RRP line (shown only when savings exist) -->
                     <div id="sticky-rrp-line" class="sehk-hidden mt-0.5 font-semibold text-sm text-gray-500 leading-tight truncate"></div>
-                    <div id="sticky-pay-label" class="text-xs text-gray-500"></div>
+                    <div id="sticky-pay-label" data-i18n="stickyYouPay" class="text-xs text-gray-500"></div>
                     <div>
                         <div id="sticky-final-price" class="text-2xl font-semibold tabular-nums"></div>
                         <div id="sticky-savings" class="text-emerald-600 text-sm sehk-hidden mt-0.5"></div>
@@ -309,9 +309,54 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             return 'en'; // default + /hk_en/
         }
 
-        const lang = getCurrentLang();
+        let i18nData = {};
+        let lang = getCurrentLang();
 
-        // Bilingual UI text (extend this object for all visible strings)
+        // Support ?lang=zh or ?lang=en for easy debugging
+        function getCurrentLang() {
+            const param = new URLSearchParams(window.location.search).get('lang');
+            if (param === 'zh') return 'zh';
+            if (param === 'en') return 'en';
+
+            const path = window.location.pathname.toLowerCase();
+            if (path.includes('/hk/')) return 'zh';
+            return 'en';
+        }
+
+        async function loadTranslations() {
+            try {
+                const res = await fetch('locales.json');
+                if (res.ok) {
+                    i18nData = await res.json();
+                }
+            } catch (e) {
+                console.warn('Failed to load locales.json, falling back to embedded strings.');
+            }
+        }
+
+        function getLngStr(key) {
+            if (i18nData[lang] && i18nData[lang][key]) return i18nData[lang][key];
+            if (i18nData['en'] && i18nData['en'][key]) return i18nData['en'][key];
+            return key;
+        }
+
+        // Keep t() as alias for backward compatibility with existing dynamic code
+        function t(key) {
+            return getLngStr(key);
+        }
+
+        function initLng() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const val = getLngStr(key);
+                if (val && val !== key) {
+                    el.innerHTML = val;
+                }
+            });
+            document.documentElement.lang = (lang === 'zh') ? 'zh-Hant-HK' : 'en';
+        }
+
+        // Bilingual UI text kept for backward compatibility during transition
         const uiText = {
             // Step titles
             step1Title: { en: '1. Select your new device', zh: '1. 選擇您的新裝置' },
@@ -1801,10 +1846,14 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         }
 
         window.onload = async function() {
+            await loadTranslations();
+            lang = getCurrentLang();
             await loadDevices();
             await loadLSVData();
             init();
+            initLng();
             setupBankButtons();
+            refreshTradeInPlaceholders();
             window.addEventListener('resize', () => {
                 if (typeof adjustContentPadding === 'function') adjustContentPadding();
             });
