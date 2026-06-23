@@ -854,6 +854,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             modelSelect.disabled = false;
             modelSelect.innerHTML = `<option value="">${t('selectModelOption')}</option>`;
+            // Extra guarantee
+            if (modelSelect.options[0]) modelSelect.options[0].textContent = t('selectModelOption');
             const models = [...new Set(devices.filter(d => d.brand === brand).map(d => d.model))].sort();
             models.forEach(m => {
                 const opt = document.createElement('option');
@@ -893,6 +895,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             storageSelect.disabled = false;
             storageSelect.innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
+            // Extra guarantee
+            if (storageSelect.options[0]) storageSelect.options[0].textContent = t('selectStorageOption');
             const storages = [...new Set(devices.filter(d => d.brand === brand && d.model === model).map(d => d.storage))].sort();
             storages.forEach(s => {
                 const opt = document.createElement('option');
