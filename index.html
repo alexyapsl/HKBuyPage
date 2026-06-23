@@ -320,7 +320,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             step2SelectColor: { en: 'Select color', zh: '選擇色彩' },
 
             // Badges
-            outOfStock: { en: 'Out of Stock', zh: '已售竭' },
+            outOfStock: { en: 'Out of Stock', zh: '已售罄' },
             samsungComOnly: { en: 'Samsung.com Only', zh: '僅限 Samsung.com' },
             recommended: { en: 'Recommended', zh: '推薦' },
             upgradeDiscounts: { en: 'Upgrade discounts available', zh: '升級優惠可供使用' },
@@ -892,10 +892,10 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
                 let inner = `<span class="font-medium text-gray-800">${opt.storage}</span>`;
                 if (hasLsv) {
-                    inner += `<span class="text-[10px] text-emerald-600 ml-1">Upgrade discounts available</span>`;
+                    inner += `<span class="text-[10px] text-emerald-600 ml-1">${t('upgradeDiscountsAvailable')}</span>`;
                 }
                 if (allOos) {
-                    inner += `<span class="text-[10px] text-red-500 ml-1">Out of Stock</span>`;
+                    inner += `<span class="text-[10px] text-red-500 ml-1">${t('outOfStock')}</span>`;
                 }
                 chip.innerHTML = inner;
 
