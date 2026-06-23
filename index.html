@@ -650,9 +650,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             // Reset Step 3 completely if user changes the new device
             document.getElementById('brand').value = '';
-            document.getElementById('model').innerHTML = '<option value="">Select model</option>';
+            document.getElementById('model').innerHTML = `<option value="">${t('selectModelOption')}</option>`;
             document.getElementById('model').disabled = true;
-            document.getElementById('tradein-storage').innerHTML = '<option value="">Select storage</option>';
+            document.getElementById('tradein-storage').innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
             document.getElementById('tradein-storage').disabled = true;
             document.getElementById('tradein-value-display').classList.add('sehk-hidden');
             tradeInValue = 0;
@@ -664,9 +664,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const helperReset = document.getElementById('no-tradein-helper');
             if (helperReset) helperReset.classList.add('sehk-hidden');
             document.getElementById('brand').value = '';
-            document.getElementById('model').innerHTML = '<option value="">Select model</option>';
+            document.getElementById('model').innerHTML = `<option value="">${t('selectModelOption')}</option>`;
             document.getElementById('model').disabled = true;
-            document.getElementById('tradein-storage').innerHTML = '<option value="">Select storage</option>';
+            document.getElementById('tradein-storage').innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
             document.getElementById('tradein-storage').disabled = true;
 
             // Step 2 only
