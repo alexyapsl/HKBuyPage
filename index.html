@@ -127,13 +127,13 @@
 
             <div class="space-y-4" id="tradein-fields">
                 <div>
-                    <label class="section-title mb-2 block" id="brand-label">Brand</label>
+                    <label class="section-title mb-2 block" id="brand-label">Select brand</label>
                     <select id="brand" onchange="updateModelsNewFlow()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white">
                         <option value="">Select brand</option>
                     </select>
                 </div>
                 <div>
-                    <label class="section-title mb-2 block" id="model-label">Model</label>
+                    <label class="section-title mb-2 block" id="model-label">Select model</label>
                     <select id="model" onchange="updateStorageNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white disabled:bg-white disabled:text-gray-500">
                         <option value="">Select model</option>
                     </select>
@@ -154,7 +154,7 @@
 
         <!-- Step 4: Bank Promotion -->
         <div class="mb-8 sehk-hidden" id="bank-section">
-            <div class="section-title mb-3">4. Bank promotion (optional)</div>
+            <div class="section-title mb-3" id="step4-title">4. Bank promotion (optional)</div>
             <div class="flex items-start gap-3" id="bank-buttons">
                 <!-- Populated by JS -->
             </div>
@@ -162,7 +162,7 @@
             <!-- SamsungPay checkbox -->
             <div id="samsungpay-row" class="sehk-hidden mt-3 flex items-center gap-x-2">
                 <input type="checkbox" id="samsungpay" onchange="toggleSamsungPay()" class="w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
-                <label for="samsungpay" class="text-sm text-gray-700 cursor-pointer">Pay with SamsungPay</label>
+                <label for="samsungpay" class="text-sm text-gray-700 cursor-pointer" id="samsungpay-label">Pay with SamsungPay</label>
             </div>
 
             <!-- Bank savings display -->
@@ -486,6 +486,24 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
             const noTradeInHelper = document.getElementById('no-tradein-helper-text');
             if (noTradeInHelper) noTradeInHelper.textContent = t('noTradeinHelper');
+
+            // Step 4 - Bank section
+            const step4 = document.getElementById('step4-title');
+            if (step4) step4.textContent = t('bankTitle');
+
+            const samsungPayLabel = document.getElementById('samsungpay-label');
+            if (samsungPayLabel) samsungPayLabel.textContent = t('payWithSamsungPay');
+
+            // Trade-in brand/model labels
+            const brandLabel = document.getElementById('brand-label');
+            if (brandLabel) brandLabel.textContent = t('selectBrand');
+
+            const modelLabel = document.getElementById('model-label');
+            if (modelLabel) modelLabel.textContent = t('selectModel');
+
+            // Trade-in value prefix
+            const prefixEl = document.getElementById('tradein-value-prefix');
+            if (prefixEl) prefixEl.textContent = t('tradeinValuePrefix');
         }
 
         // Expose for console debugging if needed
