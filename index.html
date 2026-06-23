@@ -501,6 +501,9 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             if (brandFirst && brandFirst.options[0]) brandFirst.options[0].textContent = t('selectBrandOption');
             const modelFirst = document.getElementById('model');
             if (modelFirst && modelFirst.options[0]) modelFirst.options[0].textContent = t('selectModelOption');
+
+            const storageFirst = document.getElementById('tradein-storage');
+            if (storageFirst && storageFirst.options[0]) storageFirst.options[0].textContent = t('selectStorageOption');
         }
 
         // Expose for console debugging if needed
