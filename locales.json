@@ -58,7 +58,9 @@
     "payLabelBank": "With Bank Promotion, you pay",
     "payLabelDefault": "You pay",
     "stickyFrom": "From",
-    "stickyYouPay": "You pay"
+    "stickyYouPay": "You pay",
+    "bankRecommended": "Recommended",
+    "skuResolved": "SKU resolved:"
   },
   "zh": {
     "badgeText": "全新流程 • 產品優先",
@@ -119,6 +121,8 @@
     "payLabelBank": "使用銀行推廣後，您只需付款",
     "payLabelDefault": "您只需付款",
     "stickyFrom": "由",
-    "stickyYouPay": "您需支付"
+    "stickyYouPay": "您需支付",
+    "bankRecommended": "推薦",
+    "skuResolved": "SKU 已解析："
   }
 }

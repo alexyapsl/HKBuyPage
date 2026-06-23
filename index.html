@@ -191,7 +191,7 @@
 
                 <!-- Right: Buy Now button - fixed width, always same row -->
                 <div class="flex-shrink-0">
-                    <button id="buy-now-btn"
+                    <button id="buy-now-btn" data-i18n="buyNowBtnText"
                             class="px-6 py-3 bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors sehk-hidden whitespace-nowrap shadow-sm"
                             onclick="showBuyNowModal()">
                         Buy now
@@ -771,7 +771,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 const key = `${selectedDevice.name}|${opt.storage}`;
                 const lsvInfo = lsvMap[key];
                 if (lsvInfo && lsvInfo.lsvDiscount > 0) {
-                    lsvLine.innerHTML = `PreOrder only Storage Upgrade Savings: HK$${lsvInfo.lsvDiscount.toLocaleString()}`;
+                    lsvLine.innerHTML = `${getLngStr('preOrderSavings')}${lsvInfo.lsvDiscount.toLocaleString()}`;
                     lsvLine.classList.remove('sehk-hidden');
                 } else {
                     lsvLine.classList.add('sehk-hidden');
@@ -1012,7 +1012,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                         // Show LSV savings line if applicable
                         const lsvLine = document.getElementById('lsv-savings-line');
                         if (lsvInfo && lsvInfo.lsvDiscount > 0) {
-                            lsvLine.innerHTML = `PreOrder only Storage Upgrade Savings: HK$${lsvInfo.lsvDiscount.toLocaleString()}`;
+                            lsvLine.innerHTML = `${getLngStr('preOrderSavings')}${lsvInfo.lsvDiscount.toLocaleString()}`;
                             lsvLine.classList.remove('sehk-hidden');
                         } else {
                             lsvLine.classList.add('sehk-hidden');
@@ -1351,7 +1351,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             
             // Per user's requirement: Total first, then breakdown
             // If GTI is used, show "Guaranteed Trade In Price"
-            let html = `<div class="font-medium">Total Trade In value: <span class="font-semibold">HK$${tradeInValue.toLocaleString()}</span></div>`;
+            let html = `<div class="font-medium">${getLngStr('totalTradeInValue') || 'Total Trade In value:'} <span class="font-semibold">HK$${tradeInValue.toLocaleString()}</span></div>`;
             
             if (calc.extraRebate > 0) {
                 if (calc.isGuaranteed) {
@@ -1585,7 +1585,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 if (bank.isRecommended) {
                     const badge = document.createElement('div');
                     badge.className = 'mt-1.5 text-[9px] bg-[#007AFF] text-white px-2 py-0.5 rounded font-medium';
-                    badge.textContent = 'Recommended';
+                    badge.textContent = getLngStr('bankRecommended') || 'Recommended';
                     wrapper.appendChild(badge);
                 }
 
@@ -1757,7 +1757,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             const rrpLine = document.getElementById('sticky-rrp-line');
             if (rrpLine) {
                 if (totalSavings > 0) {
-                    rrpLine.textContent = `Original: HK$${formatPrice(originalPrice)}`;
+                    rrpLine.textContent = `${getLngStr('originalLabel') || 'Original:'} HK$${formatPrice(originalPrice)}`;
                     rrpLine.classList.remove('sehk-hidden');
                 } else {
                     rrpLine.classList.add('sehk-hidden');
@@ -1919,7 +1919,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 // Optionally show resolved SKU hint
                 const hint = document.createElement('div');
                 hint.className = 'text-xs text-emerald-600 mb-2';
-                hint.textContent = 'SKU resolved: ' + selectedSku;
+                hint.textContent = getLngStr('skuResolved') + ' ' + selectedSku;
                 const existingHint = tradeinSection.querySelector('.sku-hint');
                 if (existingHint) existingHint.remove();
                 hint.classList.add('sku-hint');
