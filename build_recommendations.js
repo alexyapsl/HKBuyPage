@@ -1,8 +1,29 @@
 const fs = require('fs');
 const path = require('path');
 
-// Recommendation Sheet (direct CSV export to avoid encoding issues)
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1TKBCVyChwLaNSaBqF0Ts9q4JXUpNHIpbj7ucarqu26s/gviz/tq?tqx=out:csv';
+// Recommendation Sheet - stable CSV export
+const SHEET_ID = '1TKBCVyChwLaNSaBqF0Ts9q4JXUpNHIpbj7ucarqu26s';
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+
+function parseCSVLine(line) {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+
+    for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        if (char === '"') {
+            inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+            result.push(current.trim());
+            current = '';
+        } else {
+            current += char;
+        }
+    }
+    result.push(current.trim());
+    return result;
+}
 
 async function buildRecommendations() {
     try {
@@ -10,40 +31,49 @@ async function buildRecommendations() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const csvContent = await res.text();
 
-        const lines = csvContent.trim().split('\n');
-        const headers = lines[0].split(',');
+        const lines = csvContent.trim().split(/\r?\n/);
+        if (lines.length < 2) {
+            console.log('No data rows found');
+            return;
+        }
 
-        // Map header names to indices
+        const rawHeaders = parseCSVLine(lines[0]);
         const headerMap = {};
-        headers.forEach((h, i) => headerMap[h.replace(/"/g,'').trim()] = i);
+        rawHeaders.forEach((h, i) => {
+            headerMap[h.trim()] = i;
+            headerMap[h.trim().toLowerCase()] = i;
+        });
+
+        const get = (name) => headerMap[name] ?? headerMap[name.toLowerCase()] ?? -1;
 
         const products = [];
 
         for (let i = 1; i < lines.length; i++) {
-            if (!lines[i].trim()) continue;
-            const values = parseCSVLine(lines[i]);
-            if (values.length < headers.length) continue;
+            const line = lines[i].trim();
+            if (!line) continue;
+
+            const values = parseCSVLine(line);
 
             const product = {
-                model: values[headerMap['Model Name']] || '',
-                baseCode: values[headerMap['Base Code']] || '',
-                image: values[headerMap['Key Visual Image']] || '',
-                storage: values[headerMap['Storage']] || '',
-                colorEn: values[headerMap['Color en_HK']] || '',
-                colorZh: values[headerMap['color zh_HK']] || '',
-                hexCode: values[headerMap['Hex Code']] || '',
-                showInHKBuyPage: (values[headerMap['showInHKBuyPage']] || '').replace(/"/g,'').trim().toUpperCase() === 'TRUE',
-                estoreExclusive: values[headerMap['Estore Exclusive']] === 'Y',
-                sku: values[headerMap['SKU']] || '',
-                rrp: parseInt(values[headerMap['RRP']]) || 0,
-                lsvDiscount: parseInt(values[headerMap['LSV Discount']]) || 0,
-                InStockStatus: values[headerMap['InStockStatus']] || 'Y',
-                oosLink: values[headerMap['oosLink hk']] || '',
-                oosLinkEn: values[headerMap['oosLink hk_en']] || '',
+                model: values[get('Model Name')] || '',
+                baseCode: values[get('Base Code')] || '',
+                image: values[get('Key Visual Image')] || '',
+                storage: values[get('Storage')] || '',
+                colorEn: values[get('Color en_HK')] || '',
+                colorZh: values[get('color zh_HK')] || '',
+                hexCode: values[get('Hex Code')] || '',
+                showInHKBuyPage: (values[get('showInHKBuyPage')] || '').replace(/"/g, '').trim().toUpperCase() === 'TRUE',
+                estoreExclusive: values[get('Estore Exclusive')] === 'Y',
+                sku: values[get('SKU')] || '',
+                rrp: parseInt(values[get('RRP')]) || 0,
+                lsvDiscount: parseInt(values[get('LSV Discount')]) || 0,
+                InStockStatus: values[get('InStockStatus')] || 'Y',
+                oosLink: values[get('oosLink hk')] || '',
+                oosLinkEn: values[get('oosLink hk_en')] || '',
                 gifts: [
-                    values[headerMap['Gift1']] || '',
-                    values[headerMap['Gift2']] || '',
-                    values[headerMap['Gift3']] || ''
+                    values[get('Gift1')] || '',
+                    values[get('Gift2')] || '',
+                    values[get('Gift3')] || ''
                 ].filter(g => g)
             };
 
@@ -59,30 +89,10 @@ async function buildRecommendations() {
             'utf8'
         );
 
-        console.log(`Generated recommendations.json with ${products.length} products`);
+        console.log(`✓ Generated recommendations.json with ${products.length} products`);
     } catch (e) {
         console.error('Failed to build recommendations.json:', e.message);
     }
-}
-
-// Simple CSV line parser that handles quotes
-function parseCSVLine(line) {
-    const result = [];
-    let current = '';
-    let inQuotes = false;
-    for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        if (char === '"') {
-            inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
-            result.push(current.trim());
-            current = '';
-        } else {
-            current += char;
-        }
-    }
-    result.push(current.trim());
-    return result;
 }
 
 buildRecommendations();
