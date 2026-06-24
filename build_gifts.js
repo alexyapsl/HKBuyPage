@@ -16,66 +16,43 @@ async function buildGifts() {
 
         const gifts = [];
 
-        // Detect if this is the "merged" format (common with Google Sheets wide tables)
-        const isMergedFormat = rawHeaders.some(h => h.includes(' S26U_') || h.includes(' AddSKU'));
+        // Force Clean column format parser (Sheet structure confirmed as standard columns)
+        const headerMap = {};
+        rawHeaders.forEach((h, i) => { headerMap[h] = i; });
 
-        if (isMergedFormat) {
-            // === Merged format parser ===
-            // Example headers: "GiftCode S26U_Gift001 S26U_Gift002", "Mode AddSKU AddSKU", ...
-            const giftSlots = extractGiftSlots(rawHeaders);
+        for (let i = 1; i < lines.length; i++) {
+            if (!lines[i].trim()) continue;
+            const v = parseCSVLine(lines[i]);
 
-            for (let i = 1; i < lines.length; i++) {
-                if (!lines[i].trim()) continue;
-
-                const values = parseCSVLine(lines[i]);
-
-                giftSlots.forEach(slot => {
-                    const giftCode = getValue(values, rawHeaders, slot.giftCodeIdx);
-                    if (!giftCode) return;
-
-                    gifts.push({
-                        GiftCode: giftCode,
-                        Mode: getValue(values, rawHeaders, slot.modeIdx),
-                        SKU_PromoCode: getValue(values, rawHeaders, slot.promoIdx),
-                        'GiftNameEN': getValue(values, rawHeaders, slot.nameEnIdx),
-                        'GiftNameZH': getValue(values, rawHeaders, slot.nameZhIdx),
-                        'SKU Image': getValue(values, rawHeaders, slot.imageIdx),
-                        Price: getValue(values, rawHeaders, slot.priceIdx),
-                        'Parent Model': getValue(values, rawHeaders, slot.parentIdx),
-                        Active: getValue(values, rawHeaders, slot.activeIdx).toUpperCase() === 'Y' ? 'Y' : 'N'
-                    });
-                });
-            }
-        } else {
-            // === Clean column format (fallback) ===
-            const headerMap = {};
-            rawHeaders.forEach((h, i) => { headerMap[h] = i; });
-
-            for (let i = 1; i < lines.length; i++) {
-                if (!lines[i].trim()) continue;
-                const v = parseCSVLine(lines[i]);
-
-                gifts.push({
-                    GiftCode: v[headerMap['GiftCode']] || '',
-                    Mode: v[headerMap['Mode']] || '',
-                    SKU_PromoCode: v[headerMap['SKU_PromoCode']] || '',
-                    'GiftNameEN': v[headerMap['Gift Name EN']] || v[headerMap['Gift_Name_EN']] || '',
-                    'GiftNameZH': v[headerMap['Gift Name ZH']] || v[headerMap['Gift_Name_ZH']] || '',
-                    'SKU Image': v[headerMap['SKU Image']] || '',
-                    Price: v[headerMap['Price']] || '',
-                    'Parent Model': v[headerMap['Parent Model']] || '',
-                    Active: (v[headerMap['Active']] || '').toUpperCase() === 'Y' ? 'Y' : 'N'
-                });
-            }
+            gifts.push({
+                GiftCode: v[headerMap['GiftCode']] || '',
+                Mode: v[headerMap['Mode']] || '',
+                SKU_PromoCode: v[headerMap['SKU_PromoCode']] || '',
+                'GiftNameEN': v[headerMap['Gift Name EN']] || v[headerMap['Gift_Name_EN']] || '',
+                'GiftNameZH': v[headerMap['Gift Name ZH']] || v[headerMap['Gift_Name_ZH']] || '',
+                'SKU Image': v[headerMap['SKU Image']] || '',
+                Price: v[headerMap['Price']] || '',
+                'Parent Model': v[headerMap['Parent Model']] || '',
+                Active: (v[headerMap['Active']] || '').toUpperCase() === 'Y' ? 'Y' : 'N'
+            });
         }
+
+        // Deduplicate: keep the first occurrence of each GiftCode + Parent Model combination
+const seen = new Set();
+        const uniqueGifts = gifts.filter(g => {
+            const key = `${g.GiftCode}|${g['Parent Model']}`;
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        });
 
         fs.writeFileSync(
             path.join(__dirname, 'gifts.json'),
-            JSON.stringify(gifts, null, 2),
+            JSON.stringify(uniqueGifts, null, 2),
             'utf8'
         );
 
-        console.log(`Generated gifts.json with ${gifts.length} entries`);
+        console.log(`Generated gifts.json with ${uniqueGifts.length} unique entries (from ${gifts.length} raw rows)`);
     } catch (e) {
         console.error('Failed to build gifts.json:', e.message);
     }
@@ -85,45 +62,6 @@ async function buildGifts() {
 function getValue(values, headers, idx) {
     if (idx === undefined || idx < 0 || idx >= values.length) return '';
     return values[idx] || '';
-}
-
-// Detect gift slots from merged headers like "GiftCode S26U_Gift001 S26U_Gift002"
-function extractGiftSlots(headers) {
-    const slots = [];
-
-    // Find the GiftCode header which usually contains all gift codes for the row
-    const giftCodeHeaderIdx = headers.findIndex(h => h.startsWith('GiftCode'));
-    if (giftCodeHeaderIdx === -1) return slots;
-
-    const giftCodes = headers[giftCodeHeaderIdx].split(' ').slice(1); // skip "GiftCode"
-
-    giftCodes.forEach((code, slotIndex) => {
-        // For each gift code we find the corresponding column indices for other fields
-        const modeHeader = headers.find(h => h.startsWith('Mode'));
-        const promoHeader = headers.find(h => h.startsWith('SKU_PromoCode'));
-        const nameEnHeader = headers.find(h => h.includes('Gift_Name_EN') || h.includes('Gift Name EN'));
-        const nameZhHeader = headers.find(h => h.includes('Gift_Name_ZH') || h.includes('Gift Name ZH'));
-        const imageHeader = headers.find(h => h.includes('SKU Image'));
-        const priceHeader = headers.find(h => h.startsWith('Price'));
-        const parentHeader = headers.find(h => h.includes('Parent Model'));
-        const activeHeader = headers.find(h => h.startsWith('Active'));
-
-        // In merged format, values are space-separated in the same order as the codes
-        slots.push({
-            giftCodeIdx: giftCodeHeaderIdx,
-            modeIdx: headers.indexOf(modeHeader),
-            promoIdx: headers.indexOf(promoHeader),
-            nameEnIdx: headers.indexOf(nameEnHeader),
-            nameZhIdx: headers.indexOf(nameZhHeader),
-            imageIdx: headers.indexOf(imageHeader),
-            priceIdx: headers.indexOf(priceHeader),
-            parentIdx: headers.indexOf(parentHeader),
-            activeIdx: headers.indexOf(activeHeader),
-            slotIndex
-        });
-    });
-
-    return slots;
 }
 
 function parseCSVLine(line) {
