@@ -2007,13 +2007,18 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                     const oosLink = (language === 'hk') ? canonical.oosLink : canonical.oosLinkEn;
                     const oosParam = oosLink ? `&oosLink=${encodeURIComponent(oosLink)}` : '';
 
+                    // Choose domain based on language
+                    const magicBase = (language === 'hk')
+                        ? 'https://www.samsung.com/hk/offer/magic/'
+                        : 'https://www.samsung.com/hk_en/offer/magic/';
+
                     let magicUrl;
                     if (mode === 'AddCode') {
                         // voucherCode path (no productCode[2])
-                        magicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedSku}&productQty[1]=1&store=B2C&voucherCode=${encodeURIComponent(skuOrCode)}&newCart=true${oosParam}`;
+                        magicUrl = `${magicBase}?productCode[1]=${selectedSku}&productQty[1]=1&store=B2C&voucherCode=${encodeURIComponent(skuOrCode)}&newCart=true${oosParam}`;
                     } else {
                         // AddSKU (default)
-                        magicUrl = `https://www.samsung.com/hk/offer/magic/?productCode[1]=${selectedSku}&productQty[1]=1&productCode[2]=${skuOrCode}&productQty[2]=1&store=B2C&newCart=true${oosParam}`;
+                        magicUrl = `${magicBase}?productCode[1]=${selectedSku}&productQty[1]=1&productCode[2]=${skuOrCode}&productQty[2]=1&store=B2C&newCart=true${oosParam}`;
                     }
 
                     pendingMagicUrl = magicUrl;
