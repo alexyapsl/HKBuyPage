@@ -2004,11 +2004,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
                     // Build magic link according to Mode + language-based oosLink
                     const canonical = productBySku[selectedSku] || {};
-                    const oosLink = (language === 'hk') ? canonical.oosLink : canonical.oosLinkEn;
+                    const lang = getCurrentLang(); // 'zh' or 'en'
+                    const oosLink = (lang === 'zh') ? canonical.oosLink : canonical.oosLinkEn;
                     const oosParam = oosLink ? `&oosLink=${encodeURIComponent(oosLink)}` : '';
 
                     // Choose domain based on language
-                    const magicBase = (language === 'hk')
+                    const magicBase = (lang === 'zh')
                         ? 'https://www.samsung.com/hk/offer/magic/'
                         : 'https://www.samsung.com/hk_en/offer/magic/';
 
