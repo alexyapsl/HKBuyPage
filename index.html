@@ -7,15 +7,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600&display=swap');
-        
         body {
-            font-family: 'Inter', system_ui, sans-serif;
+            font-family: SamsungOne, Arial, system_ui, sans-serif;
             background-color: #f8f9fa;
         }
         
         .heading-font {
-            font-family: 'Poppins', system_ui, sans-serif;
+            font-family: "Samsung Sharp Sans", SamsungSharpSans, SamsungSharpBold, Arial, system_ui, sans-serif;
+            font-weight: bold;
         }
 
         .samsung-blue {
@@ -43,22 +42,26 @@
             border: 1px solid #e5e7eb;
         }
         
-        .device-card:hover {
-            transform: translateY(-4px);
+        .device-card:not(.disabled):hover {
+            transform: translateY(-1px);
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        
+        .device-card:not(.disabled):active {
+            transition: none;
+            transform: translateY(1px);
+            box-shadow: 0 0 0 1px rgb(0 0 0 / 0.3);
         }
 
         .device-card.selected {
             border-color: #007AFF;
-            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
+            box-shadow: 0 0 0 1px #007AFF;
         }
 
         .section-title {
-            font-size: 12px;
             font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            color: #64748b;
+            letter-spacing: 0;
+            color: rgba(0,0,0,0.7);
         }
 
         .sticky-bar {
@@ -68,23 +71,57 @@
         .sehk-hidden {
             display: none !important;
         }
+
+        #selected-sku-hint {
+            display: none !important;
+        }
+
+        #step1-title,
+        #step2-title,
+        #step3-title {
+          display: flex;
+          align-items: center;
+        }
+
+        #step1-title:before,
+        #step2-title:before,
+        #step3-title:before {
+          content: "1";
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 30px;
+          height: 30px;
+          background-color: rgba(0,0,0,0.03);
+          border: 1px solid rgba(0,0,0,0.3);
+          border-radius: 50%;
+          margin-right: 10px;
+        }
+
+        #step2-title:before {
+          content: "2";
+        }
+
+        #step3-title:before {
+          content: "3";
+        }
     </style>
 </head>
 <body>
     <div class="max-w-4xl mx-auto px-6 pt-10 pb-28 sm:pb-24">
         <!-- Header -->
-        <div class="text-center mb-10">
+        <div class="text-center mb-10 sehk-hidden">
             <div class="inline-flex items-center gap-x-2 px-4 py-1 rounded-full bg-blue-50 text-xs tracking-[1px] mb-4 text-[#007AFF]">
                 <div class="w-2 h-2 bg-[#007AFF] rounded-full animate-pulse"></div>
                 <span id="new-flow-badge" data-i18n="badgeText" class="font-medium">NEW FLOW • PRODUCT FIRST</span>
             </div>
-            <h1 id="hero-title" data-i18n="mainTitle" class="text-5xl font-semibold tracking-tighter heading-font text-gray-900">Choose your new Galaxy.<br>Then trade in.</h1>
+            <h1 id="hero-title" data-i18n="mainTitle" class="text-5xl tracking-tighter heading-font text-gray-900">Choose your new Galaxy.<br>Then trade in.</h1>
             <p id="hero-subtitle" data-i18n="mainSubtitle" class="text-xl text-gray-600 mt-3 max-w-md mx-auto">Simple. Transparent. Instant savings.</p>
         </div>
 
         <!-- Step 1: Choose New Device -->
         <div class="mb-12">
-            <div class="section-title mb-3" data-i18n="step1Title" id="step1-title">1. Select your new device</div>
+            <div class="section-title text-base mb-3" data-i18n="step1Title" id="step1-title">Select your new device</div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="device-selection">
                 <!-- Populated by JS -->
             </div>
@@ -92,18 +129,19 @@
 
         <!-- Step 2: Storage -->
         <div class="mb-12 sehk-hidden" id="storage-section">
-            <div class="section-title mb-3" data-i18n="step2Title" id="step2-title">2. Choose storage and color</div>
+            <div class="section-title text-base mb-3" data-i18n="step2Title" id="step2-title">Choose storage and color</div>
             <!-- Storage Chip Selector (replaces native <select>) -->
-            <div class="text-sm font-medium text-gray-700 mb-2" data-i18n="selectStoragePlaceholder" id="storage-label">Select storage</div>
-            <div id="storage-chips" class="flex flex-wrap gap-2 mb-2"></div>
+            <div class="text-sm font-medium text-gray-700 mb-2" data-i18n="selectStoragePlaceholder" id="storage-label">Storage</div>
+            <div id="storage-chips" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
             <!-- LSV PreOrder Savings line -->
-            <div id="lsv-savings-line" class="sehk-hidden mt-2 text-sm text-emerald-600 font-medium"></div>
+            <div id="lsv-savings-line" class="mt-3 px-4 py-3 bg-blue-50 border border-blue-200 rounded-xl text-sm samsung-blue"></div>
+
 
             <!-- Inline Color Chip Selector for Step 2b (SKU resolution) -->
-            <div id="color-chips-section" class="sehk-hidden mt-4">
+            <div id="color-chips-section" class="sehk-hidden mt-7">
                 <div id="color-label" data-i18n="selectColorTitle" class="text-sm font-medium text-gray-700 mb-2">Select color</div>
                 <div id="color-chips" class="flex flex-wrap gap-2"></div>
-                <div id="selected-sku-hint" class="mt-2 text-xs text-emerald-600 sehk-hidden"></div>
+                <div id="selected-sku-hint" class="mt-2 text-xs samsung-blue sehk-hidden"></div>
             </div>
         </div>
 
@@ -111,35 +149,35 @@
         <div class="mb-12 sehk-hidden" id="tradein-section">
 
             <div class="flex items-center justify-between mb-3">
-                <div class="section-title" data-i18n="step3Title" id="step3-title">3. Trade-in your current device (optional)</div>
+                <div class="section-title text-base" data-i18n="step3Title" id="step3-title">Trade-in your current device (optional)</div>
             </div>
 
             <!-- No Trade-In Checkbox -->
             <div class="mb-2">
                 <div class="flex items-center gap-x-2">
-                    <input type="checkbox" id="no-tradein" onchange="toggleNoTradeInNewFlow()" class="w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
-                    <label for="no-tradein" data-i18n="noTradeInLabel" class="text-sm text-gray-700 cursor-pointer" id="no-tradein-label">My trade in device is not listed here OR I do not have a device to trade in</label>
+                    <input type="checkbox" id="no-tradein" onchange="toggleNoTradeInNewFlow()" class="ml-2 mt-1 mb-1 w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
+                    <label for="no-tradein" data-i18n="noTradeInLabel" class="py-2 pl-2 text-sm text-gray-700 cursor-pointer hover:text-gray-900" id="no-tradein-label">My trade in device is not listed here OR I do not have a device to trade in</label>
                 </div>
-                <div id="no-tradein-helper" data-i18n="noTradeInHelper" class="sehk-hidden mt-2 ml-6 text-xs text-gray-600 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2" id="no-tradein-helper-text">
+                <div id="no-tradein-helper" data-i18n="noTradeInHelper" class="sehk-hidden mt-2 py-3 px-3 text-sm bg-blue-50 border border-blue-200 rounded-xl px-3 py-2" id="no-tradein-helper-text">
                     If you cannot find your trade in device here, you may still be able to find them on our cart page full trade in device list.
                 </div>
             </div>
 
             <div class="space-y-4" id="tradein-fields">
                 <div>
-                    <label class="section-title mb-2 block" data-i18n="brandLabel" id="brand-label"></label>
+                    <label class="section-title text-sm mb-2 block" data-i18n="brandLabel" id="brand-label"></label>
                     <select id="brand" onchange="updateModelsNewFlow()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white">
                         <option value=""></option>
                     </select>
                 </div>
                 <div>
-                    <label class="section-title mb-2 block" data-i18n="modelLabel" id="model-label"></label>
+                    <label class="section-title text-sm mb-2 block" data-i18n="modelLabel" id="model-label"></label>
                     <select id="model" onchange="updateStorageNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white disabled:bg-white disabled:text-gray-500">
                         <option value=""></option>
                     </select>
                 </div>
                 <div>
-                    <label class="section-title mb-2 block" data-i18n="storageLabel" id="tradein-storage-label"></label>
+                    <label class="section-title text-sm mb-2 block" data-i18n="storageLabel" id="tradein-storage-label"></label>
                     <select id="tradein-storage" onchange="updateTradeInPriceNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-2xl px-5 py-4 text-lg appearance-none bg-white disabled:bg-white disabled:text-gray-500">
                         <option value=""></option>
                     </select>
@@ -174,18 +212,18 @@
     </div>
 
     <!-- Sticky Bottom Bar (price left, Buy Now right on same row) -->
-    <div id="sticky-bar" class="sehk-hidden fixed bottom-0 left-0 right-0 bg-white border-t z-[60] shadow-lg">
+    <div id="sticky-bar" class="sehk-hidden fixed bottom-0 left-0 right-0 bg-white border-t z-[60] shadow-lg ">
         <div class="max-w-4xl mx-auto px-6 py-3.5">
             <div class="flex items-center justify-between gap-x-4">
                 <!-- Left: price information -->
                 <div class="min-w-0 flex-1">
-                    <div id="sticky-device-name" class="font-semibold text-sm sm:text-lg leading-tight truncate"></div>
+                    <div id="sticky-device-name" class="font-semibold text-sm sm:text-base leading-tight truncate"></div>
                     <!-- Original RRP line (shown only when savings exist) -->
                     <div id="sticky-rrp-line" class="sehk-hidden mt-0.5 font-semibold text-sm text-gray-500 leading-tight truncate"></div>
                     <div id="sticky-pay-label" data-i18n="stickyYouPay" class="text-xs text-gray-500"></div>
                     <div>
                         <div id="sticky-final-price" class="text-2xl font-semibold tabular-nums"></div>
-                        <div id="sticky-savings" class="text-emerald-600 text-sm sehk-hidden mt-0.5"></div>
+                        <div id="sticky-savings" class="samsung-blue text-sm sehk-hidden mt-0.5"></div>
                     </div>
                 </div>
 
@@ -203,7 +241,7 @@
 
     <!-- Color Picker Modal -->
     <div id="color-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[70] flex items-end sm:items-center justify-center">
-        <div class="bg-white w-full sm:w-[420px] sm:rounded-3xl rounded-t-3xl p-6 shadow-xl">
+        <div class="bg-white w-full sm:w-[420px] sm:rounded-2xl rounded-t-2xl p-6 shadow-xl">
             <div class="flex items-center justify-between mb-5">
                 <div class="font-semibold text-xl">${t('colorModalTitle')}</div>
                 <button onclick="closeColorModal()" class="text-2xl leading-none text-gray-400 hover:text-gray-600">&times;</button>
@@ -223,7 +261,7 @@
 
     <!-- Gift Selection Modal (images + 3 gift choices, no Skip) -->
     <div id="gift-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[120] flex items-end lg:items-center justify-center">
-        <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-3xl p-6">
+        <div class="bg-white w-full lg:w-[420px] lg:rounded-2xl lg:m-4 rounded-t-2xl p-6">
             <div class="flex items-center justify-between mb-4">
                 <div class="font-semibold text-xl">Choose your gift</div>
                 <button onclick="closeGiftModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
@@ -234,7 +272,7 @@
 
     <!-- Samsung Shop App Modal (NEW - between Gift and Important reminder) -->
     <div id="samsung-shop-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[110] flex items-end lg:items-center justify-center">
-        <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-3xl p-6">
+        <div class="bg-white w-full lg:w-[420px] lg:rounded-2xl lg:m-4 rounded-t-2xl p-6">
             <div class="flex items-center justify-between mb-4">
                 <div class="font-semibold text-xl text-gray-900" data-i18n="shopModalTitle">Checkout with Samsung Shop App</div>
                 <button onclick="closeSamsungShopModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
@@ -258,7 +296,7 @@
 
     <!-- Trade-in Warning Modal -->
     <div id="tradein-warning-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[80] flex items-end sm:items-center justify-center">
-        <div class="bg-white w-full sm:w-[420px] sm:rounded-3xl rounded-t-3xl p-6 shadow-xl">
+        <div class="bg-white w-full sm:w-[420px] sm:rounded-2xl rounded-t-2xl p-6 shadow-xl">
             <div class="flex items-center justify-between mb-4">
                 <div id="tradein-warning-title" class="font-semibold text-xl text-gray-900">Important reminder</div>
                 <button onclick="closeTradeInWarningModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
@@ -286,7 +324,7 @@
         let selectedBank = 'none';
         let useSamsungPay = false;
         let devices = []; // loaded from devices.json
-let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
+        let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         let productBySku = {}; // sku -> full product data from recommendations.json
         let gifts = []; // loaded from gifts.json (new source of truth)
 
@@ -359,16 +397,16 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         // Bilingual UI text kept for backward compatibility during transition
         const uiText = {
             // Step titles
-            step1Title: { en: '1. Select your new device', zh: '1. 選擇您的新裝置' },
-            step2Title: { en: '2. Choose storage and color', zh: '2. 選擇儲存空間與色彩' },
-            step2SelectStorage: { en: 'Select storage', zh: '選擇儲存空間' },
-            step2SelectColor: { en: 'Select color', zh: '選擇色彩' },
+            step1Title: { en: 'Select your new device', zh: '選擇您的新Galaxy' },
+            step2Title: { en: 'Choose storage and color', zh: '選擇容量與顏色' },
+            step2SelectStorage: { en: 'Select storage', zh: '選擇容量' },
+            step2SelectColor: { en: 'Select color', zh: '選擇顏色' },
 
             // Badges
-            outOfStock: { en: 'Out of Stock', zh: '已售罄' },
+            outOfStock: { en: 'Restock soon', zh: '補貨中' },
             samsungComOnly: { en: 'Samsung.com Only', zh: '僅限 Samsung.com' },
             recommended: { en: 'Recommended', zh: '推薦' },
-            upgradeDiscounts: { en: 'Upgrade discounts available', zh: '升級優惠可供使用' },
+            upgradeDiscounts: { en: 'Storage upgrade offer', zh: '容量升級優惠' },
 
             // Sticky bar
             stickyFrom: { en: 'From', zh: '由' },
@@ -377,12 +415,12 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             stickyBuyNow: { en: 'Buy now', zh: '立即購買' },
 
             // Savings lines
-            preorderSavings: { en: 'PreOrder only Storage Upgrade Savings', zh: '預購僅儲存空間升級優惠' },
+            preorderSavings: { en: 'PreOrder only Storage Upgrade Savings', zh: '預訂即享容量升級折扣' },
 
             // Trade-in section
-            tradeinTitle: { en: '3. Trade-in your current device (optional)', zh: '3. 以舊換新您的現有裝置（選填）' },
-            noTradeinLabel: { en: 'My trade in device is not listed here OR I do not have a device to trade in', zh: '我的以舊換新裝置未列在此處 或 我沒有可以以舊換新的裝置' },
-            noTradeinHelper: { en: 'If you cannot find your trade in device here, you may still be able to find them on our cart page full trade in device list.', zh: '如果您在此處找不到可以以舊換新的裝置，您仍可能在購物車全面以舊換新裝置清單中找到它們。' },
+            tradeinTitle: { en: 'Trade-in to upgrade (optional)', zh: 'Trade-in 您的舊裝置（選填）' },
+            noTradeinLabel: { en: 'My trade in device is not listed here OR I do not have a device to trade in', zh: '我不需要Trade-in / 找不到我想回收的裝置' },
+            noTradeinHelper: { en: 'Don\'t worry. More trade-in options are available on the cart page.', zh: '您仍可以在購物車頁的加入更多Trade-in 選項。' },
 
             // Bank section
             bankTitle: { en: '4. Bank promotion (optional)', zh: '4. 銀行優惠（選填）' },
@@ -396,7 +434,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             giftFree: { en: 'Free gift', zh: '免費禮品' },
 
             // Color modal
-            colorModalTitle: { en: 'Choose color', zh: '選擇色彩' },
+            colorModalTitle: { en: 'Choose color', zh: '選擇顏色' },
             colorCancel: { en: 'Cancel', zh: '取消' },
             colorContinue: { en: 'Continue', zh: '繼續' },
 
@@ -409,7 +447,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             // Trade-in labels
             selectBrand: { en: 'Select brand', zh: '選擇品牌' },
             selectModel: { en: 'Select model', zh: '選擇型號' },
-            selectStorageTradein: { en: 'Select storage', zh: '選擇儲存空間' },
+            selectStorageTradein: { en: 'Select storage', zh: '選擇容量' },
             tradeinValuePrefix: { en: 'Your device trade-in value is', zh: '您的裝置以舊換新價值為' },
             skuResolved: { en: 'SKU resolved:', zh: 'SKU 已解析：' },
 
@@ -436,8 +474,8 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             // Dynamic / JS injected strings
             selectBrandOption: { en: 'Select brand', zh: '選擇品牌' },
             selectModelOption: { en: 'Select model', zh: '選擇型號' },
-            selectStorageOption: { en: 'Select storage', zh: '選擇儲存空間' },
-            upgradeDiscountsAvailable: { en: 'Upgrade discounts available', zh: '升級優惠可供使用' },
+            selectStorageOption: { en: 'Select storage', zh: '選擇容量' },
+            upgradeDiscountsAvailable: { en: 'Storage Upgrade Offer', zh: '容量升級優惠' },
             totalTradeInValue: { en: 'Total Trade In value: HK$', zh: '以舊換新總值：HK$' },
             tradeInPriceLabel: { en: 'Trade In Price: HK$', zh: '以舊換新價格：HK$' },
             downloadApp: { en: 'Download App', zh: '下載 App' },
@@ -651,10 +689,10 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             
             recommendedProducts.forEach((product, idx) => {
                 const card = document.createElement('div');
-                card.className = `device-card p-5 rounded-3xl cursor-pointer border flex flex-row sm:flex-col gap-4 sm:gap-3`;
+                card.className = `device-card p-5 rounded-2xl cursor-pointer border flex flex-row sm:flex-col items-center justify-center gap-4 sm:gap-3`;
                 card.innerHTML = `
                     <img src="${product.image}" class="w-20 h-20 sm:w-full sm:h-36 object-contain rounded-2xl bg-white flex-shrink-0" alt="${product.name}">
-                    <div class="flex-1 min-w-0">
+                    <div class="flex-1 min-w-0 mb-1">
                         <div class="font-semibold text-xl leading-tight">${product.name}</div>
                     </div>
                 `;
@@ -855,7 +893,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
         // --- Trade-in logic (adapted from current page) ---
         function populateBrandsNewFlow() {
             const brandSelect = document.getElementById('brand');
-            const uniqueBrands = [...new Set(devices.map(d => d.brand))].sort();
+            const uniqueBrands = [...new Set(devices.map(d => d.brand))].sort((a, b) => b.localeCompare(a));
             brandSelect.innerHTML = `<option value="">${t('selectBrandOption')}</option>`;
             uniqueBrands.forEach(b => {
                 const opt = document.createElement('option');
@@ -979,14 +1017,14 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 const hasLsv = lsvInfo && lsvInfo.lsvDiscount > 0;
 
                 const chip = document.createElement('div');
-                chip.className = `px-4 py-2 border rounded-2xl text-sm flex items-center gap-2 transition-all ${allOos ? 'opacity-40 bg-gray-50 cursor-not-allowed' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'} ${selectedStorageIndex === idx ? '!border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-300'}`;
+                chip.className = `device-card p-5 rounded-2xl cursor-pointer border flex flex-row gap-1 items-center justify-between transition-all ${allOos ? 'opacity-60 bg-gray-50 cursor-not-allowed disabled' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'} ${selectedStorageIndex === idx ? '!border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-300'}`;
 
-                let inner = `<span class="font-medium text-gray-800">${opt.storage}</span>`;
+                let inner = `<span class="font-bold text-gray-800">${opt.storage}</span>`;
                 if (hasLsv) {
-                    inner += `<span class="text-[10px] text-emerald-600 ml-1">${t('upgradeDiscountsAvailable')}</span>`;
+                    inner += `<span class="text-[12px] samsung-blue ml-1">${t('upgradeDiscountsAvailable')}</span>`;
                 }
                 if (allOos) {
-                    inner += `<span class="text-[10px] text-red-500 ml-1">${t('outOfStock')}</span>`;
+                    inner += `<span class="text-[12px] text-red-500 ml-1">${t('outOfStock')}</span>`;
                 }
                 chip.innerHTML = inner;
 
@@ -1087,7 +1125,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 const isEstoreOnly = !!(canonical.estoreExclusive || canonical.EstoreExclusive || canonical['Estore Exclusive']);
 
                 const chip = document.createElement('div');
-                chip.className = `flex items-center gap-x-2 px-3 py-1.5 border rounded-2xl text-sm transition-all ${isOos ? 'opacity-40 bg-gray-50' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'}`;
+                chip.className = `flex items-center gap-x-2 px-4 py-3 border rounded-2xl text-sm text-nowraptransition-all ${isOos ? 'opacity-60 bg-gray-50 disabled' : 'cursor-pointer hover:border-[#007AFF] bg-white hover:bg-blue-50'} ${isEstoreOnly ? 'min-w-[80%] sm:min-w-[unset]' : 'min-w-[40%] sm:min-w-[unset]'}`;
 
                 // Resolve bilingual color name (prefer object, then fallback to data fields)
                 let colorNameDisplay = color.name;
@@ -1099,13 +1137,14 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                         : (canonical.colorEn || canonical.colorZh);
                 }
 
-                const oosLabel = isOos ? `<span class="text-[10px] text-red-500 ml-1">${t('outOfStock')}</span>` : '';
-                const storeLabel = isEstoreOnly ? `<span class="text-[10px] text-blue-600 ml-1">${t('samsungComOnly')}</span>` : '';
+                const storeLabel = isEstoreOnly ? `<span class="text-[12px] text-blue-600">${t('samsungComOnly')}</span>` : '';
+                const oosLabel = isOos ? `<span class="text-[12px] text-red-500 ml-4">${t('outOfStock')}</span>` : '';
+
                 chip.innerHTML = `
                     <div class="w-5 h-5 rounded-full border border-gray-300 flex-shrink-0" style="background: ${canonical.hexCode || '#9ca3af'};"></div>
-                    <span class="font-medium text-gray-800">${colorNameDisplay}</span>
-                    ${oosLabel}
+                    <span class="font-medium text-gray-800 mt-1">${colorNameDisplay}</span>
                     ${storeLabel}
+                    ${oosLabel}
                 `;
 
                 if (!isOos) {
@@ -1355,16 +1394,16 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
             
             if (calc.extraRebate > 0) {
                 if (calc.isGuaranteed) {
-                    html += `<div class="text-xs text-emerald-600 mt-1">${getLngStr('gtiLabel') || 'Guaranteed Trade In Price:'} HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs samsung-blue mt-1">${getLngStr('gtiLabel') || 'Guaranteed Trade In Price:'} HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 } else {
-                    html += `<div class="text-xs text-emerald-600 mt-1">${getLngStr('tiLabel') || 'Trade In Price:'} HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs samsung-blue mt-1">${getLngStr('tiLabel') || 'Trade In Price:'} HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 }
-                html += `<div class="text-xs text-emerald-600">${getLngStr('extraRebateLabel') || 'Extra Trade In Rebate:'} HK$${calc.extraRebate.toLocaleString()}</div>`;
+                html += `<div class="text-xs samsung-blue">${getLngStr('extraRebateLabel') || 'Extra Trade In Rebate:'} HK$${calc.extraRebate.toLocaleString()}</div>`;
             } else {
                 if (calc.isGuaranteed) {
-                    html += `<div class="text-xs text-emerald-600 mt-1">${getLngStr('gtiLabel') || 'Guaranteed Trade In Price:'} HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs samsung-blue mt-1">${getLngStr('gtiLabel') || 'Guaranteed Trade In Price:'} HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 } else {
-                    html += `<div class="text-xs text-emerald-600 mt-1">${getLngStr('tiLabel') || 'Trade In Price:'} HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs samsung-blue mt-1">${getLngStr('tiLabel') || 'Trade In Price:'} HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 }
             }
 
@@ -1918,7 +1957,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 tradeinSection.classList.remove('sehk-hidden');
                 // Optionally show resolved SKU hint
                 const hint = document.createElement('div');
-                hint.className = 'text-xs text-emerald-600 mb-2';
+                hint.className = 'text-xs samsung-blue mb-2';
                 hint.textContent = getLngStr('skuResolved') + ' ' + selectedSku;
                 const existingHint = tradeinSection.querySelector('.sku-hint');
                 if (existingHint) existingHint.remove();
@@ -1938,7 +1977,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
                 giftModal.id = 'gift-modal';
                 giftModal.className = 'sehk-hidden fixed inset-0 bg-black/50 z-[120] flex items-end lg:items-center justify-center';
                 giftModal.innerHTML = `
-                    <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-3xl p-6">
+                    <div class="bg-white w-full lg:w-[420px] lg:rounded-2xl lg:m-4 rounded-t-2xl p-6">
                         <div class="flex items-center justify-between mb-4">
                             <div class="font-semibold text-xl">${t('giftModalTitle')}</div>
                             <button onclick="closeGiftModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
@@ -1988,7 +2027,7 @@ let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
 
                 const priceLabel = (priceStr && priceStr !== 'Free')
                     ? `<div class="text-xs text-[#007AFF] mt-0.5 font-medium">${t('giftAddPrice').replace('{price}', priceStr)}</div>`
-                    : `<div class="text-xs text-emerald-600 mt-0.5">${t('giftFree')}</div>`;
+                    : `<div class="text-xs samsung-blue mt-0.5">${t('giftFree')}</div>`;
 
                 const btn = document.createElement('button');
                 btn.className = 'w-full flex items-center gap-4 p-4 border border-gray-200 rounded-2xl hover:border-[#007AFF] text-left';
