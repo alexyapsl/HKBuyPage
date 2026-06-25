@@ -78,14 +78,16 @@
 
         #step1-title,
         #step2-title,
-        #step3-title {
+        #step3-title,
+        #step4-title {
           display: flex;
           align-items: center;
         }
 
         #step1-title:before,
         #step2-title:before,
-        #step3-title:before {
+        #step3-title:before,
+        #step4-title:before  {
           content: "1";
           display: flex;
           align-items: center;
@@ -104,6 +106,10 @@
 
         #step3-title:before {
           content: "3";
+        }
+
+        #step4-title:before {
+          content: "4";
         }
     </style>
 </head>
@@ -134,7 +140,7 @@
             <div class="text-sm font-medium text-gray-700 mb-2" data-i18n="selectStoragePlaceholder" id="storage-label">Storage</div>
             <div id="storage-chips" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
             <!-- LSV PreOrder Savings line -->
-            <div id="lsv-savings-line" class="mt-3 px-4 py-3 bg-blue-50 rounded-xl text-sm font-semibold samsung-blue"></div>
+            <div id="lsv-savings-line" class="mt-3 px-5 py-3 bg-blue-50 rounded-xl text-sm font-semibold samsung-blue"></div>
 
 
             <!-- Inline Color Chip Selector for Step 2b (SKU resolution) -->
@@ -158,7 +164,7 @@
                     <input type="checkbox" id="no-tradein" onchange="toggleNoTradeInNewFlow()" class="ml-2 mt-1 mb-1 w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
                     <label for="no-tradein" data-i18n="noTradeInLabel" class="py-2 pl-2 text-sm text-gray-700 cursor-pointer hover:text-gray-900" id="no-tradein-label">My trade in device is not listed here OR I do not have a device to trade in</label>
                 </div>
-                <div id="no-tradein-helper" data-i18n="noTradeInHelper" class="sehk-hidden mt-2 py-3 px-3 text-sm bg-blue-50 samsung-blue font-semibold rounded-xl px-3 py-2" id="no-tradein-helper-text">
+                <div id="no-tradein-helper" data-i18n="noTradeInHelper" class="sehk-hidden mt-2 py-3 px-5 text-sm bg-blue-50 samsung-blue font-semibold rounded-xl px-3 py-2" id="no-tradein-helper-text">
                     If you cannot find your trade in device here, you may still be able to find them on our cart page full trade in device list.
                 </div>
             </div>
@@ -184,15 +190,14 @@
                 </div>
 
                 <!-- Trade-in value display -->
-                <div id="tradein-value-display" class="sehk-hidden mt-2 py-3 px-3 text-sm bg-blue-50 samsung-blue font-semibold rounded-xl px-3 py-2">
-                    <span id="tradein-value-prefix">Your device trade-in value is</span> <span id="tradein-value-amount" class="font-semibold"></span>
+                <div id="tradein-value-display" class="sehk-hidden mt-2 py-4 px-5 text-sm bg-blue-50 samsung-blue rounded-xl px-3 py-2">
                 </div>
             </div>
         </div>
 
         <!-- Step 4: Bank Promotion -->
         <div class="mb-8 sehk-hidden" id="bank-section">
-            <div class="section-title mb-3" data-i18n="step4Title" id="step4-title">4. Bank promotion (optional)</div>
+            <div class="section-title mb-3" data-i18n="step4Title" id="step4-title">Bank promotion (optional)</div>
             <div class="flex items-start gap-3" id="bank-buttons">
                 <!-- Populated by JS -->
             </div>
@@ -347,10 +352,10 @@
             return 'en'; // default + /hk_en/
         }
 
+        // === Language & i18n helpers ===
         let i18nData = {};
         let lang = getCurrentLang();
 
-        // Support ?lang=zh or ?lang=en for easy debugging
         function getCurrentLang() {
             const param = new URLSearchParams(window.location.search).get('lang');
             if (param === 'zh') return 'zh';
@@ -368,7 +373,7 @@
                     i18nData = await res.json();
                 }
             } catch (e) {
-                console.warn('Failed to load locales.json, falling back to embedded strings.');
+                console.warn('Failed to load locales.json');
             }
         }
 
@@ -378,7 +383,6 @@
             return key;
         }
 
-        // Keep t() as alias for backward compatibility with existing dynamic code
         function t(key) {
             return getLngStr(key);
         }
@@ -392,100 +396,6 @@
                 }
             });
             document.documentElement.lang = (lang === 'zh') ? 'zh-Hant-HK' : 'en';
-        }
-
-        // Bilingual UI text kept for backward compatibility during transition
-        const uiText = {
-            // Step titles
-            step1Title: { en: 'Select your new device', zh: '選擇您的新Galaxy' },
-            step2Title: { en: 'Choose storage and color', zh: '選擇容量與顏色' },
-            step2SelectStorage: { en: 'Select storage', zh: '選擇容量' },
-            step2SelectColor: { en: 'Select color', zh: '選擇顏色' },
-
-            // Badges
-            outOfStock: { en: 'Restock soon', zh: '補貨中' },
-            samsungComOnly: { en: 'Samsung.com Only', zh: '僅限 Samsung.com' },
-            recommended: { en: 'Recommended', zh: '推薦' },
-            upgradeDiscounts: { en: 'Storage upgrade offer', zh: '容量升級優惠' },
-
-            // Sticky bar
-            stickyFrom: { en: 'From', zh: '由' },
-            stickyYouPay: { en: 'You pay', zh: '您需支付' },
-            stickyAfterStorage: { en: 'After storage upgrade savings', zh: '儲存空間升級優惠後' },
-            stickyBuyNow: { en: 'Buy now', zh: '立即購買' },
-
-            // Savings lines
-            preorderSavings: { en: 'PreOrder only Storage Upgrade Savings', zh: '預訂即享容量升級折扣' },
-
-            // Trade-in section
-            tradeinTitle: { en: 'Trade-in to upgrade (optional)', zh: 'Trade-in 您的舊裝置（選填）' },
-            noTradeinLabel: { en: 'My trade in device is not listed here OR I do not have a device to trade in', zh: '我不需要Trade-in / 找不到我想回收的裝置' },
-            noTradeinHelper: { en: 'Don\'t worry. More trade-in options are available on the cart page.', zh: '您仍可以在購物車頁的加入更多Trade-in 選項。' },
-
-            // Bank section
-            bankTitle: { en: '4. Bank promotion (optional)', zh: '4. 銀行優惠（選填）' },
-            payWithSamsungPay: { en: 'Pay with SamsungPay', zh: '使用 Samsung Pay 支付' },
-            bankRecommended: { en: 'Recommended', zh: '推薦' },
-
-            // Gift modal
-            giftModalTitle: { en: 'Choose your gift', zh: '選擇您的禮品' },
-            giftNoAvailable: { en: 'No gifts available for this model.', zh: '此模式暫無禮品可供選擇。' },
-            giftAddPrice: { en: 'Add {price}', zh: '添加 {price}' },
-            giftFree: { en: 'Free gift', zh: '免費禮品' },
-
-            // Color modal
-            colorModalTitle: { en: 'Choose color', zh: '選擇顏色' },
-            colorCancel: { en: 'Cancel', zh: '取消' },
-            colorContinue: { en: 'Continue', zh: '繼續' },
-
-            otherBank: { en: 'Other', zh: '其他' },
-
-            // Trade-in warning modal
-            tradeinWarningTitle: { en: 'Important reminder', zh: '重要提醒' },
-            tradeinWarningBody: { en: 'Adding product to cart, remember to add your trade in device in the cart with IMEI and device condition again to enjoy the guarantee trade in price', zh: '產品已加入購物車，請記得在購物車內再次添加以舊換新裝置，並輸入 IMEI 及裝置狀況，以確保享有保證以舊換新價格。' },
-
-            // Trade-in labels
-            selectBrand: { en: 'Select brand', zh: '選擇品牌' },
-            selectModel: { en: 'Select model', zh: '選擇型號' },
-            selectStorageTradein: { en: 'Select storage', zh: '選擇容量' },
-            tradeinValuePrefix: { en: 'Your device trade-in value is', zh: '您的裝置以舊換新價值為' },
-            skuResolved: { en: 'SKU resolved:', zh: 'SKU 已解析：' },
-
-            // Savings display
-            specialDiscount: { en: 'Special discount', zh: '特別優惠' },
-            creditCardRebate: { en: 'Credit card rebate HK$', zh: '信用卡反還 HK$' },
-            samsungPayOnlyDiscount: { en: 'SamsungPay only discount HK$', zh: 'Samsung Pay 僅限優惠 HK$' },
-            fixedDiscountSavings: { en: 'Special discount HK$', zh: '特別優惠 HK$' },
-
-            // Samsung Shop modal
-            samsungShopModalTitle: { en: 'Checkout with Samsung Shop App', zh: '使用 Samsung Shop App 結帳' },
-            samsungShopModalDesc: { en: 'Checkout with Samsung Shop App to enjoy app only discounts, get latest promotion, and an amazing shopping experience.', zh: '使用 Samsung Shop App 結帳以享受 App 專屬優惠、最新推廣及優質購物體驗。' },
-            addToAppLabel: { en: 'Add my product(s) to Samsung Shop App', zh: '將我的產品添加到 Samsung Shop App' },
-
-            // Common buttons / labels
-            cancel: { en: 'Cancel', zh: '取消' },
-            confirm: { en: 'Confirm', zh: '確認' },
-
-            // Header / Hero
-            newFlowBadge: { en: 'NEW FLOW • PRODUCT FIRST', zh: '新流程 • 產品優先' },
-            heroTitle: { en: 'Choose your new Galaxy.<br>Then trade in.', zh: '選擇您的新 Galaxy。<br>然後以舊換新。' },
-            heroSubtitle: { en: 'Simple. Transparent. Instant savings.', zh: '簡單。透明。即時節省。' },
-
-            // Dynamic / JS injected strings
-            selectBrandOption: { en: 'Select brand', zh: '選擇品牌' },
-            selectModelOption: { en: 'Select model', zh: '選擇型號' },
-            selectStorageOption: { en: 'Select storage', zh: '選擇容量' },
-            upgradeDiscountsAvailable: { en: 'Storage Upgrade Offer', zh: '容量升級優惠' },
-            totalTradeInValue: { en: 'Total Trade In value: HK$', zh: '以舊換新總值：HK$' },
-            tradeInPriceLabel: { en: 'Trade In Price: HK$', zh: '以舊換新價格：HK$' },
-            downloadApp: { en: 'Download App', zh: '下載 App' },
-            addToCart: { en: 'Add to Cart', zh: '加入購物車' },
-        };
-
-        function t(key) {
-            const entry = uiText[key];
-            if (!entry) return key;
-            return entry[lang] || entry.en || key;
         }
 
         /**
@@ -809,7 +719,7 @@
                 const key = `${selectedDevice.name}|${opt.storage}`;
                 const lsvInfo = lsvMap[key];
                 if (lsvInfo && lsvInfo.lsvDiscount > 0) {
-                    lsvLine.innerHTML = `${getLngStr('preOrderSavings')}${lsvInfo.lsvDiscount.toLocaleString()}`;
+                    lsvLine.innerHTML = `${getLngStr('preOrderSavings')} HK$${lsvInfo.lsvDiscount.toLocaleString()}`;
                     lsvLine.classList.remove('sehk-hidden');
                 } else {
                     lsvLine.classList.add('sehk-hidden');
@@ -1050,7 +960,7 @@
                         // Show LSV savings line if applicable
                         const lsvLine = document.getElementById('lsv-savings-line');
                         if (lsvInfo && lsvInfo.lsvDiscount > 0) {
-                            lsvLine.innerHTML = `${getLngStr('preOrderSavings')}${lsvInfo.lsvDiscount.toLocaleString()}`;
+                            lsvLine.innerHTML = `${getLngStr('preOrderSavings')} HK$${lsvInfo.lsvDiscount.toLocaleString()}`;
                             lsvLine.classList.remove('sehk-hidden');
                         } else {
                             lsvLine.classList.add('sehk-hidden');
@@ -1390,22 +1300,24 @@
             
             // Per user's requirement: Total first, then breakdown
             // If GTI is used, show "Guaranteed Trade In Price"
-            let html = `<div class="font-medium">${getLngStr('totalTradeInValue') || 'Total Trade In value:'} <span class="font-semibold">HK$${tradeInValue.toLocaleString()}</span></div>`;
+            let html = `<div class="font-medium mb-3 pb-2 border-b border-blue-200 font-bold"><span class="inline-block min-w-[150px]">${getLngStr('totalTradeInValue') || 'Total Trade In value:'}</span> <span class="">HK$${tradeInValue.toLocaleString()}</span></div>`;
             
             if (calc.extraRebate > 0) {
                 if (calc.isGuaranteed) {
-                    html += `<div class="text-xs samsung-blue mt-1">${getLngStr('gtiLabel') || 'Guaranteed Trade In Price:'} HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-sm samsung-blue mt-1"><span class="inline-block min-w-[150px]">${getLngStr('gtiLabel') || 'Guaranteed Trade In Price:'}</span> HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 } else {
-                    html += `<div class="text-xs samsung-blue mt-1">${getLngStr('tiLabel') || 'Trade In Price:'} HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-sm samsung-blue mt-1"><span class="inline-block min-w-[150px]">${getLngStr('tiLabel') || 'Trade In Price:'}</span> HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 }
-                html += `<div class="text-xs samsung-blue">${getLngStr('extraRebateLabel') || 'Extra Trade In Rebate:'} HK$${calc.extraRebate.toLocaleString()}</div>`;
+                html += `<div class="text-sm samsung-blue"><span class="inline-block min-w-[150px]">${getLngStr('extraRebateLabel') || 'Extra Trade In Rebate:'}</span> HK$${calc.extraRebate.toLocaleString()}</div>`;
             } else {
                 if (calc.isGuaranteed) {
-                    html += `<div class="text-xs samsung-blue mt-1">${getLngStr('gtiLabel') || 'Guaranteed Trade In Price:'} HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs samsung-blue mt-1"><span class="inline-block min-w-[150px]">${getLngStr('gtiLabel') || 'Guaranteed Trade In Price:'}</span> HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 } else {
-                    html += `<div class="text-xs samsung-blue mt-1">${getLngStr('tiLabel') || 'Trade In Price:'} HK$${calc.tradeInPrice.toLocaleString()}</div>`;
+                    html += `<div class="text-xs samsung-blue mt-1"><span class="inline-block min-w-[150px]">${getLngStr('tiLabel') || 'Trade In Price:'}</span> HK$${calc.tradeInPrice.toLocaleString()}</div>`;
                 }
             }
+
+            html += `<div class="text-xs mt-4">${getLngStr('stackableTradeIn')}</div>`;
 
             // Replace the simple amount text with rich breakdown
             container.innerHTML = html;
@@ -1979,7 +1891,7 @@
                 giftModal.innerHTML = `
                     <div class="bg-white w-full lg:w-[420px] lg:rounded-xl lg:m-4 rounded-t-2xl p-6">
                         <div class="flex items-center justify-between mb-4">
-                            <div class="font-semibold text-xl">${t('giftModalTitle')}</div>
+                            <div class="font-semibold text-xl">${t('chooseGiftModalTitle')}</div>
                             <button onclick="closeGiftModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
                         </div>
                         <div id="gift-options" class="space-y-3"></div>
@@ -1989,7 +1901,7 @@
             } else {
                 // Ensure title is always updated when re-opening (handles lang change without reload)
                 const titleEl = giftModal.querySelector('.font-semibold.text-xl');
-                if (titleEl) titleEl.textContent = t('giftModalTitle');
+                if (titleEl) titleEl.textContent = t('chooseGiftModalTitle');
             }
 
             const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];

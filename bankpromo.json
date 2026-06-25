@@ -1,11 +1,11 @@
 [
   {
-    "key": "bankofchina(hongkong)",
+    "key": "bankofchina(hongkong)creditcard",
     "name": {
-      "en": "Bank of China (Hong Kong)",
-      "zh": "中國銀行"
+      "en": "Bank of China (Hong Kong) Credit Card",
+      "zh": "中銀香港信用卡"
     },
-    "logo": "https://companieslogo.com/img/orig/2388.HK_BIG-9ff8bfa3.png?t=1720244490",
+    "logo": "/img/logo-bochk.png",
     "tiers": [
       {
         "max": 3000,
@@ -36,12 +36,12 @@
     "isRecommended": true
   },
   {
-    "key": "hsbc",
+    "key": "hsbccreditcard",
     "name": {
-      "en": "HSBC",
-      "zh": "滙豐"
+      "en": "HSBC Credit Card",
+      "zh": "滙豐信用卡"
     },
-    "logo": "https://create.hsbc/content/dam/brandhub/brand/ld-history/hexagon_1192x671.jpg",
+    "logo": "/img/logo-hsbc.png",
     "tiers": [
       {
         "max": 100000,
