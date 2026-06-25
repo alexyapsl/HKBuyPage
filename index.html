@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: SamsungOne, Arial, system_ui, sans-serif;
-            background-color: #f8f9fa;
+            background-color: rgba(0,0,0,0.02); /*#f8f9fa;*/
         }
         
         .heading-font {
@@ -38,8 +38,6 @@
 
         .device-card {
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            background: white;
-            border: 1px solid #e5e7eb;
         }
         
         .device-card:not(.disabled):hover {
@@ -61,11 +59,10 @@
         .section-title {
             font-weight: 600;
             letter-spacing: 0;
-            color: rgba(0,0,0,0.7);
         }
 
-        .sticky-bar {
-            box-shadow: 0 -4px 6px -1px rgb(0 0 0 / 0.1), 0 -2px 4px -2px rgb(0 0 0 / 0.1);
+        #sticky-bar {
+            box-shadow: 0 -4px 6px -1px rgb(0 0 0 / 0.05), 0 -2px 8px -2px rgb(0 0 0 / 0.05);
         }
 
         .sehk-hidden {
@@ -90,6 +87,7 @@
         #step4-title:before  {
           content: "1";
           display: flex;
+          font-size: 14px;
           align-items: center;
           justify-content: center;
           width: 30px;
@@ -127,7 +125,7 @@
 
         <!-- Step 1: Choose New Device -->
         <div class="mb-20">
-            <div class="section-title text-base mb-5" data-i18n="step1Title" id="step1-title">Select your new device</div>
+            <div class="section-title text-xl mb-5" data-i18n="step1Title" id="step1-title">Select your new device</div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="device-selection">
                 <!-- Populated by JS -->
             </div>
@@ -135,7 +133,7 @@
 
         <!-- Step 2: Storage -->
         <div class="mb-20 sehk-hidden" id="storage-section">
-            <div class="section-title text-base mb-5" data-i18n="step2Title" id="step2-title">Choose storage and color</div>
+            <div class="section-title text-xl mb-5" data-i18n="step2Title" id="step2-title">Choose storage and color</div>
             <!-- Storage Chip Selector (replaces native <select>) -->
             <div class="text-sm font-medium text-gray-700 mb-2" data-i18n="selectStoragePlaceholder" id="storage-label">Storage</div>
             <div id="storage-chips" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
@@ -155,7 +153,7 @@
         <div class="mb-20 sehk-hidden" id="tradein-section">
 
             <div class="flex items-center justify-between mb-5">
-                <div class="section-title text-base" data-i18n="step3Title" id="step3-title">Trade-in your current device (optional)</div>
+                <div class="section-title text-xl" data-i18n="step3Title" id="step3-title">Trade-in your current device (optional)</div>
             </div>
 
             <!-- No Trade-In Checkbox -->
@@ -164,7 +162,7 @@
                     <input type="checkbox" id="no-tradein" onchange="toggleNoTradeInNewFlow()" class="ml-2 mt-1 mb-1 w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
                     <label for="no-tradein" data-i18n="noTradeInLabel" class="flex-1 py-2 pl-2 text-sm text-gray-700 cursor-pointer hover:text-gray-900" id="no-tradein-label">My trade in device is not listed here OR I do not have a device to trade in</label>
                 </div>
-                <div id="no-tradein-helper" data-i18n="noTradeInHelper" class="sehk-hidden mt-2 py-3 px-5 text-sm bg-blue-50 samsung-blue font-semibold rounded-xl px-3 py-2" id="no-tradein-helper-text">
+                <div id="no-tradein-helper" data-i18n="noTradeInHelper" class="sehk-hidden mt-2 py-3 px-5 text-sm bg-blue-50 samsung-blue rounded-xl px-3 py-2" id="no-tradein-helper-text">
                     If you cannot find your trade in device here, you may still be able to find them on our cart page full trade in device list.
                 </div>
             </div>
@@ -172,19 +170,19 @@
             <div class="space-y-4" id="tradein-fields">
                 <div>
                     <label class="section-title text-sm mb-2 block" data-i18n="brandLabel" id="brand-label"></label>
-                    <select id="brand" onchange="updateModelsNewFlow()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-xl px-5 py-4 text-lg appearance-none bg-white">
+                    <select id="brand" onchange="updateModelsNewFlow()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-xl px-5 py-4 appearance-none bg-white">
                         <option value=""></option>
                     </select>
                 </div>
                 <div>
                     <label class="section-title text-sm mb-2 block" data-i18n="modelLabel" id="model-label"></label>
-                    <select id="model" onchange="updateStorageNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-xl px-5 py-4 text-lg appearance-none bg-white disabled:bg-white disabled:text-gray-500">
+                    <select id="model" onchange="updateStorageNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-xl px-5 py-4 appearance-none bg-white disabled:bg-white disabled:text-gray-500">
                         <option value=""></option>
                     </select>
                 </div>
                 <div>
                     <label class="section-title text-sm mb-2 block" data-i18n="storageLabel" id="tradein-storage-label"></label>
-                    <select id="tradein-storage" onchange="updateTradeInPriceNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-xl px-5 py-4 text-lg appearance-none bg-white disabled:bg-white disabled:text-gray-500">
+                    <select id="tradein-storage" onchange="updateTradeInPriceNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-xl px-5 py-4 appearance-none bg-white disabled:bg-white disabled:text-gray-500">
                         <option value=""></option>
                     </select>
                 </div>
@@ -197,7 +195,7 @@
 
         <!-- Step 4: Bank Promotion -->
         <div class="mb-8 sehk-hidden" id="bank-section">
-            <div class="section-title mb-5" data-i18n="step4Title" id="step4-title">Bank promotion (optional)</div>
+            <div class="section-title text-xl mb-5" data-i18n="step4Title" id="step4-title">Bank promotion (optional)</div>
             <div class="flex items-stretch gap-3 mt-5" id="bank-buttons">
                 <!-- Populated by JS -->
             </div>
@@ -219,23 +217,25 @@
     <!-- Sticky Bottom Bar (price left, Buy Now right on same row) -->
     <div id="sticky-bar" class="sehk-hidden fixed bottom-0 left-0 right-0 bg-white border-t z-[60] shadow-lg ">
         <div class="max-w-4xl mx-auto px-6 py-3.5">
+            <div>
+                <div id="sticky-device-name" class="font-bold text-md sm:text-base leading-tight truncate"></div>
+                <div class="text-xs text-gray-600 mt-0.5">
+                  <div id="sticky-rrp-line" class="sehk-hidden leading-tight truncate"></div>
+                  <div id="sticky-pay-label" data-i18n="stickyYouPay"></div>
+                </div>
+            </div>
             <div class="flex items-center justify-between gap-x-4">
-                <!-- Left: price information -->
                 <div class="min-w-0 flex-1">
-                    <div id="sticky-device-name" class="font-semibold text-sm sm:text-base leading-tight truncate"></div>
-                    <!-- Original RRP line (shown only when savings exist) -->
-                    <div id="sticky-rrp-line" class="sehk-hidden mt-0.5 font-semibold text-sm text-gray-500 leading-tight truncate"></div>
-                    <div id="sticky-pay-label" data-i18n="stickyYouPay" class="text-xs text-gray-500"></div>
                     <div>
-                        <div id="sticky-final-price" class="text-2xl font-semibold tabular-nums"></div>
-                        <div id="sticky-savings" class="samsung-blue text-sm sehk-hidden mt-0.5"></div>
+                        <div id="sticky-final-price" class="text-2xl font-bold tabular-nums"></div>
+                        <div id="sticky-savings" class="samsung-blue text-xs sehk-hidden"></div>
                     </div>
                 </div>
 
                 <!-- Right: Buy Now button - fixed width, always same row -->
                 <div class="flex-shrink-0">
                     <button id="buy-now-btn" data-i18n="buyNowBtnText"
-                            class="px-6 py-3 bg-[#007AFF] text-white text-sm font-semibold rounded-full hover:bg-[#0066CC] transition-colors sehk-hidden whitespace-nowrap shadow-sm"
+                            class="px-6 py-3 bg-[#007AFF] text-white text-sm font-bold rounded-full hover:bg-[#0066CC] transition-colors sehk-hidden whitespace-nowrap shadow-sm"
                             onclick="showBuyNowModal()">
                         Buy now
                     </button>
@@ -599,7 +599,7 @@
             
             recommendedProducts.forEach((product, idx) => {
                 const card = document.createElement('div');
-                card.className = `device-card p-5 rounded-xl cursor-pointer border flex flex-row sm:flex-col items-center justify-center gap-4 sm:gap-3`;
+                card.className = `device-card bg-white p-5 rounded-xl cursor-pointer border flex flex-row sm:flex-col items-center justify-center gap-4 sm:gap-3`;
                 card.innerHTML = `
                     <img src="${product.image}" class="w-20 h-20 sm:w-full sm:h-36 object-contain rounded-xl bg-white flex-shrink-0" alt="${product.name}">
                     <div class="flex-1 min-w-0 mb-1">
@@ -927,14 +927,14 @@
                 const hasLsv = lsvInfo && lsvInfo.lsvDiscount > 0;
 
                 const chip = document.createElement('div');
-                chip.className = `device-card p-5 rounded-xl cursor-pointer border flex flex-row gap-1 items-center justify-between transition-all ${allOos ? 'opacity-60 bg-gray-50 cursor-not-allowed disabled' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'} ${selectedStorageIndex === idx ? '!border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-300'}`;
+                chip.className = `device-card bg-white border p-5 rounded-xl cursor-pointer border flex flex-row gap-1 items-center justify-between transition-all ${allOos ? 'opacity-60 bg-gray-50 cursor-not-allowed disabled' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'} ${selectedStorageIndex === idx ? '!border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-300'}`;
 
                 let inner = `<span class="font-bold text-gray-800">${opt.storage}</span>`;
                 if (hasLsv) {
-                    inner += `<span class="text-[12px] samsung-blue ml-1">${t('upgradeDiscountsAvailable')}</span>`;
+                    inner += `<span class="text-xs samsung-blue ml-1">${t('upgradeDiscountsAvailable')}</span>`;
                 }
                 if (allOos) {
-                    inner += `<span class="text-[12px] text-red-500 ml-1">${t('outOfStock')}</span>`;
+                    inner += `<span class="text-xs text-red-500 ml-1">${t('outOfStock')}</span>`;
                 }
                 chip.innerHTML = inner;
 
@@ -1035,7 +1035,7 @@
                 const isEstoreOnly = !!(canonical.estoreExclusive || canonical.EstoreExclusive || canonical['Estore Exclusive']);
 
                 const chip = document.createElement('div');
-                chip.className = `flex items-center gap-x-2 px-4 py-3 border rounded-xl text-sm text-nowraptransition-all ${isOos ? 'opacity-60 bg-gray-50 disabled' : 'cursor-pointer hover:border-[#007AFF] bg-white hover:bg-blue-50'} ${isEstoreOnly ? 'min-w-[80%] sm:min-w-[unset]' : 'min-w-[40%] sm:min-w-[unset]'}`;
+                chip.className = `device-card flex items-center gap-x-2 px-4 py-3 border rounded-xl text-sm text-nowraptransition-all ${isOos ? 'opacity-60 bg-gray-50 disabled' : 'cursor-pointer hover:border-[#007AFF] bg-white hover:bg-blue-50'} ${isEstoreOnly ? 'min-w-[80%] sm:min-w-[unset]' : 'min-w-[40%] sm:min-w-[unset]'}`;
 
                 // Resolve bilingual color name (prefer object, then fallback to data fields)
                 let colorNameDisplay = color.name;
@@ -1047,8 +1047,8 @@
                         : (canonical.colorEn || canonical.colorZh);
                 }
 
-                const storeLabel = isEstoreOnly ? `<span class="text-[12px] samsung-blue">${t('samsungComOnly')}</span>` : '';
-                const oosLabel = isOos ? `<span class="text-[12px] text-red-500 ml-4">${t('outOfStock')}</span>` : '';
+                const storeLabel = isEstoreOnly ? `<span class="text-xs samsung-blue">${t('samsungComOnly')}</span>` : '';
+                const oosLabel = isOos ? `<span class="text-xs text-red-500 ml-4">${t('outOfStock')}</span>` : '';
 
                 chip.innerHTML = `
                     <div class="w-5 h-5 rounded-full border border-gray-300 flex-shrink-0" style="background: ${canonical.hexCode || '#9ca3af'};"></div>
@@ -1435,7 +1435,7 @@
                 }, 300);
                 // Render only "Other" for now so the UI doesn't look broken
                 const otherBtn = document.createElement('button');
-                otherBtn.className = `px-2 py-3 rounded-xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] border-gray-200`;
+                otherBtn.className = `px-2 py-4 rounded-xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] border-gray-200`;
                 otherBtn.innerHTML = `
                     <div class="h-8 w-12 flex items-center justify-center text-2xl text-gray-400">💳</div>
                     <span class="text-sm text-gray-600">Other</span>
@@ -1499,18 +1499,18 @@
                 wrapper.className = 'relative flex-1 flex flex-col align-stretch items-stretch';
 
                 const btn = document.createElement('button');
-                btn.className = `flex-1 px-2 py-3 rounded-xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] transition-all ${isSelected ? '!border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-200 hover:border-gray-300'}`;
+                btn.className = `bg-white flex-1 px-2 py-4 rounded-xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] transition-all ${isSelected ? '!border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-200 hover:border-gray-300'}`;
 
                 if (bank.logo) {
                     btn.innerHTML = `
                         <img src="${bank.logo}" alt="${bank.name}" class="h-10 w-auto object-contain">
-                        <span class="text-xs text-gray-600">${bank.name}</span>
+                        <span class="text-xs sm:text-sm">${bank.name}</span>
                     `;
                 } else {
                     // Generic credit card icon for "Other"
                     btn.innerHTML = `
                         <div class="h-10 w-12 flex items-center justify-center text-2xl text-gray-400">💳</div>
-                        <span class="text-xs text-gray-600">${bank.name}</span>
+                        <span class="text-xs sm:text-sm">${bank.name}</span>
                     `;
                 }
 
@@ -1704,13 +1704,13 @@
             const finalPrice = Math.max(0, originalPrice - lsvDiscount - tradeInValue - bankRebate - samsungPayDiscount);
             const totalSavings = originalPrice - finalPrice;
 
-            nameEl.textContent = `${selectedDevice.name} • ${opt.storage}`;
+            nameEl.textContent = `${selectedDevice.name} · ${opt.storage}`;
 
             // RRP original price line (only when any savings applied)
             const rrpLine = document.getElementById('sticky-rrp-line');
             if (rrpLine) {
                 if (totalSavings > 0) {
-                    rrpLine.textContent = `${getLngStr('originalLabel') || 'Original:'} HK$${formatPrice(originalPrice)}`;
+                    rrpLine.textContent = `${getLngStr('originalLabel') || 'Original'}: HK$${formatPrice(originalPrice)}`;
                     rrpLine.classList.remove('sehk-hidden');
                 } else {
                     rrpLine.classList.add('sehk-hidden');
@@ -1731,7 +1731,7 @@
             else if (hasTradeIn) payLabel = getLngStr('payLabelTI');
             else if (hasBankPromo) payLabel = getLngStr('payLabelBank');
 
-            payEl.textContent = payLabel;
+            payEl.textContent = `▼ ${payLabel}`;
             priceEl.innerHTML = `HK$${formatPrice(finalPrice)}`;
 
             // NEW simplified 2-line savings summary
@@ -1744,14 +1744,14 @@
                 // Line 1: Discount in cart (storage upgrade + Samsung Pay)
                 if (totalCartDiscount > 0) {
                     const d1 = document.createElement('div');
-                    d1.textContent = `${getLngStr('discountInCart') || 'Discount in cart:'} HK$${formatPrice(totalCartDiscount)}`;
+                    d1.textContent = `${getLngStr('discountInCart') || 'Discount in cart:'}: HK$${formatPrice(totalCartDiscount)}`;
                     saveEl.appendChild(d1);
                 }
 
                 // Line 2: Rebate (bank promotion + trade-in total)
                 if (totalRebate > 0) {
                     const r1 = document.createElement('div');
-                    r1.textContent = `${getLngStr('rebateLabel') || 'Rebate:'} HK$${formatPrice(totalRebate)}`;
+                    r1.textContent = `${getLngStr('rebateLabel') || 'Rebate:'}: HK$${formatPrice(totalRebate)}`;
                     saveEl.appendChild(r1);
                 }
 
