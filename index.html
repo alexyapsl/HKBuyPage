@@ -1313,7 +1313,7 @@
                 if (calc.isGuaranteed) {
                     html += `<div class="text-xs samsung-blue mt-1 flex justify-between"><div>${getLngStr('gtiLabel') || 'Guaranteed Trade In Price:'}</div> <div>HK$${calc.tradeInPrice.toLocaleString()}</div></div>`;
                 } else {
-                    html += `<div class="text-xs samsung-blue mt-1"><div>${getLngStr('tiLabel') || 'Trade In Price:'}</div> <div>HK$${calc.tradeInPrice.toLocaleString()}</div></div>`;
+                    html += `<div class="text-xs samsung-blue mt-1 flex justify-between"><div>${getLngStr('tiLabel') || 'Trade In Price:'}</div> <div>HK$${calc.tradeInPrice.toLocaleString()}</div></div>`;
                 }
             }
 
