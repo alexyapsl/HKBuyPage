@@ -72,6 +72,7 @@ async function buildDevices() {
                 storage: values[storageIdx] || '',
                 recommendation1: values[headers.indexOf('Recommendation 1')] || '',
                 recommendation2: values[headers.indexOf('Recommendation 2')] || '',
+                recommendation3: values[headers.indexOf('Recommendation 3')] || '',
                 standardPrice,
                 eti: {},
                 gti: {}

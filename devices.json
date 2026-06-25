@@ -5,6 +5,7 @@
     "storage": "512GB",
     "recommendation1": "Galaxy Z Flip7",
     "recommendation2": "N/A",
+    "recommendation3": "N/A",
     "standardPrice": 3800,
     "eti": {
       "SM-F7660DBETGY": 100,
@@ -33,6 +34,7 @@
     "storage": "512GB",
     "recommendation1": "Galaxy Z Flip7",
     "recommendation2": "N/A",
+    "recommendation3": "N/A",
     "standardPrice": 1800,
     "eti": {
       "SM-F7660DBETGY": 100,
@@ -61,6 +63,7 @@
     "storage": "512GB",
     "recommendation1": "Galaxy Z Flip7",
     "recommendation2": "N/A",
+    "recommendation3": "N/A",
     "standardPrice": 1100,
     "eti": {
       "SM-F7660DBETGY": 100,
@@ -89,6 +92,7 @@
     "storage": "1TB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 7700,
     "eti": {
       "SM-F9660DBHTGY": 120,
@@ -132,6 +136,7 @@
     "storage": "1TB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 3300,
     "eti": {
       "SM-F9660DBHTGY": 120,
@@ -173,6 +178,7 @@
     "storage": "1TB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 2100,
     "eti": {
       "SM-F9660DBHTGY": 120,
@@ -214,6 +220,7 @@
     "storage": "512GB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 7700,
     "eti": {
       "SM-F9660DBHTGY": 120,
@@ -255,6 +262,7 @@
     "storage": "512GB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 3300,
     "eti": {
       "SM-F9660DBHTGY": 120,
@@ -296,6 +304,7 @@
     "storage": "512GB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 2100,
     "eti": {
       "SM-F9660DBHTGY": 120,
@@ -337,6 +346,7 @@
     "storage": "128GB",
     "recommendation1": "Galaxy Z Flip7",
     "recommendation2": "N/A",
+    "recommendation3": "N/A",
     "standardPrice": 900,
     "eti": {
       "SM-S9480ZKPTGY": 100,
@@ -365,6 +375,7 @@
     "storage": "256GB",
     "recommendation1": "Galaxy Z Flip7",
     "recommendation2": "N/A",
+    "recommendation3": "N/A",
     "standardPrice": 1000,
     "eti": {
       "SM-S9480ZKPTGY": 100,
@@ -393,6 +404,7 @@
     "storage": "512GB",
     "recommendation1": "Galaxy Z Flip7",
     "recommendation2": "N/A",
+    "recommendation3": "N/A",
     "standardPrice": 1900,
     "eti": {
       "SM-S9480ZKPTGY": 100,
@@ -421,6 +433,7 @@
     "storage": "512GB",
     "recommendation1": "Galaxy Z Flip7",
     "recommendation2": "N/A",
+    "recommendation3": "N/A",
     "standardPrice": 2800,
     "eti": {
       "SM-S9480ZKPTGY": 100,
@@ -449,6 +462,7 @@
     "storage": "512GB",
     "recommendation1": "Galaxy Z Flip7",
     "recommendation2": "N/A",
+    "recommendation3": "N/A",
     "standardPrice": 2100,
     "eti": {
       "SM-S9480ZKPTGY": 100,
@@ -477,6 +491,7 @@
     "storage": "512GB",
     "recommendation1": "Galaxy Z Flip7",
     "recommendation2": "N/A",
+    "recommendation3": "N/A",
     "standardPrice": 3300,
     "eti": {
       "SM-S9480ZKPTGY": 100,
@@ -505,6 +520,7 @@
     "storage": "1TB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 4400,
     "eti": {
       "SM-S9480ZKPTGY": 100,
@@ -533,6 +549,7 @@
     "storage": "1TB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 5900,
     "eti": {
       "SM-S9480ZKPTGY": 100,
@@ -561,6 +578,7 @@
     "storage": "1TB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 6500,
     "eti": {
       "SM-S9480ZKPTGY": 100,
@@ -589,6 +607,7 @@
     "storage": "256GB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 1500,
     "eti": {},
     "gti": {}
@@ -599,6 +618,7 @@
     "storage": "512GB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 2000,
     "eti": {},
     "gti": {}
@@ -609,6 +629,7 @@
     "storage": "1TB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 3000,
     "eti": {},
     "gti": {}
@@ -619,6 +640,7 @@
     "storage": "1TB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 6600,
     "eti": {
       "SM-S9480ZKPTGY": 200,
@@ -665,6 +687,7 @@
     "storage": "1TB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 4400,
     "eti": {
       "SM-S9480ZKPTGY": 200,
@@ -711,6 +734,7 @@
     "storage": "1TB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 3000,
     "eti": {},
     "gti": {
@@ -741,6 +765,7 @@
     "storage": "1TB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 3700,
     "eti": {},
     "gti": {
@@ -771,6 +796,7 @@
     "storage": "1TB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 5300,
     "eti": {
       "SM-S9480ZKPTGY": 200,
@@ -817,6 +843,7 @@
     "storage": "1TB",
     "recommendation1": "Galaxy S26 Ultra",
     "recommendation2": "Galaxy Z Fold7",
+    "recommendation3": "Galaxy Z Flip7",
     "standardPrice": 7300,
     "eti": {
       "SM-S9480ZKPTGY": 200,
