@@ -267,7 +267,7 @@
 
     <!-- Gift Selection Modal (images + 3 gift choices, no Skip) -->
     <div id="gift-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[120] flex items-end lg:items-center justify-center">
-        <div class="bg-white w-full lg:w-[420px] lg:rounded-xl lg:m-4 rounded-t-2xl p-6">
+        <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-2xl p-6">
             <div class="flex items-center justify-between mb-4">
                 <div class="font-bold text-xl">Choose your gift</div>
                 <button onclick="closeGiftModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
@@ -302,7 +302,7 @@
 
     <!-- Trade-in Warning Modal -->
     <div id="tradein-warning-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[80] flex items-end sm:items-center justify-center">
-        <div class="bg-white w-full sm:w-[420px] sm:rounded-xl rounded-t-2xl p-6 shadow-xl">
+        <div class="bg-white w-full sm:w-[420px] sm:rounded-3xl rounded-t-2xl p-6 shadow-xl">
             <div class="flex items-center justify-between mb-4">
                 <div id="tradein-warning-title" class="font-bold text-xl text-gray-900">Important reminder</div>
                 <button onclick="closeTradeInWarningModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
@@ -1945,9 +1945,9 @@
                     : `<div class="text-sm samsung-blue mt-0.5">${t('giftFree')}</div>`;
 
                 const btn = document.createElement('button');
-                btn.className = 'w-full flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-[#007AFF] text-left';
+                btn.className = 'device-card w-full flex items-center gap-4 p-4 border border-gray-200 rounded-xl text-left';
                 btn.innerHTML = `
-                    <img src="${image}" class="w-16 h-16 object-contain rounded-xl border" alt="${name}">
+                    <img src="${image}" class="w-16 h-16 object-contain" alt="${name}">
                     <div>
                         <div class="font-medium text-gray-900">${name}</div>
                         ${priceLabel}
