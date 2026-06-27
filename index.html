@@ -36,16 +36,19 @@
             transform: translateY(-1px);
         }
 
-        .device-card {
+        .device-card,
+        .device-card ~ .absolute {
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        .device-card:not(.disabled):hover {
+        .device-card:not(.disabled):hover,
+        .device-card:not(.disabled):hover ~ .absolute {
             transform: translateY(-1px);
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
         
-        .device-card:not(.disabled):active {
+        .device-card:not(.disabled):active,
+        .device-card:not(.disabled):active ~ .absolute {
             transition: none;
             transform: translateY(1px);
             box-shadow: 0 0 0 1px rgb(0 0 0 / 0.3);
@@ -114,19 +117,9 @@
 </head>
 <body>
     <div class="max-w-4xl mx-auto px-6 pt-10 pb-28 sm:pb-24">
-        <!-- Header -->
-        <div class="text-center mb-10 sehk-hidden">
-            <div class="inline-flex items-center gap-x-2 px-4 py-1 rounded-full bg-blue-50 text-sm tracking-[1px] mb-4 text-[#007AFF]">
-                <div class="w-2 h-2 bg-[#007AFF] rounded-full animate-pulse"></div>
-                <span id="new-flow-badge" data-i18n="badgeText" class="font-medium">NEW FLOW • PRODUCT FIRST</span>
-            </div>
-            <h1 id="hero-title" data-i18n="mainTitle" class="text-5xl tracking-tighter heading-font text-gray-900">Choose your new Galaxy.<br>Then trade in.</h1>
-            <p id="hero-subtitle" data-i18n="mainSubtitle" class="text-xl text-gray-600 mt-3 max-w-md mx-auto">Simple. Transparent. Instant savings.</p>
-        </div>
-
         <!-- Step 1: Choose New Device -->
         <div class="mb-20">
-            <div class="section-title text-xl mb-5" data-i18n="step1Title" id="step1-title">Select your new device</div>
+            <div class="section-title text-xl mb-5" data-i18n="step1Title" id="step1-title">...</div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="device-selection">
                 <!-- Populated by JS -->
             </div>
@@ -134,9 +127,9 @@
 
         <!-- Step 2: Storage -->
         <div class="mb-20 sehk-hidden" id="storage-section">
-            <div class="section-title text-xl mb-5" data-i18n="step2Title" id="step2-title">Choose storage and color</div>
+            <div class="section-title text-xl mb-5" data-i18n="step2Title" id="step2-title">██████</div>
             <!-- Storage Chip Selector (replaces native <select>) -->
-            <div class="text-sm font-medium text-gray-700 mb-2" data-i18n="selectStoragePlaceholder" id="storage-label">Storage</div>
+            <div class="text-sm font-medium text-gray-700 mb-2" data-i18n="step2SelectStorage" id="storage-label">██████</div>
             <div id="storage-chips" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
             <!-- LSV PreOrder Savings line -->
             <div id="lsv-savings-line" class="mt-3 px-5 py-3 bg-blue-50 rounded-xl text-sm font-bold samsung-blue"></div>
@@ -144,7 +137,7 @@
 
             <!-- Inline Color Chip Selector for Step 2b (SKU resolution) -->
             <div id="color-chips-section" class="sehk-hidden mt-7">
-                <div id="color-label" data-i18n="selectColorTitle" class="text-sm font-medium text-gray-700 mb-2">Select color</div>
+                <div id="color-label" data-i18n="step2SelectColor" class="text-sm font-medium text-gray-700 mb-2">██████</div>
                 <div id="color-chips" class="flex flex-wrap gap-2"></div>
                 <div id="selected-sku-hint" class="mt-2 text-sm samsung-blue sehk-hidden"></div>
             </div>
@@ -154,17 +147,18 @@
         <div class="mb-20 sehk-hidden" id="tradein-section">
 
             <div class="flex items-center justify-between mb-5">
-                <div class="section-title text-xl" data-i18n="step3Title" id="step3-title">Trade-in your current device (optional)</div>
+                <div class="section-title text-xl" data-i18n="step3Title" id="step3-title"></div>
             </div>
 
             <!-- No Trade-In Checkbox -->
             <div class="mb-2">
                 <div class="flex items-center gap-x-2">
                     <input type="checkbox" id="no-tradein" onchange="toggleNoTradeInNewFlow()" class="ml-2 mt-1 mb-1 w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
-                    <label for="no-tradein" data-i18n="noTradeInLabel" class="flex-1 py-2 pl-2 text-sm text-gray-700 cursor-pointer hover:text-gray-900" id="no-tradein-label">My trade in device is not listed here OR I do not have a device to trade in</label>
+                    <label for="no-tradein" data-i18n="noTradeInLabel" class="flex-1 py-2 pl-2 text-sm text-gray-700 cursor-pointer hover:text-gray-900" id="no-tradein-label"></label>
                 </div>
-                <div id="no-tradein-helper" data-i18n="noTradeInHelper" class="sehk-hidden mt-2 py-3 px-5 text-sm bg-blue-50 samsung-blue rounded-xl px-3 py-2" id="no-tradein-helper-text">
-                    If you cannot find your trade in device here, you may still be able to find them on our cart page full trade in device list.
+                <div id="no-tradein-helper" class="sehk-hidden mt-2 py-3 px-5 text-sm bg-blue-50 samsung-blue rounded-xl px-3 py-2" id="no-tradein-helper-text">
+                    <div data-i18n="noTradeInHelper"></div>
+                    <div data-i18n="stackableTradeIn"></div>
                 </div>
             </div>
 
@@ -182,7 +176,7 @@
                     </select>
                 </div>
                 <div>
-                    <label class="section-title text-sm text-gray-700 mb-2 block" data-i18n="storageLabel" id="tradein-storage-label"></label>
+                    <label class="section-title text-sm text-gray-700 mb-2 block" data-i18n="selectStorageTradein" id="tradein-storage-label"></label>
                     <select id="tradein-storage" onchange="updateTradeInPriceNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-xl px-5 py-4 appearance-none bg-white disabled:bg-white disabled:text-gray-500">
                         <option value=""></option>
                     </select>
@@ -196,7 +190,7 @@
 
         <!-- Step 4: Bank Promotion -->
         <div class="mb-8 sehk-hidden" id="bank-section">
-            <div class="section-title text-xl mb-5" data-i18n="step4Title" id="step4-title">Bank promotion (optional)</div>
+            <div class="section-title text-xl mb-5" data-i18n="step4Title" id="step4-title">██████</div>
             <div class="flex items-stretch gap-3 mt-5" id="bank-buttons">
                 <!-- Populated by JS -->
             </div>
@@ -204,7 +198,7 @@
             <!-- SamsungPay checkbox -->
             <div id="samsungpay-row" class="sehk-hidden mt-3 flex items-center gap-x-2">
                 <input type="checkbox" id="samsungpay" onchange="toggleSamsungPay()" class="ml-2 mt-1 mb-1 w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
-                <label for="samsungpay" data-i18n="samsungPayLabel" class="flex-1 py-3 text-sm text-gray-700 cursor-pointer" id="samsungpay-label">Pay with Samsung Pay</label>
+                <label for="samsungpay" data-i18n="samsungPayLabel" class="flex-1 py-3 text-sm text-gray-700 cursor-pointer" id="samsungpay-label">██████</label>
             </div>
 
             <!-- Bank savings display -->
@@ -237,9 +231,7 @@
                 <div class="flex-shrink-0">
                     <button id="buy-now-btn" data-i18n="buyNowBtnText"
                             class="px-6 py-3 bg-[#007AFF] border-2 border-[#007AFF] text-white hover:text-[#007AFF] text-sm font-bold rounded-full hover:bg-[#FFFFFF] active:bg-blue-50 transition-colors sehk-hidden whitespace-nowrap shadow-sm"
-                            onclick="showBuyNowModal()">
-                        Buy now
-                    </button>
+                            onclick="showBuyNowModal()">██████</button>
                 </div>
             </div>
         </div>
@@ -259,7 +251,7 @@
                 <button onclick="closeColorModal()" class="flex-1 py-3.5 rounded-xl border border-gray-300 text-sm font-medium">${t('colorCancel')}</button>
                 <button id="confirm-color-btn" onclick="confirmColorSelection()"
                         class="flex-1 py-3.5 rounded-xl samsung-btn text-sm font-medium disabled:opacity-50" disabled>
-                    Continue
+                    ██████
                 </button>
             </div>
         </div>
@@ -269,7 +261,7 @@
     <div id="gift-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[120] flex items-end lg:items-center justify-center">
         <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-2xl p-6">
             <div class="flex items-center justify-between mb-4">
-                <div class="font-bold text-xl">Choose your gift</div>
+                <div class="font-bold text-xl">██████</div>
                 <button onclick="closeGiftModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
             </div>
             <div id="gift-options" class="space-y-3"></div>
@@ -280,22 +272,20 @@
     <div id="samsung-shop-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[110] flex items-end lg:items-center justify-center">
         <div class="bg-white w-full lg:w-[420px] lg:rounded-xl lg:m-4 rounded-t-2xl p-6">
             <div class="flex items-center justify-between mb-4">
-                <div class="font-bold text-xl text-gray-900" data-i18n="shopModalTitle">Checkout with Samsung Shop App</div>
+                <div class="font-bold text-xl text-gray-900" data-i18n="shopModalTitle">██████</div>
                 <button onclick="closeSamsungShopModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
             </div>
 
-            <div id="samsung-shop-desc" class="text-sm text-gray-700 leading-relaxed mb-5" data-i18n="shopModalDesc">
-                Checkout with Samsung Shop App to enjoy app only discounts, get latest promotion, and an amazing shopping experience.
-            </div>
+            <div id="samsung-shop-desc" class="text-sm text-gray-700 leading-relaxed mb-5" data-i18n="samsungShopModalDesc">██████</div>
 
             <div class="flex items-center gap-2 mb-6">
                 <input type="checkbox" id="add-to-app" checked class="w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
-                <label for="add-to-app" id="add-to-app-label" class="text-sm text-gray-700">Add my product(s) to Samsung Shop App</label>
+                <label for="add-to-app" id="add-to-app-label" class="text-sm text-gray-700" data-i18n="addToAppLabel">██████</label>
             </div>
 
             <div class="flex gap-3">
                 <button onclick="downloadSamsungShopApp()" data-i18n="downloadAppBtn" class="flex-1 py-3.5 rounded-xl border border-gray-300 text-sm font-medium">Download App</button>
-                <button onclick="proceedFromSamsungShopModal()" data-i18n="addToCartBtn" class="flex-1 py-3.5 rounded-xl samsung-btn text-sm font-medium">Add to Cart</button>
+                <button onclick="proceedFromSamsungShopModal()" data-i18n="addToCartBtn" class="flex-1 py-3.5 rounded-xl samsung-btn text-sm font-medium">██████</button>
             </div>
         </div>
     </div>
@@ -304,17 +294,21 @@
     <div id="tradein-warning-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[80] flex items-end sm:items-center justify-center">
         <div class="bg-white w-full sm:w-[420px] sm:rounded-3xl rounded-t-2xl p-6 shadow-xl">
             <div class="flex items-center justify-between mb-4">
-                <div id="tradein-warning-title" class="font-bold text-xl text-gray-900">Important reminder</div>
+                <div id="tradein-warning-title" data-i18n="tradeinWarningTitle" class="font-bold text-xl text-gray-900">██████</div>
                 <button onclick="closeTradeInWarningModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
             </div>
 
-            <div id="tradein-warning-body" class="text-sm text-gray-700 leading-relaxed mb-6">
-                Adding product to cart, remember to add your trade in device in the cart with IMEI and device condition again to enjoy the guarantee trade in price
-            </div>
+            <ul class="list-disc ml-4 mb-6">
+
+              <li id="tradein-warning-body-trade-in" data-i18n="tradeinWarningBodyTradeIn" class="text-sm text-gray-700 leading-relaxed mb-2">██████</li>
+
+              <li id="tradein-warning-body-spay" data-i18n="tradeinWarningBodySpay" class="text-sm text-gray-700 leading-relaxed mb-2">██████</li>
+
+            </ul>
 
             <div class="flex gap-3">
-                <button id="tradein-warning-cancel" onclick="closeTradeInWarningModal()" class="flex-1 py-3.5 rounded-xl border border-gray-300 text-sm font-medium">Cancel</button>
-                <button onclick="confirmTradeInAndRedirect()" data-i18n="okBtn" class="flex-1 py-3.5 rounded-xl samsung-btn text-sm font-medium">OK</button>
+                <!--<button id="tradein-warning-cancel" data-i18n="tradein-warning-cancel" onclick="closeTradeInWarningModal()" class="flex-[1_1_auto] py-3.5 rounded-xl border border-gray-300 text-sm font-medium">Cancel</button>-->
+                <button onclick="confirmTradeInAndRedirect()" data-i18n="addToCart" class="flex-[2_1_auto] py-3.5 rounded-3xl samsung-btn text-sm font-medium">██████</button>
             </div>
         </div>
     </div>
@@ -399,110 +393,6 @@
             document.documentElement.lang = (lang === 'zh') ? 'zh-Hant-HK' : 'en';
         }
 
-        /**
-         * Applies current language to all static labels and dynamic sections
-         * Call after init() and on language change (if needed without reload)
-         */
-        function applyLanguage() {
-            // Step 2 labels
-            const storageLabel = document.getElementById('tradein-storage-label');
-            if (storageLabel) storageLabel.textContent = t('step2SelectStorage');
-
-            const colorLabel = document.getElementById('color-label');
-            if (colorLabel) colorLabel.textContent = t('step2SelectColor');
-
-            // Trade-in section labels
-            const storageTradeinLabel = document.getElementById('tradein-storage-label');
-            if (storageTradeinLabel) storageTradeinLabel.textContent = t('selectStorageTradein');
-
-            // Trade-in value line
-            const tradeinValueLine = document.getElementById('tradein-value-display');
-            if (tradeinValueLine) {
-                // Re-apply when value is shown later (dynamic)
-            }
-
-            // Samsung Shop modal
-            const shopDesc = document.getElementById('samsung-shop-desc');
-            if (shopDesc) shopDesc.textContent = t('samsungShopModalDesc');
-
-            const addToAppLabel = document.getElementById('add-to-app-label');
-            if (addToAppLabel) addToAppLabel.textContent = t('addToAppLabel');
-
-            // Note: Bank buttons, gift options, and savings lines are already
-            // re-rendered dynamically with t() in their respective functions.
-
-            // Trade-in value prefix line
-            const prefixEl = document.getElementById('tradein-value-prefix');
-            if (prefixEl) prefixEl.textContent = t('tradeinValuePrefix');
-
-            // Trade-in warning modal
-            const warningTitle = document.getElementById('tradein-warning-title');
-            if (warningTitle) warningTitle.textContent = t('tradeinWarningTitle');
-
-            const warningBody = document.getElementById('tradein-warning-body');
-            if (warningBody) warningBody.textContent = t('tradeinWarningBody');
-
-            const warningCancel = document.getElementById('tradein-warning-cancel');
-            if (warningCancel) warningCancel.textContent = t('cancel');
-
-            // Header block
-            const badge = document.getElementById('new-flow-badge');
-            if (badge) badge.textContent = t('newFlowBadge');
-
-            const heroTitle = document.getElementById('hero-title');
-            if (heroTitle) heroTitle.innerHTML = t('heroTitle');
-
-            const heroSub = document.getElementById('hero-subtitle');
-            if (heroSub) heroSub.textContent = t('heroSubtitle');
-
-            // NEW: Step headers + storage label (the texts you asked for)
-            const step1 = document.getElementById('step1-title');
-            if (step1) step1.textContent = t('step1Title');
-
-            const step2 = document.getElementById('step2-title');
-            if (step2) step2.textContent = t('step2Title');
-
-            const storageChipLabel = document.getElementById('storage-label');
-            if (storageChipLabel) storageChipLabel.textContent = t('step2SelectStorage');
-
-            // Step 3 - Trade-in section
-            const step3 = document.getElementById('step3-title');
-            if (step3) step3.textContent = t('tradeinTitle');
-
-            const noTradeInLabel = document.getElementById('no-tradein-label');
-            if (noTradeInLabel) noTradeInLabel.textContent = t('noTradeinLabel');
-
-            const noTradeInHelper = document.getElementById('no-tradein-helper-text');
-            if (noTradeInHelper) noTradeInHelper.textContent = t('noTradeinHelper');
-
-            // Step 3 trade-in dropdown labels (they are empty in HTML)
-            const brandLab = document.getElementById('brand-label');
-            if (brandLab) brandLab.textContent = t('selectBrand');
-            const modelLab = document.getElementById('model-label');
-            if (modelLab) modelLab.textContent = t('selectModel');
-            const storageLab = document.getElementById('tradein-storage-label');
-            if (storageLab) storageLab.textContent = t('selectStorageTradein');
-
-            // Step 4 - Bank section
-            const step4 = document.getElementById('step4-title');
-            if (step4) step4.textContent = t('bankTitle');
-
-            const samsungPayLabel = document.getElementById('samsungpay-label');
-            if (samsungPayLabel) samsungPayLabel.textContent = t('payWithSamsungPay');
-
-            // Step 3 dropdown placeholder options
-            const brandFirst = document.getElementById('brand');
-            if (brandFirst && brandFirst.options[0]) brandFirst.options[0].textContent = t('selectBrandOption');
-            const modelFirst = document.getElementById('model');
-            if (modelFirst && modelFirst.options[0]) modelFirst.options[0].textContent = t('selectModelOption');
-
-            const storageFirst = document.getElementById('tradein-storage');
-            if (storageFirst && storageFirst.options[0]) storageFirst.options[0].textContent = t('selectStorageOption');
-        }
-
-        // Expose for console debugging if needed
-        window.applyLanguage = applyLanguage;
-
         function init() {
             // Load step1models.json first (Step 1 cards)
             loadStep1Models().then(() => {
@@ -515,7 +405,6 @@
 
             // Apply language strings after initial render
             setTimeout(() => {
-                applyLanguage();
                 refreshTradeInPlaceholders();
             }, 60);
         }
@@ -670,8 +559,8 @@
             document.getElementById('bank-section').classList.add('sehk-hidden');
             document.getElementById('samsungpay-row').classList.add('sehk-hidden');
             // Keep bank visual selection intact but clear SamsungPay
-            document.getElementById('samsungpay').checked = false;
-            useSamsungPay = false;
+            //document.getElementById('samsungpay').checked = false;
+            //useSamsungPay = false;
 
             // Render storage chips (replaces native <select>)
             renderStorageChips();
@@ -769,8 +658,8 @@
                 // Reset downstream state so step 4 is forced to re-appear only after new step 3 completion
                 tradeInValue = 0;
                 selectedBank = 'none';
-                useSamsungPay = false;
-                document.getElementById('samsungpay').checked = false;
+                //useSamsungPay = false;
+                //document.getElementById('samsungpay').checked = false;
                 document.getElementById('bank-savings-display').classList.add('sehk-hidden');
 
                 // Clear any previously highlighted bank buttons
@@ -795,7 +684,7 @@
                 document.getElementById('bank-section').classList.add('sehk-hidden');
                 tradeInValue = 0;
                 selectedBank = 'none';
-                useSamsungPay = false;
+                //useSamsungPay = false;
             }
 
             updateStickyBar();
@@ -986,7 +875,7 @@
                         // Reset trade-in state
                         tradeInValue = 0;
                         selectedBank = 'none';
-                        useSamsungPay = false;
+                        //useSamsungPay = false;
                         const noTradeInChk = document.getElementById('no-tradein');
                         if (noTradeInChk) noTradeInChk.checked = false;
                         const fields = document.getElementById('tradein-fields');
@@ -1261,7 +1150,7 @@
 
             // FORCE BOC selection when Step 4 is shown for the first time
             if (bankPromotionRules && bankPromotionRules.boc && (!selectedBank || selectedBank === 'none')) {
-                selectedBank = 'boc';
+                selectedBank = Object.keys(bankPromotionRules)[0];
                 setTimeout(() => {
                     setupBankButtons();
                     updateBankSavingsDisplay();
@@ -1278,8 +1167,11 @@
             if (selectedBank && selectedBank !== 'none') {
                 setTimeout(() => {
                     document.querySelectorAll('#bank-buttons button').forEach(b => {
-                        if (b.textContent.toLowerCase() === selectedBank) {
-                            b.classList.add('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30');
+                        const key = b.getAttribute('data-bank-key');
+                        if (key === selectedBank) {
+                            b.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
+                        } else {
+                            b.classList.remove('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
                         }
                     });
                     updateBankSavingsDisplay();
@@ -1377,8 +1269,8 @@
                 }
 
                 // Reset SamsungPay when coming back from "no trade-in"
-                document.getElementById('samsungpay').checked = false;
-                useSamsungPay = false;
+                //document.getElementById('samsungpay').checked = false;
+                //useSamsungPay = false;
             }
             updateStickyBar();
         }
@@ -1423,6 +1315,8 @@
         // --- Bank promotion buttons ---
         function setupBankButtons() {
             const container = document.getElementById('bank-buttons');
+            if (!container) return;
+            
             container.innerHTML = '';
             container.classList.add('flex', 'items-start');
 
@@ -1434,7 +1328,7 @@
                 }, 300);
                 
                 const otherBtn = document.createElement('button');
-                otherBtn.className = `px-2 py-4 rounded-xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] border-gray-200`;
+                otherBtn.className = `device-card px-2 py-4 rounded-xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] border-gray-200`;
                 otherBtn.innerHTML = `
                     <div class="h-8 w-12 flex items-center justify-center text-2xl text-gray-400">💳</div>
                     <span class="text-sm text-gray-600">Other</span>
@@ -1466,9 +1360,11 @@
 
             // Auto-select the first bank from bankpromo.json if nothing is currently selected
             if ((!selectedBank || selectedBank === 'none') && bankList.length > 0) {
-                selectedBank = bankList[0].key;
+                // Uncomment the next line if you want the first bank auto-selected by default:
+                // selectedBank = bankList[0].key;
             }
 
+            // Always append the 'Other' bank item options to the render queue
             bankList.push({ key: 'none', name: t('otherBank'), logo: null, isRecommended: false });
 
             bankList.forEach(item => {
@@ -1476,31 +1372,26 @@
                 const wrapper = document.createElement('div');
                 wrapper.className = 'relative flex-1 flex flex-col align-stretch items-stretch';
 
-                wrapper.onclick = () => {
-                    trackEvent('product_option-flagship pdp-option selector-option_click3', `bank:${item.name}`, { bank: item.key });
-                    selectedBank = item.key;
-                    setupBankButtons();
-                    updateBankSavingsDisplay();
-                    updateStickyBar();
-                };
-
                 const btn = document.createElement('button');
-                btn.className = `bg-white flex-1 px-1 py-4 rounded-xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] transition-all ${isSelected ? '!border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-200 hover:border-gray-300'}`;
+                // Store explicit key data attributes to stop string-matching bugs during downstream updates
+                btn.setAttribute('data-bank-key', item.key);
+                btn.className = `device-card bg-white flex-1 px-1 py-4 rounded-xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] transition-all ${isSelected ? '!border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-200 hover:border-gray-300'}`;
 
                 if (item.logo) {
                     btn.innerHTML = `
-                        <img src="${item.logo}" alt="${item.name}" class="h-10 w-auto object-contain">
-                        <span class="text-sm sm:text-sm">${item.name}</span>
+                        <img src="${item.logo}" alt="${item.name}" class="h-10 w-auto object-contain pointer-events-none">
+                        <span class="text-sm sm:text-sm pointer-events-none">${item.name}</span>
                     `;
                 } else {
                     btn.innerHTML = `
-                        <div class="h-10 w-12 flex items-center justify-center text-2xl text-gray-400">💳</div>
-                        <span class="text-sm sm:text-sm">${item.name}</span>
+                        <div class="h-10 w-12 flex items-center justify-center text-2xl text-gray-400 pointer-events-none">💳</div>
+                        <span class="text-sm sm:text-sm pointer-events-none">${item.name}</span>
                     `;
                 }
 
-                btn.onclick = (e) => {
-                    e.stopPropagation();
+                // Unified click action on button
+                btn.onclick = () => {
+                    trackEvent('product_option-flagship pdp-option selector-option_click3', `bank:${item.name}`, { bank: item.key });
                     selectedBank = item.key;
                     setupBankButtons();
                     updateBankSavingsDisplay();
@@ -1785,6 +1676,7 @@
         window.onload = async function() {
             await loadTranslations();
             lang = getCurrentLang();
+            console.log("lang = " + lang);
             await loadDevices();
             await loadLSVData();
             init();
@@ -1801,8 +1693,8 @@
         window.selectNewDevice = function(...args) {
             document.getElementById('bank-savings-display')?.classList.add('sehk-hidden');
             // Do NOT reset selectedBank — we want to preserve and recalc the bank choice
-            document.getElementById('samsungpay').checked = false;
-            useSamsungPay = false;
+            //document.getElementById('samsungpay').checked = false;
+            //useSamsungPay = false;
             return origSelectNewDevice?.apply(this, args);
         };
 
@@ -1960,7 +1852,32 @@
                     }
 
                     pendingMagicUrl = magicUrl;
-                    showSamsungShopModal();   // NEW: Samsung Shop App modal before Important reminder
+
+                    appendShopAppUrl();
+
+                    // Check which message to show
+                    //console.log("tradeInValue = " + tradeInValue);
+                    //console.log("useSamsungPay = " + useSamsungPay);
+                    const hasTradeIn = tradeInValue > 0;
+                    const hasSamsungPay = useSamsungPay === true;
+
+                    if (hasTradeIn) {
+                      document.getElementById('tradein-warning-body-trade-in').classList.remove('sehk-hidden');
+                    } else {
+                      document.getElementById('tradein-warning-body-trade-in').classList.add('sehk-hidden');
+                    }
+
+                    if (useSamsungPay) {
+                      document.getElementById('tradein-warning-body-spay').classList.remove('sehk-hidden');
+                    } else {
+                      document.getElementById('tradein-warning-body-spay').classList.add('sehk-hidden');
+                    }
+                    
+                    if (hasTradeIn || hasSamsungPay) {
+                        showTradeInWarningModal();
+                    } else {
+                        confirmTradeInAndRedirect();
+                    }
                 };
                 optionsContainer.appendChild(btn);
             });
@@ -1989,9 +1906,19 @@
         function confirmTradeInAndRedirect() {
             closeTradeInWarningModal();
             if (pendingMagicUrl) {
-                window.open(pendingMagicUrl, '_blank');
+                window.open(pendingMagicUrl, '_self');
             }
             pendingMagicUrl = null;
+        }
+
+        function appendShopAppUrl() {
+            if (isInApp) {
+                if (pendingMagicUrl && !pendingMagicUrl.includes('app=true')) {
+                    const separator = pendingMagicUrl.includes('?') ? '&' : '?';
+                    pendingMagicUrl += `${separator}app=true`;
+                }
+                return;
+            }
         }
 
         // --- Samsung Shop App Modal (NEW) ---
