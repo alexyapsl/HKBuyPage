@@ -4,116 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buy Galaxy | Samsung HK</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        body {
-            font-family: SamsungOne, Arial, system_ui, sans-serif;
-            background-color: rgba(0,0,0,0.02); /*#f8f9fa;*/
-        }
-        
-        .heading-font {
-            font-family: "Samsung Sharp Sans", SamsungSharpSans, SamsungSharpBold, Arial, system_ui, sans-serif;
-            font-weight: bold;
-        }
-
-        .samsung-blue {
-            color: #007AFF;
-        }
-
-        .samsung-btn {
-            background-color: #007AFF;
-            color: white;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            border-radius: 9999px;
-            padding-top: 14px;
-            padding-bottom: 14px;
-        }
-        
-        .samsung-btn:hover {
-            background-color: #0066CC;
-            transform: translateY(-1px);
-        }
-
-        .device-card,
-        .device-card ~ .absolute {
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .device-card:not(.disabled):hover,
-        .device-card:not(.disabled):hover ~ .absolute {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-        }
-        
-        .device-card:not(.disabled):active,
-        .device-card:not(.disabled):active ~ .absolute {
-            transition: none;
-            transform: translateY(1px);
-            box-shadow: 0 0 0 1px rgb(0 0 0 / 0.3);
-        }
-
-        .device-card.selected {
-            border-color: #007AFF;
-            box-shadow: 0 0 0 1px #007AFF;
-        }
-
-        .section-title {
-            font-weight: 600;
-            letter-spacing: 0;
-        }
-
-        #sticky-bar {
-            box-shadow: 0 -4px 6px -1px rgb(0 0 0 / 0.05), 0 -2px 8px -2px rgb(0 0 0 / 0.05);
-        }
-
-        .sehk-hidden {
-            display: none !important;
-        }
-
-        #selected-sku-hint {
-            display: none !important;
-        }
-
-        #step1-title,
-        #step2-title,
-        #step3-title,
-        #step4-title {
-          display: flex;
-          align-items: center;
-        }
-
-        #step1-title:before,
-        #step2-title:before,
-        #step3-title:before,
-        #step4-title:before  {
-          content: "1";
-          display: flex;
-          font-size: 14px;
-          align-items: center;
-          justify-content: center;
-          width: 30px;
-          height: 30px;
-          color: #FFFFFF;
-          background-color: rgba(0,0,0,0.6);
-          border: 1px solid rgba(0,0,0,0.1);
-          border-radius: 50%;
-          margin-right: 10px;
-        }
-
-        #step2-title:before {
-          content: "2";
-        }
-
-        #step3-title:before {
-          content: "3";
-        }
-
-        #step4-title:before {
-          content: "4";
-        }
-    </style>
 </head>
 <body>
     <div class="max-w-4xl mx-auto px-6 pt-10 pb-28 sm:pb-24">
@@ -322,13 +212,126 @@
         </div>
     </div>
 
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: SamsungOne, Arial, system_ui, sans-serif;
+            background-color: rgba(0,0,0,0.02); /*#f8f9fa;*/
+        }
+        
+        .heading-font {
+            font-family: "Samsung Sharp Sans", SamsungSharpSans, SamsungSharpBold, Arial, system_ui, sans-serif;
+            font-weight: bold;
+        }
+
+        .samsung-blue {
+            color: #007AFF;
+        }
+
+        .samsung-btn {
+            background-color: #007AFF;
+            color: white;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border-radius: 9999px;
+            padding-top: 14px;
+            padding-bottom: 14px;
+        }
+        
+        .samsung-btn:hover {
+            background-color: #0066CC;
+            transform: translateY(-1px);
+        }
+
+        .device-card,
+        .device-card ~ .absolute {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .device-card:not(.disabled):hover,
+        .device-card:not(.disabled):hover ~ .absolute {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        
+        .device-card:not(.disabled):active,
+        .device-card:not(.disabled):active ~ .absolute {
+            transition: none;
+            transform: translateY(1px);
+            box-shadow: 0 0 0 1px rgb(0 0 0 / 0.3);
+        }
+
+        .device-card.selected {
+            border-color: #007AFF;
+            box-shadow: 0 0 0 1px #007AFF;
+        }
+
+        .section-title {
+            font-weight: 600;
+            letter-spacing: 0;
+        }
+
+        #sticky-bar {
+            box-shadow: 0 -4px 6px -1px rgb(0 0 0 / 0.05), 0 -2px 8px -2px rgb(0 0 0 / 0.05);
+        }
+
+        .sehk-hidden {
+            display: none !important;
+        }
+
+        #selected-sku-hint {
+            display: none !important;
+        }
+
+        #step1-title,
+        #step2-title,
+        #step3-title,
+        #step4-title {
+          display: flex;
+          align-items: center;
+        }
+
+        #step1-title:before,
+        #step2-title:before,
+        #step3-title:before,
+        #step4-title:before  {
+          content: "1";
+          display: flex;
+          font-size: 14px;
+          align-items: center;
+          justify-content: center;
+          width: 30px;
+          height: 30px;
+          color: #FFFFFF;
+          background-color: rgba(0,0,0,0.6);
+          border: 1px solid rgba(0,0,0,0.1);
+          border-radius: 50%;
+          margin-right: 10px;
+        }
+
+        #step2-title:before {
+          content: "2";
+        }
+
+        #step3-title:before {
+          content: "3";
+        }
+
+        #step4-title:before {
+          content: "4";
+        }
+    </style>
+
     <script>
         // =========================================================================
         // MIGRATION & FALLBACK CONFIGURATION
         // =========================================================================
         // Change this path to point to your external repo directory (e.g., "https://cdn.example.com/json/")
         // Keep empty "" to default relative to local environment
-        const baseJsonPath = "https://www.example.comm/";
+        const baseJsonPath = "https://cheiluxui.github.io/estore-data/";
 
         // Consolidated Backup Fallbacks if External Files Can't Be Reached
         const fallback_locales = 
@@ -365,7 +368,7 @@
               "reminderModalTitle": "Important reminder",
               "reminderModalDesc": "Adding product to cart, remember to add your trade in device in the cart with IMEI and device condition again to enjoy the guarantee trade in price",
               "okBtn": "OK",
-              "outOfStock": "Restoc∂k soon",
+              "outOfStock": "Restock soon",
               "samsungExclusive": "Samsung.com Only",
               "preOrderSavings": "Pre-order Storage Upgrade Discount",
               "totalTradeInValue": "Total Trade-in Saving up to",
@@ -2716,6 +2719,19 @@
             }
         }
 
+        function loadExternalAssets() {
+            // Inject Tailwind CSS script
+            const tailwind = document.createElement('script');
+            tailwind.src = "https://cdn.tailwindcss.com";
+            document.head.appendChild(tailwind);
+
+            // Inject Font Awesome stylesheet
+            const fontAwesome = document.createElement('link');
+            fontAwesome.rel = "stylesheet";
+            fontAwesome.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css";
+            document.head.appendChild(fontAwesome);
+        }
+
         function renderDeviceSelection() {
             const container = document.getElementById('device-selection');
             container.innerHTML = '';
@@ -3773,6 +3789,7 @@
 
         window.onload = async function() {
             startTitleLoadingAnimation();
+            loadExternalAssets();
 
             await loadTranslations();
             lang = getCurrentLang();
