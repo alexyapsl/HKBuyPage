@@ -123,7 +123,7 @@
                   <div id="sticky-pay-label" data-i18n="stickyYouPay"></div>
                 </div>
             </div>
-            <div class="flex items-center justify-between gap-x-4">
+            <div class="flex items-center justify-between gap-x-2">
                 <div class="min-w-0 flex-1">
                     <div>
                         <div id="sticky-final-price" class="text-2xl md:text-3xl font-bold tabular-nums"></div>
@@ -331,7 +331,7 @@
         // =========================================================================
         // Change this path to point to your external repo directory (e.g., "https://cdn.example.com/json/")
         // Keep empty "" to default relative to local environment
-        const baseJsonPath = "https://cheiluxui.github.io/estore-datasss/";
+        const baseJsonPath = "https://cheiluxui.github.io/estore-data/";
 
         // Consolidated Backup Fallbacks if External Files Can't Be Reached
         const fallback_locales = 
@@ -2558,23 +2558,30 @@
         let i18nData = {};
         let lang = getCurrentLang();
 
-        async function fetchWithTimeout(resource, options = {}) {
-            const { timeout = 500 } = options; // Default timeout: 500ms
-            
-            const controller = new AbortController();
-            const id = setTimeout(() => controller.abort(), timeout);
-            
-            try {
-                const response = await fetch(resource, {
-                    ...options,
-                    signal: controller.signal  
-                });
-                clearTimeout(id);
-                return response;
-            } catch (error) {
-                clearTimeout(id);
-                throw error;
-            }
+        async function fetchWithTimeout(url, options = {}, timeout = 5000) {
+          const controller = new AbortController();
+          const id = setTimeout(() => controller.abort(), timeout);
+
+          try {
+            const parsedUrl = new URL(url);
+            parsedUrl.searchParams.set('_', Date.now().toString());
+            url = parsedUrl.toString();
+          } catch (e) {
+            const separator = url.includes('?') ? '&' : '?';
+            url = `${url}${separator}_=${Date.now()}`;
+          }
+
+          try {
+            const response = await fetch(url, {
+              ...options,
+              signal: controller.signal
+            });
+            clearTimeout(id);
+            return response;
+          } catch (error) {
+            clearTimeout(id);
+            throw error;
+          }
         }
 
         async function loadTranslations() {
@@ -3331,16 +3338,16 @@
             
             if (calc.extraRebate > 0) {
                 if (calc.isGuaranteed) {
-                    html += `<div class="text-sm samsung-blue mt-1 flex justify-between"><div>${getLngStr('gtiLabel') || 'Guaranteed Trade In Price:'}</div> <div>HK$${calc.tradeInPrice.toLocaleString()}</div></div>`;
+                    html += `<div class="text-sm samsung-blue mt-1 flex justify-between items-end"><div>${getLngStr('gtiLabel') || 'Guaranteed Trade In Price:'}</div> <div>HK$${calc.tradeInPrice.toLocaleString()}</div></div>`;
                 } else {
-                    html += `<div class="text-sm samsung-blue mt-1 flex justify-between"><div>${getLngStr('tiLabel') || 'Trade In Price:'}</div> <div>HK$${calc.tradeInPrice.toLocaleString()}</div></div>`;
+                    html += `<div class="text-sm samsung-blue mt-1 flex justify-between items-end"><div>${getLngStr('tiLabel') || 'Trade In Price:'}</div> <div>HK$${calc.tradeInPrice.toLocaleString()}</div></div>`;
                 }
                 html += `<div class="text-sm samsung-blue flex justify-between"><div>${getLngStr('extraRebateLabel') || 'Extra Trade In Rebate:'}</div> <div>HK$${calc.extraRebate.toLocaleString()}</div></div>`;
             } else {
                 if (calc.isGuaranteed) {
-                    html += `<div class="text-sm samsung-blue mt-1 flex justify-between"><div>${getLngStr('gtiLabel') || 'Guaranteed Trade In Price:'}</div> <div>HK$${calc.tradeInPrice.toLocaleString()}</div></div>`;
+                    html += `<div class="text-sm samsung-blue mt-1 flex justify-between items-end"><div>${getLngStr('gtiLabel') || 'Guaranteed Trade In Price:'}</div> <div>HK$${calc.tradeInPrice.toLocaleString()}</div></div>`;
                 } else {
-                    html += `<div class="text-sm samsung-blue mt-1 flex justify-between"><div>${getLngStr('tiLabel') || 'Trade In Price:'}</div> <div>HK$${calc.tradeInPrice.toLocaleString()}</div></div>`;
+                    html += `<div class="text-sm samsung-blue mt-1 flex justify-between items-end"><div>${getLngStr('tiLabel') || 'Trade In Price:'}</div> <div>HK$${calc.tradeInPrice.toLocaleString()}</div></div>`;
                 }
             }
 
@@ -3582,7 +3589,7 @@
  
             if (bankCalc.percentRebate > 0) {
                 const pctLine = document.createElement('div');
-                pctLine.className = "text-sm samsung-blue mt-1 flex justify-between";
+                pctLine.className = "text-sm samsung-blue mt-1 flex justify-between items-end";
                 pctLine.innerHTML = `<div>${dynamicRebateName}</div> <div>HK$${bankCalc.percentRebate.toLocaleString()}</div>`;
                 linesEl.appendChild(pctLine);
             }
@@ -3592,13 +3599,13 @@
                     ? (fixedNameRaw[lang] || fixedNameRaw.en)
                     : (fixedNameRaw || t('specialDiscount'));
                 const fixedLine = document.createElement('div');
-                fixedLine.className = "text-sm samsung-blue mt-1 flex justify-between";
+                fixedLine.className = "text-sm samsung-blue mt-1 flex justify-between items-end";
                 fixedLine.innerHTML = `<div>${fixedNameDisplay}</div> <div>HK$${bankCalc.fixedRebate.toLocaleString()}</div>`;
                 linesEl.appendChild(fixedLine);
             }
             if (samsungPayDiscount > 0) {
                 const samsungLine = document.createElement('div');
-                samsungLine.className = "text-sm samsung-blue mt-1 flex justify-between";
+                samsungLine.className = "text-sm samsung-blue mt-1 flex justify-between items-end";
                 samsungLine.innerHTML = `<div>${t('samsungPayOnlyDiscount')}</div> <div>HK$${samsungPayDiscount.toLocaleString()}</div>`;
                 linesEl.appendChild(samsungLine);
             }
