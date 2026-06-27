@@ -203,7 +203,7 @@
 
             <ul class="list-disc ml-4 mb-6">
               <li id="tradein-warning-body-trade-in" data-i18n="tradeinWarningBodyTradeIn" class="text-sm text-gray-700 leading-relaxed mb-2">██████</li>
-              <li id="tradein-warning-body-spay" data-i18n="tradeinWarningBodySpay" class="text-sm text-gray-700 leading-relaxed mb-2">██████</li>
+              <li id="tradein-warning-body-spay" data-i18n="tradeinWarningBodySpay" class="sehk-hidden text-sm text-gray-700 leading-relaxed mb-2">██████</li>
             </ul>
 
             <div class="flex gap-3">
@@ -331,7 +331,7 @@
         // =========================================================================
         // Change this path to point to your external repo directory (e.g., "https://cdn.example.com/json/")
         // Keep empty "" to default relative to local environment
-        const baseJsonPath = "https://cheiluxui.github.io/estore-data/";
+        const baseJsonPath = "https://cheiluxui.github.io/estore-datasss/";
 
         // Consolidated Backup Fallbacks if External Files Can't Be Reached
         const fallback_locales = 
@@ -2352,8 +2352,8 @@
             },
             {
               "GiftCode": "S26U_Gift004",
-              "Mode": "AddCode",
-              "SKU_PromoCode": "HKQR2026",
+              "Mode": "",
+              "SKU_PromoCode": "",
               "GiftNameEN": "Samsung Online Store HK$400 Voucher",
               "GiftNameZH": "Samsung網上商店 HK$400優惠券",
               "SKU Image": "https://static.vecteezy.com/system/resources/previews/023/642/809/non_2x/coupon-icon-isolated-on-white-background-vector.jpg",
@@ -2407,8 +2407,8 @@
             },
             {
               "GiftCode": "Fold7_Gift004",
-              "Mode": "AddCode",
-              "SKU_PromoCode": "HKQR2026",
+              "Mode": "",
+              "SKU_PromoCode": "",
               "GiftNameEN": "Samsung Online Store HK$400 Voucher",
               "GiftNameZH": "Samsung網上商店 HK$400優惠券",
               "SKU Image": "https://static.vecteezy.com/system/resources/previews/023/642/809/non_2x/coupon-icon-isolated-on-white-background-vector.jpg",
@@ -2451,8 +2451,8 @@
             },
             {
               "GiftCode": "Flip7_Gift004",
-              "Mode": "AddCode",
-              "SKU_PromoCode": "HKQR2026",
+              "Mode": "",
+              "SKU_PromoCode": "",
               "GiftNameEN": "Samsung Online Store HK$400 Voucher",
               "GiftNameZH": "Samsung網上商店 HK$400優惠券",
               "SKU Image": "https://static.vecteezy.com/system/resources/previews/023/642/809/non_2x/coupon-icon-isolated-on-white-background-vector.jpg",
@@ -3287,8 +3287,9 @@
                 );
             }
 
-            if (bankPromotionRules && bankPromotionRules.boc && (!selectedBank || selectedBank === 'none')) {
-                selectedBank = Object.keys(bankPromotionRules)[0];
+            const availableBanks = Object.keys(bankPromotionRules || {});
+            if (availableBanks.length > 0 && (!selectedBank || selectedBank === 'none')) {
+                selectedBank = availableBanks[0];
                 setTimeout(() => {
                     setupBankButtons();
                     updateBankSavingsDisplay();
@@ -3461,9 +3462,11 @@
                 .map(key => {
                     const rule = bankPromotionRules[key];
                     const name = (typeof rule.name === 'object') ? (rule.name[lang] || rule.name.en) : rule.name;
+                    const rebateName = (typeof rule.rebateName === 'object') ? (rule.rebateName[lang] || rule.rebateName.en) : rule.rebateName;
                     return {
                         key,
                         name,
+                        rebateName,
                         logo: rule.logo,
                         priority: rule.priority ?? 999,
                         isRecommended: !!rule.isRecommended
@@ -3938,17 +3941,20 @@
                     const lang = getCurrentLang(); 
                     const oosLink = (lang === 'zh') ? canonical.oosLink : canonical.oosLinkEn;
                     const oosParam = oosLink ? `&oosLink=${encodeURIComponent(oosLink)}` : '';
+                    const samsungPayCode = useSamsungPay ? '&voucherCode=SPAY2026' : '';
 
                     const magicBase = (lang === 'zh')
                         ? 'https://www.samsung.com/hk/offer/magic/'
                         : 'https://www.samsung.com/hk_en/offer/magic/';
 
                     let magicUrl;
-                    if (mode === 'AddCode') {
-                        magicUrl = `${magicBase}?productCode[1]=${selectedSku}&productQty[1]=1&store=B2C&voucherCode=${encodeURIComponent(skuOrCode)}&newCart=true${oosParam}`;
+                    if (mode === 'AddSKU') {
+                        magicUrl = `${magicBase}?productCode[1]=${selectedSku}&productQty[1]=1&productCode[2]=${skuOrCode}&productQty[2]=1&store=B2C&newCart=true${oosParam}${samsungPayCode}`;
                     } else {
-                        magicUrl = `${magicBase}?productCode[1]=${selectedSku}&productQty[1]=1&productCode[2]=${skuOrCode}&productQty[2]=1&store=B2C&newCart=true${oosParam}`;
+                        magicUrl = `${magicBase}?productCode[1]=${selectedSku}&productQty[1]=1&store=B2C&newCart=true${oosParam}${samsungPayCode}`;
                     }
+
+                    console.log("magicUrl = " + magicUrl);
 
                     pendingMagicUrl = magicUrl;
                     appendShopAppUrl();
@@ -3962,13 +3968,15 @@
                       document.getElementById('tradein-warning-body-trade-in').classList.add('sehk-hidden');
                     }
 
+                    /*
                     if (useSamsungPay) {
                       document.getElementById('tradein-warning-body-spay').classList.remove('sehk-hidden');
                     } else {
                       document.getElementById('tradein-warning-body-spay').classList.add('sehk-hidden');
                     }
+                    */
                     
-                    if (hasTradeIn || hasSamsungPay) {
+                    if (hasTradeIn) {
                         showTradeInWarningModal();
                     } else {
                         confirmTradeInAndRedirect();
