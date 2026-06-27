@@ -60,13 +60,17 @@ async function buildBankPromo() {
                 .replace(/\s+/g, '');
 
             if (!bankKey || seenKeys.has(bankKey)) continue;
-            seenKeys.add(bankKey);
+            seenKeys.add(bankKey);  
 
             const bank = {
                 key: bankKey,
                 name: {
                     en: values[get('Bank Name EN')] || values[get('Bank Name')] || '',
                     zh: values[get('Bank Name ZH')] || ''
+                },
+                rebateName: {
+                    en: values[get('Rebate Name EN')] || 'Credit Card Rebate',
+                    zh: values[get('Rebate Name ZH')] || '信用卡回贈'
                 },
                 logo: values[get('Logo')] || '',
                 tiers: [],

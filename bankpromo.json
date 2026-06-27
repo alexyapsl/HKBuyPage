@@ -1,9 +1,13 @@
 [
   {
-    "key": "bankofchina(hongkong)creditcard",
+    "key": "bankofchina(hk)creditcard",
     "name": {
-      "en": "Bank of China (Hong Kong) Credit Card",
+      "en": "Bank of China (HK) Credit Card",
       "zh": "中銀香港信用卡"
+    },
+    "rebateName": {
+      "en": "Samsung | BOC(HK) Credit Card Rebate",
+      "zh": "Samsung | 中銀香港信用卡回贈"
     },
     "logo": "img/logo-bochk.png",
     "tiers": [
@@ -27,8 +31,8 @@
     "maximum": 2000,
     "fixedDiscount": {
       "name": {
-        "en": "BOC Visa Card Weekend Offer",
-        "zh": "中銀香港Visa「狂賞派」紅日額外回贈"
+        "en": "BOC Visa Credit Card Amazing Local Rewards Holidays Offer",
+        "zh": "中銀香港Visa「狂賞派」「紅日」額外回贈"
       },
       "value": 200
     },
@@ -41,11 +45,15 @@
       "en": "HSBC Credit Card",
       "zh": "滙豐信用卡"
     },
+    "rebateName": {
+      "en": "HSBC credit card 'Red Hot Rewards of Your Choice' up to",
+      "zh": "滙豐信用卡「最紅自主獎賞」高達"
+    },
     "logo": "img/logo-hsbc.png",
     "tiers": [
       {
-        "max": 100000,
-        "percent": 0.04
+        "max": 99999999,
+        "percent": 0.024
       }
     ],
     "maximum": 400,

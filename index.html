@@ -158,7 +158,7 @@
                 </div>
                 <div id="no-tradein-helper" class="sehk-hidden mt-2 py-3 px-5 text-sm bg-blue-50 samsung-blue rounded-xl px-3 py-2" id="no-tradein-helper-text">
                     <div data-i18n="noTradeInHelper"></div>
-                    <div data-i18n="stackableTradeIn"></div>
+                    <div data-i18n="stackableTradeIn" class="mt-2"></div>
                 </div>
             </div>
 
@@ -211,7 +211,7 @@
 
     <!-- Sticky Bottom Bar (price left, Buy Now right on same row) -->
     <div id="sticky-bar" class="sehk-hidden fixed bottom-0 left-0 right-0 bg-white border-t z-[60] shadow-lg ">
-        <div class="max-w-4xl mx-auto px-6 py-3 sm:py-4">
+        <div class="max-w-4xl mx-auto px-6 py-4">
             <div>
                 <div id="sticky-device-name" class="font-bold text-[1.1rem] sm:text-[1.15rem] leading-tight truncate"></div>
                 <div class="text-sm text-gray-600 mt-0.5 sm:mt-1">
@@ -230,7 +230,7 @@
                 <!-- Right: Buy Now button - fixed width, always same row -->
                 <div class="flex-shrink-0">
                     <button id="buy-now-btn" data-i18n="buyNowBtnText"
-                            class="px-6 py-3 bg-[#007AFF] border-2 border-[#007AFF] text-white hover:text-[#007AFF] text-sm font-bold rounded-full hover:bg-[#FFFFFF] active:bg-blue-50 transition-colors sehk-hidden whitespace-nowrap shadow-sm"
+                            class="px-5 py-3 bg-[#007AFF] border-2 border-[#007AFF] text-white hover:text-[#007AFF] text-sm font-bold rounded-full hover:bg-[#FFFFFF] active:bg-blue-50 transition-colors sehk-hidden whitespace-nowrap shadow-sm"
                             onclick="showBuyNowModal()">██████</button>
                 </div>
             </div>
@@ -1302,6 +1302,12 @@
                 : fixedNameRaw;
             const totalRebate = percentRebate + fixedRebate;
 
+            console.log("basePrice = "+basePrice);
+            console.log("percent = "+percent);
+            console.log("percentRebate = "+percentRebate);
+            console.log("fixedRebate = "+fixedRebate);
+            console.log("totalRebate = "+totalRebate);
+
             return { percentRebate, fixedRebate, fixedName, totalRebate };
         }
 
@@ -1452,6 +1458,11 @@
 
             const samsungPayDiscountLocal = useSamsungPay ? calculateSamsungPayDiscount(originalPrice) : 0;
             const discountInCartLocal = lsvDiscountLocal + samsungPayDiscountLocal;
+
+            console.log("lsvDiscountLocal = "+lsvDiscountLocal);
+            console.log("samsungPayDiscountLocal = "+samsungPayDiscountLocal);
+            console.log("discountInCartLocal = "+discountInCartLocal);
+
             let bankCalc;
             if (hasBankSelection) {
                 bankCalc = calculateBankRebate(originalPrice, selectedBank, discountInCartLocal);
@@ -1472,11 +1483,16 @@
             totalEl.innerHTML = `${totalLabel} <span class="font-bold">HK$${grandTotal.toLocaleString()}</span>`;
 
             // Breakdown lines
+            const currentRule = bankPromotionRules[selectedBank];
+            const dynamicRebateName = (currentRule && currentRule.rebateName)
+              ? (currentRule.rebateName[lang] || currentRule.rebateName.en)
+              : t('creditCardRebate');
             linesEl.innerHTML = '';
+ 
             if (bankCalc.percentRebate > 0) {
                 const pctLine = document.createElement('div');
                 pctLine.className = "text-sm samsung-blue mt-1 flex justify-between";
-                pctLine.innerHTML = `<div>${t('creditCardRebate')}</div> <div>HK$${bankCalc.percentRebate.toLocaleString()}</div>`;
+                pctLine.innerHTML = `<div>${dynamicRebateName}</div> <div>HK$${bankCalc.percentRebate.toLocaleString()}</div>`;
                 linesEl.appendChild(pctLine);
             }
             if (bankCalc.fixedRebate > 0) {
@@ -1606,7 +1622,7 @@
             else if (hasTradeIn) payLabel = getLngStr('payLabelTI');
             else if (hasBankPromo) payLabel = getLngStr('payLabelBank');
 
-            payEl.textContent = `▼ ${payLabel}`;
+            payEl.innerHTML = `▼ ${payLabel}`;
             priceEl.innerHTML = `HK$${formatPrice(finalPrice)}`;
 
             // NEW simplified 2-line savings summary
@@ -1626,7 +1642,7 @@
                 // Line 2: Rebate (bank promotion + trade-in total)
                 if (totalRebate > 0) {
                     const r1 = document.createElement('div');
-                    r1.textContent = `${getLngStr('rebateLabel') || 'Rebate:'}: HK$${formatPrice(totalRebate)}`;
+                    r1.textContent = `${getLngStr('rebateLabelUpTo') || 'Rebate:'}: HK$${formatPrice(totalRebate)}`;
                     saveEl.appendChild(r1);
                 }
 
