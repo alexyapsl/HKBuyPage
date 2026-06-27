@@ -301,7 +301,7 @@
       "sku": "SM-S9480ZWITGY",
       "rrp": 10000,
       "lsvDiscount": 0,
-      "InStockStatus": "Y",
+      "InStockStatus": "N",
       "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
       "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
       "gifts": []
@@ -319,7 +319,7 @@
       "sku": "SM-F9660DBHTGY",
       "rrp": 20000,
       "lsvDiscount": 500,
-      "InStockStatus": "Y",
+      "InStockStatus": "N",
       "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
       "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
       "gifts": []
@@ -391,7 +391,7 @@
       "sku": "SM-F9660ZKGTGY",
       "rrp": 18000,
       "lsvDiscount": 300,
-      "InStockStatus": "Y",
+      "InStockStatus": "N",
       "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
       "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
       "gifts": []
@@ -409,7 +409,7 @@
       "sku": "SM-F9660ZSGTGY",
       "rrp": 18000,
       "lsvDiscount": 300,
-      "InStockStatus": "Y",
+      "InStockStatus": "N",
       "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
       "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
       "gifts": []
@@ -481,7 +481,7 @@
       "sku": "SM-F9660ZSDTGY",
       "rrp": 15000,
       "lsvDiscount": 0,
-      "InStockStatus": "Y",
+      "InStockStatus": "N",
       "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
       "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
       "gifts": []
@@ -517,7 +517,7 @@
       "sku": "SM-F7660DBETGY",
       "rrp": 9000,
       "lsvDiscount": 500,
-      "InStockStatus": "Y",
+      "InStockStatus": "N",
       "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/",
       "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip7/buy/",
       "gifts": []
