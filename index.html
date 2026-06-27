@@ -2701,7 +2701,7 @@
 
         async function loadBankPromo() {
             try {
-                const res = await fetch(`${baseJsonPath}bankpromo.json`);
+                const res = await fetchWithTimeout(`${baseJsonPath}bankpromo.json`, { timeout: 500 });
                 let data;
                 if (res.ok) {
                     data = await res.json();
@@ -3766,7 +3766,7 @@
 
         async function loadDevices() {
             try {
-                const res = await fetch(`${baseJsonPath}devices.json`);
+                const res = await fetchWithTimeout(`${baseJsonPath}devices.json`, { timeout: 500 });
                 if (res.ok) {
                     devices = await res.json();
                 } else {
