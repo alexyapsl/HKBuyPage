@@ -165,24 +165,38 @@
             <div class="space-y-4" id="tradein-fields">
                 <div>
                     <label class="section-title text-sm text-gray-700 mb-2 block" data-i18n="brandLabel" id="brand-label"></label>
-                    <select id="brand" onchange="updateModelsNewFlow()" class="w-full border border-gray-300 focus:border-[#007AFF] rounded-xl px-5 py-4 appearance-none bg-white">
-                        <option value=""></option>
-                    </select>
+                    <div class="relative">
+                        <select id="brand" onchange="updateModelsNewFlow()" class="w-full border border-gray-300 focus:border-[#007AFF] focus:outline-none rounded-xl px-5 py-4 appearance-none bg-white pr-12">
+                            <option value=""></option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-500">
+                            <i class="fa-solid fa-chevron-down text-sm"></i>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <label class="section-title text-sm text-gray-700 mb-2 block" data-i18n="modelLabel" id="model-label"></label>
-                    <select id="model" onchange="updateStorageNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-xl px-5 py-4 appearance-none bg-white disabled:bg-white disabled:text-gray-500">
-                        <option value=""></option>
-                    </select>
+                    <div class="relative">
+                        <select id="model" onchange="updateStorageNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] focus:outline-none rounded-xl px-5 py-4 appearance-none bg-white pr-12 disabled:bg-gray-50 disabled:text-gray-400">
+                            <option value=""></option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-500">
+                            <i class="fa-solid fa-chevron-down text-sm"></i>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <label class="section-title text-sm text-gray-700 mb-2 block" data-i18n="selectStorageTradein" id="tradein-storage-label"></label>
-                    <select id="tradein-storage" onchange="updateTradeInPriceNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] rounded-xl px-5 py-4 appearance-none bg-white disabled:bg-white disabled:text-gray-500">
-                        <option value=""></option>
-                    </select>
+                    <div class="relative">
+                        <select id="tradein-storage" onchange="updateTradeInPriceNewFlow()" disabled class="w-full border border-gray-300 focus:border-[#007AFF] focus:outline-none rounded-xl px-5 py-4 appearance-none bg-white pr-12 disabled:bg-gray-50 disabled:text-gray-400">
+                            <option value=""></option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-500">
+                            <i class="fa-solid fa-chevron-down text-sm"></i>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Trade-in value display -->
                 <div id="tradein-value-display" class="sehk-hidden mt-2 py-4 px-5 text-sm bg-blue-50 samsung-blue rounded-xl px-3 py-2">
                 </div>
             </div>
@@ -209,7 +223,7 @@
         </div>
     </div>
 
-    <!-- Sticky Bottom Bar (price left, Buy Now right on same row) -->
+    <!-- Sticky Bottom Bar -->
     <div id="sticky-bar" class="sehk-hidden fixed bottom-0 left-0 right-0 bg-white border-t z-[60] shadow-lg ">
         <div class="max-w-4xl mx-auto px-6 py-4">
             <div>
@@ -227,7 +241,6 @@
                     </div>
                 </div>
 
-                <!-- Right: Buy Now button - fixed width, always same row -->
                 <div class="flex-shrink-0">
                     <button id="buy-now-btn" data-i18n="buyNowBtnText"
                             class="px-5 py-3 bg-[#007AFF] border-2 border-[#007AFF] text-white hover:text-[#007AFF] text-sm font-bold rounded-full hover:bg-[#FFFFFF] active:bg-blue-50 transition-colors sehk-hidden whitespace-nowrap shadow-sm"
@@ -257,7 +270,7 @@
         </div>
     </div>
 
-    <!-- Gift Selection Modal (images + 3 gift choices, no Skip) -->
+    <!-- Gift Selection Modal -->
     <div id="gift-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[120] flex items-end lg:items-center justify-center">
         <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-2xl p-6">
             <div class="flex items-center justify-between mb-4">
@@ -268,7 +281,7 @@
         </div>
     </div>
 
-    <!-- Samsung Shop App Modal (NEW - between Gift and Important reminder) -->
+    <!-- Samsung Shop App Modal -->
     <div id="samsung-shop-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[110] flex items-end lg:items-center justify-center">
         <div class="bg-white w-full lg:w-[420px] lg:rounded-xl lg:m-4 rounded-t-2xl p-6">
             <div class="flex items-center justify-between mb-4">
@@ -299,76 +312,2279 @@
             </div>
 
             <ul class="list-disc ml-4 mb-6">
-
               <li id="tradein-warning-body-trade-in" data-i18n="tradeinWarningBodyTradeIn" class="text-sm text-gray-700 leading-relaxed mb-2">██████</li>
-
               <li id="tradein-warning-body-spay" data-i18n="tradeinWarningBodySpay" class="text-sm text-gray-700 leading-relaxed mb-2">██████</li>
-
             </ul>
 
             <div class="flex gap-3">
-                <!--<button id="tradein-warning-cancel" data-i18n="tradein-warning-cancel" onclick="closeTradeInWarningModal()" class="flex-[1_1_auto] py-3.5 rounded-xl border border-gray-300 text-sm font-medium">Cancel</button>-->
                 <button onclick="confirmTradeInAndRedirect()" data-i18n="addToCart" class="flex-[2_1_auto] py-3.5 rounded-3xl samsung-btn text-sm font-medium">██████</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Recommended products - filtered from Google Sheet (showInHKBuyPage = TRUE only)
-        let recommendedProducts = []; // loaded from step1models.json
+        // =========================================================================
+        // MIGRATION & FALLBACK CONFIGURATION
+        // =========================================================================
+        // Change this path to point to your external repo directory (e.g., "https://cdn.example.com/json/")
+        // Keep empty "" to default relative to local environment
+        const baseJsonPath = "https://www.example.comm/";
 
+        // Consolidated Backup Fallbacks if External Files Can't Be Reached
+        const fallback_locales = 
+          {
+            "en": {
+              "badgeText": "NEW FLOW • PRODUCT FIRST",
+              "mainTitle": "Choose your new Galaxy.<br>Then trade in.",
+              "mainSubtitle": "Simple. Transparent. Instant savings.",
+              "step1Title": "Select your new device",
+              "step2Title": "Choose storage and color",
+              "selectStoragePlaceholder": "Storage",
+              "selectColorTitle": "Color",
+              "step3Title": "Trade-in your current device (optional)",
+              "noTradeInLabel": "My trade in device is not listed here, OR<br> I do not have a device to trade in",
+              "noTradeInHelper": "Don't worry, more trade-in options are available on the cart page.",
+              "stackableTradeIn": "Our newly launched “Stackable Trade-in Service” let you trade-in up to 3 old devices to get a new phone. Upgrade is easy!",
+              "brandLabel": "Brand",
+              "selectBrandPlaceholder": "Brand",
+              "modelLabel": "Model",
+              "selectModelPlaceholder": "Model",
+              "storageLabel": "Storage",
+              "step4Title": "Payment promotion (optional)",
+              "samsungPayLabel": "Pay with Samsung Pay for extra discount",
+              "buyNowBtnText": "Pre-order now",
+              "chooseColorModalTitle": "Choose color",
+              "cancelBtn": "Cancel",
+              "continueBtn": "Continue",
+              "chooseGiftModalTitle": "Choose your gift",
+              "shopModalTitle": "Checkout with Samsung Shop App",
+              "shopModalDesc": "Checkout with Samsung Shop App to enjoy app only discounts, get latest promotion, and an amazing shopping experience.",
+              "addToAppLabel": "Add my product(s) to Samsung Shop App",
+              "downloadAppBtn": "Download App",
+              "addToCartBtn": "Add to Cart",
+              "reminderModalTitle": "Important reminder",
+              "reminderModalDesc": "Adding product to cart, remember to add your trade in device in the cart with IMEI and device condition again to enjoy the guarantee trade in price",
+              "okBtn": "OK",
+              "outOfStock": "Restoc∂k soon",
+              "samsungExclusive": "Samsung.com Only",
+              "preOrderSavings": "Pre-order Storage Upgrade Discount",
+              "totalTradeInValue": "Total Trade-in Saving up to",
+              "gtiLabel": "Guaranteed Device Value",
+              "tiLabel": "Device Estimated Value",
+              "extraRebateLabel": "Extra Trade-in Rebate",
+              "bankSavingsLabel": "Bank promotion savings",
+              "spaySavingsLabel": "Total payment savings",
+              "ccRebate": "Credit card rebate",
+              "spayDiscount": "Samsung Pay extra discount",
+              "fromLabel": "From",
+              "originalLabel": "Original",
+              "discountInCart": "Discount at checkout",
+              "rebateLabel": "Rebate after order",
+              "rebateLabelUpTo": "Post-order Rebate up to",
+              "noGifts": "No gifts available for this model.",
+              "freeGift": "Free gift",
+              "addGift": "Add",
+              "colorNotFound": "Color not found",
+              "payLabelAll": "<b>Pay from</b> (include all discounts and rebates)",
+              "payLabelStorageTI": "<b>Pay from</b> (include all discounts and rebates)",
+              "payLabelStorageBank": "<b>Pay from</b> (include all discounts and rebates)",
+              "payLabelStorage": "<b>Pay only</b> after storage upgrade discount",
+              "payLabelTIBank": "<b>Pay from</b> (include all discounts and rebates)",
+              "payLabelTI": "<b>Pay from</b> (include trade-in rebates)",
+              "payLabelBank": "<b>Pay from</b> (include bank rebates)",
+              "payLabelDefault": "You pay",
+              "stickyFrom": "From",
+              "rebateText": "Rebate",
+              "recommended": "Recommended",
+              "upgradeDiscounts": "Storage upgrade offer",
+              "stickyYouPay": "You pay",
+              "stickyAfterStorage": "After storage upgrade savings",
+              "giftNoAvailable": "No gifts available for this model.",
+              "giftAddPrice": "Add {price}",
+              "giftFree": "Free gift",
+              "colorModalTitle": "Choose color",
+              "colorCancel": "Cancel",
+              "colorContinue": "Continue",
+              "otherBank": "Other",
+              "tradeinValuePrefix": "Your device trade-in value is",
+              "skuResolved": "SKU resolved",
+              "specialDiscount": "Special discount",
+              "creditCardRebate": "Credit card rebate",
+              "samsungPayOnlyDiscount": "Samsung Pay extra discount",
+              "fixedDiscountSavings": "Special discount HK$",
+              "selectBrandOption": "Brand",
+              "selectModelOption": "Model",
+              "selectStorageOption": "Storage",
+              "upgradeDiscountsAvailable": "Storage Upgrade Offer",
+              "viewDetails": "View Details",
+              "selected": "Selected",
+              "loading": "Loading...",
+              "errorMsg": "An error occurred. Please try again.",
+              "inclusiveOffers": "Exclusive Offers Included",
+              "step2SelectStorage": "Storage",
+              "step2SelectColor": "Color",
+              "tradeintitle": "Trade-in your current device (optional)",
+              "checkoutWithShopApp": "Checkout with Samsung Shop App",
+              "importantReminder": "Important reminder",
+              "bankPromoLabel": "Bank Promotion",
+              "notListed": "My device is not listed here",
+              "samsungComOnly": "Samsung.com Only",
+              "stickyFrom": "From",
+              "stickyBuyNow": "Pre-order now",
+              "tradeinTitle": "Trade-in to upgrade (optional)",
+              "bankTitle": "Bank promotion (optional)",
+              "payWithSamsungPay": "Pay with Samsung Pay for extra discount",
+              "bankRecommended": "Recommended",
+              "skuResolved": "SKU resolved",
+              "tradeinWarningTitle": "Reminder after adding to cart",
+              "tradeinWarningBodyTradeIn": "Remember to add your trade-in device to verify the IMEI/Serial number, and access its condition to enjoy the trade-in offer.",
+              "tradeinWarningBodySpay": "Remember to activate the Samsung Pay discount with voucher code [ <b>SPAY2026</b> ].",
+              "selectBrand": "Select brand",
+              "selectModel": "Select model",
+              "selectStorageTradein": "Select storage",
+              "samsungShopModalTitle": "Checkout with Samsung Shop App",
+              "samsungShopModalDesc": "Checkout with Samsung Shop App to enjoy app only discounts, get latest promotion, and an amazing shopping experience.",
+              "cancel": "Cancel",
+              "confirm": "Confirm",
+              "newFlowBadge": "NEW FLOW • PRODUCT FIRST",
+              "heroTitle": "Choose your new Galaxy.<br>Then trade in.",
+              "heroSubtitle": "Simple. Transparent. Instant savings.",
+              "tradeInPriceLabel": "Trade In Price: HK$",
+              "downloadApp": "Download App",
+              "addToCart": "Add to Cart",
+              "payLabelStroageTI": "After Storage Savings, you pay"
+            },
+            "zh": {
+              "badgeText": "全新流程 • 產品優先",
+              "mainTitle": "選擇您的新 Galaxy。<br>然後進行以舊換新。",
+              "mainSubtitle": "簡單。透明。即時節省。",
+              "step1Title": "選擇您的新裝置",
+              "step2Title": "選擇容量與顏色",
+              "selectStoragePlaceholder": "選擇容量",
+              "selectColorTitle": "選擇顏色",
+              "step3Title": "Trade-in 您的舊裝置（選填）",
+              "noTradeInLabel": "我不需要Trade-in / 找不到我想回收的裝置",
+              "noTradeInHelper": "不緊要，您仍可在購物車頁面加入更多 Trade-in選項。",
+              "stackableTradeIn": "我們更推出【多換一服務】，最多3部舊裝置換購升級裝置，盡情享受更抵優惠。",
+              "brandLabel": "品牌",
+              "selectBrandPlaceholder": "選擇品牌",
+              "modelLabel": "型號",
+              "selectModelPlaceholder": "選擇型號",
+              "storageLabel": "容量",
+              "step4Title": "支付優惠（選填）",
+              "samsungPayLabel": "使用 Samsung Pay 支付可享額外折扣",
+              "buyNowBtnText": "立即預訂",
+              "chooseColorModalTitle": "選擇顏色",
+              "cancelBtn": "取消",
+              "continueBtn": "繼續",
+              "chooseGiftModalTitle": "選擇您的禮品",
+              "shopModalTitle": "使用 Samsung Shop App 結帳",
+              "shopModalDesc": "使用 Samsung Shop App 結帳以享受 App 專屬優惠、最新推廣及優質購物體驗。",
+              "addToAppLabel": "將我的產品添加到 Samsung Shop App",
+              "downloadAppBtn": "下載 App",
+              "addToCartBtn": "加入購物車",
+              "reminderModalTitle": "提提您",
+              "reminderModalDesc": "產品已加入購物車，請記得在購物車內再次添加以舊換新裝置，並輸入 IMEI 及裝置狀況，以確保享有保證以舊換新價格。",
+              "okBtn": "確定",
+              "outOfStock": "補貨中",
+              "samsungExclusive": "網上商店限定",
+              "preOrderSavings": "預訂容量升級折扣",
+              "totalTradeInValue": "Trade-in 回收共節省高達",
+              "gtiLabel": "裝置已享保證價格",
+              "tiLabel": "裝置估價",
+              "extraRebateLabel": "額外Trade-in 回贈",
+              "bankSavingsLabel": "支付推廣優惠共節省",
+              "spaySavingsLabel": "以 Samsung Pay 優惠共節省",
+              "ccRebate": "信用卡回贈",
+              "spayDiscount": "Samsung Pay 額外折扣",
+              "fromLabel": "低至",
+              "originalLabel": "原價",
+              "discountInCart": "結帳即減",
+              "rebateLabel": "售後回贈",
+              "rebateLabelUpTo": "售後回贈高達",
+              "noGifts": "此型號暫無禮品可供選擇。",
+              "freeGift": "免費禮品",
+              "addGift": "加購",
+              "colorNotFound": "找不到該顏色",
+              "payLabelAll": "<b>最低入手價</b> (合計以上折扣及回贈)",
+              "payLabelStorageTI": "<b>最低入手價</b> (合計以上折扣及回贈)",
+              "payLabelStorageBank": "<b>最低入手價</b> (合計以上折扣及回贈)",
+              "payLabelStorage": "<b>容量升級優惠價</b>",
+              "payLabelTIBank": "<b>最低入手價</b> (合計以上回贈)",
+              "payLabelTI": "<b>最低入手價</b> (Trade-in回贈後)",
+              "payLabelBank": "<b>最低入手價</b> (支付推廣回贈後)",
+              "payLabelDefault": "您只需支付",
+              "stickyFrom": "低至",
+              "rebateText": "回贈",
+              "recommended": "推薦",
+              "upgradeDiscounts": "容量升級優惠",
+              "stickyYouPay": "您需支付",
+              "stickyAfterStorage": "儲存空間升級優惠後",
+              "giftNoAvailable": "此模式暫無禮品可供選擇。",
+              "giftAddPrice": "加 {price} 換購",
+              "giftFree": "免費禮品",
+              "colorModalTitle": "選擇顏色",
+              "colorCancel": "取消",
+              "colorContinue": "繼續",
+              "otherBank": "其他支付方式",
+              "tradeinValuePrefix": "您的裝置以舊換新價值為",
+              "skuResolved": "SKU 已解析：",
+              "specialDiscount": "特別優惠",
+              "creditCardRebate": "信用卡回贈",
+              "samsungPayOnlyDiscount": "Samsung Pay 額外折扣",
+              "fixedDiscountSavings": "特別優惠",
+              "selectBrandOption": "選擇品牌",
+              "selectModelOption": "選擇型號",
+              "selectStorageOption": "選擇容量",
+              "upgradeDiscountsAvailable": "容量升級優惠",
+              "viewDetails": "查看詳情",
+              "selected": "已選擇",
+              "loading": "載入中...",
+              "errorMsg": "發生錯誤，請稍後再試。",
+              "inclusiveOffers": "已包含之專享優惠",
+              "step2SelectStorage": "容量",
+              "step2SelectColor": "顏色",
+              "tradeintitle": "Trade-in 您的舊裝置（選填）",
+              "checkoutWithShopApp": "使用 Samsung Shop App 結帳",
+              "importantReminder": "重要提醒",
+              "bankPromoLabel": "支付優惠折扣",
+              "notListed": "找不到我想回收的裝置",
+              "samsungComOnly": "網上商店限定",
+              "stickyFrom": "由",
+              "stickyBuyNow": "立即購買",
+              "tradeinTitle": "Trade-in 您的舊裝置（選填）",
+              "bankTitle": "支付推廣優惠（選填）",
+              "payWithSamsungPay": "以 Samsung Pay 支付可享額外折扣",
+              "bankRecommended": "推薦",
+              "skuResolved": "SKU 已解析：",
+              "tradeinWarningTitle": "提提您，加入購物車後",
+              "tradeinWarningBodyTradeIn": "記得重新添加Trade-in，驗證 IMEI/序號及填寫裝置狀態問卷，以確保您享受Trade-in回贈。",
+              "tradeinWarningBodySpay": "記得使用優惠碼「<b>SPAY2026</b>」兌換 Samsung Pay優惠。",
+              "selectBrand": "選擇品牌",
+              "selectModel": "選擇型號",
+              "selectStorageTradein": "選擇容量",
+              "samsungShopModalTitle": "使用 Samsung Shop App 結帳",
+              "samsungShopModalDesc": "使用 Samsung Shop App 結帳以享受 App 專屬優惠、最新推廣及優質購物體驗。",
+              "cancel": "取消",
+              "confirm": "確認",
+              "newFlowBadge": "新流程 • 產品優先",
+              "heroTitle": "選擇您的新 Galaxy。<br>然後以舊換新。",
+              "heroSubtitle": "簡單。透明。即時節省。",
+              "tradeInPriceLabel": "以舊換新價格：HK$",
+              "downloadApp": "下載 App",
+              "addToCart": "加入購物車",
+              "payLabelStroageTI": "After Storage Savings, you pay"
+            }
+          };
+
+        const fallback_step1models = 
+          [
+            {
+              "name": "Galaxy S26 Ultra",
+              "image": "img/galaxy-s26-ultra.png",
+              "storageOptions": [
+                {
+                  "storage": "1TB | 16GB",
+                  "price": 14000,
+                  "colors": [
+                    {
+                      "name": "Silver Shadow",
+                      "sku": "SM-S9480ZSPTGY"
+                    },
+                    {
+                      "name": "Pink Gold",
+                      "sku": "SM-S9480ZDPTGY"
+                    },
+                    {
+                      "name": "Black",
+                      "sku": "SM-S9480ZKPTGY"
+                    },
+                    {
+                      "name": "Cobalt Violet",
+                      "sku": "SM-S9480ZVPTGY"
+                    },
+                    {
+                      "name": "Sky Blue",
+                      "sku": "SM-S9480LBPTGY"
+                    }
+                  ]
+                },
+                {
+                  "storage": "512GB | 12GB",
+                  "price": 12000,
+                  "colors": [
+                    {
+                      "name": "Silver Shadow",
+                      "sku": "SM-S9480ZSOTGY"
+                    },
+                    {
+                      "name": "Pink Gold",
+                      "sku": "SM-S9480ZDOTGY"
+                    },
+                    {
+                      "name": "Black",
+                      "sku": "SM-S9480ZKOTGY"
+                    },
+                    {
+                      "name": "Cobalt Violet",
+                      "sku": "SM-S9480ZVOTGY"
+                    },
+                    {
+                      "name": "Sky Blue",
+                      "sku": "SM-S9480LBOTGY"
+                    },
+                    {
+                      "name": "White",
+                      "sku": "SM-S9480ZWOTGY"
+                    }
+                  ]
+                },
+                {
+                  "storage": "256GB | 12GB",
+                  "price": 10000,
+                  "colors": [
+                    {
+                      "name": "Pink Gold",
+                      "sku": "SM-S9480ZDITGY"
+                    },
+                    {
+                      "name": "Black",
+                      "sku": "SM-S9480ZKITGY"
+                    },
+                    {
+                      "name": "Cobalt Violet",
+                      "sku": "SM-S9480ZVITGY"
+                    },
+                    {
+                      "name": "Silver Shadow",
+                      "sku": "SM-S9480ZSITGY"
+                    },
+                    {
+                      "name": "Sky Blue",
+                      "sku": "SM-S9480LBITGY"
+                    },
+                    {
+                      "name": "White",
+                      "sku": "SM-S9480ZWITGY"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Galaxy Z Fold7",
+              "image": "img/galaxy-z-fold7.png",
+              "storageOptions": [
+                {
+                  "storage": "1TB | 16GB",
+                  "price": 20000,
+                  "colors": [
+                    {
+                      "name": "Blue Shadow",
+                      "sku": "SM-F9660DBHTGY"
+                    },
+                    {
+                      "name": "Jetblack",
+                      "sku": "SM-F9660ZKHTGY"
+                    }
+                  ]
+                },
+                {
+                  "storage": "512GB | 12GB",
+                  "price": 18000,
+                  "colors": [
+                    {
+                      "name": "Mint",
+                      "sku": "SM-F9660LGGTGY"
+                    },
+                    {
+                      "name": "Blue Shadow",
+                      "sku": "SM-F9660DBGTGY"
+                    },
+                    {
+                      "name": "Jetblack",
+                      "sku": "SM-F9660ZKGTGY"
+                    },
+                    {
+                      "name": "Silver Shadow",
+                      "sku": "SM-F9660ZSGTGY"
+                    }
+                  ]
+                },
+                {
+                  "storage": "256GB | 12GB",
+                  "price": 15000,
+                  "colors": [
+                    {
+                      "name": "Mint",
+                      "sku": "SM-F9660LGDTGY"
+                    },
+                    {
+                      "name": "Blue Shadow",
+                      "sku": "SM-F9660DBDTGY"
+                    },
+                    {
+                      "name": "Jetblack",
+                      "sku": "SM-F9660ZKDTGY"
+                    },
+                    {
+                      "name": "Silver Shadow",
+                      "sku": "SM-F9660ZSDTGY"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Galaxy Z Flip7",
+              "image": "img/galaxy-z-flip7.png",
+              "storageOptions": [
+                {
+                  "storage": "512GB | 12GB",
+                  "price": 9000,
+                  "colors": [
+                    {
+                      "name": "Mint",
+                      "sku": "SM-F7660LGETGY"
+                    },
+                    {
+                      "name": "Blue Shadow",
+                      "sku": "SM-F7660DBETGY"
+                    },
+                    {
+                      "name": "Jetblack",
+                      "sku": "SM-F7660ZKETGY"
+                    },
+                    {
+                      "name": "Coralred",
+                      "sku": "SM-F7660ZRETGY"
+                    }
+                  ]
+                },
+                {
+                  "storage": "256GB | 12GB",
+                  "price": 6000,
+                  "colors": [
+                    {
+                      "name": "Mint",
+                      "sku": "SM-F7660LGATGY"
+                    },
+                    {
+                      "name": "Blue Shadow",
+                      "sku": "SM-F7660DBATGY"
+                    },
+                    {
+                      "name": "Jetblack",
+                      "sku": "SM-F7660ZKATGY"
+                    },
+                    {
+                      "name": "Coralred",
+                      "sku": "SM-F7660ZRATGY"
+                    }
+                  ]
+                }
+              ]
+            }
+          ];
+
+        const fallback_recommendations = 
+          {
+            "products": [
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-578324-sm-s9480zsptgy-550823970?imbypass=true",
+                "storage": "1TB | 16GB",
+                "colorEn": "Silver Shadow",
+                "colorZh": "星月銀",
+                "hexCode": "#c8c9ca",
+                "showInHKBuyPage": true,
+                "estoreExclusive": true,
+                "sku": "SM-S9480ZSPTGY",
+                "rrp": 14000,
+                "lsvDiscount": 500,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-578324-sm-s9480zdptgy-550823859?imbypass=true",
+                "storage": "1TB | 16GB",
+                "colorEn": "Pink Gold",
+                "colorZh": "星瑰金",
+                "hexCode": "#e2d3c7",
+                "showInHKBuyPage": true,
+                "estoreExclusive": true,
+                "sku": "SM-S9480ZDPTGY",
+                "rrp": 14000,
+                "lsvDiscount": 500,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-sm-s9480zkptgy-550821367?imbypass=true",
+                "storage": "1TB | 16GB",
+                "colorEn": "Black",
+                "colorZh": "星曜黑",
+                "hexCode": "#4b4d52",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-S9480ZKPTGY",
+                "rrp": 14000,
+                "lsvDiscount": 500,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-sm-s9480zvptgy-550821482?imbypass=true",
+                "storage": "1TB | 16GB",
+                "colorEn": "Cobalt Violet",
+                "colorZh": "星暮紫",
+                "hexCode": "#696881",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-S9480ZVPTGY",
+                "rrp": 14000,
+                "lsvDiscount": 500,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-sm-s9480lbptgy-550821255?imbypass=true",
+                "storage": "1TB | 16GB",
+                "colorEn": "Sky Blue",
+                "colorZh": "星澄藍",
+                "hexCode": "#bacad7",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-S9480LBPTGY",
+                "rrp": 14000,
+                "lsvDiscount": 500,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-578324-sm-s9480zsptgy-550823970?imbypass=true",
+                "storage": "512GB | 12GB",
+                "colorEn": "Silver Shadow",
+                "colorZh": "星月銀",
+                "hexCode": "#c8c9ca",
+                "showInHKBuyPage": true,
+                "estoreExclusive": true,
+                "sku": "SM-S9480ZSOTGY",
+                "rrp": 12000,
+                "lsvDiscount": 300,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-578324-sm-s9480zdptgy-550823859?imbypass=true",
+                "storage": "512GB | 12GB",
+                "colorEn": "Pink Gold",
+                "colorZh": "星瑰金",
+                "hexCode": "#e2d3c7",
+                "showInHKBuyPage": true,
+                "estoreExclusive": true,
+                "sku": "SM-S9480ZDOTGY",
+                "rrp": 12000,
+                "lsvDiscount": 300,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-sm-s9480zkptgy-550821367?imbypass=true",
+                "storage": "512GB | 12GB",
+                "colorEn": "Black",
+                "colorZh": "星曜黑",
+                "hexCode": "#4b4d52",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-S9480ZKOTGY",
+                "rrp": 12000,
+                "lsvDiscount": 300,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-sm-s9480zvptgy-550821482?imbypass=true",
+                "storage": "512GB | 12GB",
+                "colorEn": "Cobalt Violet",
+                "colorZh": "星暮紫",
+                "hexCode": "#696881",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-S9480ZVOTGY",
+                "rrp": 12000,
+                "lsvDiscount": 300,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-sm-s9480lbptgy-550821255?imbypass=true",
+                "storage": "512GB | 12GB",
+                "colorEn": "Sky Blue",
+                "colorZh": "星澄藍",
+                "hexCode": "#bacad7",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-S9480LBOTGY",
+                "rrp": 12000,
+                "lsvDiscount": 300,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-sm-s9480zwotgy-550821557?imbypass=true",
+                "storage": "512GB | 12GB",
+                "colorEn": "White",
+                "colorZh": "星霜白",
+                "hexCode": "#f4f5f7",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-S9480ZWOTGY",
+                "rrp": 12000,
+                "lsvDiscount": 300,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-578324-sm-s9480zdptgy-550823859?imbypass=true",
+                "storage": "256GB | 12GB",
+                "colorEn": "Pink Gold",
+                "colorZh": "星瑰金",
+                "hexCode": "#e2d3c7",
+                "showInHKBuyPage": true,
+                "estoreExclusive": true,
+                "sku": "SM-S9480ZDITGY",
+                "rrp": 10000,
+                "lsvDiscount": 0,
+                "InStockStatus": "N",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-sm-s9480zkptgy-550821367?imbypass=true",
+                "storage": "256GB | 12GB",
+                "colorEn": "Black",
+                "colorZh": "星曜黑",
+                "hexCode": "#4b4d52",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-S9480ZKITGY",
+                "rrp": 10000,
+                "lsvDiscount": 0,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-sm-s9480zvptgy-550821482?imbypass=true",
+                "storage": "256GB | 12GB",
+                "colorEn": "Cobalt Violet",
+                "colorZh": "星暮紫",
+                "hexCode": "#696881",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-S9480ZVITGY",
+                "rrp": 10000,
+                "lsvDiscount": 0,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-578324-sm-s9480zsptgy-550823970?imbypass=true",
+                "storage": "256GB | 12GB",
+                "colorEn": "Silver Shadow",
+                "colorZh": "星月銀",
+                "hexCode": "#c8c9ca",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-S9480ZSITGY",
+                "rrp": 10000,
+                "lsvDiscount": 0,
+                "InStockStatus": "N",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-sm-s9480lbptgy-550821255?imbypass=true",
+                "storage": "256GB | 12GB",
+                "colorEn": "Sky Blue",
+                "colorZh": "星澄藍",
+                "hexCode": "#bacad7",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-S9480LBITGY",
+                "rrp": 10000,
+                "lsvDiscount": 0,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy S26 Ultra",
+                "baseCode": "SM-S9480",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-sm-s9480zwotgy-550821557?imbypass=true",
+                "storage": "256GB | 12GB",
+                "colorEn": "White",
+                "colorZh": "星霜白",
+                "hexCode": "#f4f5f7",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-S9480ZWITGY",
+                "rrp": 10000,
+                "lsvDiscount": 0,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Flip7",
+                "baseCode": "SM-F7660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-555701-sm-f7660lgatgy-547656871?imbypass=true",
+                "storage": "512GB | 12GB",
+                "colorEn": "Mint",
+                "colorZh": "薄荷綠",
+                "hexCode": "#cfdddd",
+                "showInHKBuyPage": true,
+                "estoreExclusive": true,
+                "sku": "SM-F7660LGETGY",
+                "rrp": 9000,
+                "lsvDiscount": 500,
+                "InStockStatus": "N",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Flip7",
+                "baseCode": "SM-F7660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660dbatgy-547656635?imbypass=true",
+                "storage": "512GB | 12GB",
+                "colorEn": "Blue Shadow",
+                "colorZh": "星塵藍",
+                "hexCode": "#485a83",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F7660DBETGY",
+                "rrp": 9000,
+                "lsvDiscount": 500,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Flip7",
+                "baseCode": "SM-F7660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660zkatgy-547656683?imbypass=true",
+                "storage": "512GB | 12GB",
+                "colorEn": "Jetblack",
+                "colorZh": "曜石黑",
+                "hexCode": "#4b4a4d",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F7660ZKETGY",
+                "rrp": 9000,
+                "lsvDiscount": 500,
+                "InStockStatus": "N",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Flip7",
+                "baseCode": "SM-F7660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660zratgy-547656731?imbypass=true",
+                "storage": "512GB | 12GB",
+                "colorEn": "Coralred",
+                "colorZh": "珊瑚紅",
+                "hexCode": "#d3707b",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F7660ZRETGY",
+                "rrp": 9000,
+                "lsvDiscount": 500,
+                "InStockStatus": "N",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Flip7",
+                "baseCode": "SM-F7660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-555701-sm-f7660lgatgy-547656871?imbypass=true",
+                "storage": "256GB | 12GB",
+                "colorEn": "Mint",
+                "colorZh": "薄荷綠",
+                "hexCode": "#cfdddd",
+                "showInHKBuyPage": true,
+                "estoreExclusive": true,
+                "sku": "SM-F7660LGATGY",
+                "rrp": 6000,
+                "lsvDiscount": 0,
+                "InStockStatus": "N",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Flip7",
+                "baseCode": "SM-F7660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660dbatgy-547656635?imbypass=true",
+                "storage": "256GB | 12GB",
+                "colorEn": "Blue Shadow",
+                "colorZh": "星塵藍",
+                "hexCode": "#485a83",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F7660DBATGY",
+                "rrp": 6000,
+                "lsvDiscount": 0,
+                "InStockStatus": "N",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Flip7",
+                "baseCode": "SM-F7660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660zkatgy-547656683?imbypass=true",
+                "storage": "256GB | 12GB",
+                "colorEn": "Jetblack",
+                "colorZh": "曜石黑",
+                "hexCode": "#4b4a4d",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F7660ZKATGY",
+                "rrp": 6000,
+                "lsvDiscount": 0,
+                "InStockStatus": "N",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Flip7",
+                "baseCode": "SM-F7660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660zratgy-547656731?imbypass=true",
+                "storage": "256GB | 12GB",
+                "colorEn": "Coralred",
+                "colorZh": "珊瑚紅",
+                "hexCode": "#d3707b",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F7660ZRATGY",
+                "rrp": 6000,
+                "lsvDiscount": 0,
+                "InStockStatus": "N",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Fold7",
+                "baseCode": "SM-F9660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-547656345?imbypass=true",
+                "storage": "1TB | 16GB",
+                "colorEn": "Blue Shadow",
+                "colorZh": "星塵藍",
+                "hexCode": "#485a83",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F9660DBHTGY",
+                "rrp": 20000,
+                "lsvDiscount": 500,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Fold7",
+                "baseCode": "SM-F9660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660zkgtgy-547656453?imbypass=true",
+                "storage": "1TB | 16GB",
+                "colorEn": "Jetblack",
+                "colorZh": "曜石黑",
+                "hexCode": "#4b4a4d",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F9660ZKHTGY",
+                "rrp": 20000,
+                "lsvDiscount": 500,
+                "InStockStatus": "N",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Fold7",
+                "baseCode": "SM-F9660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-555695-sm-f9660lggtgy-547656571?imbypass=true",
+                "storage": "512GB | 12GB",
+                "colorEn": "Mint",
+                "colorZh": "薄荷綠",
+                "hexCode": "#cfdddd",
+                "showInHKBuyPage": true,
+                "estoreExclusive": true,
+                "sku": "SM-F9660LGGTGY",
+                "rrp": 18000,
+                "lsvDiscount": 300,
+                "InStockStatus": "N",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Fold7",
+                "baseCode": "SM-F9660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-547656345?imbypass=true",
+                "storage": "512GB | 12GB",
+                "colorEn": "Blue Shadow",
+                "colorZh": "星塵藍",
+                "hexCode": "#485a83",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F9660DBGTGY",
+                "rrp": 18000,
+                "lsvDiscount": 300,
+                "InStockStatus": "N",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Fold7",
+                "baseCode": "SM-F9660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660zkgtgy-547656453?imbypass=true",
+                "storage": "512GB | 12GB",
+                "colorEn": "Jetblack",
+                "colorZh": "曜石黑",
+                "hexCode": "#4b4a4d",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F9660ZKGTGY",
+                "rrp": 18000,
+                "lsvDiscount": 300,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Fold7",
+                "baseCode": "SM-F9660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660zsgtgy-547656519?imbypass=true",
+                "storage": "512GB | 12GB",
+                "colorEn": "Silver Shadow",
+                "colorZh": "霧銀灰",
+                "hexCode": "#b3b7ba",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F9660ZSGTGY",
+                "rrp": 18000,
+                "lsvDiscount": 300,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Fold7",
+                "baseCode": "SM-F9660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-555695-sm-f9660lggtgy-547656571?imbypass=true",
+                "storage": "256GB | 12GB",
+                "colorEn": "Mint",
+                "colorZh": "薄荷綠",
+                "hexCode": "#cfdddd",
+                "showInHKBuyPage": true,
+                "estoreExclusive": true,
+                "sku": "SM-F9660LGDTGY",
+                "rrp": 15000,
+                "lsvDiscount": 0,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Fold7",
+                "baseCode": "SM-F9660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-547656345?imbypass=true",
+                "storage": "256GB | 12GB",
+                "colorEn": "Blue Shadow",
+                "colorZh": "星塵藍",
+                "hexCode": "#485a83",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F9660DBDTGY",
+                "rrp": 15000,
+                "lsvDiscount": 0,
+                "InStockStatus": "N",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Fold7",
+                "baseCode": "SM-F9660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660zkgtgy-547656453?imbypass=true",
+                "storage": "256GB | 12GB",
+                "colorEn": "Jetblack",
+                "colorZh": "曜石黑",
+                "hexCode": "#4b4a4d",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F9660ZKDTGY",
+                "rrp": 15000,
+                "lsvDiscount": 0,
+                "InStockStatus": "N",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
+                "gifts": []
+              },
+              {
+                "model": "Galaxy Z Fold7",
+                "baseCode": "SM-F9660",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660zsgtgy-547656519?imbypass=true",
+                "storage": "256GB | 12GB",
+                "colorEn": "Silver Shadow",
+                "colorZh": "霧銀灰",
+                "hexCode": "#b3b7ba",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F9660ZSDTGY",
+                "rrp": 15000,
+                "lsvDiscount": 0,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
+                "gifts": []
+              }
+            ]
+          };
+
+        const fallback_devices = 
+          [
+            {
+              "brand": "Samsung",
+              "model": "Galaxy Z Fold6",
+              "storage": "1TB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 7700,
+              "eti": {
+                "SM-F9660DBHTGY": 120,
+                "SM-F9660ZKHTGY": 50,
+                "SM-F9660DBGTGY": 120,
+                "SM-F9660ZSGTGY": 33,
+                "SM-F9660ZKGTGY": 120,
+                "SM-F9660LGGTGY": 120,
+                "SM-F9660DBDTGY": 120,
+                "SM-F9660ZSDTGY": 66,
+                "SM-F9660ZKDTGY": 120,
+                "SM-F9660LGDTGY": 120
+              },
+              "gti": {
+                "SM-S9480ZKPTGY": 8000,
+                "SM-S9480LBPTGY": 8000,
+                "SM-S9480ZVPTGY": 8000,
+                "SM-S9480ZDPTGY": 8000,
+                "SM-S9480ZSPTGY": 8000,
+                "SM-S9480ZKOTGY": 8000,
+                "SM-S9480LBOTGY": 8000,
+                "SM-S9480ZVOTGY": 8000,
+                "SM-S9480ZWOTGY": 8000,
+                "SM-S9480ZDOTGY": 8000,
+                "SM-S9480ZSOTGY": 8000,
+                "SM-S9480ZKITGY": 8000,
+                "SM-S9480LBITGY": 8000,
+                "SM-S9480ZVITGY": 8000,
+                "SM-S9480ZWITGY": 8000,
+                "SM-S9480ZDITGY": 8000,
+                "SM-S9480ZSITGY": 8000,
+                "SM-F9660DBHTGY": 8000,
+                "SM-F9660ZKHTGY": 5000,
+                "SM-F9660ZSGTGY": 8888,
+                "SM-F9660ZSDTGY": 9999
+              }
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy Z Fold5",
+              "storage": "1TB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 3300,
+              "eti": {
+                "SM-F9660DBHTGY": 120,
+                "SM-F9660ZKHTGY": 120,
+                "SM-F9660DBGTGY": 120,
+                "SM-F9660ZSGTGY": 120,
+                "SM-F9660ZKGTGY": 120,
+                "SM-F9660LGGTGY": 120,
+                "SM-F9660DBDTGY": 120,
+                "SM-F9660ZSDTGY": 120,
+                "SM-F9660ZKDTGY": 120,
+                "SM-F9660LGDTGY": 120
+              },
+              "gti": {
+                "SM-S9480ZKPTGY": 9000,
+                "SM-S9480LBPTGY": 9000,
+                "SM-S9480ZVPTGY": 9000,
+                "SM-S9480ZDPTGY": 9000,
+                "SM-S9480ZSPTGY": 9000,
+                "SM-S9480ZKOTGY": 9000,
+                "SM-S9480LBOTGY": 9000,
+                "SM-S9480ZVOTGY": 9000,
+                "SM-S9480ZWOTGY": 9000,
+                "SM-S9480ZDOTGY": 9000,
+                "SM-S9480ZSOTGY": 9000,
+                "SM-S9480ZKITGY": 9000,
+                "SM-S9480LBITGY": 9000,
+                "SM-S9480ZVITGY": 9000,
+                "SM-S9480ZWITGY": 9000,
+                "SM-S9480ZDITGY": 9000,
+                "SM-S9480ZSITGY": 9000,
+                "SM-F9660DBHTGY": 9000,
+                "SM-F9660ZKHTGY": 9000
+              }
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy Z Fold4",
+              "storage": "1TB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 2100,
+              "eti": {
+                "SM-F9660DBHTGY": 120,
+                "SM-F9660ZKHTGY": 120,
+                "SM-F9660DBGTGY": 120,
+                "SM-F9660ZSGTGY": 120,
+                "SM-F9660ZKGTGY": 120,
+                "SM-F9660LGGTGY": 120,
+                "SM-F9660DBDTGY": 120,
+                "SM-F9660ZSDTGY": 120,
+                "SM-F9660ZKDTGY": 120,
+                "SM-F9660LGDTGY": 120
+              },
+              "gti": {
+                "SM-S9480ZKPTGY": 10000,
+                "SM-S9480LBPTGY": 10000,
+                "SM-S9480ZVPTGY": 10000,
+                "SM-S9480ZDPTGY": 10000,
+                "SM-S9480ZSPTGY": 10000,
+                "SM-S9480ZKOTGY": 10000,
+                "SM-S9480LBOTGY": 10000,
+                "SM-S9480ZVOTGY": 10000,
+                "SM-S9480ZWOTGY": 10000,
+                "SM-S9480ZDOTGY": 10000,
+                "SM-S9480ZSOTGY": 10000,
+                "SM-S9480ZKITGY": 10000,
+                "SM-S9480LBITGY": 10000,
+                "SM-S9480ZVITGY": 10000,
+                "SM-S9480ZWITGY": 10000,
+                "SM-S9480ZDITGY": 10000,
+                "SM-S9480ZSITGY": 10000,
+                "SM-F9660DBHTGY": 10000,
+                "SM-F9660ZKHTGY": 10000
+              }
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy Z Fold6",
+              "storage": "512GB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 7700,
+              "eti": {
+                "SM-F9660DBHTGY": 120,
+                "SM-F9660ZKHTGY": 120,
+                "SM-F9660DBGTGY": 120,
+                "SM-F9660ZSGTGY": 120,
+                "SM-F9660ZKGTGY": 120,
+                "SM-F9660LGGTGY": 120,
+                "SM-F9660DBDTGY": 120,
+                "SM-F9660ZSDTGY": 120,
+                "SM-F9660ZKDTGY": 120,
+                "SM-F9660LGDTGY": 120
+              },
+              "gti": {
+                "SM-S9480ZKPTGY": 11000,
+                "SM-S9480LBPTGY": 11000,
+                "SM-S9480ZVPTGY": 11000,
+                "SM-S9480ZDPTGY": 11000,
+                "SM-S9480ZSPTGY": 11000,
+                "SM-S9480ZKOTGY": 11000,
+                "SM-S9480LBOTGY": 11000,
+                "SM-S9480ZVOTGY": 11000,
+                "SM-S9480ZWOTGY": 11000,
+                "SM-S9480ZDOTGY": 11000,
+                "SM-S9480ZSOTGY": 11000,
+                "SM-S9480ZKITGY": 11000,
+                "SM-S9480LBITGY": 11000,
+                "SM-S9480ZVITGY": 11000,
+                "SM-S9480ZWITGY": 11000,
+                "SM-S9480ZDITGY": 11000,
+                "SM-S9480ZSITGY": 11000,
+                "SM-F9660DBHTGY": 11000,
+                "SM-F9660ZKHTGY": 11000
+              }
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy Z Fold5",
+              "storage": "512GB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 3300,
+              "eti": {
+                "SM-F9660DBHTGY": 120,
+                "SM-F9660ZKHTGY": 120,
+                "SM-F9660DBGTGY": 120,
+                "SM-F9660ZSGTGY": 120,
+                "SM-F9660ZKGTGY": 120,
+                "SM-F9660LGGTGY": 120,
+                "SM-F9660DBDTGY": 120,
+                "SM-F9660ZSDTGY": 120,
+                "SM-F9660ZKDTGY": 120,
+                "SM-F9660LGDTGY": 120
+              },
+              "gti": {
+                "SM-S9480ZKPTGY": 12000,
+                "SM-S9480LBPTGY": 12000,
+                "SM-S9480ZVPTGY": 12000,
+                "SM-S9480ZDPTGY": 12000,
+                "SM-S9480ZSPTGY": 12000,
+                "SM-S9480ZKOTGY": 12000,
+                "SM-S9480LBOTGY": 12000,
+                "SM-S9480ZVOTGY": 12000,
+                "SM-S9480ZWOTGY": 12000,
+                "SM-S9480ZDOTGY": 12000,
+                "SM-S9480ZSOTGY": 12000,
+                "SM-S9480ZKITGY": 12000,
+                "SM-S9480LBITGY": 12000,
+                "SM-S9480ZVITGY": 12000,
+                "SM-S9480ZWITGY": 12000,
+                "SM-S9480ZDITGY": 12000,
+                "SM-S9480ZSITGY": 12000,
+                "SM-F9660DBHTGY": 12000,
+                "SM-F9660ZKHTGY": 12000
+              }
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy Z Fold4",
+              "storage": "512GB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 2100,
+              "eti": {
+                "SM-F9660DBHTGY": 120,
+                "SM-F9660ZKHTGY": 120,
+                "SM-F9660DBGTGY": 120,
+                "SM-F9660ZSGTGY": 120,
+                "SM-F9660ZKGTGY": 120,
+                "SM-F9660LGGTGY": 120,
+                "SM-F9660DBDTGY": 120,
+                "SM-F9660ZSDTGY": 120,
+                "SM-F9660ZKDTGY": 120,
+                "SM-F9660LGDTGY": 120
+              },
+              "gti": {
+                "SM-S9480ZKPTGY": 13000,
+                "SM-S9480LBPTGY": 13000,
+                "SM-S9480ZVPTGY": 13000,
+                "SM-S9480ZDPTGY": 13000,
+                "SM-S9480ZSPTGY": 13000,
+                "SM-S9480ZKOTGY": 13000,
+                "SM-S9480LBOTGY": 13000,
+                "SM-S9480ZVOTGY": 13000,
+                "SM-S9480ZWOTGY": 13000,
+                "SM-S9480ZDOTGY": 13000,
+                "SM-S9480ZSOTGY": 13000,
+                "SM-S9480ZKITGY": 13000,
+                "SM-S9480LBITGY": 13000,
+                "SM-S9480ZVITGY": 13000,
+                "SM-S9480ZWITGY": 13000,
+                "SM-S9480ZDITGY": 13000,
+                "SM-S9480ZSITGY": 13000,
+                "SM-F9660DBHTGY": 13000,
+                "SM-F9660ZKHTGY": 13000
+              }
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy Z Flip6",
+              "storage": "512GB",
+              "recommendation1": "Galaxy Z Flip7",
+              "recommendation2": "N/A",
+              "recommendation3": "N/A",
+              "standardPrice": 3800,
+              "eti": {
+                "SM-F7660DBETGY": 100,
+                "SM-F7660ZKETGY": 100,
+                "SM-F7660ZRETGY": 100,
+                "SM-F7660LGETGY": 100,
+                "SM-F7660DBATGY": 100,
+                "SM-F7660ZKATGY": 100,
+                "SM-F7660ZRATGY": 100,
+                "SM-F7660LGATGY": 100
+              },
+              "gti": {
+                "SM-F7660DBETGY": 5000,
+                "SM-F7660ZKETGY": 5000,
+                "SM-F7660ZRETGY": 5000,
+                "SM-F7660LGETGY": 5000,
+                "SM-F7660DBATGY": 5000,
+                "SM-F7660ZKATGY": 5000,
+                "SM-F7660ZRATGY": 5000,
+                "SM-F7660LGATGY": 5000
+              }
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy Z Flip5",
+              "storage": "512GB",
+              "recommendation1": "Galaxy Z Flip7",
+              "recommendation2": "N/A",
+              "recommendation3": "N/A",
+              "standardPrice": 1800,
+              "eti": {
+                "SM-F7660DBETGY": 100,
+                "SM-F7660ZKETGY": 100,
+                "SM-F7660ZRETGY": 100,
+                "SM-F7660LGETGY": 100,
+                "SM-F7660DBATGY": 100,
+                "SM-F7660ZKATGY": 100,
+                "SM-F7660ZRATGY": 100,
+                "SM-F7660LGATGY": 100
+              },
+              "gti": {
+                "SM-F7660DBETGY": 6000,
+                "SM-F7660ZKETGY": 6000,
+                "SM-F7660ZRETGY": 6000,
+                "SM-F7660LGETGY": 6000,
+                "SM-F7660DBATGY": 6000,
+                "SM-F7660ZKATGY": 6000,
+                "SM-F7660ZRATGY": 6000,
+                "SM-F7660LGATGY": 6000
+              }
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy Z Flip4",
+              "storage": "512GB",
+              "recommendation1": "Galaxy Z Flip7",
+              "recommendation2": "N/A",
+              "recommendation3": "N/A",
+              "standardPrice": 1100,
+              "eti": {
+                "SM-F7660DBETGY": 100,
+                "SM-F7660ZKETGY": 100,
+                "SM-F7660ZRETGY": 100,
+                "SM-F7660LGETGY": 100,
+                "SM-F7660DBATGY": 100,
+                "SM-F7660ZKATGY": 100,
+                "SM-F7660ZRATGY": 100,
+                "SM-F7660LGATGY": 100
+              },
+              "gti": {
+                "SM-F7660DBETGY": 7000,
+                "SM-F7660ZKETGY": 7000,
+                "SM-F7660ZRETGY": 7000,
+                "SM-F7660LGETGY": 7000,
+                "SM-F7660DBATGY": 7000,
+                "SM-F7660ZKATGY": 7000,
+                "SM-F7660ZRATGY": 7000,
+                "SM-F7660LGATGY": 7000
+              }
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy S25 Ultra",
+              "storage": "1TB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 6500,
+              "eti": {
+                "SM-S9480ZKPTGY": 100,
+                "SM-S9480LBPTGY": 100,
+                "SM-S9480ZVPTGY": 100,
+                "SM-S9480ZDPTGY": 100,
+                "SM-S9480ZSPTGY": 100,
+                "SM-S9480ZKOTGY": 100,
+                "SM-S9480LBOTGY": 100,
+                "SM-S9480ZVOTGY": 100,
+                "SM-S9480ZWOTGY": 100,
+                "SM-S9480ZDOTGY": 100,
+                "SM-S9480ZSOTGY": 100,
+                "SM-S9480ZKITGY": 100,
+                "SM-S9480LBITGY": 100,
+                "SM-S9480ZVITGY": 100,
+                "SM-S9480ZWITGY": 100,
+                "SM-S9480ZDITGY": 100,
+                "SM-S9480ZSITGY": 100
+              },
+              "gti": {}
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy S24 Ultra",
+              "storage": "1TB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 5900,
+              "eti": {
+                "SM-S9480ZKPTGY": 100,
+                "SM-S9480LBPTGY": 100,
+                "SM-S9480ZVPTGY": 100,
+                "SM-S9480ZDPTGY": 100,
+                "SM-S9480ZSPTGY": 100,
+                "SM-S9480ZKOTGY": 100,
+                "SM-S9480LBOTGY": 100,
+                "SM-S9480ZVOTGY": 100,
+                "SM-S9480ZWOTGY": 100,
+                "SM-S9480ZDOTGY": 100,
+                "SM-S9480ZSOTGY": 100,
+                "SM-S9480ZKITGY": 100,
+                "SM-S9480LBITGY": 100,
+                "SM-S9480ZVITGY": 100,
+                "SM-S9480ZWITGY": 100,
+                "SM-S9480ZDITGY": 100,
+                "SM-S9480ZSITGY": 100
+              },
+              "gti": {}
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy S24+",
+              "storage": "512GB",
+              "recommendation1": "Galaxy Z Flip7",
+              "recommendation2": "N/A",
+              "recommendation3": "N/A",
+              "standardPrice": 3300,
+              "eti": {
+                "SM-S9480ZKPTGY": 100,
+                "SM-S9480LBPTGY": 100,
+                "SM-S9480ZVPTGY": 100,
+                "SM-S9480ZDPTGY": 100,
+                "SM-S9480ZSPTGY": 100,
+                "SM-S9480ZKOTGY": 100,
+                "SM-S9480LBOTGY": 100,
+                "SM-S9480ZVOTGY": 100,
+                "SM-S9480ZWOTGY": 100,
+                "SM-S9480ZDOTGY": 100,
+                "SM-S9480ZSOTGY": 100,
+                "SM-S9480ZKITGY": 100,
+                "SM-S9480LBITGY": 100,
+                "SM-S9480ZVITGY": 100,
+                "SM-S9480ZWITGY": 100,
+                "SM-S9480ZDITGY": 100,
+                "SM-S9480ZSITGY": 100
+              },
+              "gti": {}
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy S24",
+              "storage": "512GB",
+              "recommendation1": "Galaxy Z Flip7",
+              "recommendation2": "N/A",
+              "recommendation3": "N/A",
+              "standardPrice": 2800,
+              "eti": {
+                "SM-S9480ZKPTGY": 100,
+                "SM-S9480LBPTGY": 100,
+                "SM-S9480ZVPTGY": 100,
+                "SM-S9480ZDPTGY": 100,
+                "SM-S9480ZSPTGY": 100,
+                "SM-S9480ZKOTGY": 100,
+                "SM-S9480LBOTGY": 100,
+                "SM-S9480ZVOTGY": 100,
+                "SM-S9480ZWOTGY": 100,
+                "SM-S9480ZDOTGY": 100,
+                "SM-S9480ZSOTGY": 100,
+                "SM-S9480ZKITGY": 100,
+                "SM-S9480LBITGY": 100,
+                "SM-S9480ZVITGY": 100,
+                "SM-S9480ZWITGY": 100,
+                "SM-S9480ZDITGY": 100,
+                "SM-S9480ZSITGY": 100
+              },
+              "gti": {}
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy S23 Ultra",
+              "storage": "1TB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 4400,
+              "eti": {
+                "SM-S9480ZKPTGY": 100,
+                "SM-S9480LBPTGY": 100,
+                "SM-S9480ZVPTGY": 100,
+                "SM-S9480ZDPTGY": 100,
+                "SM-S9480ZSPTGY": 100,
+                "SM-S9480ZKOTGY": 100,
+                "SM-S9480LBOTGY": 100,
+                "SM-S9480ZVOTGY": 100,
+                "SM-S9480ZWOTGY": 100,
+                "SM-S9480ZDOTGY": 100,
+                "SM-S9480ZSOTGY": 100,
+                "SM-S9480ZKITGY": 100,
+                "SM-S9480LBITGY": 100,
+                "SM-S9480ZVITGY": 100,
+                "SM-S9480ZWITGY": 100,
+                "SM-S9480ZDITGY": 100,
+                "SM-S9480ZSITGY": 100
+              },
+              "gti": {}
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy S23+",
+              "storage": "512GB",
+              "recommendation1": "Galaxy Z Flip7",
+              "recommendation2": "N/A",
+              "recommendation3": "N/A",
+              "standardPrice": 2100,
+              "eti": {
+                "SM-S9480ZKPTGY": 100,
+                "SM-S9480LBPTGY": 100,
+                "SM-S9480ZVPTGY": 100,
+                "SM-S9480ZDPTGY": 100,
+                "SM-S9480ZSPTGY": 100,
+                "SM-S9480ZKOTGY": 100,
+                "SM-S9480LBOTGY": 100,
+                "SM-S9480ZVOTGY": 100,
+                "SM-S9480ZWOTGY": 100,
+                "SM-S9480ZDOTGY": 100,
+                "SM-S9480ZSOTGY": 100,
+                "SM-S9480ZKITGY": 100,
+                "SM-S9480LBITGY": 100,
+                "SM-S9480ZVITGY": 100,
+                "SM-S9480ZWITGY": 100,
+                "SM-S9480ZDITGY": 100,
+                "SM-S9480ZSITGY": 100
+              },
+              "gti": {}
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy S23 FE",
+              "storage": "128GB",
+              "recommendation1": "Galaxy Z Flip7",
+              "recommendation2": "N/A",
+              "recommendation3": "N/A",
+              "standardPrice": 900,
+              "eti": {
+                "SM-S9480ZKPTGY": 100,
+                "SM-S9480LBPTGY": 100,
+                "SM-S9480ZVPTGY": 100,
+                "SM-S9480ZDPTGY": 100,
+                "SM-S9480ZSPTGY": 100,
+                "SM-S9480ZKOTGY": 100,
+                "SM-S9480LBOTGY": 100,
+                "SM-S9480ZVOTGY": 100,
+                "SM-S9480ZWOTGY": 100,
+                "SM-S9480ZDOTGY": 100,
+                "SM-S9480ZSOTGY": 100,
+                "SM-S9480ZKITGY": 100,
+                "SM-S9480LBITGY": 100,
+                "SM-S9480ZVITGY": 100,
+                "SM-S9480ZWITGY": 100,
+                "SM-S9480ZDITGY": 100,
+                "SM-S9480ZSITGY": 100
+              },
+              "gti": {}
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy S23 FE",
+              "storage": "256GB",
+              "recommendation1": "Galaxy Z Flip7",
+              "recommendation2": "N/A",
+              "recommendation3": "N/A",
+              "standardPrice": 1000,
+              "eti": {
+                "SM-S9480ZKPTGY": 100,
+                "SM-S9480LBPTGY": 100,
+                "SM-S9480ZVPTGY": 100,
+                "SM-S9480ZDPTGY": 100,
+                "SM-S9480ZSPTGY": 100,
+                "SM-S9480ZKOTGY": 100,
+                "SM-S9480LBOTGY": 100,
+                "SM-S9480ZVOTGY": 100,
+                "SM-S9480ZWOTGY": 100,
+                "SM-S9480ZDOTGY": 100,
+                "SM-S9480ZSOTGY": 100,
+                "SM-S9480ZKITGY": 100,
+                "SM-S9480LBITGY": 100,
+                "SM-S9480ZVITGY": 100,
+                "SM-S9480ZWITGY": 100,
+                "SM-S9480ZDITGY": 100,
+                "SM-S9480ZSITGY": 100
+              },
+              "gti": {}
+            },
+            {
+              "brand": "Samsung",
+              "model": "Galaxy S23",
+              "storage": "512GB",
+              "recommendation1": "Galaxy Z Flip7",
+              "recommendation2": "N/A",
+              "recommendation3": "N/A",
+              "standardPrice": 1900,
+              "eti": {
+                "SM-S9480ZKPTGY": 100,
+                "SM-S9480LBPTGY": 100,
+                "SM-S9480ZVPTGY": 100,
+                "SM-S9480ZDPTGY": 100,
+                "SM-S9480ZSPTGY": 100,
+                "SM-S9480ZKOTGY": 100,
+                "SM-S9480LBOTGY": 100,
+                "SM-S9480ZVOTGY": 100,
+                "SM-S9480ZWOTGY": 100,
+                "SM-S9480ZDOTGY": 100,
+                "SM-S9480ZSOTGY": 100,
+                "SM-S9480ZKITGY": 100,
+                "SM-S9480LBITGY": 100,
+                "SM-S9480ZVITGY": 100,
+                "SM-S9480ZWITGY": 100,
+                "SM-S9480ZDITGY": 100,
+                "SM-S9480ZSITGY": 100
+              },
+              "gti": {}
+            },
+            {
+              "brand": "Apple",
+              "model": "iPhone 16 pro Max",
+              "storage": "1TB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 7300,
+              "eti": {
+                "SM-S9480ZKPTGY": 200,
+                "SM-S9480LBPTGY": 200,
+                "SM-S9480ZVPTGY": 200,
+                "SM-S9480ZDPTGY": 200,
+                "SM-S9480ZSPTGY": 200,
+                "SM-S9480ZKOTGY": 200,
+                "SM-S9480LBOTGY": 200,
+                "SM-S9480ZVOTGY": 200,
+                "SM-S9480ZWOTGY": 200,
+                "SM-S9480ZDOTGY": 200,
+                "SM-S9480ZSOTGY": 200,
+                "SM-S9480ZKITGY": 200,
+                "SM-S9480LBITGY": 200,
+                "SM-S9480ZVITGY": 200,
+                "SM-S9480ZWITGY": 200,
+                "SM-S9480ZDITGY": 200,
+                "SM-S9480ZSITGY": 200,
+                "SM-F9660DBHTGY": 200,
+                "SM-F9660ZKHTGY": 200,
+                "SM-F9660DBGTGY": 200,
+                "SM-F9660ZSGTGY": 200,
+                "SM-F9660ZKGTGY": 200,
+                "SM-F9660LGGTGY": 200,
+                "SM-F9660DBDTGY": 200,
+                "SM-F9660ZSDTGY": 200,
+                "SM-F9660ZKDTGY": 200,
+                "SM-F9660LGDTGY": 200,
+                "SM-F7660DBETGY": 200,
+                "SM-F7660ZKETGY": 200,
+                "SM-F7660ZRETGY": 200,
+                "SM-F7660LGETGY": 200,
+                "SM-F7660DBATGY": 200,
+                "SM-F7660ZKATGY": 200,
+                "SM-F7660ZRATGY": 200,
+                "SM-F7660LGATGY": 200
+              },
+              "gti": {}
+            },
+            {
+              "brand": "Apple",
+              "model": "iPhone 15 Pro Max",
+              "storage": "1TB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 5300,
+              "eti": {
+                "SM-S9480ZKPTGY": 200,
+                "SM-S9480LBPTGY": 200,
+                "SM-S9480ZVPTGY": 200,
+                "SM-S9480ZDPTGY": 200,
+                "SM-S9480ZSPTGY": 200,
+                "SM-S9480ZKOTGY": 200,
+                "SM-S9480LBOTGY": 200,
+                "SM-S9480ZVOTGY": 200,
+                "SM-S9480ZWOTGY": 200,
+                "SM-S9480ZDOTGY": 200,
+                "SM-S9480ZSOTGY": 200,
+                "SM-S9480ZKITGY": 200,
+                "SM-S9480LBITGY": 200,
+                "SM-S9480ZVITGY": 200,
+                "SM-S9480ZWITGY": 200,
+                "SM-S9480ZDITGY": 200,
+                "SM-S9480ZSITGY": 200,
+                "SM-F9660DBHTGY": 200,
+                "SM-F9660ZKHTGY": 200,
+                "SM-F9660DBGTGY": 200,
+                "SM-F9660ZSGTGY": 200,
+                "SM-F9660ZKGTGY": 200,
+                "SM-F9660LGGTGY": 200,
+                "SM-F9660DBDTGY": 200,
+                "SM-F9660ZSDTGY": 200,
+                "SM-F9660ZKDTGY": 200,
+                "SM-F9660LGDTGY": 200,
+                "SM-F7660DBETGY": 200,
+                "SM-F7660ZKETGY": 200,
+                "SM-F7660ZRETGY": 200,
+                "SM-F7660LGETGY": 200,
+                "SM-F7660DBATGY": 200,
+                "SM-F7660ZKATGY": 200,
+                "SM-F7660ZRATGY": 200,
+                "SM-F7660LGATGY": 200
+              },
+              "gti": {}
+            },
+            {
+              "brand": "Apple",
+              "model": "iPhone 14 Pro Max",
+              "storage": "1TB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 3700,
+              "eti": {},
+              "gti": {
+                "SM-S9480ZKPTGY": 6000,
+                "SM-S9480LBPTGY": 6000,
+                "SM-S9480ZVPTGY": 6000,
+                "SM-S9480ZDPTGY": 6000,
+                "SM-S9480ZSPTGY": 6000,
+                "SM-S9480ZKOTGY": 6000,
+                "SM-S9480LBOTGY": 6000,
+                "SM-S9480ZVOTGY": 6000,
+                "SM-S9480ZWOTGY": 6000,
+                "SM-S9480ZDOTGY": 6000,
+                "SM-S9480ZSOTGY": 6000,
+                "SM-S9480ZKITGY": 6000,
+                "SM-S9480LBITGY": 6000,
+                "SM-S9480ZVITGY": 6000,
+                "SM-S9480ZWITGY": 6000,
+                "SM-S9480ZDITGY": 6000,
+                "SM-S9480ZSITGY": 6000,
+                "SM-F9660DBHTGY": 6000,
+                "SM-F9660ZKHTGY": 6000
+              }
+            },
+            {
+              "brand": "Apple",
+              "model": "iPhone 16 pro",
+              "storage": "1TB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 6600,
+              "eti": {
+                "SM-S9480ZKPTGY": 200,
+                "SM-S9480LBPTGY": 200,
+                "SM-S9480ZVPTGY": 200,
+                "SM-S9480ZDPTGY": 200,
+                "SM-S9480ZSPTGY": 200,
+                "SM-S9480ZKOTGY": 200,
+                "SM-S9480LBOTGY": 200,
+                "SM-S9480ZVOTGY": 200,
+                "SM-S9480ZWOTGY": 200,
+                "SM-S9480ZDOTGY": 200,
+                "SM-S9480ZSOTGY": 200,
+                "SM-S9480ZKITGY": 200,
+                "SM-S9480LBITGY": 200,
+                "SM-S9480ZVITGY": 200,
+                "SM-S9480ZWITGY": 200,
+                "SM-S9480ZDITGY": 200,
+                "SM-S9480ZSITGY": 200,
+                "SM-F9660DBHTGY": 200,
+                "SM-F9660ZKHTGY": 200,
+                "SM-F9660DBGTGY": 200,
+                "SM-F9660ZSGTGY": 200,
+                "SM-F9660ZKGTGY": 200,
+                "SM-F9660LGGTGY": 200,
+                "SM-F9660DBDTGY": 200,
+                "SM-F9660ZSDTGY": 200,
+                "SM-F9660ZKDTGY": 200,
+                "SM-F9660LGDTGY": 200,
+                "SM-F7660DBETGY": 200,
+                "SM-F7660ZKETGY": 200,
+                "SM-F7660ZRETGY": 200,
+                "SM-F7660LGETGY": 200,
+                "SM-F7660DBATGY": 200,
+                "SM-F7660ZKATGY": 200,
+                "SM-F7660ZRATGY": 200,
+                "SM-F7660LGATGY": 200
+              },
+              "gti": {}
+            },
+            {
+              "brand": "Apple",
+              "model": "iPhone 15 Pro",
+              "storage": "1TB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 4400,
+              "eti": {
+                "SM-S9480ZKPTGY": 200,
+                "SM-S9480LBPTGY": 200,
+                "SM-S9480ZVPTGY": 200,
+                "SM-S9480ZDPTGY": 200,
+                "SM-S9480ZSPTGY": 200,
+                "SM-S9480ZKOTGY": 200,
+                "SM-S9480LBOTGY": 200,
+                "SM-S9480ZVOTGY": 200,
+                "SM-S9480ZWOTGY": 200,
+                "SM-S9480ZDOTGY": 200,
+                "SM-S9480ZSOTGY": 200,
+                "SM-S9480ZKITGY": 200,
+                "SM-S9480LBITGY": 200,
+                "SM-S9480ZVITGY": 200,
+                "SM-S9480ZWITGY": 200,
+                "SM-S9480ZDITGY": 200,
+                "SM-S9480ZSITGY": 200,
+                "SM-F9660DBHTGY": 200,
+                "SM-F9660ZKHTGY": 200,
+                "SM-F9660DBGTGY": 200,
+                "SM-F9660ZSGTGY": 200,
+                "SM-F9660ZKGTGY": 200,
+                "SM-F9660LGGTGY": 200,
+                "SM-F9660DBDTGY": 200,
+                "SM-F9660ZSDTGY": 200,
+                "SM-F9660ZKDTGY": 200,
+                "SM-F9660LGDTGY": 200,
+                "SM-F7660DBETGY": 200,
+                "SM-F7660ZKETGY": 200,
+                "SM-F7660ZRETGY": 200,
+                "SM-F7660LGETGY": 200,
+                "SM-F7660DBATGY": 200,
+                "SM-F7660ZKATGY": 200,
+                "SM-F7660ZRATGY": 200,
+                "SM-F7660LGATGY": 200
+              },
+              "gti": {}
+            },
+            {
+              "brand": "Apple",
+              "model": "iPhone 14 Pro",
+              "storage": "1TB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 3000,
+              "eti": {},
+              "gti": {
+                "SM-S9480ZKPTGY": 5000,
+                "SM-S9480LBPTGY": 5000,
+                "SM-S9480ZVPTGY": 5000,
+                "SM-S9480ZDPTGY": 5000,
+                "SM-S9480ZSPTGY": 5000,
+                "SM-S9480ZKOTGY": 5000,
+                "SM-S9480LBOTGY": 5000,
+                "SM-S9480ZVOTGY": 5000,
+                "SM-S9480ZWOTGY": 5000,
+                "SM-S9480ZDOTGY": 5000,
+                "SM-S9480ZSOTGY": 5000,
+                "SM-S9480ZKITGY": 5000,
+                "SM-S9480LBITGY": 5000,
+                "SM-S9480ZVITGY": 5000,
+                "SM-S9480ZWITGY": 5000,
+                "SM-S9480ZDITGY": 5000,
+                "SM-S9480ZSITGY": 5000,
+                "SM-F9660DBHTGY": 5000,
+                "SM-F9660ZKHTGY": 5000
+              }
+            },
+            {
+              "brand": "Apple",
+              "model": "iPhone XS",
+              "storage": "256GB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 1500,
+              "eti": {},
+              "gti": {}
+            },
+            {
+              "brand": "Apple",
+              "model": "iPhone XS",
+              "storage": "512GB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 2000,
+              "eti": {},
+              "gti": {}
+            },
+            {
+              "brand": "Apple",
+              "model": "iPhone XS",
+              "storage": "1TB",
+              "recommendation1": "Galaxy S26 Ultra",
+              "recommendation2": "Galaxy Z Fold7",
+              "recommendation3": "Galaxy Z Flip7",
+              "standardPrice": 3000,
+              "eti": {},
+              "gti": {}
+            }
+          ];
+
+        const fallback_gifts = 
+          [
+            {
+              "GiftCode": "S26U_Gift001",
+              "Mode": "AddSKU",
+              "SKU_PromoCode": "EP-T5020XBEGGB",
+              "GiftNameEN": "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)",
+              "GiftNameZH": "50W 旅行充電器 T5020 (包括5A USB-C 至 USB-C 數據線)",
+              "SKU Image": "img/gift-ep-t5020xbeggb.png",
+              "Price": "Free",
+              "Parent Model": "Galaxy S26 Ultra",
+              "Active": "Y"
+            },
+            {
+              "GiftCode": "S26U_Gift002",
+              "Mode": "AddSKU",
+              "SKU_PromoCode": "EF-SS948CLEGWW",
+              "GiftNameEN": "Galaxy S26 Ultra Slim Magnet Case",
+              "GiftNameZH": "Galaxy S26 Ultra 超薄磁吸保護殼",
+              "SKU Image": "img/gift-ef-ss948clegww.png",
+              "Price": "Free",
+              "Parent Model": "Galaxy S26 Ultra",
+              "Active": "Y"
+            },
+            {
+              "GiftCode": "S26U_Gift003",
+              "Mode": "AddSKU",
+              "SKU_PromoCode": "EP-P2900BBEGWW",
+              "GiftNameEN": "Magnet Wireless Charger",
+              "GiftNameZH": "磁吸無線充電器",
+              "SKU Image": "img/gift-ep-p2900bbegww.png",
+              "Price": "HK$50",
+              "Parent Model": "Galaxy S26 Ultra",
+              "Active": "Y"
+            },
+            {
+              "GiftCode": "S26U_Gift004",
+              "Mode": "AddCode",
+              "SKU_PromoCode": "HKQR2026",
+              "GiftNameEN": "Samsung Online Store HK$400 Voucher",
+              "GiftNameZH": "Samsung網上商店 HK$400優惠券",
+              "SKU Image": "https://static.vecteezy.com/system/resources/previews/023/642/809/non_2x/coupon-icon-isolated-on-white-background-vector.jpg",
+              "Price": "Free",
+              "Parent Model": "Galaxy S26 Ultra",
+              "Active": "Y"
+            },
+            {
+              "GiftCode": "S26U_Gift005",
+              "Mode": "AddSKU",
+              "SKU_PromoCode": "SM-R640NZWATGY",
+              "GiftNameEN": "Galaxy Buds4 Pro",
+              "GiftNameZH": "Galaxy Buds4 Pro",
+              "SKU Image": "img/gift-buds4-pro.png",
+              "Price": "HK$500",
+              "Parent Model": "Galaxy S26 Ultra",
+              "Active": "N"
+            },
+            {
+              "GiftCode": "Fold7_Gift001",
+              "Mode": "AddSKU",
+              "SKU_PromoCode": "EP-T5020XBEGGB",
+              "GiftNameEN": "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)",
+              "GiftNameZH": "50W 旅行充電器 T5020 (包括5A USB-C 至 USB-C 數據線)",
+              "SKU Image": "img/gift-ep-t5020xbeggb.png",
+              "Price": "Free",
+              "Parent Model": "Galaxy Z Fold7",
+              "Active": "Y"
+            },
+            {
+              "GiftCode": "Fold7_Gift002",
+              "Mode": "AddSKU",
+              "SKU_PromoCode": "GP-FFF966YCATW",
+              "GiftNameEN": "Galaxy Z Fold7 Clear Magnet Case",
+              "GiftNameZH": "Galaxy Z Fold7 透明磁吸保護殼",
+              "SKU Image": "img/gift-gp-fff966ycatw.png",
+              "Price": "Free",
+              "Parent Model": "Galaxy Z Fold7",
+              "Active": "Y"
+            },
+            {
+              "GiftCode": "Fold7_Gift003",
+              "Mode": "AddSKU",
+              "SKU_PromoCode": "EP-P2900BBEGWW",
+              "GiftNameEN": "Magnet Wireless Charger",
+              "GiftNameZH": "磁吸無線充電器",
+              "SKU Image": "img/gift-ep-p2900bbegww.png",
+              "Price": "HK$50",
+              "Parent Model": "Galaxy Z Fold7",
+              "Active": "Y"
+            },
+            {
+              "GiftCode": "Fold7_Gift004",
+              "Mode": "AddCode",
+              "SKU_PromoCode": "HKQR2026",
+              "GiftNameEN": "Samsung Online Store HK$400 Voucher",
+              "GiftNameZH": "Samsung網上商店 HK$400優惠券",
+              "SKU Image": "https://static.vecteezy.com/system/resources/previews/023/642/809/non_2x/coupon-icon-isolated-on-white-background-vector.jpg",
+              "Price": "Free",
+              "Parent Model": "Galaxy Z Fold7",
+              "Active": "Y"
+            },
+            {
+              "GiftCode": "Flip7_Gift001",
+              "Mode": "AddSKU",
+              "SKU_PromoCode": "EP-T5020XBEGGB",
+              "GiftNameEN": "50W PD Power Adapter T5020 (With 5A USB-c to USB-C cable)",
+              "GiftNameZH": "50W 旅行充電器 T5020 (包括5A USB-C 至 USB-C 數據線)",
+              "SKU Image": "img/gift-ep-t5020xbeggb.png",
+              "Price": "Free",
+              "Parent Model": "Galaxy Z Flip7",
+              "Active": "Y"
+            },
+            {
+              "GiftCode": "Flip7_Gift002",
+              "Mode": "AddSKU",
+              "SKU_PromoCode": "GP-FPF766PGBTW",
+              "GiftNameEN": "Galaxy Z Flip7 Capella",
+              "GiftNameZH": "Galaxy Z Flip7 Capella",
+              "SKU Image": "img/gift-gp-fpf766pgbtw.png",
+              "Price": "Free",
+              "Parent Model": "Galaxy Z Flip7",
+              "Active": "Y"
+            },
+            {
+              "GiftCode": "Flip7_Gift003",
+              "Mode": "AddSKU",
+              "SKU_PromoCode": "EP-P2900BBEGWW",
+              "GiftNameEN": "Magnet Wireless Charger",
+              "GiftNameZH": "磁吸無線充電器",
+              "SKU Image": "img/gift-ep-p2900bbegww.png",
+              "Price": "HK$50",
+              "Parent Model": "Galaxy Z Flip7",
+              "Active": "Y"
+            },
+            {
+              "GiftCode": "Flip7_Gift004",
+              "Mode": "AddCode",
+              "SKU_PromoCode": "HKQR2026",
+              "GiftNameEN": "Samsung Online Store HK$400 Voucher",
+              "GiftNameZH": "Samsung網上商店 HK$400優惠券",
+              "SKU Image": "https://static.vecteezy.com/system/resources/previews/023/642/809/non_2x/coupon-icon-isolated-on-white-background-vector.jpg",
+              "Price": "Free",
+              "Parent Model": "Galaxy Z Flip7",
+              "Active": "Y"
+            }
+          ];
+
+        const fallback_bankpromo = 
+          [
+            {
+              "key": "bankofchina(hk)creditcard",
+              "name": {
+                "en": "Bank of China (HK) Credit Card",
+                "zh": "中銀香港信用卡"
+              },
+              "rebateName": {
+                "en": "Samsung | BOC(HK) Credit Card Rebate",
+                "zh": "Samsung | 中銀香港信用卡回贈"
+              },
+              "logo": "img/logo-bochk.png",
+              "tiers": [
+                {
+                  "max": 3000,
+                  "percent": 0
+                },
+                {
+                  "max": 10000,
+                  "percent": 0.04
+                },
+                {
+                  "max": 15000,
+                  "percent": 0.05
+                },
+                {
+                  "max": 100000,
+                  "percent": 0.06
+                }
+              ],
+              "maximum": 2000,
+              "fixedDiscount": {
+                "name": {
+                  "en": "BOC Visa Credit Card Amazing Local Rewards Holidays Offer",
+                  "zh": "中銀香港Visa「狂賞派」「紅日」額外回贈"
+                },
+                "value": 200
+              },
+              "priority": 1,
+              "isRecommended": true
+            },
+            {
+              "key": "hsbccreditcard",
+              "name": {
+                "en": "HSBC Credit Card",
+                "zh": "滙豐信用卡"
+              },
+              "rebateName": {
+                "en": "HSBC credit card 'Red Hot Rewards of Your Choice' up to",
+                "zh": "滙豐信用卡「最紅自主獎賞」高達"
+              },
+              "logo": "img/logo-hsbc.png",
+              "tiers": [
+                {
+                  "max": 99999999,
+                  "percent": 0.024
+                }
+              ],
+              "maximum": 400,
+              "fixedDiscount": null,
+              "priority": 2,
+              "isRecommended": false
+            }
+          ];
+
+        let recommendedProducts = []; 
         let selectedDevice = null;
         let selectedStorageIndex = null;
-        let selectedSku = null; // SKU captured from Step 2 storage selection
+        let selectedSku = null; 
         let tradeInValue = 0;
         let selectedBank = 'none';
         let useSamsungPay = false;
-        let devices = []; // loaded from devices.json
-        let lsvMap = {}; // model|storage -> {rrp, lsvDiscount}
-        let productBySku = {}; // sku -> full product data from recommendations.json
-        let gifts = []; // loaded from gifts.json (new source of truth)
-
-        // Language setting: "hk" = Chinese site, "hk_en" = English site (current default)
+        let devices = []; 
+        let lsvMap = {}; 
+        let productBySku = {}; 
+        let gifts = []; 
         let language = "hk_en";
+        let titleLoadingInterval = null;
 
-        // Detect inapp=true from the HKBuyPage URL itself
         const urlParams = new URLSearchParams(window.location.search);
         const isInApp = urlParams.get('inapp') === 'true';
 
-        // === Language & i18n helpers ===
         function getCurrentLang() {
-            // Allow manual override via query param for testing
             const param = new URLSearchParams(window.location.search).get('lang');
             if (param === 'zh') return 'zh';
             if (param === 'en') return 'en';
 
             const path = window.location.pathname.toLowerCase();
             if (path.includes('/hk/')) return 'zh';
-            return 'en'; // default + /hk_en/
+            return 'en'; 
         }
 
-        // === Language & i18n helpers ===
         let i18nData = {};
         let lang = getCurrentLang();
 
-        function getCurrentLang() {
-            const param = new URLSearchParams(window.location.search).get('lang');
-            if (param === 'zh') return 'zh';
-            if (param === 'en') return 'en';
-
-            const path = window.location.pathname.toLowerCase();
-            if (path.includes('/hk/')) return 'zh';
-            return 'en';
+        async function fetchWithTimeout(resource, options = {}) {
+            const { timeout = 500 } = options; // Default timeout: 500ms
+            
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), timeout);
+            
+            try {
+                const response = await fetch(resource, {
+                    ...options,
+                    signal: controller.signal  
+                });
+                clearTimeout(id);
+                return response;
+            } catch (error) {
+                clearTimeout(id);
+                throw error;
+            }
         }
 
         async function loadTranslations() {
             try {
-                const res = await fetch('locales.json');
+                const res = await fetchWithTimeout(`${baseJsonPath}locales.json`, { timeout: 500 });
                 if (res.ok) {
                     i18nData = await res.json();
+                } else {
+                    throw new Error();
                 }
             } catch (e) {
-                console.warn('Failed to load locales.json');
+                console.warn('Locales lookup timed out or failed. Falling back.');
+                i18nData = fallback_locales;
             }
         }
 
@@ -394,16 +2610,13 @@
         }
 
         function init() {
-            // Load step1models.json first (Step 1 cards)
             loadStep1Models().then(() => {
                 renderDeviceSelection();
             });
             populateBrandsNewFlow();
-            // Load gifts.json + bankpromo.json (non-blocking)
             loadGifts();
             loadBankPromo();
 
-            // Apply language strings after initial render
             setTimeout(() => {
                 refreshTradeInPlaceholders();
             }, 60);
@@ -411,75 +2624,95 @@
 
         async function loadLSVData() {
             try {
-                const res = await fetch('recommendations.json');
-                const data = await res.json();
-                lsvMap = {};
-                productBySku = {};
-                (data.products || []).forEach(p => {
-                    if (p.sku) productBySku[p.sku] = p;
-                    if (!p.showInHKBuyPage) return;
-                    const key = `${p.model}|${p.storage}`;
-                    if (!lsvMap[key] || p.lsvDiscount > (lsvMap[key].lsvDiscount || 0)) {
-                        lsvMap[key] = { rrp: p.rrp, lsvDiscount: p.lsvDiscount || 0 };
+                const res = await fetchWithTimeout(`${baseJsonPath}recommendations.json`, { timeout: 500 });
+                let data;
+                if (res.ok) {
+                    data = await res.json();
+                } else {
+                    throw new Error();
+                }
+                processLSV(data);
+            } catch (e) {
+                console.warn('Recommendations lookup timed out or failed. Falling back.');
+                processLSV(fallback_recommendations);
+            }
+        }
+
+        function processLSV(data) {
+            lsvMap = {};
+            productBySku = {};
+            (data.products || []).forEach(p => {
+                if (p.sku) productBySku[p.sku] = p;
+                if (!p.showInHKBuyPage) return;
+                const key = `${p.model}|${p.storage}`;
+                if (!lsvMap[key] || p.lsvDiscount > (lsvMap[key].lsvDiscount || 0)) {
+                    lsvMap[key] = { rrp: p.rrp, lsvDiscount: p.lsvDiscount || 0 };
+                }
+            });
+
+            recommendedProducts.forEach(prod => {
+                prod.storageOptions.forEach(opt => {
+                    const key = `${prod.name}|${opt.storage}`;
+                    if (lsvMap[key] && lsvMap[key].rrp) {
+                        opt.price = lsvMap[key].rrp;
                     }
                 });
-
-                // IMPORTANT: overwrite the hardcoded prices in recommendedProducts with the authoritative RRP from the sheet
-                // This ensures the base price used for LSV calculation is correct (sheet is source of truth)
-                recommendedProducts.forEach(prod => {
-                    prod.storageOptions.forEach(opt => {
-                        const key = `${prod.name}|${opt.storage}`;
-                        if (lsvMap[key] && lsvMap[key].rrp) {
-                            opt.price = lsvMap[key].rrp;
-                        }
-                    });
-                });
-
-                console.log('Loaded LSV data for', Object.keys(lsvMap).length, 'storage tiers and synced prices');
-            } catch (e) {
-                console.warn('Could not load recommendations.json for LSV discounts', e);
-            }
+            });
+            console.log('Processed LSV data for', Object.keys(lsvMap).length, 'storage tiers');
         }
 
         async function loadGifts() {
             try {
-                const res = await fetch('gifts.json');
-                gifts = await res.json();
-                console.log('Loaded gifts.json with', gifts.length, 'entries');
+                const res = await fetchWithTimeout(`${baseJsonPath}gifts.json`, { timeout: 500 });
+                if (res.ok) {
+                    gifts = await res.json();
+                } else {
+                    throw new Error();
+                }
             } catch (e) {
-                console.warn('Could not load gifts.json, falling back to empty list', e);
-                gifts = [];
+                console.warn('Gifts lookup timed out or failed. Falling back.');
+                gifts = fallback_gifts;
             }
         }
 
         async function loadStep1Models() {
             try {
-                const res = await fetch('step1models.json');
-                recommendedProducts = await res.json();
-                console.log('Loaded step1models.json with', recommendedProducts.length, 'models');
+                const res = await fetchWithTimeout(`${baseJsonPath}step1models.json`, { timeout: 500 });
+                if (res.ok) {
+                    recommendedProducts = await res.json();
+                } else {
+                    throw new Error();
+                }
             } catch (e) {
-                console.warn('Could not load step1models.json', e);
-                recommendedProducts = [];
+                console.warn('Step1Models lookup timed out or failed. Falling back.');
+                recommendedProducts = fallback_step1models;
             }
         }
 
         async function loadBankPromo() {
             try {
-                const res = await fetch('bankpromo.json');
-                const data = await res.json();
-                // Convert array to key-based map for backward compatibility
-                bankPromotionRules = {};
-                data.forEach(b => { bankPromotionRules[b.key] = b; });
-                console.log('Loaded bankpromo.json with', data.length, 'banks');
-
-                // If the user has already reached Step 4, refresh the bank buttons so the logos appear
-                const bankSection = document.getElementById('bank-section');
-                if (bankSection && !bankSection.classList.contains('sehk-hidden')) {
-                    setupBankButtons();
+                const res = await fetch(`${baseJsonPath}bankpromo.json`);
+                let data;
+                if (res.ok) {
+                    data = await res.json();
+                } else {
+                    throw new Error();
                 }
+                processBankPromo(data);
             } catch (e) {
-                console.warn('Could not load bankpromo.json', e);
-                bankPromotionRules = {};
+                console.warn('Could not load bankpromo.json, using fallback data.', e);
+                processBankPromo(fallback_bankpromo);
+            }
+        }
+
+        function processBankPromo(data) {
+            bankPromotionRules = {};
+            data.forEach(b => { bankPromotionRules[b.key] = b; });
+            console.log('Processed bank promotions with', data.length, 'banks');
+
+            const bankSection = document.getElementById('bank-section');
+            if (bankSection && !bankSection.classList.contains('sehk-hidden')) {
+                setupBankButtons();
             }
         }
 
@@ -502,7 +2735,6 @@
         }
 
         function selectNewDevice(idx, cardEl) {
-            // Track device selection
             const product = recommendedProducts[idx];
             if (product) {
                 trackEvent(
@@ -512,26 +2744,21 @@
                 );
             }
 
-            // Deselect all
             document.querySelectorAll('#device-selection .device-card').forEach(el => el.classList.remove('selected'));
             cardEl.classList.add('selected');
 
             selectedDevice = recommendedProducts[idx];
             selectedStorageIndex = null;
-            selectedSku = null; // Will be set when storage is chosen
+            selectedSku = null; 
 
-            // Clear LSV savings line and any sticky bar savings when device changes
             const lsvLine = document.getElementById('lsv-savings-line');
             if (lsvLine) { lsvLine.classList.add('sehk-hidden'); lsvLine.innerHTML = ''; }
 
-            // Hide color chips when changing device
             const colorSectionReset = document.getElementById('color-chips-section');
             if (colorSectionReset) colorSectionReset.classList.add('sehk-hidden');
 
-            // Ensure sticky bar is refreshed so LSV savings, prices, etc. are cleared
             updateStickyBar();
 
-            // Reset Step 3 completely if user changes the new device
             document.getElementById('brand').value = '';
             document.getElementById('model').innerHTML = `<option value="">${t('selectModelOption')}</option>`;
             document.getElementById('model').disabled = true;
@@ -540,34 +2767,22 @@
             document.getElementById('tradein-value-display').classList.add('sehk-hidden');
             tradeInValue = 0;
             window.currentTradeInCalc = null;
-            // IMPORTANT: do NOT reset selectedBank here — bank choice must survive device change
+            
             const noTradeInReset = document.getElementById('no-tradein');
             if (noTradeInReset) noTradeInReset.checked = false;
             document.getElementById('tradein-fields').style.display = '';
             const helperReset = document.getElementById('no-tradein-helper');
             if (helperReset) helperReset.classList.add('sehk-hidden');
-            document.getElementById('brand').value = '';
-            document.getElementById('model').innerHTML = `<option value="">${t('selectModelOption')}</option>`;
-            document.getElementById('model').disabled = true;
-            document.getElementById('tradein-storage').innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
-            document.getElementById('tradein-storage').disabled = true;
 
-            // Step 2 only
             const storageSec = document.getElementById('storage-section');
             storageSec.classList.remove('sehk-hidden');
             document.getElementById('tradein-section').classList.add('sehk-hidden');
             document.getElementById('bank-section').classList.add('sehk-hidden');
             document.getElementById('samsungpay-row').classList.add('sehk-hidden');
-            // Keep bank visual selection intact but clear SamsungPay
-            //document.getElementById('samsungpay').checked = false;
-            //useSamsungPay = false;
 
-            // Render storage chips (replaces native <select>)
             renderStorageChips();
-
             updateStickyBar();
 
-            // Auto scroll to storage — make sure the section is visible first
             storageSec.style.display = '';
             storageSec.classList.remove('sehk-hidden');
             setTimeout(() => {
@@ -575,14 +2790,11 @@
             }, 120);
         }
 
-        // updateSelectedDeviceStorage() is now replaced by renderStorageChips()
-        // Kept as a no-op stub for any legacy references.
         function updateSelectedDeviceStorage() {
             const storageSelect = document.getElementById('storage');
             const prevStorageIndex = selectedStorageIndex;
             selectedStorageIndex = parseInt(storageSelect.value);
 
-            // Track storage selection
             if (selectedDevice && !isNaN(selectedStorageIndex)) {
                 const opt = selectedDevice.storageOptions[selectedStorageIndex];
                 trackEvent(
@@ -592,17 +2804,14 @@
                 );
             }
 
-            // If storage is cleared or changed, reset color selection
             if (isNaN(selectedStorageIndex) || selectedStorageIndex === null || selectedStorageIndex !== prevStorageIndex) {
                 selectedSku = null;
                 const colorSection = document.getElementById('color-chips-section');
                 if (colorSection) colorSection.classList.add('sehk-hidden');
             }
 
-            // Re-render storage chips to update active state
             renderStorageChips();
 
-            // Handle LSV savings line
             const lsvLine = document.getElementById('lsv-savings-line');
             if (selectedDevice && selectedStorageIndex !== null && !isNaN(selectedStorageIndex)) {
                 const opt = selectedDevice.storageOptions[selectedStorageIndex];
@@ -620,52 +2829,34 @@
 
             if (selectedStorageIndex !== null && !isNaN(selectedStorageIndex)) {
                 const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
-
-                // Show inline color chips for Step 2b SKU resolution
                 const colorSectionEl = document.getElementById('color-chips-section');
                 const wasHidden = colorSectionEl && colorSectionEl.classList.contains('sehk-hidden');
                 showColorChipsForSelectedStorage(storageOpt);
-
-                // Re-render storage chips to reflect new active selection
                 renderStorageChips();
 
-                // Auto scroll to color chips if it was hidden or newly shown
                 if (colorSectionEl && wasHidden && !colorSectionEl.classList.contains('sehk-hidden')) {
                     setTimeout(() => {
                         colorSectionEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }, 180);
                 }
 
-                // Do NOT show step 3 here – wait until a color (SKU) is actually selected
-                // IMPORTANT: always hide bank section on storage change so user must re-complete step 3
                 document.getElementById('bank-section').classList.add('sehk-hidden');
-                // Also hide trade-in section (Step 3) so user cannot proceed without selecting color again
                 const tradeInSectionEl = document.getElementById('tradein-section');
                 if (tradeInSectionEl) tradeInSectionEl.classList.add('sehk-hidden');
-                // IMPORTANT: always uncheck "I have no device to trade-in" so user must re-decide
                 const noTradeInChk = document.getElementById('no-tradein');
                 if (noTradeInChk) {
                     noTradeInChk.checked = false;
-                    // Also make sure the trade-in fields are visible again (in case they were hidden)
                     const fields = document.getElementById('tradein-fields');
                     if (fields) fields.style.display = '';
                 }
                 const helperEl = document.getElementById('no-tradein-helper');
                 if (helperEl) helperEl.classList.add('sehk-hidden');
                 tradeInValue = 0;
-                // Buy Now button should only appear after color (SKU) is selected, not just storage
 
-                // Reset downstream state so step 4 is forced to re-appear only after new step 3 completion
-                tradeInValue = 0;
                 selectedBank = 'none';
-                //useSamsungPay = false;
-                //document.getElementById('samsungpay').checked = false;
                 document.getElementById('bank-savings-display').classList.add('sehk-hidden');
-
-                // Clear any previously highlighted bank buttons
                 document.querySelectorAll('#bank-buttons button').forEach(b => b.classList.remove('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30'));
 
-                // Force reset Step 3 selects so user must re-interact (ensures onchange fires again)
                 document.getElementById('brand').value = '';
                 document.getElementById('model').innerHTML = '<option value="">Select model</option>';
                 document.getElementById('model').disabled = true;
@@ -673,24 +2864,20 @@
                 document.getElementById('tradein-storage').disabled = true;
                 document.getElementById('tradein-value-display').classList.add('sehk-hidden');
 
-                // Auto scroll to trade-in
                 setTimeout(() => {
                     document.getElementById('tradein-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 150);
             } else {
-                // Storage unselected
                 document.getElementById('tradein-section').classList.add('sehk-hidden');
                 document.getElementById('buy-now-btn').classList.add('sehk-hidden');
                 document.getElementById('bank-section').classList.add('sehk-hidden');
                 tradeInValue = 0;
                 selectedBank = 'none';
-                //useSamsungPay = false;
             }
 
             updateStickyBar();
         }
 
-        // --- Trade-in logic (adapted from current page) ---
         function populateBrandsNewFlow() {
             const brandSelect = document.getElementById('brand');
             const uniqueBrands = [...new Set(devices.map(d => d.brand))].sort((a, b) => b.localeCompare(a));
@@ -701,7 +2888,6 @@
                 opt.textContent = b;
                 brandSelect.appendChild(opt);
             });
-            // Ensure the three trade-in first options stay bilingual after population
             refreshTradeInPlaceholders();
         }
 
@@ -721,7 +2907,6 @@
             const valueDisplay = document.getElementById('tradein-value-display');
 
             if (!brand) {
-                // Brand cleared
                 modelSelect.innerHTML = `<option value="">${t('selectModelOption')}</option>`;
                 modelSelect.disabled = true;
                 storageSelect.innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
@@ -737,7 +2922,6 @@
 
             modelSelect.disabled = false;
             modelSelect.innerHTML = `<option value="">${t('selectModelOption')}</option>`;
-            // Extra guarantee
             if (modelSelect.options[0]) modelSelect.options[0].textContent = t('selectModelOption');
             const models = [...new Set(devices.filter(d => d.brand === brand).map(d => d.model))];
             models.forEach(m => {
@@ -747,7 +2931,6 @@
                 modelSelect.appendChild(opt);
             });
 
-            // Reset downstream
             storageSelect.innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
             storageSelect.disabled = true;
             valueDisplay.classList.add('sehk-hidden');
@@ -763,11 +2946,9 @@
             const valueDisplay = document.getElementById('tradein-value-display');
 
             if (!model) {
-                // Model cleared
                 storageSelect.innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
                 storageSelect.disabled = true;
                 valueDisplay.classList.add('sehk-hidden');
-                // Hide color chips when storage unselected
                 const colorSection = document.getElementById('color-chips-section');
                 if (colorSection) colorSection.classList.add('sehk-hidden');
                 tradeInValue = 0;
@@ -778,7 +2959,6 @@
 
             storageSelect.disabled = false;
             storageSelect.innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
-            // Extra guarantee
             if (storageSelect.options[0]) storageSelect.options[0].textContent = t('selectStorageOption');
             const storages = [...new Set(devices.filter(d => d.brand === brand && d.model === model).map(d => d.storage))].sort();
             storages.forEach(s => {
@@ -794,7 +2974,6 @@
             updateStickyBar();
         }
 
-        // --- Storage chips renderer (button style matching color chips) ---
         function renderStorageChips() {
             const container = document.getElementById('storage-chips');
             if (!container || !selectedDevice || !selectedDevice.storageOptions) return;
@@ -802,7 +2981,6 @@
             container.innerHTML = '';
 
             selectedDevice.storageOptions.forEach((opt, idx) => {
-                // Determine if ALL colors for this storage are OOS
                 let allOos = false;
                 if (opt.colors && opt.colors.length > 0) {
                     allOos = opt.colors.every(color => {
@@ -811,7 +2989,6 @@
                     });
                 }
 
-                // Check for LSV discount on this storage
                 const key = `${selectedDevice.name}|${opt.storage}`;
                 const lsvInfo = lsvMap[key];
                 const hasLsv = lsvInfo && lsvInfo.lsvDiscount > 0;
@@ -830,7 +3007,6 @@
 
                 if (!allOos) {
                     chip.onclick = () => {
-                        // Track storage selection (same event name as before)
                         trackEvent(
                             'product_option-flagship pdp-option selector-option_click3',
                             `storage:${opt.storage}`,
@@ -840,14 +3016,11 @@
                         selectedStorageIndex = idx;
                         selectedSku = null;
 
-                        // Hide color chips until new storage is chosen
                         const colorSection = document.getElementById('color-chips-section');
                         if (colorSection) colorSection.classList.add('sehk-hidden');
 
-                        // Re-render chips (to show active state)
                         renderStorageChips();
 
-                        // Show LSV savings line if applicable
                         const lsvLine = document.getElementById('lsv-savings-line');
                         if (lsvInfo && lsvInfo.lsvDiscount > 0) {
                             lsvLine.innerHTML = `<div>${getLngStr('preOrderSavings')}</div><div>HK$${lsvInfo.lsvDiscount.toLocaleString()}</div>`;
@@ -856,7 +3029,6 @@
                             lsvLine.classList.add('sehk-hidden');
                         }
 
-                        // Show color chips for the newly selected storage
                         const colorSectionEl = document.getElementById('color-chips-section');
                         const wasHidden = colorSectionEl && colorSectionEl.classList.contains('sehk-hidden');
                         showColorChipsForSelectedStorage(opt);
@@ -867,15 +3039,12 @@
                             }, 180);
                         }
 
-                        // Hide downstream sections until color is chosen
                         document.getElementById('tradein-section').classList.add('sehk-hidden');
                         document.getElementById('bank-section').classList.add('sehk-hidden');
                         document.getElementById('buy-now-btn').classList.add('sehk-hidden');
 
-                        // Reset trade-in state
                         tradeInValue = 0;
                         selectedBank = 'none';
-                        //useSamsungPay = false;
                         const noTradeInChk = document.getElementById('no-tradein');
                         if (noTradeInChk) noTradeInChk.checked = false;
                         const fields = document.getElementById('tradein-fields');
@@ -911,10 +3080,8 @@
             container.innerHTML = '';
             if (hint) hint.classList.add('sehk-hidden');
 
-            // Ensure color is never pre-selected when chips are shown
             selectedSku = null;
 
-            // Auto-scroll to color chips section after rendering chips
             setTimeout(() => {
                 section.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 120);
@@ -927,7 +3094,6 @@
                 const chip = document.createElement('div');
                 chip.className = `device-card flex items-center gap-x-2 px-4 py-4 border rounded-xl text-sm text-nowraptransition-all ${isOos ? 'opacity-60 bg-gray-50 disabled' : 'cursor-pointer hover:border-[#007AFF] bg-white hover:bg-blue-50'} ${isEstoreOnly ? 'min-w-[100%] sm:min-w-[unset]' : 'min-w-[40%] sm:min-w-[unset]'}`;
 
-                // Resolve bilingual color name (prefer object, then fallback to data fields)
                 let colorNameDisplay = color.name;
                 if (typeof color.name === 'object') {
                     colorNameDisplay = color.name[lang] || color.name.en;
@@ -954,14 +3120,12 @@
                         selectedSku = color.sku;
                         if (hint) { hint.textContent = t('skuResolved') + ' ' + selectedSku; hint.classList.remove('sehk-hidden'); }
 
-                        // Track color selection (use resolved display name)
                         trackEvent(
                             'product_option-flagship pdp-option selector-option_click3',
                             `color:${colorNameDisplay}`,
                             { sku: color.sku, color: colorNameDisplay, model: selectedDevice ? selectedDevice.name : '' }
                         );
 
-                        // Reveal Step 3 (trade-in) after color is selected.
                         const tradeInSec = document.getElementById('tradein-section');
                         if (tradeInSec) {
                             tradeInSec.classList.remove('sehk-hidden');
@@ -970,7 +3134,6 @@
                             }, 120);
                         }
 
-                        // Always hide bank section until user re-completes Step 3
                         const bankSec = document.getElementById('bank-section');
                         if (bankSec) bankSec.classList.add('sehk-hidden');
 
@@ -980,11 +3143,9 @@
                         const buyBtn = document.getElementById('buy-now-btn');
                         if (buyBtn) buyBtn.classList.remove('sehk-hidden');
 
-                        // Preserve "No trade-in" checkbox state when changing color
                         const noTradeInChk = document.getElementById('no-tradein');
                         const wasNoTradeIn = noTradeInChk && noTradeInChk.checked;
 
-                        // BEST CASE: If user already has a trade-in selected, recalculate with new SKU
                         const brand = document.getElementById('brand')?.value;
                         const model = document.getElementById('model')?.value;
                         const storage = document.getElementById('tradein-storage')?.value;
@@ -994,10 +3155,8 @@
                             }, 50);
                         }
 
-                        // If "No trade-in" was checked before color change, restore it and directly show Step 4
                         if (wasNoTradeIn && noTradeInChk) {
                             noTradeInChk.checked = true;
-                            // Trigger the same logic as toggleNoTradeInNewFlow()
                             setTimeout(() => {
                                 const fields = document.getElementById('tradein-fields');
                                 const valueDisplay = document.getElementById('tradein-value-display');
@@ -1011,7 +3170,6 @@
                                 if (bankSecEl) bankSecEl.classList.remove('sehk-hidden');
                                 if (samsungRow) samsungRow.classList.remove('sehk-hidden');
 
-                                // Auto-select BOC
                                 if (bankPromotionRules && bankPromotionRules.boc) {
                                     selectedBank = Object.keys(bankPromotionRules)[0];
                                     setupBankButtons();
@@ -1024,30 +3182,7 @@
                                 }, 150);
                             }, 60);
                         }
-
-                        // Show bank section (Step 4) only after bank promo data is ready
-                        const showBankSection = () => {
-                            const bankSecEl = document.getElementById('bank-section');
-                            if (bankSecEl) {
-                                bankSecEl.classList.remove('sehk-hidden');
-                                setupBankButtons();
-
-                                // ALWAYS auto-select BOC when Step 4 first appears (even on first visit)
-                                if (bankPromotionRules && bankPromotionRules.boc) {
-                                    selectedBank = Object.keys(bankPromotionRules)[0];
-                                    setupBankButtons();
-                                    updateBankSavingsDisplay();
-                                    updateStickyBar();
-                                }
-                            }
-                        };
-
-                        // Do NOT auto-show Step 4 here.
-                        // Bank section (Step 4) should only appear after user completes Step 3
-                        // (selects a trade-in device or checks "I have no device to trade-in").
                     };
-                    // No auto-selection of first color on any device.
-                    // All colors must start unselected so the user explicitly chooses.
                 }
                 container.appendChild(chip);
             });
@@ -1074,8 +3209,6 @@
                 d.storage === storage
             );
 
-            // NEW SKU-based trade-in calculation (per user's confirmed logic)
-            // Guard: require SKU to be resolved before allowing trade-in calc
             if (!selectedSku) {
                 tradeInValue = 0;
                 if (valueDisplay) valueDisplay.classList.add('sehk-hidden');
@@ -1084,10 +3217,7 @@
 
             if (device && selectedSku) {
                 const sku = selectedSku;
-                
-                // Get GTI value for this SKU (treat 0 as not existing, per rule #5)
                 const gtiVal = device.gti && device.gti[sku] ? device.gti[sku] : 0;
-                // Get ETI value for this SKU
                 const etiVal = device.eti && device.eti[sku] ? device.eti[sku] : 0;
                 
                 let tradeInPrice = 0;
@@ -1104,7 +3234,6 @@
                 const extraRebate = etiVal;
                 tradeInValue = tradeInPrice + extraRebate;
 
-                // Store for savings display
                 window.currentTradeInCalc = {
                     tradeInPrice,
                     extraRebate,
@@ -1116,7 +3245,6 @@
                 window.currentTradeInCalc = null;
             }
 
-            // Show trade-in value message
             if (tradeInValue > 0) {
                 if (valueAmount) valueAmount.textContent = `HK$${tradeInValue.toLocaleString()}`;
                 if (valueDisplay) valueDisplay.classList.remove('sehk-hidden');
@@ -1124,23 +3252,18 @@
                 if (valueDisplay) valueDisplay.classList.add('sehk-hidden');
             }
 
-            // Render new trade-in savings breakdown (total first, then breakdown)
             renderTradeInSavingsBreakdown();
 
-            // Show step 4 only after trade-in storage selected
             document.getElementById('bank-section').classList.remove('sehk-hidden');
             document.getElementById('samsungpay-row').classList.remove('sehk-hidden');
 
-            // Track trade-in selection
             if (window.currentTradeInCalc) {
-                const calc = window.currentTradeInCalc;
                 trackEvent(
                     'product_option-flagship pdp-option selector-option_click3',
                     `tradein:${device ? device.brand + ' ' + device.model : 'unknown'}`,
                     { tradein_value: tradeInValue, tradein_device: device ? device.model : '', sku: selectedSku }
                 );
             } else if (tradeInValue === 0) {
-                // Likely the "no trade-in" path
                 trackEvent(
                     'product_option-flagship pdp-option selector-option_click3',
                     'tradein:none',
@@ -1148,7 +3271,6 @@
                 );
             }
 
-            // FORCE BOC selection when Step 4 is shown for the first time
             if (bankPromotionRules && bankPromotionRules.boc && (!selectedBank || selectedBank === 'none')) {
                 selectedBank = Object.keys(bankPromotionRules)[0];
                 setTimeout(() => {
@@ -1158,12 +3280,10 @@
                 }, 80);
             }
 
-            // Auto scroll to bank / SamsungPay
             setTimeout(() => {
                 document.getElementById('bank-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 150);
 
-            // If a bank was previously selected on another device, restore visual + recalc
             if (selectedBank && selectedBank !== 'none') {
                 setTimeout(() => {
                     document.querySelectorAll('#bank-buttons button').forEach(b => {
@@ -1190,9 +3310,6 @@
             }
 
             const calc = window.currentTradeInCalc;
-            
-            // Per user's requirement: Total first, then breakdown
-            // If GTI is used, show "Guaranteed Trade In Price"
             let html = `<div class="font-bold mb-3 pb-2 border-b border-blue-200 flex justify-between"><div>${getLngStr('totalTradeInValue') || 'Total Trade In value:'}</div> <div>HK$${tradeInValue.toLocaleString()}</div></div>`;
             
             if (calc.extraRebate > 0) {
@@ -1211,8 +3328,6 @@
             }
 
             html += `<div class="text-sm font-bold mt-4">${getLngStr('stackableTradeIn')}</div>`;
-
-            // Replace the simple amount text with rich breakdown
             container.innerHTML = html;
         }
 
@@ -1228,11 +3343,9 @@
                 valueDisplay.classList.add('sehk-hidden');
                 if (helper) helper.classList.remove('sehk-hidden');
                 tradeInValue = 0;
-                // Show step 4 immediately when "no trade-in" is selected
                 document.getElementById('bank-section').classList.remove('sehk-hidden');
                 samsungRow.classList.remove('sehk-hidden');
 
-                // Auto-select the bank that has isRecommended: true (from Priority/Recommendation columns)
                 const recommendedBankKey = Object.keys(bankPromotionRules).find(k => bankPromotionRules[k].isRecommended);
                 if (recommendedBankKey) {
                     selectedBank = recommendedBankKey;
@@ -1241,19 +3354,15 @@
                     updateStickyBar();
                 }
 
-                // Auto scroll to bank / SamsungPay
                 setTimeout(() => {
                     document.getElementById('bank-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 150);
             } else {
-                // User un-checked "no trade-in" → restore previous selection and recalculate
                 fields.style.display = '';
                 if (helper) helper.classList.add('sehk-hidden');
 
-                // Re-evaluate the three dropdowns to restore trade-in value
                 updateTradeInPriceNewFlow();
 
-                // If the dropdowns are now complete, show the value banner and step 4
                 const brand = document.getElementById('brand').value;
                 const model = document.getElementById('model').value;
                 const storage = document.getElementById('tradein-storage').value;
@@ -1267,16 +3376,11 @@
                     document.getElementById('bank-section').classList.add('sehk-hidden');
                     samsungRow.classList.add('sehk-hidden');
                 }
-
-                // Reset SamsungPay when coming back from "no trade-in"
-                //document.getElementById('samsungpay').checked = false;
-                //useSamsungPay = false;
             }
             updateStickyBar();
         }
 
-        // Bank promotion rules (exact copy from TradeInPush)
-        let bankPromotionRules = {}; // loaded from bankpromo.json
+        let bankPromotionRules = {}; 
 
         function calculateBankRebate(originalPrice, bankKey, discountInCart = 0) {
             const rule = bankPromotionRules[bankKey];
@@ -1286,7 +3390,7 @@
 
             let percent = 0;
             for (const tier of rule.tiers) {
-                if (basePrice < tier.max) {          // CHANGED: <= → <
+                if (basePrice < tier.max) {          
                     percent = tier.percent;
                     break;
                 }
@@ -1302,12 +3406,6 @@
                 : fixedNameRaw;
             const totalRebate = percentRebate + fixedRebate;
 
-            console.log("basePrice = "+basePrice);
-            console.log("percent = "+percent);
-            console.log("percentRebate = "+percentRebate);
-            console.log("fixedRebate = "+fixedRebate);
-            console.log("totalRebate = "+totalRebate);
-
             return { percentRebate, fixedRebate, fixedName, totalRebate };
         }
 
@@ -1318,7 +3416,6 @@
             return 0;
         }
 
-        // --- Bank promotion buttons ---
         function setupBankButtons() {
             const container = document.getElementById('bank-buttons');
             if (!container) return;
@@ -1327,12 +3424,6 @@
             container.classList.add('flex', 'items-start');
 
             if (!bankPromotionRules || Object.keys(bankPromotionRules).length === 0) {
-                setTimeout(() => {
-                    if (bankPromotionRules && Object.keys(bankPromotionRules).length > 0) {
-                        setupBankButtons();
-                    }
-                }, 300);
-                
                 const otherBtn = document.createElement('button');
                 otherBtn.className = `device-card px-2 py-4 rounded-xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] border-gray-200`;
                 otherBtn.innerHTML = `
@@ -1364,13 +3455,6 @@
                 })
                 .sort((a, b) => a.priority - b.priority);
 
-            // Auto-select the first bank from bankpromo.json if nothing is currently selected
-            if ((!selectedBank || selectedBank === 'none') && bankList.length > 0) {
-                // Uncomment the next line if you want the first bank auto-selected by default:
-                // selectedBank = bankList[0].key;
-            }
-
-            // Always append the 'Other' bank item options to the render queue
             bankList.push({ key: 'none', name: t('otherBank'), logo: null, isRecommended: false });
 
             bankList.forEach(item => {
@@ -1379,9 +3463,8 @@
                 wrapper.className = 'relative flex-1 flex flex-col align-stretch items-stretch';
 
                 const btn = document.createElement('button');
-                // Store explicit key data attributes to stop string-matching bugs during downstream updates
                 btn.setAttribute('data-bank-key', item.key);
-                btn.className = `device-card bg-white flex-1 px-1 py-4 rounded-xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] transition-all ${isSelected ? '!border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-200 hover:border-gray-300'}`;
+                btn.className = `device-card bg-white flex-1 px-1 py-4 rounded-xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] transition-all ${isSelected ? '!border-[#007AFF]' : 'border-gray-200 hover:border-gray-300'}`;
 
                 if (item.logo) {
                     btn.innerHTML = `
@@ -1395,7 +3478,6 @@
                     `;
                 }
 
-                // Unified click action on button
                 btn.onclick = () => {
                     trackEvent('product_option-flagship pdp-option selector-option_click3', `bank:${item.name}`, { bank: item.key });
                     selectedBank = item.key;
@@ -1424,10 +3506,8 @@
             });
         }
 
-        // Safe wrapper: if bank promo data is not loaded yet, wait and retry
         function ensureBankButtons() {
             if (Object.keys(bankPromotionRules || {}).length === 0) {
-                // Try again shortly (bankpromo.json still loading on first visit)
                 setTimeout(() => {
                     if (Object.keys(bankPromotionRules || {}).length > 0) {
                         setupBankButtons();
@@ -1445,23 +3525,17 @@
                 display.classList.add('sehk-hidden');
                 return;
             }
-            // Allow SamsungPay-only case even when bank = 'none'
             const hasBankSelection = selectedBank && selectedBank !== 'none';
 
             const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
             const originalPrice = storageOpt.price;
 
-            // LSV discount for current selection
             const lsvKey = `${selectedDevice.name}|${storageOpt.storage}`;
             const lsvInfo = lsvMap[lsvKey] || { rrp: originalPrice, lsvDiscount: 0 };
             const lsvDiscountLocal = lsvInfo.lsvDiscount || 0;
 
             const samsungPayDiscountLocal = useSamsungPay ? calculateSamsungPayDiscount(originalPrice) : 0;
             const discountInCartLocal = lsvDiscountLocal + samsungPayDiscountLocal;
-
-            console.log("lsvDiscountLocal = "+lsvDiscountLocal);
-            console.log("samsungPayDiscountLocal = "+samsungPayDiscountLocal);
-            console.log("discountInCartLocal = "+discountInCartLocal);
 
             let bankCalc;
             if (hasBankSelection) {
@@ -1478,11 +3552,9 @@
             const samsungPayDiscount = useSamsungPay ? calculateSamsungPayDiscount(originalPrice) : 0;
             const grandTotal = bankCalc.totalRebate + samsungPayDiscount;
 
-            // Total line - adapt label for SamsungPay-only case
             const totalLabel = hasBankSelection ? (getLngStr('bankSavingsLabel') || 'Bank promotion savings') : (getLngStr('spaySavingsLabel') || 'SamsungPay savings');
             totalEl.innerHTML = `${totalLabel} <span class="font-bold">HK$${grandTotal.toLocaleString()}</span>`;
 
-            // Breakdown lines
             const currentRule = bankPromotionRules[selectedBank];
             const dynamicRebateName = (currentRule && currentRule.rebateName)
               ? (currentRule.rebateName[lang] || currentRule.rebateName.en)
@@ -1518,7 +3590,6 @@
         function toggleSamsungPay() {
             useSamsungPay = document.getElementById('samsungpay').checked;
 
-            // Track Samsung Pay toggle
             trackEvent(
                 'product_option-flagship pdp-option selector-option_click3',
                 useSamsungPay ? 'payment:samsungpay' : 'payment:samsungpay_off',
@@ -1528,15 +3599,12 @@
             updateBankSavingsDisplay();
             updateStickyBar();
 
-            // Auto-scroll to the savings panel when SamsungPay is turned ON
-            // (mirrors the existing behavior when a bank button is clicked)
             if (useSamsungPay) {
                 setTimeout(() => {
                     const savingsPanel = document.getElementById('bank-savings-display');
                     if (savingsPanel && !savingsPanel.classList.contains('sehk-hidden')) {
                         savingsPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     } else {
-                        // fallback: scroll to bank section if savings panel is not shown yet
                         const bankSection = document.getElementById('bank-section');
                         if (bankSection) {
                             bankSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1546,7 +3614,6 @@
             }
         }
 
-        // --- Sticky bar logic (smart labels + price + button) ---
         function updateStickyBar() {
             const sticky = document.getElementById('sticky-bar');
             const nameEl = document.getElementById('sticky-device-name');
@@ -1561,11 +3628,9 @@
             }
 
             sticky.classList.remove('sehk-hidden');
-
             const hasStorage = selectedStorageIndex !== null && !isNaN(selectedStorageIndex);
 
             if (!hasStorage) {
-                // BEFORE storage selected
                 nameEl.textContent = selectedDevice.name;
                 payEl.textContent = getLngStr('fromLabel') || 'From';
                 const fromPrice = selectedDevice.storageOptions[0].price;
@@ -1575,11 +3640,9 @@
                 return;
             }
 
-            // AFTER storage selected
             const opt = selectedDevice.storageOptions[selectedStorageIndex];
             const originalPrice = opt.price;
 
-            // LSV discount (PreOrder storage upgrade savings)
             const key = `${selectedDevice.name}|${opt.storage}`;
             const lsvInfo = lsvMap[key] || { rrp: originalPrice, lsvDiscount: 0 };
             const lsvDiscount = lsvInfo.lsvDiscount || 0;
@@ -1591,13 +3654,11 @@
                 : { percentRebate: 0, fixedRebate: 0, totalRebate: 0 };
             const bankRebate = bankCalc.totalRebate || 0;
 
-            // Final price: apply LSV first, then trade-in + bank promos
             const finalPrice = Math.max(0, originalPrice - lsvDiscount - tradeInValue - bankRebate - samsungPayDiscount);
             const totalSavings = originalPrice - finalPrice;
 
             nameEl.textContent = `${selectedDevice.name} · ${opt.storage}`;
 
-            // RRP original price line (only when any savings applied)
             const rrpLine = document.getElementById('sticky-rrp-line');
             if (rrpLine) {
                 if (totalSavings > 0) {
@@ -1608,7 +3669,6 @@
                 }
             }
 
-            // Smart pay label
             const hasTradeIn = tradeInValue > 0;
             const hasBankPromo = (selectedBank && selectedBank !== 'none' && bankRebate > 0) || useSamsungPay;
             const hasLSV = lsvDiscount > 0;
@@ -1625,21 +3685,18 @@
             payEl.innerHTML = `▼ ${payLabel}`;
             priceEl.innerHTML = `HK$${formatPrice(finalPrice)}`;
 
-            // NEW simplified 2-line savings summary
-            const totalCartDiscount = lsvDiscount + samsungPayDiscount;   // shown as "Discount in cart"
-            const totalRebate = bankRebate + tradeInValue;               // shown as "Rebate"
+            const totalCartDiscount = lsvDiscount + samsungPayDiscount;   
+            const totalRebate = bankRebate + tradeInValue;               
 
             if (totalSavings > 0) {
                 saveEl.innerHTML = '';
 
-                // Line 1: Discount in cart (storage upgrade + Samsung Pay)
                 if (totalCartDiscount > 0) {
                     const d1 = document.createElement('div');
                     d1.textContent = `${getLngStr('discountInCart') || 'Discount in cart:'}: HK$${formatPrice(totalCartDiscount)}`;
                     saveEl.appendChild(d1);
                 }
 
-                // Line 2: Rebate (bank promotion + trade-in total)
                 if (totalRebate > 0) {
                     const r1 = document.createElement('div');
                     r1.textContent = `${getLngStr('rebateLabelUpTo') || 'Rebate:'}: HK$${formatPrice(totalRebate)}`;
@@ -1652,12 +3709,9 @@
             }
 
             buyBtn.style.display = 'inline-block';
-
-            // Adjust bottom padding so sticky bar never covers step 4 content
             adjustContentPadding();
         }
 
-        // Price formatter: always 2 decimal places when cents exist
         function formatPrice(n) {
             if (!n) return '0.00';
             if (Number.isInteger(n)) return n.toLocaleString();
@@ -1674,50 +3728,76 @@
                 return;
             }
 
-            const h = sticky.offsetHeight + 24; // extra gap
+            const h = sticky.offsetHeight + 24; 
             main.style.paddingBottom = `${h}px`;
         }
 
-        // Init
         async function loadDevices() {
             try {
-                const res = await fetch('devices.json');
-                devices = await res.json();
+                const res = await fetch(`${baseJsonPath}devices.json`);
+                if (res.ok) {
+                    devices = await res.json();
+                } else {
+                    throw new Error();
+                }
                 console.log('Loaded', devices.length, 'devices');
             } catch (e) {
-                console.error('Failed to load devices.json', e);
+                console.error('Failed to load devices.json, using fallback datasets context structure', e);
+                devices = fallback_devices;
             }
         }
 
+        function startTitleLoadingAnimation() {
+            const titleEl = document.getElementById('step1-title');
+            if (!titleEl) return;
+            
+            let dotCount = 0;
+            titleEl.textContent = ". ";
+            
+            if (titleLoadingInterval) clearInterval(titleLoadingInterval);
+            
+            titleLoadingInterval = setInterval(() => {
+                dotCount = (dotCount % 5) + 1;
+                titleEl.textContent = ". ".repeat(dotCount);
+            }, 150); // Cycles every 400ms
+        }
+
+        function stopTitleLoadingAnimation() {
+            if (titleLoadingInterval) {
+                clearInterval(titleLoadingInterval);
+                titleLoadingInterval = null;
+            }
+            const titleEl = document.getElementById('step1-title');
+            if (titleEl) titleEl.textContent = t('step1Title');
+        }
+
         window.onload = async function() {
+            startTitleLoadingAnimation();
+
             await loadTranslations();
             lang = getCurrentLang();
             console.log("lang = " + lang);
             await loadDevices();
             await loadLSVData();
             init();
+            
+            stopTitleLoadingAnimation();
             initLng();
             setupBankButtons();
             refreshTradeInPlaceholders();
+            
             window.addEventListener('resize', () => {
                 if (typeof adjustContentPadding === 'function') adjustContentPadding();
             });
         };
-
-        // Reset bank savings display on device/storage change
         const origSelectNewDevice = window.selectNewDevice;
         window.selectNewDevice = function(...args) {
             document.getElementById('bank-savings-display')?.classList.add('sehk-hidden');
-            // Do NOT reset selectedBank — we want to preserve and recalc the bank choice
-            //document.getElementById('samsungpay').checked = false;
-            //useSamsungPay = false;
             return origSelectNewDevice?.apply(this, args);
         };
 
-        // --- Buy Now flow (ported exactly from TradeInPriceCheck) ---
         let currentModalProductIdx = null;
         let currentModalCard = null;
-        // selectedColorSku removed - using selectedSku as single source of truth
         let selectedGiftSku = null;
         let pendingMagicUrl = null;
 
@@ -1726,8 +3806,6 @@
 
             const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
 
-            // NEW: Skip color selection entirely for Buy Now flow (per user request)
-            // Go straight to gift selection. Respect already-selected SKU if present; otherwise fall back to first.
             currentModalProductIdx = null;
             currentModalCard = null;
             if (!selectedSku && storageOpt.colors && storageOpt.colors.length > 0) {
@@ -1735,7 +3813,6 @@
             }
             selectedGiftSku = null;
 
-            // Directly show gift modal, bypassing color modal
             showGiftModal();
         }
 
@@ -1752,16 +3829,13 @@
 
         function confirmColorSelection() {
             if (!selectedSku) return;
-            // selectedSku is already set by the color chip onclick
             closeColorModal(true);
             
-            // Enable Step 3 now that SKU is resolved
             const guard = document.getElementById('sku-guard');
             const tradeinSection = document.getElementById('tradein-section');
             if (guard) guard.style.display = 'none';
             if (tradeinSection) {
                 tradeinSection.classList.remove('sehk-hidden');
-                // Optionally show resolved SKU hint
                 const hint = document.createElement('div');
                 hint.className = 'text-sm samsung-blue mb-2';
                 hint.textContent = getLngStr('skuResolved') + ' ' + selectedSku;
@@ -1773,8 +3847,6 @@
             
             showGiftModal();
         }
-
-
 
         function showGiftModal() {
             let giftModal = document.getElementById('gift-modal');
@@ -1793,7 +3865,6 @@
                 `;
                 document.body.appendChild(giftModal);
             } else {
-                // Ensure title is always updated when re-opening (handles lang change without reload)
                 const titleEl = giftModal.querySelector('.font-bold.text-xl');
                 if (titleEl) titleEl.textContent = t('chooseGiftModalTitle');
             }
@@ -1805,7 +3876,6 @@
             const optionsContainer = giftModal.querySelector('#gift-options');
             optionsContainer.innerHTML = '';
 
-            // Dedupe by GiftCode + pick correct language name
             const seen = new Set();
             const uniqueApplicableGifts = (gifts || []).filter(g => {
                 if (g['Parent Model'] !== selectedDevice.name || g.Active !== 'Y') return false;
@@ -1847,33 +3917,25 @@
                 btn.onclick = () => {
                     closeGiftModal();
 
-                    // Build magic link according to Mode + language-based oosLink
                     const canonical = productBySku[selectedSku] || {};
-                    const lang = getCurrentLang(); // 'zh' or 'en'
+                    const lang = getCurrentLang(); 
                     const oosLink = (lang === 'zh') ? canonical.oosLink : canonical.oosLinkEn;
                     const oosParam = oosLink ? `&oosLink=${encodeURIComponent(oosLink)}` : '';
 
-                    // Choose domain based on language
                     const magicBase = (lang === 'zh')
                         ? 'https://www.samsung.com/hk/offer/magic/'
                         : 'https://www.samsung.com/hk_en/offer/magic/';
 
                     let magicUrl;
                     if (mode === 'AddCode') {
-                        // voucherCode path (no productCode[2])
                         magicUrl = `${magicBase}?productCode[1]=${selectedSku}&productQty[1]=1&store=B2C&voucherCode=${encodeURIComponent(skuOrCode)}&newCart=true${oosParam}`;
                     } else {
-                        // AddSKU (default)
                         magicUrl = `${magicBase}?productCode[1]=${selectedSku}&productQty[1]=1&productCode[2]=${skuOrCode}&productQty[2]=1&store=B2C&newCart=true${oosParam}`;
                     }
 
                     pendingMagicUrl = magicUrl;
-
                     appendShopAppUrl();
 
-                    // Check which message to show
-                    //console.log("tradeInValue = " + tradeInValue);
-                    //console.log("useSamsungPay = " + useSamsungPay);
                     const hasTradeIn = tradeInValue > 0;
                     const hasSamsungPay = useSamsungPay === true;
 
@@ -1910,7 +3972,6 @@
             }
         }
 
-        // Trade-in warning modal + redirect (same magic link)
         function showTradeInWarningModal() {
             document.getElementById('tradein-warning-modal').classList.remove('sehk-hidden');
         }
@@ -1937,10 +3998,7 @@
             }
         }
 
-        // --- Samsung Shop App Modal (NEW) ---
         function showSamsungShopModal() {
-            // If the HKBuyPage URL itself contains inapp=true, skip the popup
-            // and force app=true on the magic link
             if (isInApp) {
                 if (pendingMagicUrl && !pendingMagicUrl.includes('app=true')) {
                     const separator = pendingMagicUrl.includes('?') ? '&' : '?';
@@ -1955,7 +4013,6 @@
                 modal.classList.remove('sehk-hidden');
                 modal.classList.add('flex');
             } else {
-                // fallback if modal not found for some reason
                 showTradeInWarningModal();
             }
         }
@@ -1969,16 +4026,13 @@
         }
 
         function downloadSamsungShopApp() {
-            // Open Samsung Shop one-link in new tab
             window.open('https://samsungshop.onelink.me/6zKq/z089lfy4', '_blank');
-            // Do NOT close the modal; user may want to come back and click "Add to Cart"
         }
 
         function proceedFromSamsungShopModal() {
             const modal = document.getElementById('samsung-shop-modal');
             const checkbox = document.getElementById('add-to-app');
 
-            // If checkbox is checked, append app=true to the magic URL
             if (checkbox && checkbox.checked && pendingMagicUrl) {
                 if (!pendingMagicUrl.includes('app=true')) {
                     const separator = pendingMagicUrl.includes('?') ? '&' : '?';
@@ -1990,24 +4044,18 @@
                 modal.classList.remove('flex');
                 modal.classList.add('sehk-hidden');
             }
-            // Continue to Important reminder as original flow
             showTradeInWarningModal();
         }
 
-        // Show/hide Buy Now button when sticky bar is visible
         const origUpdateStickyBar = window.updateStickyBar;
         window.updateStickyBar = function() {
             origUpdateStickyBar?.();
             const btn = document.getElementById('buy-now-btn');
             const sticky = document.getElementById('sticky-bar');
-            // Use the actual local variable (not window.*)
             const hasStorage = (typeof selectedStorageIndex !== 'undefined' && selectedStorageIndex !== null && !isNaN(selectedStorageIndex));
             if (btn) btn.style.display = (sticky.classList.contains('sehk-hidden') || !hasStorage) ? 'none' : '';
         };
 
-        // =====================================================
-        // Adobe Analytics + GA4 Tracking via Data Layer (AEM-ready)
-        // =====================================================
         window.dataLayer = window.dataLayer || [];
 
         function trackEvent(action, label, extra = {}) {
@@ -2020,8 +4068,6 @@
                 ...extra
             };
             window.dataLayer.push(payload);
-
-            // Console debug when ?debug=analytics OR always show in console during development
             console.log('[Analytics]', payload);
         }
     </script>
