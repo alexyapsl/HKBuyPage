@@ -132,7 +132,7 @@
             <div class="text-sm font-medium text-gray-700 mb-2" data-i18n="step2SelectStorage" id="storage-label">██████</div>
             <div id="storage-chips" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
             <!-- LSV PreOrder Savings line -->
-            <div id="lsv-savings-line" class="mt-3 px-5 py-3 bg-blue-50 rounded-xl text-sm font-bold samsung-blue"></div>
+            <div id="lsv-savings-line" class="flex justify-between mt-3 px-5 py-3 bg-blue-50 rounded-xl text-sm font-bold samsung-blue"></div>
 
 
             <!-- Inline Color Chip Selector for Step 2b (SKU resolution) -->
@@ -203,7 +203,7 @@
 
             <!-- Bank savings display -->
             <div id="bank-savings-display" class="sehk-hidden mt-3 px-5 py-3 bg-blue-50 rounded-xl text-sm samsung-blue">
-                <div id="bank-savings-total" class="font-medium mb-3 pb-2 border-b border-blue-200 font-bold flex justify-between"></div>
+                <div id="bank-savings-total" class="font-bold mb-3 pb-2 border-b border-blue-200 flex justify-between"></div>
                 <div id="bank-savings-lines" class="mt-1 text-sm samsung-blue space-y-0.5"></div>
             </div>
         </div>
@@ -609,7 +609,7 @@
                 const key = `${selectedDevice.name}|${opt.storage}`;
                 const lsvInfo = lsvMap[key];
                 if (lsvInfo && lsvInfo.lsvDiscount > 0) {
-                    lsvLine.innerHTML = `${getLngStr('preOrderSavings')} HK$${lsvInfo.lsvDiscount.toLocaleString()}`;
+                    lsvLine.innerHTML = `<div>${getLngStr('preOrderSavings')}:</div> <div>HK$${lsvInfo.lsvDiscount.toLocaleString()}</div>`;
                     lsvLine.classList.remove('sehk-hidden');
                 } else {
                     lsvLine.classList.add('sehk-hidden');
@@ -850,7 +850,7 @@
                         // Show LSV savings line if applicable
                         const lsvLine = document.getElementById('lsv-savings-line');
                         if (lsvInfo && lsvInfo.lsvDiscount > 0) {
-                            lsvLine.innerHTML = `${getLngStr('preOrderSavings')} HK$${lsvInfo.lsvDiscount.toLocaleString()}`;
+                            lsvLine.innerHTML = `<div>${getLngStr('preOrderSavings')}</div><div>HK$${lsvInfo.lsvDiscount.toLocaleString()}</div>`;
                             lsvLine.classList.remove('sehk-hidden');
                         } else {
                             lsvLine.classList.add('sehk-hidden');
@@ -1193,7 +1193,7 @@
             
             // Per user's requirement: Total first, then breakdown
             // If GTI is used, show "Guaranteed Trade In Price"
-            let html = `<div class="font-medium mb-3 pb-2 border-b border-blue-200 font-bold flex justify-between"><div>${getLngStr('totalTradeInValue') || 'Total Trade In value:'}</div> <div>HK$${tradeInValue.toLocaleString()}</div></div>`;
+            let html = `<div class="font-bold mb-3 pb-2 border-b border-blue-200 flex justify-between"><div>${getLngStr('totalTradeInValue') || 'Total Trade In value:'}</div> <div>HK$${tradeInValue.toLocaleString()}</div></div>`;
             
             if (calc.extraRebate > 0) {
                 if (calc.isGuaranteed) {
