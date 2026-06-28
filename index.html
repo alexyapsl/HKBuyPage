@@ -6,7 +6,7 @@
     <title>Buy Galaxy | Samsung HK</title>
 </head>
 <body>
-    <div class="max-w-4xl mx-auto px-6 pt-10 pb-28 sm:pb-24">
+    <div class="max-w-5xl mx-auto px-6 pt-10 pb-28 sm:pb-24">
         <!-- Step 1: Choose New Device -->
         <div class="mb-20">
             <div class="section-title text-xl mb-5" data-i18n="step1Title" id="step1-title">...</div>
@@ -16,10 +16,10 @@
         </div>
 
         <!-- Step 2: Storage -->
-        <div class="mb-20 sehk-hidden" id="storage-section">
-            <div class="section-title text-xl mb-5" data-i18n="step2Title" id="step2-title">██████</div>
+        <div class="mb-20 sehk-opacity" id="storage-section">
+            <div class="section-title text-xl mb-5" data-i18n="step2Title" id="step2-title">███</div>
             <!-- Storage Chip Selector (replaces native <select>) -->
-            <div class="text-sm font-medium text-gray-700 mb-2" data-i18n="step2SelectStorage" id="storage-label">██████</div>
+            <div class="text-sm font-medium text-gray-700 mb-2" data-i18n="step2SelectStorage" id="storage-label">███</div>
             <div id="storage-chips" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
             <!-- LSV PreOrder Savings line -->
             <div id="lsv-savings-line" class="flex justify-between mt-3 px-5 py-3 bg-blue-50 rounded-xl text-sm font-bold samsung-blue"></div>
@@ -27,14 +27,14 @@
 
             <!-- Inline Color Chip Selector for Step 2b (SKU resolution) -->
             <div id="color-chips-section" class="sehk-hidden mt-7">
-                <div id="color-label" data-i18n="step2SelectColor" class="text-sm font-medium text-gray-700 mb-2">██████</div>
+                <div id="color-label" data-i18n="step2SelectColor" class="text-sm font-medium text-gray-700 mb-2">███</div>
                 <div id="color-chips" class="flex flex-wrap gap-2"></div>
                 <div id="selected-sku-hint" class="mt-2 text-sm samsung-blue sehk-hidden"></div>
             </div>
         </div>
 
         <!-- Step 3: Trade-in Device -->
-        <div class="mb-20 sehk-hidden" id="tradein-section">
+        <div class="mb-20 sehk-opacity" id="tradein-section">
 
             <div class="flex items-center justify-between mb-5">
                 <div class="section-title text-xl" data-i18n="step3Title" id="step3-title"></div>
@@ -44,7 +44,7 @@
             <div class="mb-2">
                 <div class="flex items-center gap-x-2">
                     <input type="checkbox" id="no-tradein" onchange="toggleNoTradeInNewFlow()" class="ml-2 mt-1 mb-1 w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
-                    <label for="no-tradein" data-i18n="noTradeInLabel" class="flex-1 py-2 pl-2 text-sm text-gray-700 cursor-pointer hover:text-gray-900" id="no-tradein-label"></label>
+                    <label for="no-tradein" data-i18n="noTradeInLabel" class="flex-1 py-2 pl-2 text-sm sm:text-base text-gray-700 cursor-pointer hover:text-gray-900" id="no-tradein-label"></label>
                 </div>
                 <div id="no-tradein-helper" class="sehk-hidden mt-2 py-3 px-5 text-sm bg-blue-50 samsung-blue rounded-xl px-3 py-2" id="no-tradein-helper-text">
                     <div data-i18n="noTradeInHelper"></div>
@@ -87,26 +87,26 @@
                     </div>
                 </div>
 
-                <div id="tradein-value-display" class="sehk-hidden mt-2 py-4 px-5 text-sm bg-blue-50 samsung-blue rounded-xl px-3 py-2">
+                <div id="tradein-value-display" class="sehk-opacity mt-2 py-4 px-5 text-sm bg-blue-50 samsung-blue rounded-xl px-3 py-2">
                 </div>
             </div>
         </div>
 
         <!-- Step 4: Bank Promotion -->
-        <div class="mb-8 sehk-hidden" id="bank-section">
-            <div class="section-title text-xl mb-5" data-i18n="step4Title" id="step4-title">██████</div>
+        <div class="mb-8 sehk-opacity" id="bank-section">
+            <div class="section-title text-xl mb-5" data-i18n="step4Title" id="step4-title">███</div>
             <div class="flex items-stretch gap-3 mt-5" id="bank-buttons">
                 <!-- Populated by JS -->
             </div>
 
             <!-- SamsungPay checkbox -->
-            <div id="samsungpay-row" class="sehk-hidden mt-3 flex items-center gap-x-2">
+            <div id="samsungpay-row" class="sehk-opacity mt-3 flex items-center gap-x-2">
                 <input type="checkbox" id="samsungpay" onchange="toggleSamsungPay()" class="ml-2 mt-1 mb-1 w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
-                <label for="samsungpay" data-i18n="samsungPayLabel" class="flex-1 py-3 text-sm text-gray-700 cursor-pointer" id="samsungpay-label">██████</label>
+                <label for="samsungpay" data-i18n="samsungPayLabel" class="flex-1 py-3 text-sm sm:text-base text-gray-700 cursor-pointer" id="samsungpay-label">███</label>
             </div>
 
             <!-- Bank savings display -->
-            <div id="bank-savings-display" class="sehk-hidden mt-3 px-5 py-3 bg-blue-50 rounded-xl text-sm samsung-blue">
+            <div id="bank-savings-display" class="sehk-opacity mt-3 px-5 py-3 bg-blue-50 rounded-xl text-sm samsung-blue">
                 <div id="bank-savings-total" class="font-bold mb-3 pb-2 border-b border-blue-200 flex justify-between"></div>
                 <div id="bank-savings-lines" class="mt-1 text-sm samsung-blue space-y-0.5"></div>
             </div>
@@ -115,7 +115,7 @@
 
     <!-- Sticky Bottom Bar -->
     <div id="sticky-bar" class="sehk-hidden fixed bottom-0 left-0 right-0 bg-white border-t z-[60] shadow-lg ">
-        <div class="max-w-4xl mx-auto px-6 py-4">
+        <div class="max-w-5xl mx-auto px-6 py-4">
             <div>
                 <div id="sticky-device-name" class="font-bold text-[1.1rem] sm:text-[1.15rem] leading-tight truncate"></div>
                 <div class="text-sm text-gray-600 mt-0.5 sm:mt-1">
@@ -133,8 +133,8 @@
 
                 <div class="flex-shrink-0">
                     <button id="buy-now-btn" data-i18n="buyNowBtnText"
-                            class="px-5 py-3 bg-[#007AFF] border-2 border-[#007AFF] text-white hover:text-[#007AFF] text-sm font-bold rounded-full hover:bg-[#FFFFFF] active:bg-blue-50 transition-colors sehk-hidden whitespace-nowrap shadow-sm"
-                            onclick="showBuyNowModal()">██████</button>
+                            class="px-5 py-3 bg-[#007AFF] border-2 border-[#007AFF] text-white hover:text-[#007AFF] text-sm font-bold rounded-full hover:bg-[#FFFFFF] active:bg-blue-50 transition-colors sehk-opacity whitespace-nowrap shadow-sm"
+                            onclick="showBuyNowModal()">███</button>
                 </div>
             </div>
         </div>
@@ -154,7 +154,7 @@
                 <button onclick="closeColorModal()" class="flex-1 py-3.5 rounded-xl border border-gray-300 text-sm font-medium">${t('colorCancel')}</button>
                 <button id="confirm-color-btn" onclick="confirmColorSelection()"
                         class="flex-1 py-3.5 rounded-xl samsung-btn text-sm font-medium disabled:opacity-50" disabled>
-                    ██████
+                    ███
                 </button>
             </div>
         </div>
@@ -164,7 +164,7 @@
     <div id="gift-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[120] flex items-end lg:items-center justify-center">
         <div class="bg-white w-full lg:w-[420px] lg:rounded-3xl lg:m-4 rounded-t-2xl p-6">
             <div class="flex items-center justify-between mb-4">
-                <div class="font-bold text-xl">██████</div>
+                <div class="font-bold text-xl">███</div>
                 <button onclick="closeGiftModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
             </div>
             <div id="gift-options" class="space-y-3"></div>
@@ -175,20 +175,20 @@
     <div id="samsung-shop-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[110] flex items-end lg:items-center justify-center">
         <div class="bg-white w-full lg:w-[420px] lg:rounded-xl lg:m-4 rounded-t-2xl p-6">
             <div class="flex items-center justify-between mb-4">
-                <div class="font-bold text-xl text-gray-900" data-i18n="shopModalTitle">██████</div>
+                <div class="font-bold text-xl text-gray-900" data-i18n="shopModalTitle">███</div>
                 <button onclick="closeSamsungShopModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
             </div>
 
-            <div id="samsung-shop-desc" class="text-sm text-gray-700 leading-relaxed mb-5" data-i18n="samsungShopModalDesc">██████</div>
+            <div id="samsung-shop-desc" class="text-sm text-gray-700 leading-relaxed mb-5" data-i18n="samsungShopModalDesc">███</div>
 
             <div class="flex items-center gap-2 mb-6">
                 <input type="checkbox" id="add-to-app" checked class="w-4 h-4 text-[#007AFF] border-gray-300 rounded focus:ring-[#007AFF]">
-                <label for="add-to-app" id="add-to-app-label" class="text-sm text-gray-700" data-i18n="addToAppLabel">██████</label>
+                <label for="add-to-app" id="add-to-app-label" class="text-sm text-gray-700" data-i18n="addToAppLabel">███</label>
             </div>
 
             <div class="flex gap-3">
                 <button onclick="downloadSamsungShopApp()" data-i18n="downloadAppBtn" class="flex-1 py-3.5 rounded-xl border border-gray-300 text-sm font-medium">Download App</button>
-                <button onclick="proceedFromSamsungShopModal()" data-i18n="addToCartBtn" class="flex-1 py-3.5 rounded-xl samsung-btn text-sm font-medium">██████</button>
+                <button onclick="proceedFromSamsungShopModal()" data-i18n="addToCartBtn" class="flex-1 py-3.5 rounded-xl samsung-btn text-sm font-medium">███</button>
             </div>
         </div>
     </div>
@@ -197,17 +197,17 @@
     <div id="tradein-warning-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[80] flex items-end sm:items-center justify-center">
         <div class="bg-white w-full sm:w-[420px] sm:rounded-3xl rounded-t-2xl p-6 shadow-xl">
             <div class="flex items-center justify-between mb-4">
-                <div id="tradein-warning-title" data-i18n="tradeinWarningTitle" class="font-bold text-xl text-gray-900">██████</div>
+                <div id="tradein-warning-title" data-i18n="tradeinWarningTitle" class="font-bold text-xl text-gray-900">███</div>
                 <button onclick="closeTradeInWarningModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
             </div>
 
             <ul class="list-disc ml-4 mb-6">
-              <li id="tradein-warning-body-trade-in" data-i18n="tradeinWarningBodyTradeIn" class="text-sm text-gray-700 leading-relaxed mb-2">██████</li>
-              <li id="tradein-warning-body-spay" data-i18n="tradeinWarningBodySpay" class="sehk-hidden text-sm text-gray-700 leading-relaxed mb-2">██████</li>
+              <li id="tradein-warning-body-trade-in" data-i18n="tradeinWarningBodyTradeIn" class="text-sm text-gray-700 leading-relaxed mb-2">███</li>
+              <li id="tradein-warning-body-spay" data-i18n="tradeinWarningBodySpay" class="sehk-opacity text-sm text-gray-700 leading-relaxed mb-2">███</li>
             </ul>
 
             <div class="flex gap-3">
-                <button onclick="confirmTradeInAndRedirect()" data-i18n="addToCart" class="flex-[2_1_auto] py-3.5 rounded-3xl samsung-btn text-sm font-medium">██████</button>
+                <button onclick="confirmTradeInAndRedirect()" data-i18n="addToCart" class="flex-[2_1_auto] py-3.5 rounded-3xl samsung-btn text-sm font-medium">███</button>
             </div>
         </div>
     </div>
@@ -220,6 +220,14 @@
         body {
             font-family: SamsungOne, Arial, system_ui, sans-serif;
             background-color: rgba(0,0,0,0.02); /*#f8f9fa;*/
+        }
+
+        input, select, textarea {
+          appearance: auto;
+        }
+
+        button {
+          border: 1px solid rgba(0,0,0,0);
         }
         
         .heading-font {
@@ -278,6 +286,13 @@
             box-shadow: 0 -4px 6px -1px rgb(0 0 0 / 0.05), 0 -2px 8px -2px rgb(0 0 0 / 0.05);
         }
 
+        .sehk-opacity {
+            opacity: 0.2;
+            cursor: not-allowed;
+            user-select: none;
+            pointer-events: none;
+        }
+
         .sehk-hidden {
             display: none !important;
         }
@@ -326,14 +341,8 @@
     </style>
 
     <script>
-        // =========================================================================
-        // MIGRATION & FALLBACK CONFIGURATION
-        // =========================================================================
-        // Change this path to point to your external repo directory (e.g., "https://cdn.example.com/json/")
-        // Keep empty "" to default relative to local environment
-        const baseJsonPath = "https://cheiluxui.github.io/estore-data/";
+        const baseJsonPath = "https://cheiluxui.github.io/estore-ddata/";
 
-        // Consolidated Backup Fallbacks if External Files Can't Be Reached
         const fallback_locales = 
           {
             "en": {
@@ -345,7 +354,7 @@
               "selectStoragePlaceholder": "Storage",
               "selectColorTitle": "Color",
               "step3Title": "Trade-in an old device (optional)",
-              "noTradeInLabel": "My trade in device is not listed here, OR<br> I do not have a device to trade in",
+              "noTradeInLabel": "My trade in device is not listed here, OR <nobr>I do not have a device to trade in</nobr>",
               "noTradeInHelper": "Don't worry, more trade-in options are available on the cart page.",
               "stackableTradeIn": "Our newly launched “Stackable Trade-in Service” let you trade-in up to 3 old devices to get a new phone. Upgrade is easy!",
               "brandLabel": "Brand",
@@ -2721,22 +2730,9 @@
             console.log('Processed bank promotions with', data.length, 'banks');
 
             const bankSection = document.getElementById('bank-section');
-            if (bankSection && !bankSection.classList.contains('sehk-hidden')) {
+            if (bankSection) {
                 setupBankButtons();
             }
-        }
-
-        function loadExternalAssets() {
-            // Inject Tailwind CSS script
-            const tailwind = document.createElement('script');
-            tailwind.src = "https://cdn.tailwindcss.com";
-            document.head.appendChild(tailwind);
-
-            // Inject Font Awesome stylesheet
-            const fontAwesome = document.createElement('link');
-            fontAwesome.rel = "stylesheet";
-            fontAwesome.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css";
-            document.head.appendChild(fontAwesome);
         }
 
         function renderDeviceSelection() {
@@ -2745,7 +2741,7 @@
             
             recommendedProducts.forEach((product, idx) => {
                 const card = document.createElement('div');
-                card.className = `device-card bg-white p-5 rounded-xl cursor-pointer border flex flex-row sm:flex-col items-center justify-center gap-4 sm:gap-3`;
+                card.className = `device-card bg-white p-5 rounded-xl cursor-pointer border border-gray-300 flex flex-row sm:flex-col items-center justify-center gap-4 sm:gap-3`;
                 card.innerHTML = `
                     <img src="${product.image}" class="w-20 h-20 sm:w-full sm:h-36 object-contain rounded-xl bg-white flex-shrink-0" alt="${product.name}">
                     <div class="flex-1 min-w-0 mb-1 mt-1">
@@ -2787,7 +2783,7 @@
             document.getElementById('model').disabled = true;
             document.getElementById('tradein-storage').innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
             document.getElementById('tradein-storage').disabled = true;
-            document.getElementById('tradein-value-display').classList.add('sehk-hidden');
+            document.getElementById('tradein-value-display').classList.add('sehk-opacity');
             tradeInValue = 0;
             window.currentTradeInCalc = null;
             
@@ -2795,19 +2791,19 @@
             if (noTradeInReset) noTradeInReset.checked = false;
             document.getElementById('tradein-fields').style.display = '';
             const helperReset = document.getElementById('no-tradein-helper');
-            if (helperReset) helperReset.classList.add('sehk-hidden');
+            if (helperReset) helperReset.classList.add('sehk-opacity');
 
             const storageSec = document.getElementById('storage-section');
-            storageSec.classList.remove('sehk-hidden');
-            document.getElementById('tradein-section').classList.add('sehk-hidden');
-            document.getElementById('bank-section').classList.add('sehk-hidden');
-            document.getElementById('samsungpay-row').classList.add('sehk-hidden');
+            storageSec.classList.remove('sehk-opacity');
+            document.getElementById('tradein-section').classList.add('sehk-opacity');
+            document.getElementById('bank-section').classList.add('sehk-opacity');
+            document.getElementById('samsungpay-row').classList.add('sehk-opacity');
 
             renderStorageChips();
             updateStickyBar();
 
             storageSec.style.display = '';
-            storageSec.classList.remove('sehk-hidden');
+            storageSec.classList.remove('sehk-opacity');
             setTimeout(() => {
                 storageSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 120);
@@ -2830,7 +2826,7 @@
             if (isNaN(selectedStorageIndex) || selectedStorageIndex === null || selectedStorageIndex !== prevStorageIndex) {
                 selectedSku = null;
                 const colorSection = document.getElementById('color-chips-section');
-                if (colorSection) colorSection.classList.add('sehk-hidden');
+                if (colorSection) colorSection.classList.add('sehk-opacity');
             }
 
             renderStorageChips();
@@ -2853,19 +2849,19 @@
             if (selectedStorageIndex !== null && !isNaN(selectedStorageIndex)) {
                 const storageOpt = selectedDevice.storageOptions[selectedStorageIndex];
                 const colorSectionEl = document.getElementById('color-chips-section');
-                const wasHidden = colorSectionEl && colorSectionEl.classList.contains('sehk-hidden');
+                const wasHidden = colorSectionEl && colorSectionEl.classList.contains('sehk-opacity');
                 showColorChipsForSelectedStorage(storageOpt);
                 renderStorageChips();
 
-                if (colorSectionEl && wasHidden && !colorSectionEl.classList.contains('sehk-hidden')) {
+                if (colorSectionEl && wasHidden && !colorSectionEl.classList.contains('sehk-opacity')) {
                     setTimeout(() => {
                         colorSectionEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }, 180);
                 }
 
-                document.getElementById('bank-section').classList.add('sehk-hidden');
+                document.getElementById('bank-section').classList.add('sehk-opacity');
                 const tradeInSectionEl = document.getElementById('tradein-section');
-                if (tradeInSectionEl) tradeInSectionEl.classList.add('sehk-hidden');
+                if (tradeInSectionEl) tradeInSectionEl.classList.add('sehk-opacity');
                 const noTradeInChk = document.getElementById('no-tradein');
                 if (noTradeInChk) {
                     noTradeInChk.checked = false;
@@ -2873,11 +2869,11 @@
                     if (fields) fields.style.display = '';
                 }
                 const helperEl = document.getElementById('no-tradein-helper');
-                if (helperEl) helperEl.classList.add('sehk-hidden');
+                if (helperEl) helperEl.classList.add('sehk-opacity');
                 tradeInValue = 0;
 
                 selectedBank = 'none';
-                document.getElementById('bank-savings-display').classList.add('sehk-hidden');
+                document.getElementById('bank-savings-display').classList.add('sehk-opacity');
                 document.querySelectorAll('#bank-buttons button').forEach(b => b.classList.remove('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30'));
 
                 document.getElementById('brand').value = '';
@@ -2885,15 +2881,15 @@
                 document.getElementById('model').disabled = true;
                 document.getElementById('tradein-storage').innerHTML = '<option value="">Select storage</option>';
                 document.getElementById('tradein-storage').disabled = true;
-                document.getElementById('tradein-value-display').classList.add('sehk-hidden');
+                document.getElementById('tradein-value-display').classList.add('sehk-opacity');
 
                 setTimeout(() => {
                     document.getElementById('tradein-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 150);
             } else {
-                document.getElementById('tradein-section').classList.add('sehk-hidden');
-                document.getElementById('buy-now-btn').classList.add('sehk-hidden');
-                document.getElementById('bank-section').classList.add('sehk-hidden');
+                document.getElementById('tradein-section').classList.add('sehk-opacity');
+                document.getElementById('buy-now-btn').classList.add('sehk-opacity');
+                document.getElementById('bank-section').classList.add('sehk-opacity');
                 tradeInValue = 0;
                 selectedBank = 'none';
             }
@@ -2934,11 +2930,11 @@
                 modelSelect.disabled = true;
                 storageSelect.innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
                 storageSelect.disabled = true;
-                valueDisplay.classList.add('sehk-hidden');
+                valueDisplay.classList.add('sehk-opacity');
                 const colorSection2 = document.getElementById('color-chips-section');
-                if (colorSection2) colorSection2.classList.add('sehk-hidden');
+                if (colorSection2) colorSection2.classList.add('sehk-opacity');
                 tradeInValue = 0;
-                document.getElementById('bank-section').classList.add('sehk-hidden');
+                document.getElementById('bank-section').classList.add('sehk-opacity');
                 updateStickyBar();
                 return;
             }
@@ -2956,9 +2952,9 @@
 
             storageSelect.innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
             storageSelect.disabled = true;
-            valueDisplay.classList.add('sehk-hidden');
+            valueDisplay.classList.add('sehk-opacity');
             tradeInValue = 0;
-            document.getElementById('bank-section').classList.add('sehk-hidden');
+            document.getElementById('bank-section').classList.add('sehk-opacity');
             updateStickyBar();
         }
 
@@ -2971,11 +2967,11 @@
             if (!model) {
                 storageSelect.innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
                 storageSelect.disabled = true;
-                valueDisplay.classList.add('sehk-hidden');
+                valueDisplay.classList.add('sehk-opacity');
                 const colorSection = document.getElementById('color-chips-section');
-                if (colorSection) colorSection.classList.add('sehk-hidden');
+                if (colorSection) colorSection.classList.add('sehk-opacity');
                 tradeInValue = 0;
-                document.getElementById('bank-section').classList.add('sehk-hidden');
+                document.getElementById('bank-section').classList.add('sehk-opacity');
                 updateStickyBar();
                 return;
             }
@@ -2991,9 +2987,9 @@
                 storageSelect.appendChild(opt);
             });
 
-            valueDisplay.classList.add('sehk-hidden');
+            valueDisplay.classList.add('sehk-opacity');
             tradeInValue = 0;
-            document.getElementById('bank-section').classList.add('sehk-hidden');
+            document.getElementById('bank-section').classList.add('sehk-opacity');
             updateStickyBar();
         }
 
@@ -3017,15 +3013,15 @@
                 const hasLsv = lsvInfo && lsvInfo.lsvDiscount > 0;
 
                 const chip = document.createElement('div');
-                chip.className = `device-card bg-white border px-5 py-6 rounded-xl cursor-pointer border flex flex-row gap-1 items-center justify-between transition-all ${allOos ? 'text-gray-400 bg-gray-100 cursor-not-allowed disabled' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'} ${selectedStorageIndex === idx ? '!border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-300'}`;
+                chip.className = `device-card bg-white border px-5 py-6 rounded-xl cursor-pointer border flex flex-row gap-1 items-center justify-between transition-all ${allOos ? 'text-gray-400 bg-gray-100/80 cursor-not-allowed disabled' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'} ${selectedStorageIndex === idx ? '!border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-300'}`;
 
                 let inner = `<span class="flex-1 font-bold text-base sm:text-[1.1rem]">${opt.storage}</span>`;
-                if (hasLsv || allOos) { inner += `<div class="flex-1 ml-1">` }
+                if (hasLsv || allOos) { inner += `<div class="flex-1 ml-5">` }
                 if (hasLsv) {
                     inner += `<div class="text-right text-sm samsung-blue ${allOos ? 'opacity-60' : ''}">${t('upgradeDiscountsAvailable')}</div>`;
                 }
                 if (allOos) {
-                    inner += `<div class="text-right text-sm text-red-500">${t('outOfStock')}</div>`;
+                    inner += `<div class="text-right text-sm text-gray-500">${t('outOfStock')}</div>`;
                 }
                 if (hasLsv || allOos) { inner += `</div>` }
                 chip.innerHTML = inner;
@@ -3064,9 +3060,9 @@
                             }, 180);
                         }
 
-                        document.getElementById('tradein-section').classList.add('sehk-hidden');
-                        document.getElementById('bank-section').classList.add('sehk-hidden');
-                        document.getElementById('buy-now-btn').classList.add('sehk-hidden');
+                        document.getElementById('tradein-section').classList.add('sehk-opacity');
+                        document.getElementById('bank-section').classList.add('sehk-opacity');
+                        document.getElementById('buy-now-btn').classList.add('sehk-opacity');
 
                         tradeInValue = 0;
                         selectedBank = 'none';
@@ -3075,7 +3071,7 @@
                         const fields = document.getElementById('tradein-fields');
                         if (fields) fields.style.display = '';
                         const helperEl = document.getElementById('no-tradein-helper');
-                        if (helperEl) helperEl.classList.add('sehk-hidden');
+                        if (helperEl) helperEl.classList.add('sehk-opacity');
 
                         updateStickyBar();
                     };
@@ -3117,7 +3113,7 @@
                 const isEstoreOnly = !!(canonical.estoreExclusive || canonical.EstoreExclusive || canonical['Estore Exclusive']);
 
                 const chip = document.createElement('div');
-                chip.className = `device-card flex items-center justify-between px-4 py-4 border rounded-xl text-sm text-nowraptransition-all ${isOos ? 'text-gray-400 bg-gray-100 disabled' : 'cursor-pointer hover:border-[#007AFF] bg-white hover:bg-blue-50'} ${isEstoreOnly ? 'min-w-[100%] sm:min-w-[unset]' : 'min-w-[45%] sm:min-w-[unset]'}`;
+                chip.className = `device-card flex items-center justify-between px-4 py-4 border border-gray-300 rounded-xl text-sm text-nowraptransition-all ${isOos ? 'text-gray-400 bg-gray-100/80 disabled' : 'cursor-pointer hover:border-[#007AFF] bg-white hover:bg-blue-50'} ${isEstoreOnly ? 'min-w-[100%] sm:min-w-[unset]' : 'min-w-[45%] sm:min-w-[unset]'}`;
 
                 let colorNameDisplay = color.name;
                 if (typeof color.name === 'object') {
@@ -3136,10 +3132,10 @@
                 `;
 
                 const storeLabel = isEstoreOnly ? `<div class="text-sm text-right samsung-blue">${t('samsungComOnly')}</div>` : '';
-                const oosLabel = isOos ? `<div class="text-sm text-right text-red-500">${t('outOfStock')}</div>` : '';
+                const oosLabel = isOos ? `<div class="text-sm text-right text-gray-500">${t('outOfStock')}</div>` : '';
 
                 if (isEstoreOnly || isOos) {
-                  chip.innerHTML += `<div class="ml-1">${storeLabel}${oosLabel}</div>`;
+                  chip.innerHTML += `<div class="ml-5">${storeLabel}${oosLabel}</div>`;
                 }
 
                 if (!isOos) {
@@ -3147,7 +3143,7 @@
                         container.querySelectorAll('div').forEach(c => c.classList.remove('!border-[#007AFF]', 'ring-1', 'ring-1'));
                         chip.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
                         selectedSku = color.sku;
-                        if (hint) { hint.textContent = t('skuResolved') + ' ' + selectedSku; hint.classList.remove('sehk-hidden'); }
+                        if (hint) { hint.textContent = t('skuResolved') + ' ' + selectedSku; hint.classList.remove('sehk-opacity'); }
 
                         trackEvent(
                             'product_option-flagship pdp-option selector-option_click3',
@@ -3157,20 +3153,20 @@
 
                         const tradeInSec = document.getElementById('tradein-section');
                         if (tradeInSec) {
-                            tradeInSec.classList.remove('sehk-hidden');
+                            tradeInSec.classList.remove('sehk-opacity');
                             setTimeout(() => {
                                 tradeInSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
                             }, 120);
                         }
 
                         const bankSec = document.getElementById('bank-section');
-                        if (bankSec) bankSec.classList.add('sehk-hidden');
+                        if (bankSec) bankSec.classList.add('sehk-opacity');
 
                         window.currentTradeInCalc = null;
                         tradeInValue = 0;
 
                         const buyBtn = document.getElementById('buy-now-btn');
-                        if (buyBtn) buyBtn.classList.remove('sehk-hidden');
+                        if (buyBtn) buyBtn.classList.remove('sehk-opacity');
 
                         const noTradeInChk = document.getElementById('no-tradein');
                         const wasNoTradeIn = noTradeInChk && noTradeInChk.checked;
@@ -3192,15 +3188,15 @@
                                 const samsungRow = document.getElementById('samsungpay-row');
 
                                 if (fields) fields.style.display = 'none';
-                                if (valueDisplay) valueDisplay.classList.add('sehk-hidden');
+                                if (valueDisplay) valueDisplay.classList.add('sehk-opacity');
                                 tradeInValue = 0;
 
                                 const bankSecEl = document.getElementById('bank-section');
-                                if (bankSecEl) bankSecEl.classList.remove('sehk-hidden');
-                                if (samsungRow) samsungRow.classList.remove('sehk-hidden');
+                                if (bankSecEl) bankSecEl.classList.remove('sehk-opacity');
+                                if (samsungRow) samsungRow.classList.remove('sehk-opacity');
 
                                 if (bankPromotionRules && bankPromotionRules.boc) {
-                                    selectedBank = Object.keys(bankPromotionRules)[0];
+                                    /*selectedBank = Object.keys(bankPromotionRules)[0];*/
                                     setupBankButtons();
                                     updateBankSavingsDisplay();
                                     updateStickyBar();
@@ -3226,8 +3222,8 @@
 
             if (!brand || !model || !storage) {
                 tradeInValue = 0;
-                valueDisplay.classList.add('sehk-hidden');
-                document.getElementById('bank-section').classList.add('sehk-hidden');
+                valueDisplay.classList.add('sehk-opacity');
+                document.getElementById('bank-section').classList.add('sehk-opacity');
                 updateStickyBar();
                 return;
             }
@@ -3240,7 +3236,7 @@
 
             if (!selectedSku) {
                 tradeInValue = 0;
-                if (valueDisplay) valueDisplay.classList.add('sehk-hidden');
+                if (valueDisplay) valueDisplay.classList.add('sehk-opacity');
                 return;
             }
 
@@ -3276,15 +3272,15 @@
 
             if (tradeInValue > 0) {
                 if (valueAmount) valueAmount.textContent = `HK$${tradeInValue.toLocaleString()}`;
-                if (valueDisplay) valueDisplay.classList.remove('sehk-hidden');
+                if (valueDisplay) valueDisplay.classList.remove('sehk-opacity');
             } else {
-                if (valueDisplay) valueDisplay.classList.add('sehk-hidden');
+                if (valueDisplay) valueDisplay.classList.add('sehk-opacity');
             }
 
             renderTradeInSavingsBreakdown();
 
-            document.getElementById('bank-section').classList.remove('sehk-hidden');
-            document.getElementById('samsungpay-row').classList.remove('sehk-hidden');
+            document.getElementById('bank-section').classList.remove('sehk-opacity');
+            document.getElementById('samsungpay-row').classList.remove('sehk-opacity');
 
             if (window.currentTradeInCalc) {
                 trackEvent(
@@ -3302,7 +3298,7 @@
 
             const availableBanks = Object.keys(bankPromotionRules || {});
             if (availableBanks.length > 0 && (!selectedBank || selectedBank === 'none')) {
-                selectedBank = availableBanks[0];
+                /*selectedBank = availableBanks[0];*/
                 setTimeout(() => {
                     setupBankButtons();
                     updateBankSavingsDisplay();
@@ -3335,7 +3331,7 @@
         function renderTradeInSavingsBreakdown() {
             const container = document.getElementById('tradein-value-display');
             if (!container || !window.currentTradeInCalc || tradeInValue <= 0) {
-                if (container) container.classList.add('sehk-hidden');
+                if (container) container.classList.add('sehk-opacity');
                 return;
             }
 
@@ -3370,11 +3366,11 @@
 
             if (checked) {
                 fields.style.display = 'none';
-                valueDisplay.classList.add('sehk-hidden');
-                if (helper) helper.classList.remove('sehk-hidden');
+                valueDisplay.classList.add('sehk-opacity');
+                if (helper) helper.classList.remove('sehk-opacity');
                 tradeInValue = 0;
-                document.getElementById('bank-section').classList.remove('sehk-hidden');
-                samsungRow.classList.remove('sehk-hidden');
+                document.getElementById('bank-section').classList.remove('sehk-opacity');
+                samsungRow.classList.remove('sehk-opacity');
 
                 const recommendedBankKey = Object.keys(bankPromotionRules).find(k => bankPromotionRules[k].isRecommended);
                 if (recommendedBankKey) {
@@ -3389,7 +3385,7 @@
                 }, 150);
             } else {
                 fields.style.display = '';
-                if (helper) helper.classList.add('sehk-hidden');
+                if (helper) helper.classList.add('sehk-opacity');
 
                 updateTradeInPriceNewFlow();
 
@@ -3398,13 +3394,13 @@
                 const storage = document.getElementById('tradein-storage').value;
 
                 if (brand && model && storage && tradeInValue > 0) {
-                    valueDisplay.classList.remove('sehk-hidden');
-                    document.getElementById('bank-section').classList.remove('sehk-hidden');
-                    samsungRow.classList.remove('sehk-hidden');
+                    valueDisplay.classList.remove('sehk-opacity');
+                    document.getElementById('bank-section').classList.remove('sehk-opacity');
+                    samsungRow.classList.remove('sehk-opacity');
                 } else {
-                    valueDisplay.classList.add('sehk-hidden');
-                    document.getElementById('bank-section').classList.add('sehk-hidden');
-                    samsungRow.classList.add('sehk-hidden');
+                    valueDisplay.classList.add('sehk-opacity');
+                    document.getElementById('bank-section').classList.add('sehk-opacity');
+                    samsungRow.classList.add('sehk-opacity');
                 }
             }
             updateStickyBar();
@@ -3455,7 +3451,7 @@
 
             if (!bankPromotionRules || Object.keys(bankPromotionRules).length === 0) {
                 const otherBtn = document.createElement('button');
-                otherBtn.className = `device-card px-2 py-4 rounded-xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] border-gray-200`;
+                otherBtn.className = `device-card bg-white flex-1 px-1 py-4 rounded-xl border text-sm flex flex-col items-center text-center gap-1.5 min-w-[72px] transition-all border-gray-300 hover:border-gray-300}`;
                 otherBtn.innerHTML = `
                     <div class="h-8 w-12 flex items-center justify-center text-2xl text-gray-400">💳</div>
                     <span class="text-sm text-gray-600">Other</span>
@@ -3496,7 +3492,7 @@
 
                 const btn = document.createElement('button');
                 btn.setAttribute('data-bank-key', item.key);
-                btn.className = `device-card bg-white flex-1 px-1 py-4 rounded-xl border text-sm flex flex-col items-center gap-1.5 min-w-[72px] transition-all ${isSelected ? '!border-[#007AFF]' : 'border-gray-200 hover:border-gray-300'}`;
+                btn.className = `device-card bg-white flex-1 px-1 py-4 rounded-xl border text-sm flex flex-col items-center text-center gap-1.5 min-w-[72px] transition-all ${isSelected ? '!border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-300 hover:border-gray-300'}`;
 
                 if (item.logo) {
                     btn.innerHTML = `
@@ -3519,7 +3515,7 @@
 
                     setTimeout(() => {
                         const samsungRow = document.getElementById('samsungpay-row');
-                        if (samsungRow && !samsungRow.classList.contains('sehk-hidden')) {
+                        if (samsungRow && !samsungRow.classList.contains('sehk-opacity')) {
                             samsungRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         }
                     }, 200);
@@ -3554,7 +3550,7 @@
             const linesEl = document.getElementById('bank-savings-lines');
 
             if (!selectedDevice || selectedStorageIndex === null) {
-                display.classList.add('sehk-hidden');
+                display.classList.add('sehk-opacity');
                 return;
             }
             const hasBankSelection = selectedBank && selectedBank !== 'none';
@@ -3577,7 +3573,7 @@
             }
 
             if (bankCalc.totalRebate <= 0 && !useSamsungPay) {
-                display.classList.add('sehk-hidden');
+                display.classList.add('sehk-opacity');
                 return;
             }
 
@@ -3616,7 +3612,7 @@
                 linesEl.appendChild(samsungLine);
             }
 
-            display.classList.remove('sehk-hidden');
+            display.classList.remove('sehk-opacity');
         }
 
         function toggleSamsungPay() {
@@ -3634,7 +3630,7 @@
             if (useSamsungPay) {
                 setTimeout(() => {
                     const savingsPanel = document.getElementById('bank-savings-display');
-                    if (savingsPanel && !savingsPanel.classList.contains('sehk-hidden')) {
+                    if (savingsPanel && !savingsPanel.classList.contains('sehk-opacity')) {
                         savingsPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     } else {
                         const bankSection = document.getElementById('bank-section');
@@ -3752,7 +3748,7 @@
 
         function adjustContentPadding() {
             const sticky = document.getElementById('sticky-bar');
-            const main = document.querySelector('.max-w-4xl.mx-auto');
+            const main = document.querySelector('.max-w-5xl.mx-auto');
             if (!sticky || !main) return;
 
             if (sticky.classList.contains('sehk-hidden') || sticky.offsetHeight === 0 || !selectedDevice) {
@@ -3805,7 +3801,6 @@
 
         window.onload = async function() {
             startTitleLoadingAnimation();
-            loadExternalAssets();
 
             await loadTranslations();
             lang = getCurrentLang();
@@ -3825,7 +3820,7 @@
         };
         const origSelectNewDevice = window.selectNewDevice;
         window.selectNewDevice = function(...args) {
-            document.getElementById('bank-savings-display')?.classList.add('sehk-hidden');
+            document.getElementById('bank-savings-display')?.classList.add('sehk-opacity');
             return origSelectNewDevice?.apply(this, args);
         };
 
@@ -3852,7 +3847,7 @@
         function closeColorModal(keepState = false) {
             const modal = document.getElementById('color-modal');
             modal.classList.remove('flex');
-            modal.classList.add('sehk-hidden');
+            modal.classList.add('sehk-opacity');
             if (!keepState) {
                 selectedSku = null;
                 currentModalProductIdx = null;
@@ -3868,7 +3863,7 @@
             const tradeinSection = document.getElementById('tradein-section');
             if (guard) guard.style.display = 'none';
             if (tradeinSection) {
-                tradeinSection.classList.remove('sehk-hidden');
+                tradeinSection.classList.remove('sehk-opacity');
                 const hint = document.createElement('div');
                 hint.className = 'text-sm samsung-blue mb-2';
                 hint.textContent = getLngStr('skuResolved') + ' ' + selectedSku;
@@ -3886,7 +3881,7 @@
             if (!giftModal) {
                 giftModal = document.createElement('div');
                 giftModal.id = 'gift-modal';
-                giftModal.className = 'sehk-hidden fixed inset-0 bg-black/50 z-[120] flex items-end lg:items-center justify-center';
+                giftModal.className = 'sehk-opacity fixed inset-0 bg-black/50 z-[120] flex items-end lg:items-center justify-center';
                 giftModal.innerHTML = `
                     <div class="bg-white w-full lg:w-[420px] lg:rounded-xl lg:m-4 rounded-t-2xl p-6">
                         <div class="flex items-center justify-between mb-4">
@@ -3919,7 +3914,7 @@
 
             if (uniqueApplicableGifts.length === 0) {
                 const empty = document.createElement('div');
-                empty.className = 'text-sm text-gray-500 p-4 border rounded-xl';
+                empty.className = 'text-sm text-gray-500 p-4 border border-gray-200 rounded-xl';
                 empty.textContent = t('giftNoAvailable');
                 optionsContainer.appendChild(empty);
             }
@@ -3939,7 +3934,7 @@
                     : `<div class="text-sm samsung-blue mt-0.5">${t('giftFree')}</div>`;
 
                 const btn = document.createElement('button');
-                btn.className = 'device-card w-full flex items-center gap-4 p-4 border border-gray-200 rounded-xl text-left';
+                btn.className = 'device-card w-full flex items-center gap-4 p-4 border border-gray-300 rounded-xl text-left';
                 btn.innerHTML = `
                     <img src="${image}" class="w-16 h-16 object-contain" alt="${name}">
                     <div>
@@ -4048,7 +4043,7 @@
 
             const modal = document.getElementById('samsung-shop-modal');
             if (modal) {
-                modal.classList.remove('sehk-hidden');
+                modal.classList.remove('sehk-opacity');
                 modal.classList.add('flex');
             } else {
                 showTradeInWarningModal();
@@ -4059,7 +4054,7 @@
             const modal = document.getElementById('samsung-shop-modal');
             if (modal) {
                 modal.classList.remove('flex');
-                modal.classList.add('sehk-hidden');
+                modal.classList.add('sehk-opacity');
             }
         }
 
@@ -4080,7 +4075,7 @@
 
             if (modal) {
                 modal.classList.remove('flex');
-                modal.classList.add('sehk-hidden');
+                modal.classList.add('sehk-opacity');
             }
             showTradeInWarningModal();
         }
@@ -4091,7 +4086,7 @@
             const btn = document.getElementById('buy-now-btn');
             const sticky = document.getElementById('sticky-bar');
             const hasStorage = (typeof selectedStorageIndex !== 'undefined' && selectedStorageIndex !== null && !isNaN(selectedStorageIndex));
-            if (btn) btn.style.display = (sticky.classList.contains('sehk-hidden') || !hasStorage) ? 'none' : '';
+            if (btn) btn.style.display = (sticky.classList.contains('sehk-opacity') || !hasStorage) ? 'none' : '';
         };
 
         window.dataLayer = window.dataLayer || [];
