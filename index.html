@@ -9,7 +9,7 @@
     <div class="max-w-5xl mx-auto px-6 pt-10 pb-28 sm:pb-24">
         <!-- Step 1: Choose New Device -->
         <div class="mb-20">
-            <div class="section-title text-xl mb-5" data-i18n="step1Title" id="step1-title">...</div>
+            <div class="section-title text-xl mb-5" data-i18n="step1Title" id="step1-title">. . .</div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="device-selection">
                 <!-- Populated by JS -->
             </div>
@@ -17,7 +17,7 @@
 
         <!-- Step 2: Storage -->
         <div class="mb-20 sehk-opacity" id="storage-section">
-            <div class="section-title text-xl mb-5" data-i18n="step2Title" id="step2-title">███</div>
+            <div class="section-title text-xl mb-5" data-i18n="step2Title" id="step2-title">. . .</div>
             <!-- Storage Chip Selector (replaces native <select>) -->
             <div class="text-sm font-medium text-gray-700 mb-2" data-i18n="step2SelectStorage" id="storage-label">███</div>
             <div id="storage-chips" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
@@ -27,7 +27,7 @@
 
             <!-- Inline Color Chip Selector for Step 2b (SKU resolution) -->
             <div id="color-chips-section" class="sehk-hidden mt-7">
-                <div id="color-label" data-i18n="step2SelectColor" class="text-sm font-medium text-gray-700 mb-2">███</div>
+                <div id="color-label" data-i18n="step2SelectColor" class="text-sm font-medium text-gray-700 mb-2">. . .</div>
                 <div id="color-chips" class="flex flex-wrap gap-2"></div>
                 <div id="selected-sku-hint" class="mt-2 text-sm samsung-blue sehk-hidden"></div>
             </div>
@@ -37,7 +37,7 @@
         <div class="mb-20 sehk-opacity" id="tradein-section">
 
             <div class="flex items-center justify-between mb-5">
-                <div class="section-title text-xl" data-i18n="step3Title" id="step3-title"></div>
+                <div class="section-title text-xl" data-i18n="step3Title" id="step3-title">. . .</div>
             </div>
 
             <!-- No Trade-In Checkbox -->
@@ -94,7 +94,7 @@
 
         <!-- Step 4: Bank Promotion -->
         <div class="mb-8 sehk-opacity" id="bank-section">
-            <div class="section-title text-xl mb-5" data-i18n="step4Title" id="step4-title">███</div>
+            <div class="section-title text-xl mb-5" data-i18n="step4Title" id="step4-title">. . .</div>
             <div class="flex items-stretch gap-3 mt-5" id="bank-buttons">
                 <!-- Populated by JS -->
             </div>
@@ -106,7 +106,7 @@
             </div>
 
             <!-- Bank savings display -->
-            <div id="bank-savings-display" class="sehk-opacity mt-3 px-5 py-3 bg-blue-50 rounded-xl text-sm samsung-blue">
+            <div id="bank-savings-display" class="sehk-hidden mt-3 px-5 py-3 bg-blue-50 rounded-xl text-sm samsung-blue">
                 <div id="bank-savings-total" class="font-bold mb-3 pb-2 border-b border-blue-200 flex justify-between"></div>
                 <div id="bank-savings-lines" class="mt-1 text-sm samsung-blue space-y-0.5"></div>
             </div>
@@ -203,11 +203,11 @@
 
             <ul class="list-disc ml-4 mb-6">
               <li id="tradein-warning-body-trade-in" data-i18n="tradeinWarningBodyTradeIn" class="text-sm text-gray-700 leading-relaxed mb-2">███</li>
-              <li id="tradein-warning-body-spay" data-i18n="tradeinWarningBodySpay" class="sehk-opacity text-sm text-gray-700 leading-relaxed mb-2">███</li>
+              <li id="tradein-warning-body-spay" data-i18n="tradeinWarningBodySpay" class="sehk-hidden text-sm text-gray-700 leading-relaxed mb-2">███</li>
             </ul>
 
             <div class="flex gap-3">
-                <button onclick="confirmTradeInAndRedirect()" data-i18n="addToCart" class="flex-[2_1_auto] py-3.5 rounded-3xl samsung-btn text-sm font-medium">███</button>
+                <button onclick="confirmTradeInAndRedirect()" data-i18n="addToCart" class="flex-[2_1_auto] py-3.5 rounded-3xl samsung-btn text-center text-sm font-medium">███</button>
             </div>
         </div>
     </div>
@@ -341,7 +341,7 @@
     </style>
 
     <script>
-        const baseJsonPath = "https://cheiluxui.github.io/estore-ddata/";
+        const baseJsonPath = "https://cheiluxui.github.io/estore-data/";
 
         const fallback_locales = 
           {
@@ -593,11 +593,11 @@
           [
             {
               "name": "Galaxy S26 Ultra",
-              "image": "img/galaxy-s26-ultra.png",
+              "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/s2602/gallery/hk-galaxy-s26-ultra-s948-578324-sm-s9480zsptgy-550823970?imbypass=true",
               "storageOptions": [
                 {
                   "storage": "1TB | 16GB",
-                  "price": 14000,
+                  "price": 20000,
                   "colors": [
                     {
                       "name": "Silver Shadow",
@@ -684,8 +684,58 @@
               ]
             },
             {
+              "name": "Galaxy Z Flip7",
+              "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-555701-sm-f7660lgatgy-547656871?imbypass=true",
+              "storageOptions": [
+                {
+                  "storage": "512GB | 12GB",
+                  "price": 9000,
+                  "colors": [
+                    {
+                      "name": "Mint",
+                      "sku": "SM-F7660LGETGY"
+                    },
+                    {
+                      "name": "Blue Shadow",
+                      "sku": "SM-F7660DBETGY"
+                    },
+                    {
+                      "name": "Jetblack",
+                      "sku": "SM-F7660ZKETGY"
+                    },
+                    {
+                      "name": "Coralred",
+                      "sku": "SM-F7660ZRETGY"
+                    }
+                  ]
+                },
+                {
+                  "storage": "256GB | 12GB",
+                  "price": 6000,
+                  "colors": [
+                    {
+                      "name": "Mint",
+                      "sku": "SM-F7660LGATGY"
+                    },
+                    {
+                      "name": "Blue Shadow",
+                      "sku": "SM-F7660DBATGY"
+                    },
+                    {
+                      "name": "Jetblack",
+                      "sku": "SM-F7660ZKATGY"
+                    },
+                    {
+                      "name": "Coralred",
+                      "sku": "SM-F7660ZRATGY"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
               "name": "Galaxy Z Fold7",
-              "image": "img/galaxy-z-fold7.png",
+              "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-547656345?imbypass=true",
               "storageOptions": [
                 {
                   "storage": "1TB | 16GB",
@@ -742,56 +792,6 @@
                     {
                       "name": "Silver Shadow",
                       "sku": "SM-F9660ZSDTGY"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "Galaxy Z Flip7",
-              "image": "img/galaxy-z-flip7.png",
-              "storageOptions": [
-                {
-                  "storage": "512GB | 12GB",
-                  "price": 9000,
-                  "colors": [
-                    {
-                      "name": "Mint",
-                      "sku": "SM-F7660LGETGY"
-                    },
-                    {
-                      "name": "Blue Shadow",
-                      "sku": "SM-F7660DBETGY"
-                    },
-                    {
-                      "name": "Jetblack",
-                      "sku": "SM-F7660ZKETGY"
-                    },
-                    {
-                      "name": "Coralred",
-                      "sku": "SM-F7660ZRETGY"
-                    }
-                  ]
-                },
-                {
-                  "storage": "256GB | 12GB",
-                  "price": 6000,
-                  "colors": [
-                    {
-                      "name": "Mint",
-                      "sku": "SM-F7660LGATGY"
-                    },
-                    {
-                      "name": "Blue Shadow",
-                      "sku": "SM-F7660DBATGY"
-                    },
-                    {
-                      "name": "Jetblack",
-                      "sku": "SM-F7660ZKATGY"
-                    },
-                    {
-                      "name": "Coralred",
-                      "sku": "SM-F7660ZRATGY"
                     }
                   ]
                 }
@@ -1103,7 +1103,7 @@
                 "sku": "SM-S9480ZWITGY",
                 "rrp": 10000,
                 "lsvDiscount": 0,
-                "InStockStatus": "N",
+                "InStockStatus": "Y",
                 "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-s26-ultra/buy/",
                 "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-s26-ultra/buy/",
                 "gifts": []
@@ -1121,7 +1121,7 @@
                 "sku": "SM-F9660DBHTGY",
                 "rrp": 20000,
                 "lsvDiscount": 500,
-                "InStockStatus": "N",
+                "InStockStatus": "Y",
                 "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
                 "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
                 "gifts": []
@@ -1193,7 +1193,7 @@
                 "sku": "SM-F9660ZKGTGY",
                 "rrp": 18000,
                 "lsvDiscount": 300,
-                "InStockStatus": "N",
+                "InStockStatus": "Y",
                 "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
                 "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
                 "gifts": []
@@ -1211,7 +1211,7 @@
                 "sku": "SM-F9660ZSGTGY",
                 "rrp": 18000,
                 "lsvDiscount": 300,
-                "InStockStatus": "N",
+                "InStockStatus": "Y",
                 "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
                 "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
                 "gifts": []
@@ -1283,7 +1283,7 @@
                 "sku": "SM-F9660ZSDTGY",
                 "rrp": 15000,
                 "lsvDiscount": 0,
-                "InStockStatus": "N",
+                "InStockStatus": "Y",
                 "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold7/buy/",
                 "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold7/buy/",
                 "gifts": []
@@ -1319,7 +1319,7 @@
                 "sku": "SM-F7660DBETGY",
                 "rrp": 9000,
                 "lsvDiscount": 500,
-                "InStockStatus": "N",
+                "InStockStatus": "Y",
                 "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip7/buy/",
                 "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip7/buy/",
                 "gifts": []
@@ -2873,7 +2873,7 @@
                 tradeInValue = 0;
 
                 selectedBank = 'none';
-                document.getElementById('bank-savings-display').classList.add('sehk-opacity');
+                document.getElementById('bank-savings-display').classList.add('sehk-hidden');
                 document.querySelectorAll('#bank-buttons button').forEach(b => b.classList.remove('!border-[#007AFF]', 'ring-2', 'ring-[#007AFF]/30'));
 
                 document.getElementById('brand').value = '';
@@ -3016,7 +3016,7 @@
                 chip.className = `device-card bg-white border px-5 py-6 rounded-xl cursor-pointer border flex flex-row gap-1 items-center justify-between transition-all ${allOos ? 'text-gray-400 bg-gray-100/80 cursor-not-allowed disabled' : 'cursor-pointer hover:border-[#007AFF] hover:bg-blue-50'} ${selectedStorageIndex === idx ? '!border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-300'}`;
 
                 let inner = `<span class="flex-1 font-bold text-base sm:text-[1.1rem]">${opt.storage}</span>`;
-                if (hasLsv || allOos) { inner += `<div class="flex-1 ml-5">` }
+                if (hasLsv || allOos) { inner += `<div class="flex-1 md:flex-2 ml-5">` }
                 if (hasLsv) {
                     inner += `<div class="text-right text-sm samsung-blue ${allOos ? 'opacity-60' : ''}">${t('upgradeDiscountsAvailable')}</div>`;
                 }
@@ -3573,7 +3573,7 @@
             }
 
             if (bankCalc.totalRebate <= 0 && !useSamsungPay) {
-                display.classList.add('sehk-opacity');
+                display.classList.add('sehk-hidden');
                 return;
             }
 
@@ -3612,7 +3612,7 @@
                 linesEl.appendChild(samsungLine);
             }
 
-            display.classList.remove('sehk-opacity');
+            display.classList.remove('sehk-hidden');
         }
 
         function toggleSamsungPay() {
@@ -3630,7 +3630,7 @@
             if (useSamsungPay) {
                 setTimeout(() => {
                     const savingsPanel = document.getElementById('bank-savings-display');
-                    if (savingsPanel && !savingsPanel.classList.contains('sehk-opacity')) {
+                    if (savingsPanel && !savingsPanel.classList.contains('sehk-hidden')) {
                         savingsPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     } else {
                         const bankSection = document.getElementById('bank-section');
@@ -3820,7 +3820,7 @@
         };
         const origSelectNewDevice = window.selectNewDevice;
         window.selectNewDevice = function(...args) {
-            document.getElementById('bank-savings-display')?.classList.add('sehk-opacity');
+            document.getElementById('bank-savings-display')?.classList.add('sehk-hidden');
             return origSelectNewDevice?.apply(this, args);
         };
 
@@ -3952,8 +3952,8 @@
                     const samsungPayCode = useSamsungPay ? '&voucherCode=SPAY2026' : '';
 
                     const magicBase = (lang === 'zh')
-                        ? 'https://www.samsung.com/hk/offer/magic/'
-                        : 'https://www.samsung.com/hk_en/offer/magic/';
+                        ? '/hk/offer/magic/'
+                        : '/hk_en/offer/magic/';
 
                     let magicUrl;
                     if (mode === 'AddSKU') {
