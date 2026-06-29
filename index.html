@@ -4027,7 +4027,7 @@
                 const hasLsv = lsvInfo && lsvInfo.lsvDiscount > 0;
 
                 const chip = document.createElement('div');
-                chip.className = `device-card bg-white border px-5 py-6 rounded-xl cursor-pointer border flex flex-row gap-1 items-center justify-between transition-all ${allOos ? 'text-gray-400 bg-gray-100/80 cursor-not-allowed disabled' : 'cursor-pointer hover:border-[#007AFF]'} ${selectedStorageIndex === idx ? '!border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-300'}`;
+                chip.className = `device-card border px-5 py-6 rounded-xl cursor-pointer border flex flex-row gap-1 items-center justify-between transition-all ${allOos ? 'text-gray-400 bg-gray-100/80 cursor-not-allowed disabled' : 'cursor-pointer bg-white hover:border-[#007AFF]'} ${selectedStorageIndex === idx ? '!border-[#007AFF] ring-1 ring-[#007AFF]' : 'border-gray-300'}`;
 
                 let inner = `<span class="flex-2 font-bold text-base sm:text-[1.1rem]">${opt.storage}</span>`;
                 if (hasLsv || allOos) { inner += `<div class="flex-2 md:flex-3 ml-2">` }
