@@ -167,7 +167,7 @@
                 <div class="font-bold text-xl">███</div>
                 <button onclick="closeGiftModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
             </div>
-            <div id="gift-options" class="space-y-3"></div>
+            <div id="gift-options" class="flex flex-col gap-3"></div>
         </div>
     </div>
 
@@ -214,7 +214,7 @@
 
     <!--<script src="https://cdn.tailwindcss.com"></script>-->
     <!--<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>-->
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
         body {
@@ -340,10 +340,7 @@
         } 
     </style>
 
-    <style>/*! tailwindcss v4.3.1 | MIT License | https://tailwindcss.com */
-      @layer properties;
-      @layer theme, base, components, utilities;
-      @layer theme {
+    <style>
         :root, :host {
           --font-sans: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
           'Noto Color Emoji';
@@ -384,8 +381,6 @@
           --default-font-family: var(--font-sans);
           --default-mono-font-family: var(--font-mono);
         }
-      }
-      @layer base {
         *, ::after, ::before, ::backdrop, ::file-selector-button {
           box-sizing: border-box;
           margin: 0;
@@ -532,8 +527,6 @@
         [hidden]:where(:not([hidden='until-found'])) {
           display: none !important;
         }
-      }
-      @layer utilities {
         .pointer-events-none {
           pointer-events: none;
         }
@@ -1227,7 +1220,6 @@
             border-radius: var(--radius-xl);
           }
         }
-      }
       @property --tw-space-y-reverse {
         syntax: "*";
         inherits: false;
@@ -4974,7 +4966,7 @@
                     const samsungPayCode = useSamsungPay ? '&voucherCode=SPAY2026' : '';
 
                     const magicDomain = !window.location.href.includes('samsung.com') 
-                        ? 'https://www.samsung.com' 
+                        ? 'https://www.samsung.com/' 
                         : '';
 
                     const magicBase = (lang === 'zh')
