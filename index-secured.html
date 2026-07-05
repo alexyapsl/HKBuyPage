@@ -30,6 +30,9 @@
                 <div id="color-label" data-i18n="step2SelectColor" class="text-sm font-medium text-gray-700 mb-2">. . .</div>
                 <div id="color-chips" class="flex flex-wrap gap-2"></div>
                 <div id="selected-sku-hint" class="mt-2 text-sm samsung-blue sehk-hidden"></div>
+                <div id="selected-sku-image" class="flex justify-between mt-3 px-5 py-3 bg-white rounded-xl text-sm font-bold samsung-blue">
+                    <img class="w-50 h-50 w-full sm:h-60 lg:h-60 object-contain">
+                </div>
             </div>
         </div>
 
@@ -141,6 +144,7 @@
     </div>
 
     <!-- Color Picker Modal -->
+    <!--
     <div id="color-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[70] flex items-end sm:items-center justify-center">
         <div class="bg-white w-full sm:w-[420px] sm:rounded-xl rounded-t-2xl p-6 shadow-xl">
             <div class="flex items-center justify-between mb-5">
@@ -159,6 +163,7 @@
             </div>
         </div>
     </div>
+    -->
 
     <!-- Gift Selection Modal -->
     <div id="gift-modal" class="sehk-hidden fixed inset-0 bg-black/50 z-[120] flex items-end lg:items-center justify-center">
@@ -1109,6 +1114,11 @@
             height: calc(var(--spacing) * 36);
           }
         }
+        .sm\:h-60 {
+          @media (width >= 40rem) {
+            height: calc(var(--spacing) * 60);
+          }
+        }
         .sm\:w-\[420px\] {
           @media (width >= 40rem) {
             width: 420px;
@@ -1198,6 +1208,11 @@
             line-height: var(--tw-leading, var(--text-3xl--line-height));
           }
         }
+        .md\:h-46 {
+          @media (width >=64rem) {
+            height: calc(var(--spacing) * 46);
+          }
+        }
         .lg\:m-4 {
           @media (width >= 64rem) {
             margin: calc(var(--spacing) * 4);
@@ -1206,6 +1221,11 @@
         .lg\:w-\[420px\] {
           @media (width >= 64rem) {
             width: 420px;
+          }
+        }
+        .lg\:h-60 {
+          @media (width >=64rem) {
+            height: calc(var(--spacing) * 60);
           }
         }
         .lg\:items-center {
@@ -1608,12 +1628,16 @@
               "name": "Galaxy Z Fold8 Ultra",
               "family": "q8",
               "baseCode": "SM-F9760",
-              "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660zkgtgy-thumb-547656454?$Q90_330_330_F_PNG$",
+              "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-ultra-f976-600605-sm-f9760dgptgy-553867735",
               "storageOptions": [
                 {
                   "storage": "1TB | 16GB",
                   "price": 20798,
                   "colors": [
+                    {
+                      "name": "Green Shadow",
+                      "sku": "SM-F9760DGPTGY"
+                    },
                     {
                       "name": "Graphite",
                       "sku": "SM-F9760ZKPTGY"
@@ -1621,10 +1645,6 @@
                     {
                       "name": "Violet Shadow",
                       "sku": "SM-F9760ZVPTGY"
-                    },
-                    {
-                      "name": "Green Shadow",
-                      "sku": "SM-F9760DGPTGY"
                     }
                   ]
                 },
@@ -1674,12 +1694,16 @@
               "name": "Galaxy Z Fold8",
               "family": "h8",
               "baseCode": "SM-F9710",
-              "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-thumb-547656346?$Q90_330_330_F_PNG$",
+              "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-f971-600620-sm-f9710zgptgy-553869028",
               "storageOptions": [
                 {
                   "storage": "1TB | 16GB",
                   "price": 19198,
                   "colors": [
+                    {
+                      "name": "Pistachio",
+                      "sku": "SM-F9710ZGPTGY"
+                    },
                     {
                       "name": "Graphite",
                       "sku": "SM-F9710ZKPTGY"
@@ -1687,10 +1711,6 @@
                     {
                       "name": "Lavender",
                       "sku": "SM-F9710LVPTGY"
-                    },
-                    {
-                      "name": "Pistachio",
-                      "sku": "SM-F9710ZGPTGY"
                     }
                   ]
                 },
@@ -1740,12 +1760,16 @@
               "name": "Galaxy Z Flip8",
               "family": "b8",
               "baseCode": "SM-F7760",
-              "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660zkatgy-thumb-547656684?$Q90_330_330_F_PNG$",
+              "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-zflip8-f776-600612-sm-f7760lgptgy-553868545",
               "storageOptions": [
                 {
                   "storage": "512GB | 12GB",
                   "price": 11098,
                   "colors": [
+                    {
+                      "name": "Mint",
+                      "sku": "SM-F7760LGPTGY"
+                    },
                     {
                       "name": "Graphite",
                       "sku": "SM-F7760ZKPTGY"
@@ -1753,10 +1777,6 @@
                     {
                       "name": "Pink",
                       "sku": "SM-F7760LIPTGY"
-                    },
-                    {
-                      "name": "Mint",
-                      "sku": "SM-F7760LGPTGY"
                     }
                   ]
                 },
@@ -1793,513 +1813,513 @@
                 "family": "q8",
                 "model": "Galaxy Z Fold8 Ultra",
                 "baseCode": "SM-F9760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660zkgtgy-thumb-547656454?$Q90_330_330_F_PNG$",
-                "storage": "1TB | 16GB",
-                "colorEn": "Graphite",
-                "colorZh": "霧岩灰",
-                "hexCode": "#5b646b",
-                "showInHKBuyPage": true,
-                "estoreExclusive": false,
-                "sku": "SM-F9760ZKPTGY",
-                "rrp": 20798,
-                "lsvDiscount": 1600,
-                "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/",
-                "gifts": []
-              },
-              {
-                "family": "q8",
-                "model": "Galaxy Z Fold8 Ultra",
-                "baseCode": "SM-F9760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660zkgtgy-thumb-547656454?$Q90_330_330_F_PNG$",
-                "storage": "1TB | 16GB",
-                "colorEn": "Violet Shadow",
-                "colorZh": "丁香紫",
-                "hexCode": "#cab0d9",
-                "showInHKBuyPage": true,
-                "estoreExclusive": false,
-                "sku": "SM-F9760ZVPTGY",
-                "rrp": 20798,
-                "lsvDiscount": 1600,
-                "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/",
-                "gifts": []
-              },
-              {
-                "family": "q8",
-                "model": "Galaxy Z Fold8 Ultra",
-                "baseCode": "SM-F9760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660zkgtgy-thumb-547656454?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-ultra-f976-600605-sm-f9760dgptgy-553867735",
                 "storage": "1TB | 16GB",
                 "colorEn": "Green Shadow",
                 "colorZh": "墨翠綠",
-                "hexCode": "#81a1a1",
+                "hexCode": "#3b4e47",
                 "showInHKBuyPage": true,
                 "estoreExclusive": true,
                 "sku": "SM-F9760DGPTGY",
                 "rrp": 20798,
                 "lsvDiscount": 1600,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760DGPTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760DGPTGY",
                 "gifts": []
               },
               {
                 "family": "q8",
                 "model": "Galaxy Z Fold8 Ultra",
                 "baseCode": "SM-F9760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660zkgtgy-thumb-547656454?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-ultra-f976-sm-f9760zkptgy-553866718",
+                "storage": "1TB | 16GB",
+                "colorEn": "Graphite",
+                "colorZh": "霧岩灰",
+                "hexCode": "#5f6367",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F9760ZKPTGY",
+                "rrp": 20798,
+                "lsvDiscount": 1600,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760ZKPTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760ZKPTGY",
+                "gifts": []
+              },
+              {
+                "family": "q8",
+                "model": "Galaxy Z Fold8 Ultra",
+                "baseCode": "SM-F9760",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-ultra-f976-sm-f9760zvptgy-553866783",
+                "storage": "1TB | 16GB",
+                "colorEn": "Violet Shadow",
+                "colorZh": "丁香紫",
+                "hexCode": "#4f4f5c",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F9760ZVPTGY",
+                "rrp": 20798,
+                "lsvDiscount": 1600,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760ZVPTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760ZVPTGY",
+                "gifts": []
+              },
+              {
+                "family": "q8",
+                "model": "Galaxy Z Fold8 Ultra",
+                "baseCode": "SM-F9760",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-ultra-f976-sm-f9760zwotgy-553866822",
                 "storage": "512GB | 12GB",
                 "colorEn": "Cream",
                 "colorZh": "雪絨白",
-                "hexCode": "#fcfbf7",
+                "hexCode": "#f1f1ee",
                 "showInHKBuyPage": true,
                 "estoreExclusive": false,
                 "sku": "SM-F9760ZWOTGY",
                 "rrp": 17598,
                 "lsvDiscount": 800,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760ZWOTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760ZWOTGY",
                 "gifts": []
               },
               {
                 "family": "q8",
                 "model": "Galaxy Z Fold8 Ultra",
                 "baseCode": "SM-F9760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660zkgtgy-thumb-547656454?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-ultra-f976-sm-f9760zkotgy-553866699",
                 "storage": "512GB | 12GB",
                 "colorEn": "Graphite",
                 "colorZh": "霧岩灰",
-                "hexCode": "#5b646b",
+                "hexCode": "#5f6367",
                 "showInHKBuyPage": true,
                 "estoreExclusive": false,
                 "sku": "SM-F9760ZKOTGY",
                 "rrp": 17598,
                 "lsvDiscount": 800,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760ZKOTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760ZKOTGY",
                 "gifts": []
               },
               {
                 "family": "q8",
                 "model": "Galaxy Z Fold8 Ultra",
                 "baseCode": "SM-F9760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660zkgtgy-thumb-547656454?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-ultra-f976-sm-f9760zvotgy-553866764",
                 "storage": "512GB | 12GB",
                 "colorEn": "Violet Shadow",
                 "colorZh": "丁香紫",
-                "hexCode": "#cab0d9",
+                "hexCode": "#4f4f5c",
                 "showInHKBuyPage": true,
                 "estoreExclusive": false,
                 "sku": "SM-F9760ZVOTGY",
                 "rrp": 17598,
                 "lsvDiscount": 800,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760ZVOTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760ZVOTGY",
                 "gifts": []
               },
               {
                 "family": "q8",
                 "model": "Galaxy Z Fold8 Ultra",
                 "baseCode": "SM-F9760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660zkgtgy-thumb-547656454?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-ultra-f976-600605-sm-f9760dgotgy-553867716",
                 "storage": "512GB | 12GB",
                 "colorEn": "Green Shadow",
                 "colorZh": "墨翠綠",
-                "hexCode": "#81a1a1",
+                "hexCode": "#3b4e47",
                 "showInHKBuyPage": true,
                 "estoreExclusive": true,
                 "sku": "SM-F9760DGOTGY",
                 "rrp": 17598,
                 "lsvDiscount": 800,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760DGOTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760DGOTGY",
                 "gifts": []
               },
               {
                 "family": "q8",
                 "model": "Galaxy Z Fold8 Ultra",
                 "baseCode": "SM-F9760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660zkgtgy-thumb-547656454?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-ultra-f976-sm-f9760zwitgy-553866802",
                 "storage": "256GB | 12GB",
                 "colorEn": "Cream",
                 "colorZh": "雪絨白",
-                "hexCode": "#fcfbf7",
+                "hexCode": "#f1f1ee",
                 "showInHKBuyPage": true,
                 "estoreExclusive": false,
                 "sku": "SM-F9760ZWITGY",
                 "rrp": 15998,
                 "lsvDiscount": 0,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760ZWITGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760ZWITGY",
                 "gifts": []
               },
               {
                 "family": "q8",
                 "model": "Galaxy Z Fold8 Ultra",
                 "baseCode": "SM-F9760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660zkgtgy-thumb-547656454?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-ultra-f976-sm-f9760zkitgy-553866680",
                 "storage": "256GB | 12GB",
                 "colorEn": "Graphite",
                 "colorZh": "霧岩灰",
-                "hexCode": "#5b646b",
+                "hexCode": "#5f6367",
                 "showInHKBuyPage": true,
                 "estoreExclusive": false,
                 "sku": "SM-F9760ZKITGY",
                 "rrp": 15998,
                 "lsvDiscount": 0,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760ZKITGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760ZKITGY",
                 "gifts": []
               },
               {
                 "family": "q8",
                 "model": "Galaxy Z Fold8 Ultra",
                 "baseCode": "SM-F9760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660zkgtgy-thumb-547656454?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-ultra-f976-sm-f9760zvitgy-553866737",
                 "storage": "256GB | 12GB",
                 "colorEn": "Violet Shadow",
                 "colorZh": "丁香紫",
-                "hexCode": "#cab0d9",
+                "hexCode": "#4f4f5c",
                 "showInHKBuyPage": true,
                 "estoreExclusive": false,
                 "sku": "SM-F9760ZVITGY",
                 "rrp": 15998,
                 "lsvDiscount": 0,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760ZVITGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8-ultra/buy/?modelCode=SM-F9760ZVITGY",
                 "gifts": []
               },
               {
                 "family": "h8",
                 "model": "Galaxy Z Fold8",
                 "baseCode": "SM-F9710",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-thumb-547656346?$Q90_330_330_F_PNG$",
-                "storage": "1TB | 16GB",
-                "colorEn": "Graphite",
-                "colorZh": "霧岩灰",
-                "hexCode": "#5b646b",
-                "showInHKBuyPage": true,
-                "estoreExclusive": false,
-                "sku": "SM-F9710ZKPTGY",
-                "rrp": 19198,
-                "lsvDiscount": 1600,
-                "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/",
-                "gifts": []
-              },
-              {
-                "family": "h8",
-                "model": "Galaxy Z Fold8",
-                "baseCode": "SM-F9710",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-thumb-547656346?$Q90_330_330_F_PNG$",
-                "storage": "1TB | 16GB",
-                "colorEn": "Lavender",
-                "colorZh": "迷迭紫",
-                "hexCode": "#9897c7",
-                "showInHKBuyPage": true,
-                "estoreExclusive": false,
-                "sku": "SM-F9710LVPTGY",
-                "rrp": 19198,
-                "lsvDiscount": 1600,
-                "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/",
-                "gifts": []
-              },
-              {
-                "family": "h8",
-                "model": "Galaxy Z Fold8",
-                "baseCode": "SM-F9710",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-thumb-547656346?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-f971-600620-sm-f9710zgptgy-553869028",
                 "storage": "1TB | 16GB",
                 "colorEn": "Pistachio",
                 "colorZh": "琥珀綠",
-                "hexCode": "#99ba82",
+                "hexCode": "#abc4c0",
                 "showInHKBuyPage": true,
                 "estoreExclusive": true,
                 "sku": "SM-F9710ZGPTGY",
                 "rrp": 19198,
                 "lsvDiscount": 1600,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710ZGPTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710ZGPTGY",
                 "gifts": []
               },
               {
                 "family": "h8",
                 "model": "Galaxy Z Fold8",
                 "baseCode": "SM-F9710",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-thumb-547656346?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-f971-sm-f9710zkptgy-553868047",
+                "storage": "1TB | 16GB",
+                "colorEn": "Graphite",
+                "colorZh": "霧岩灰",
+                "hexCode": "#5f6367",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F9710ZKPTGY",
+                "rrp": 19198,
+                "lsvDiscount": 1600,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710ZKPTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710ZKPTGY",
+                "gifts": []
+              },
+              {
+                "family": "h8",
+                "model": "Galaxy Z Fold8",
+                "baseCode": "SM-F9710",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-f971-sm-f9710lvptgy-553868002",
+                "storage": "1TB | 16GB",
+                "colorEn": "Lavender",
+                "colorZh": "迷迭紫",
+                "hexCode": "#bcb7ca",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F9710LVPTGY",
+                "rrp": 19198,
+                "lsvDiscount": 1600,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710LVPTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710LVPTGY",
+                "gifts": []
+              },
+              {
+                "family": "h8",
+                "model": "Galaxy Z Fold8",
+                "baseCode": "SM-F9710",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-f971-sm-f9710zwotgy-553868077",
                 "storage": "512GB | 12GB",
                 "colorEn": "Cream",
                 "colorZh": "雪絨白",
-                "hexCode": "#fcfbf7",
+                "hexCode": "#f1f1ee",
                 "showInHKBuyPage": true,
                 "estoreExclusive": false,
                 "sku": "SM-F9710ZWOTGY",
                 "rrp": 15998,
                 "lsvDiscount": 800,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710ZWOTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710ZWOTGY",
                 "gifts": []
               },
               {
                 "family": "h8",
                 "model": "Galaxy Z Fold8",
                 "baseCode": "SM-F9710",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-thumb-547656346?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-f971-sm-f9710zkotgy-553868032",
                 "storage": "512GB | 12GB",
                 "colorEn": "Graphite",
                 "colorZh": "霧岩灰",
-                "hexCode": "#5b646b",
+                "hexCode": "#5f6367",
                 "showInHKBuyPage": true,
                 "estoreExclusive": false,
                 "sku": "SM-F9710ZKOTGY",
                 "rrp": 15998,
                 "lsvDiscount": 800,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710ZKOTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710ZKOTGY",
                 "gifts": []
               },
               {
                 "family": "h8",
                 "model": "Galaxy Z Fold8",
                 "baseCode": "SM-F9710",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-thumb-547656346?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-f971-sm-f9710lvotgy-553867987",
                 "storage": "512GB | 12GB",
                 "colorEn": "Lavender",
                 "colorZh": "迷迭紫",
-                "hexCode": "#9897c7",
+                "hexCode": "#bcb7ca",
                 "showInHKBuyPage": true,
                 "estoreExclusive": false,
                 "sku": "SM-F9710LVOTGY",
                 "rrp": 15998,
                 "lsvDiscount": 800,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710LVOTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710LVOTGY",
                 "gifts": []
               },
               {
                 "family": "h8",
                 "model": "Galaxy Z Fold8",
                 "baseCode": "SM-F9710",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-thumb-547656346?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-f971-600620-sm-f9710zgotgy-553869013",
                 "storage": "512GB | 12GB",
                 "colorEn": "Pistachio",
                 "colorZh": "琥珀綠",
-                "hexCode": "#99ba82",
+                "hexCode": "#abc4c0",
                 "showInHKBuyPage": true,
                 "estoreExclusive": true,
                 "sku": "SM-F9710ZGOTGY",
                 "rrp": 15998,
                 "lsvDiscount": 800,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710ZGOTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710ZGOTGY",
                 "gifts": []
               },
               {
                 "family": "h8",
                 "model": "Galaxy Z Fold8",
                 "baseCode": "SM-F9710",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-thumb-547656346?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-f971-sm-f9710zwitgy-553868062",
                 "storage": "256GB | 12GB",
                 "colorEn": "Cream",
                 "colorZh": "雪絨白",
-                "hexCode": "#fcfbf7",
+                "hexCode": "#f1f1ee",
                 "showInHKBuyPage": true,
                 "estoreExclusive": false,
                 "sku": "SM-F9710ZWITGY",
                 "rrp": 14398,
                 "lsvDiscount": 0,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710ZWITGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710ZWITGY",
                 "gifts": []
               },
               {
                 "family": "h8",
                 "model": "Galaxy Z Fold8",
                 "baseCode": "SM-F9710",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-thumb-547656346?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-f971-sm-f9710zkitgy-553868017",
                 "storage": "256GB | 12GB",
                 "colorEn": "Graphite",
                 "colorZh": "霧岩灰",
-                "hexCode": "#5b646b",
+                "hexCode": "#5f6367",
                 "showInHKBuyPage": true,
                 "estoreExclusive": false,
                 "sku": "SM-F9710ZKITGY",
                 "rrp": 14398,
                 "lsvDiscount": 0,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710ZKITGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710ZKITGY",
                 "gifts": []
               },
               {
                 "family": "h8",
                 "model": "Galaxy Z Fold8",
                 "baseCode": "SM-F9710",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-z-fold7-f966-sm-f9660dbgtgy-thumb-547656346?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-z-fold8-f971-sm-f9710lvitgy-553867945",
                 "storage": "256GB | 12GB",
                 "colorEn": "Lavender",
                 "colorZh": "迷迭紫",
-                "hexCode": "#9897c7",
+                "hexCode": "#bcb7ca",
                 "showInHKBuyPage": true,
                 "estoreExclusive": false,
                 "sku": "SM-F9710LVITGY",
                 "rrp": 14398,
                 "lsvDiscount": 0,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710LVITGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-fold8/buy/?modelCode=SM-F9710LVITGY",
                 "gifts": []
               },
               {
                 "family": "b8",
                 "model": "Galaxy Z Flip8",
                 "baseCode": "SM-F7760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660zkatgy-thumb-547656684?$Q90_330_330_F_PNG$",
-                "storage": "512GB | 12GB",
-                "colorEn": "Graphite",
-                "colorZh": "霧岩灰",
-                "hexCode": "#5b646b",
-                "showInHKBuyPage": true,
-                "estoreExclusive": false,
-                "sku": "SM-F7760ZKPTGY",
-                "rrp": 11098,
-                "lsvDiscount": 800,
-                "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip8/buy/",
-                "gifts": []
-              },
-              {
-                "family": "b8",
-                "model": "Galaxy Z Flip8",
-                "baseCode": "SM-F7760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660zkatgy-thumb-547656684?$Q90_330_330_F_PNG$",
-                "storage": "512GB | 12GB",
-                "colorEn": "Pink",
-                "colorZh": "櫻花粉",
-                "hexCode": "#fcccd0",
-                "showInHKBuyPage": true,
-                "estoreExclusive": false,
-                "sku": "SM-F7760LIPTGY",
-                "rrp": 11098,
-                "lsvDiscount": 800,
-                "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip8/buy/",
-                "gifts": []
-              },
-              {
-                "family": "b8",
-                "model": "Galaxy Z Flip8",
-                "baseCode": "SM-F7760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660zkatgy-thumb-547656684?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-zflip8-f776-600612-sm-f7760lgptgy-553868545",
                 "storage": "512GB | 12GB",
                 "colorEn": "Mint",
                 "colorZh": "晶瑛綠",
-                "hexCode": "#a9cfc6",
+                "hexCode": "#e7efe7",
                 "showInHKBuyPage": true,
                 "estoreExclusive": true,
                 "sku": "SM-F7760LGPTGY",
                 "rrp": 11098,
                 "lsvDiscount": 800,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip8/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip8/buy/?modelCode=SM-F7760LGPTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip8/buy/?modelCode=SM-F7760LGPTGY",
                 "gifts": []
               },
               {
                 "family": "b8",
                 "model": "Galaxy Z Flip8",
                 "baseCode": "SM-F7760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660zkatgy-thumb-547656684?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-zflip8-f776-sm-f7760zkptgy-553868422",
+                "storage": "512GB | 12GB",
+                "colorEn": "Graphite",
+                "colorZh": "霧岩灰",
+                "hexCode": "#5f6367",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F7760ZKPTGY",
+                "rrp": 11098,
+                "lsvDiscount": 800,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip8/buy/?modelCode=SM-F7760ZKPTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip8/buy/?modelCode=SM-F7760ZKPTGY",
+                "gifts": []
+              },
+              {
+                "family": "b8",
+                "model": "Galaxy Z Flip8",
+                "baseCode": "SM-F7760",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-zflip8-f776-sm-f7760liptgy-553868380",
+                "storage": "512GB | 12GB",
+                "colorEn": "Pink",
+                "colorZh": "櫻花粉",
+                "hexCode": "#f2dee9",
+                "showInHKBuyPage": true,
+                "estoreExclusive": false,
+                "sku": "SM-F7760LIPTGY",
+                "rrp": 11098,
+                "lsvDiscount": 800,
+                "InStockStatus": "Y",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip8/buy/?modelCode=SM-F7760LIPTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip8/buy/?modelCode=SM-F7760LIPTGY",
+                "gifts": []
+              },
+              {
+                "family": "b8",
+                "model": "Galaxy Z Flip8",
+                "baseCode": "SM-F7760",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-zflip8-f776-sm-f7760zwotgy-553868443",
                 "storage": "256GB | 12GB",
                 "colorEn": "Cream",
                 "colorZh": "雪絨白",
-                "hexCode": "#fcfbf7",
+                "hexCode": "#f1f1ee",
                 "showInHKBuyPage": true,
                 "estoreExclusive": false,
                 "sku": "SM-F7760ZWOTGY",
                 "rrp": 9498,
                 "lsvDiscount": 0,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip8/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip8/buy/?modelCode=SM-F7760ZWOTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip8/buy/?modelCode=SM-F7760ZWOTGY",
                 "gifts": []
               },
               {
                 "family": "b8",
                 "model": "Galaxy Z Flip8",
                 "baseCode": "SM-F7760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660zkatgy-thumb-547656684?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-zflip8-f776-sm-f7760zkotgy-553868401",
                 "storage": "256GB | 12GB",
                 "colorEn": "Graphite",
                 "colorZh": "霧岩灰",
-                "hexCode": "#5b646b",
+                "hexCode": "#5f6367",
                 "showInHKBuyPage": true,
                 "estoreExclusive": false,
                 "sku": "SM-F7760ZKOTGY",
                 "rrp": 9498,
                 "lsvDiscount": 0,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip8/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip8/buy/?modelCode=SM-F7760ZKOTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip8/buy/?modelCode=SM-F7760ZKOTGY",
                 "gifts": []
               },
               {
                 "family": "b8",
                 "model": "Galaxy Z Flip8",
                 "baseCode": "SM-F7760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660zkatgy-thumb-547656684?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-zflip8-f776-sm-f7760liotgy-553868359",
                 "storage": "256GB | 12GB",
                 "colorEn": "Pink",
                 "colorZh": "櫻花粉",
-                "hexCode": "#fcccd0",
+                "hexCode": "#f2dee9",
                 "showInHKBuyPage": true,
                 "estoreExclusive": false,
                 "sku": "SM-F7760LIOTGY",
                 "rrp": 9498,
                 "lsvDiscount": 0,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip8/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip8/buy/?modelCode=SM-F7760LIOTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip8/buy/?modelCode=SM-F7760LIOTGY",
                 "gifts": []
               },
               {
                 "family": "b8",
                 "model": "Galaxy Z Flip8",
                 "baseCode": "SM-F7760",
-                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2507/gallery/hk-galaxy-zflip7-f766-sm-f7660zkatgy-thumb-547656684?$Q90_330_330_F_PNG$",
+                "image": "https://images.samsung.com/is/image/samsung/p6pim/hk/f2607/gallery/hk-en-galaxy-zflip8-f776-600612-sm-f7760lgotgy-553868524",
                 "storage": "256GB | 12GB",
                 "colorEn": "Mint",
                 "colorZh": "晶瑛綠",
-                "hexCode": "#a9cfc6",
+                "hexCode": "#e7efe7",
                 "showInHKBuyPage": true,
                 "estoreExclusive": true,
                 "sku": "SM-F7760LGOTGY",
                 "rrp": 9498,
                 "lsvDiscount": 0,
                 "InStockStatus": "Y",
-                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip8/buy/",
-                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip8/buy/",
+                "oosLink": "https://www.samsung.com/hk/smartphones/galaxy-z-flip8/buy/?modelCode=SM-F7760LGOTGY",
+                "oosLinkEn": "https://www.samsung.com/hk_en/smartphones/galaxy-z-flip8/buy/?modelCode=SM-F7760LGOTGY",
                 "gifts": []
               }
             ]
@@ -4592,6 +4612,13 @@
             renderStorageChips();
             updateStickyBar();
 
+            const skuImageContainer = document.getElementById('selected-sku-image');
+            if (skuImageContainer) {
+                skuImageContainer.classList.add('sehk-hidden');
+                const img = skuImageContainer.querySelector('img');
+                if (img) img.src = '';
+            }
+
             storageSec.style.display = '';
             storageSec.classList.remove('sehk-opacity');
             
@@ -4677,7 +4704,7 @@
                 document.getElementById('tradein-value-display').classList.add('sehk-opacity');
 
                 setTimeout(() => {
-                    document.getElementById('tradein-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    document.getElementById('tradein-section').scrollIntoView({ behavior: 'smooth', block: 'end' });
                 }, 150);
             } else {
                 document.getElementById('tradein-section').classList.add('sehk-opacity');
@@ -4867,6 +4894,13 @@
                         if (helperEl) helperEl.classList.add('sehk-hidden');
 
                         updateStickyBar();
+
+                        const skuImageContainer = document.getElementById('selected-sku-image');
+                        if (skuImageContainer) {
+                            skuImageContainer.classList.add('sehk-hidden');
+                            const img = skuImageContainer.querySelector('img');
+                            if (img) img.src = '';
+                        }
                     };
                 }
 
@@ -4897,7 +4931,7 @@
             selectedSku = null;
 
             setTimeout(() => {
-                section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                section.scrollIntoView({ behavior: 'smooth', block: 'top' });
             }, 120);
 
             storageOpt.colors.forEach((color, i) => {
@@ -4938,6 +4972,24 @@
                         selectedSku = color.sku;
                         if (hint) { hint.textContent = t('skuResolved') + ' ' + selectedSku; hint.classList.remove('sehk-opacity'); }
 
+                        const skuImageContainer = document.getElementById('selected-sku-image');
+                        if (skuImageContainer) {
+                            let img = skuImageContainer.querySelector('img');
+                            if (!img) {
+                                img = document.createElement('img');
+                                skuImageContainer.appendChild(img);
+                            }
+                            
+                            const imgUrl = color.image || canonical.image || color.imageUrl;
+                            
+                            if (imgUrl) {
+                                img.src = imgUrl;
+                                skuImageContainer.classList.remove('sehk-hidden');
+                            } else {
+                                skuImageContainer.classList.add('sehk-hidden');
+                            }
+                        }
+
                         trackEvent(
                             'product_option-flagship pdp-option selector-option_click3',
                             `color:${colorNameDisplay}`,
@@ -4948,7 +5000,7 @@
                         if (tradeInSec) {
                             tradeInSec.classList.remove('sehk-opacity');
                             setTimeout(() => {
-                                tradeInSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                tradeInSec.scrollIntoView({ behavior: 'smooth', block: 'end' });
                             }, 120);
                         }
 
