@@ -302,12 +302,12 @@
             logEvent('ga', `gtag add_to_cart - ${productName}`);
             logEvent('dl', `dataLayer push - ${customLabel}`);
             
-            // Always open the fixed SKU on the magic link regardless of selections
+            // Use direct Samsung addToCart endpoint (QS form) instead of magic link
             setTimeout(() => {
-                const magicBase = 'https://www.samsung.com/hk/offer/magic/';
-                const magicUrl = `${magicBase}?productCode[1]=${fixedSku}&productQty[1]=1&store=B2C&newCart=true`;
-                logEvent('info', `Opening magic link → ${magicUrl}`);
-                window.open(magicUrl, '_blank');
+                const addToCartUrl = `https://shop.samsung.com/tokocommercewebservices/v2/hk/addToCart/multi?products%5B0%5D.productCode=${fixedSku}&products%5B0%5D.qty=1`;
+                logEvent('info', `Calling addToCart → ${addToCartUrl}`);
+                // Open in new tab so tracking is complete and user lands on updated cart
+                window.open(addToCartUrl, '_blank');
             }, 600);
         }
 
