@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HKBuyPage Tracking Test • Omnibug</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- ===================================================== -->
+    <!-- REAL TRACKING SCRIPTS - Replace IDs with your real ones -->
+    <!-- ===================================================== -->
+    
+    <!-- Facebook Pixel -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        
+        // TEST Pixel ID - replace with your real one
+        fbq('init', '123456789012345');
+        fbq('track', 'PageView');
+        
+        console.log('%c[FB Pixel] Initialized with test ID', 'color:#1877F2');
+    </script>
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        
+        // TEST GA4 ID - replace with your real one
+        gtag('config', 'G-XXXXXXXXXX', {
+            debug_mode: true
+        });
+        
+        console.log('%c[GA4] Initialized with test ID', 'color:#4285F4');
+    </script>
+    
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; }
+        .event-log { font-family: ui-monospace, monospace; font-size: 12px; }
+        .pixel-event { border-left: 3px solid #1877F2; }
+        .ga4-event { border-left: 3px solid #4285F4; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="max-w-4xl mx-auto p-8">
+        <div class="mb-8">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-medium">
+                <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                TRACKING TEST MODE
+            </div>
+            <h1 class="text-4xl font-semibold tracking-tight mt-3">HKBuyPage Tracking Simulator</h1>
+            <p class="text-gray-600 mt-1">Use with Omnibug to verify FB Pixel + GA4 events</p>
+        </div>
+
+        <!-- Tracking Status -->
+        <div class="bg-white rounded-2xl p-6 mb-8 border">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div>
+                    <div class="font-medium text-gray-500">Facebook Pixel</div>
+                    <div class="font-mono text-[#1877F2]">123456789012345 (TEST)</div>
+                </div>
+                <div>
+                    <div class="font-medium text-gray-500">Google Analytics 4</div>
+                    <div class="font-mono text-[#4285F4]">G-XXXXXXXXXX (TEST)</div>
+                </div>
+            </div>
+            <div class="mt-4 text-xs text-gray-500">
+                Open Omnibug → refresh this page → interact with buttons below.<br>
+                Replace the test IDs above with your real Pixel/GA4 IDs when ready.
+            </div>
+        </div>
+
+        <!-- Step 1: Device Selection -->
+        <div class="mb-8">
+            <div class="text-xs font-semibold tracking-[0.5px] text-gray-500 mb-3">STEP 1 — SELECT DEVICE</div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="device-grid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Step 2: Storage & Color -->
+        <div id="storage-section" class="mb-8 hidden">
+            <div class="text-xs font-semibold tracking-[0.5px] text-gray-500 mb-3">STEP 2 — STORAGE + COLOR</div>
+            <div class="bg-white rounded-2xl p-6 border">
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <div class="text-sm font-medium mb-2">Storage</div>
+                        <div id="storage-chips" class="flex flex-wrap gap-2"></div>
+                    </div>
+                    <div>
+                        <div class="text-sm font-medium mb-2">Color</div>
+                        <div id="color-chips" class="flex flex-wrap gap-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Add to Cart -->
+        <div id="cart-section" class="mb-8 hidden">
+            <div class="text-xs font-semibold tracking-[0.5px] text-gray-500 mb-3">STEP 3 — ADD TO CART</div>
+            <button onclick="simulateAddToCart()"
+                    class="w-full py-4 bg-[#007AFF] hover:bg-[#0066CC] text-white font-semibold rounded-2xl transition-colors">
+                Add to Cart & Fire Tracking Events
+            </button>
+            <div class="text-center text-xs text-gray-500 mt-2">This fires fbq + gtag + dataLayer events</div>
+        </div>
+
+        <!-- Event Log -->
+        <div class="bg-white rounded-2xl border p-6">
+            <div class="flex items-center justify-between mb-4">
+                <div class="font-semibold">Event Log (Omnibug visible events)</div>
+                <button onclick="clearLog()" class="text-xs px-3 py-1 bg-gray-100 rounded-lg hover:bg-gray-200">Clear</button>
+            </div>
+            <div id="event-log" class="event-log bg-gray-950 text-emerald-400 p-4 rounded-xl h-64 overflow-auto text-xs"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simple device data
+        const devices = [
+            { sku: 'SM-S928BZKDXHK', name: 'Galaxy S25 Ultra', storage: ['256GB','512GB','1TB'], colors: ['Titanium Black','Titanium Gray','Titanium Blue'] },
+            { sku: 'SM-S931BZKDXHK', name: 'Galaxy S25', storage: ['128GB','256GB'], colors: ['Navy','Silver Shadow','Icy Blue'] },
+            { sku: 'SM-F761BZKDXHK', name: 'Galaxy Z Flip6', storage: ['256GB'], colors: ['Mint','Graphite','Blue'] }
+        ];
+        
+        let selectedDevice = null;
+        let selectedStorage = null;
+        let selectedColor = null;
+
+        function logEvent(type, message, data = {}) {
+            const log = document.getElementById('event-log');
+            const time = new Date().toLocaleTimeString();
+            const line = document.createElement('div');
+            line.className = `mb-1 px-2 py-1 rounded ${type === 'fb' ? 'pixel-event bg-[#1877F2]/10' : type === 'ga' ? 'ga4-event bg-[#4285F4]/10' : 'bg-white/5'}`;
+            line.innerHTML = `<span class="text-gray-400">[${time}]</span> ${message}`;
+            log.appendChild(line);
+            log.scrollTop = log.scrollHeight;
+            
+            // Also log to console for convenience
+            console.log(`[${type.toUpperCase()}]`, message, data);
+        }
+
+        function clearLog() {
+            document.getElementById('event-log').innerHTML = '';
+        }
+
+        // Render device cards
+        function renderDevices() {
+            const container = document.getElementById('device-grid');
+            container.innerHTML = '';
+            
+            devices.forEach((device, idx) => {
+                const card = document.createElement('div');
+                card.className = `device-card border rounded-2xl p-4 cursor-pointer hover:border-[#007AFF] bg-white`;
+                card.innerHTML = `
+                    <div class="font-semibold">${device.name}</div>
+                    <div class="text-xs text-gray-500 mt-1 font-mono">${device.sku}</div>
+                `;
+                card.onclick = () => selectDevice(idx, card);
+                container.appendChild(card);
+            });
+        }
+
+        function selectDevice(idx, cardEl) {
+            // Deselect others
+            document.querySelectorAll('#device-grid > div').forEach(el => el.classList.remove('border-[#007AFF]'));
+            cardEl.classList.add('border-[#007AFF]');
+            
+            selectedDevice = devices[idx];
+            selectedStorage = null;
+            selectedColor = null;
+            
+            // Fire tracking
+            const label = `device_selected:${selectedDevice.name}`;
+            fbq('trackCustom', 'PDP_OptionClick', { action: label });
+            gtag('event', 'select_item', { item_name: selectedDevice.name, item_id: selectedDevice.sku });
+            dataLayer.push({ event: 'pd_buying_tool_interaction', an_tr: label });
+            
+            logEvent('fb', `fbq trackCustom PDP_OptionClick - ${label}`);
+            logEvent('ga', `gtag select_item - ${selectedDevice.name}`);
+            logEvent('dl', `dataLayer push - ${label}`);
+            
+            // Show storage section
+            document.getElementById('storage-section').classList.remove('hidden');
+            renderStorageAndColor();
+            
+            document.getElementById('cart-section').classList.add('hidden');
+        }
+
+        function renderStorageAndColor() {
+            // Storage chips
+            const storageContainer = document.getElementById('storage-chips');
+            storageContainer.innerHTML = '';
+            selectedDevice.storage.forEach(storage => {
+                const chip = document.createElement('div');
+                chip.className = `px-4 py-2 rounded-full border text-sm cursor-pointer hover:border-[#007AFF]`;
+                chip.textContent = storage;
+                chip.onclick = () => selectStorage(storage, chip);
+                storageContainer.appendChild(chip);
+            });
+            
+            // Color chips
+            const colorContainer = document.getElementById('color-chips');
+            colorContainer.innerHTML = '';
+            selectedDevice.colors.forEach(color => {
+                const chip = document.createElement('div');
+                chip.className = `px-4 py-2 rounded-full border text-sm cursor-pointer hover:border-[#007AFF]`;
+                chip.textContent = color;
+                chip.onclick = () => selectColor(color, chip);
+                colorContainer.appendChild(chip);
+            });
+        }
+
+        function selectStorage(storage, chipEl) {
+            document.querySelectorAll('#storage-chips > div').forEach(el => el.classList.remove('border-[#007AFF]'));
+            chipEl.classList.add('border-[#007AFF]');
+            
+            selectedStorage = storage;
+            
+            const label = `storage_selected:${storage}`;
+            fbq('trackCustom', 'PDP_OptionClick', { action: label });
+            gtag('event', 'select_item', { item_name: `${selectedDevice.name} ${storage}` });
+            dataLayer.push({ event: 'pd_buying_tool_interaction', an_tr: label });
+            
+            logEvent('fb', `fbq - ${label}`);
+            logEvent('ga', `gtag - storage ${storage}`);
+            
+            checkReadyForCart();
+        }
+
+        function selectColor(color, chipEl) {
+            document.querySelectorAll('#color-chips > div').forEach(el => el.classList.remove('border-[#007AFF]'));
+            chipEl.classList.add('border-[#007AFF]');
+            
+            selectedColor = color;
+            
+            const label = `color_selected:${color}`;
+            fbq('trackCustom', 'PDP_OptionClick', { action: label });
+            gtag('event', 'select_item', { item_name: color });
+            dataLayer.push({ event: 'pd_buying_tool_interaction', an_tr: label });
+            
+            logEvent('fb', `fbq - ${label}`);
+            logEvent('ga', `gtag - color ${color}`);
+            
+            checkReadyForCart();
+        }
+
+        function checkReadyForCart() {
+            if (selectedStorage && selectedColor) {
+                document.getElementById('cart-section').classList.remove('hidden');
+            }
+        }
+
+        function simulateAddToCart() {
+            if (!selectedDevice || !selectedStorage || !selectedColor) return;
+            
+            const sku = selectedDevice.sku;
+            const productName = `${selectedDevice.name} ${selectedStorage} ${selectedColor}`;
+            
+            // Standard FB Pixel + GA4 events (what you'd normally fire on "Add to Cart")
+            fbq('track', 'AddToCart', {
+                content_name: productName,
+                content_category: 'Galaxy Devices',
+                content_ids: [sku],
+                value: 8999,
+                currency: 'HKD'
+            });
+            
+            gtag('event', 'add_to_cart', {
+                currency: 'HKD',
+                value: 8999,
+                items: [{
+                    item_id: sku,
+                    item_name: productName,
+                    item_category: 'Galaxy Devices',
+                    quantity: 1
+                }]
+            });
+            
+            // Custom event matching your existing trackEvent style
+            const customLabel = `add_to_cart_magic:${sku}`;
+            dataLayer.push({
+                event: 'pd_buying_tool_interaction',
+                an_tr: customLabel,
+                an_ca: 'cart',
+                an_ac: 'add_to_cart',
+                an_la: productName
+            });
+            
+            logEvent('fb', `fbq AddToCart - ${productName} (HK$8999)`);
+            logEvent('ga', `gtag add_to_cart - ${productName}`);
+            logEvent('dl', `dataLayer push - ${customLabel}`);
+            
+            // Simulate magic link opening (as in real flow)
+            setTimeout(() => {
+                const magicBase = 'https://www.samsung.com/hk/offer/magic/';
+                const magicUrl = `${magicBase}?productCode[1]=${sku}&productQty[1]=1&store=B2C&newCart=true`;
+                logEvent('info', `Would open magic link: ${magicUrl}`);
+                // Uncomment to actually open:
+                // window.open(magicUrl, '_blank');
+            }, 800);
+        }
+
+        // Boot
+        function init() {
+            renderDevices();
+            
+            // Initial page view events already fired above
+            logEvent('fb', 'fbq PageView (auto)');
+            logEvent('ga', 'gtag config (auto)');
+            logEvent('info', 'Page ready - start clicking devices');
+            
+            // Helpful hint
+            console.log('%c[Omnibug Test] Open Omnibug extension now. Events will appear here and in the network tab.', 'color:#666');
+        }
+        
+        window.onload = init;
+    </script>
+</body>
+</html>
