@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-// Stable CSV export (not the flaky gviz/tq one)
+// Stable CSV export
 const SHEET_ID = '1bXyzOFAQEozdzRcLiLgkBC7AkZtfnlgDlsQsXN4s5kg';
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
 
