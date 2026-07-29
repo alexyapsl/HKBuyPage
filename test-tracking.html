@@ -302,12 +302,27 @@
             logEvent('ga', `gtag add_to_cart - ${productName}`);
             logEvent('dl', `dataLayer push - ${customLabel}`);
             
-            // Use direct Samsung addToCart endpoint (QS form) instead of magic link
-            setTimeout(() => {
+            // Background call to addToCart API, then redirect to nice cart page on success
+            setTimeout(async () => {
                 const addToCartUrl = `https://shop.samsung.com/tokocommercewebservices/v2/hk/addToCart/multi?products%5B0%5D.productCode=${fixedSku}&products%5B0%5D.qty=1`;
-                logEvent('info', `Calling addToCart → ${addToCartUrl}`);
-                // Open in new tab so tracking is complete and user lands on updated cart
-                window.open(addToCartUrl, '_blank');
+                const cartPageUrl = 'https://shop.samsung.com/hk/cart';
+
+                logEvent('info', `Background addToCart → ${addToCartUrl}`);
+
+                try {
+                    const res = await fetch(addToCartUrl, { method: 'GET', credentials: 'include' });
+                    if (res.ok) {
+                        logEvent('info', `addToCart returned ${res.status} → opening cart page`);
+                        window.open(cartPageUrl, '_blank');
+                    } else {
+                        logEvent('info', `addToCart returned ${res.status} – trying cart page anyway`);
+                        window.open(cartPageUrl, '_blank');
+                    }
+                } catch (e) {
+                    // Likely CORS or network error – still try to send user to cart
+                    logEvent('info', `addToCart fetch error (CORS?) – redirecting to cart`);
+                    window.open(cartPageUrl, '_blank');
+                }
             }, 600);
         }
 
