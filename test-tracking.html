@@ -300,14 +300,13 @@
             logEvent('ga', `gtag add_to_cart - ${productName}`);
             logEvent('dl', `dataLayer push - ${customLabel}`);
             
-            // Simulate magic link opening (as in real flow)
+            // Actually open Samsung magic link (same as real flow) so you land on cart
             setTimeout(() => {
                 const magicBase = 'https://www.samsung.com/hk/offer/magic/';
                 const magicUrl = `${magicBase}?productCode[1]=${sku}&productQty[1]=1&store=B2C&newCart=true`;
-                logEvent('info', `Would open magic link: ${magicUrl}`);
-                // Uncomment to actually open:
-                // window.open(magicUrl, '_blank');
-            }, 800);
+                logEvent('info', `Opening magic link → ${magicUrl}`);
+                window.open(magicUrl, '_blank');
+            }, 600);
         }
 
         // Boot
