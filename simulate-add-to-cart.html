@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulated Samsung Flow - SM-S9480ZDPTGY</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            max-width: 720px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        h1 { margin-top: 0; color: #1a1a1a; }
+        button {
+            background: #1428a0;
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            font-size: 18px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover { background: #0d1f7a; }
+        button:disabled { background: #999; cursor: wait; }
+        #status {
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 8px;
+            display: none;
+            white-space: pre-line;
+        }
+        .success { background: #e8f5e9; color: #2e7d32; }
+        .error { background: #ffebee; color: #c62828; }
+        .info { background: #e3f2fd; color: #1565c0; }
+        .note {
+            font-size: 13px;
+            color: #666;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🛒 Simulated Samsung Add-to-Cart</h1>
+        <p>This page always adds <strong>SM-S9480ZDPTGY</strong> (Galaxy Z Fold8) using the direct endpoint you provided.</p>
+        
+        <button id="addBtn">Add SM-S9480ZDPTGY to Cart (Background)</button>
+        
+        <div id="status"></div>
+        
+        <div class="note">
+            <strong>Tracking note:</strong> Once redirected to shop.samsung.com/cart, FB/Google pixels will disappear 
+            exactly like the official Samsung offer page (different domain boundary).
+        </div>
+    </div>
+
+    <script>
+        const ADD_TO_CART_URL = 'https://shop.samsung.com/tokocommercewebservices/v2/hk/addToCart/multi?products%5B0%5D.productCode=SM-S9480ZDPTGY&products%5B0%5D.qty=1';
+        const CART_URL = 'https://shop.samsung.com/hk/cart';
+
+        const btn = document.getElementById('addBtn');
+        const statusDiv = document.getElementById('status');
+
+        function showStatus(msg, type = 'info') {
+            statusDiv.style.display = 'block';
+            statusDiv.className = type;
+            statusDiv.textContent = msg;
+        }
+
+        async function addToCartAndRedirect() {
+            btn.disabled = true;
+            showStatus('Calling Samsung add-to-cart endpoint in background...', 'info');
+
+            try {
+                // Use no-cors mode first to avoid preflight/CORS issues in testing
+                // This will fail to read the response but will still trigger the server action
+                const response = await fetch(ADD_TO_CART_URL, {
+                    method: 'GET',
+                    mode: 'no-cors',              // bypass CORS for testing
+                    credentials: 'include',       // send cookies if user is logged into Samsung
+                    cache: 'no-cache'
+                });
+
+                // With no-cors we can't read status, so we assume success after ~1.5s
+                showStatus('Request sent. Redirecting to cart in 1.5 seconds...', 'success');
+
+                setTimeout(() => {
+                    window.location.href = CART_URL;
+                }, 1500);
+
+            } catch (err) {
+                console.error(err);
+                showStatus(
+                    `Fetch error (this is often expected with no-cors mode).\n` +
+                    `Still redirecting to cart page...\n\n` +
+                    `Error details: ${err.message}`,
+                    'error'
+                );
+
+                setTimeout(() => {
+                    window.location.href = CART_URL;
+                }, 2000);
+            }
+        }
+
+        btn.addEventListener('click', addToCartAndRedirect);
+
+        // Optional: allow pressing Enter
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !btn.disabled) {
+                addToCartAndRedirect();
+            }
+        });
+    </script>
+</body>
+</html>
