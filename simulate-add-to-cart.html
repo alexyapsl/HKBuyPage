@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulated Samsung Flow - SM-S9480ZDPTGY</title>
+    <title>Simulated Samsung Flow - SM-S9480ZDPTGY + Tracking Test</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            max-width: 720px;
+            max-width: 820px;
             margin: 40px auto;
             padding: 20px;
             background: #f8f9fa;
@@ -17,16 +17,19 @@
             border-radius: 16px;
             padding: 32px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
         }
         h1 { margin-top: 0; color: #1a1a1a; }
+        .section-title { font-size: 15px; color: #555; margin: 20px 0 10px; }
         button {
             background: #1428a0;
             color: white;
             border: none;
-            padding: 18px 36px;
-            font-size: 18px;
+            padding: 14px 28px;
+            font-size: 16px;
             border-radius: 999px;
             cursor: pointer;
+            margin: 6px 6px 6px 0;
             transition: background 0.2s;
         }
         button:hover { background: #0d1f7a; }
@@ -47,11 +50,15 @@
             margin-top: 20px;
             line-height: 1.5;
         }
+        .tracking-btn { background: #1877f2; }
+        .tracking-btn:hover { background: #0d5cc2; }
+        .ga-btn { background: #4285f4; }
+        .ga-btn:hover { background: #2f6fdb; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h1>🛒 Simulated Samsung Add-to-Cart</h1>
+        <h1>🛒 Simulated Samsung Add-to-Cart + Tracking Test</h1>
         <p>This page always adds <strong>SM-S9480ZDPTGY</strong> (Galaxy Z Fold8) using the direct endpoint you provided.</p>
         
         <button id="addBtn">Add SM-S9480ZDPTGY to Cart (Background)</button>
@@ -64,7 +71,68 @@
         </div>
     </div>
 
+    <!-- FB Pixel & Google Ads Simulation Section -->
+    <div class="card">
+        <h2 style="margin-top:0">🔍 FB Pixel + Google Ads Test Events</h2>
+        <p style="color:#666">Click these buttons to fire events. Check Omnibug / browser console.</p>
+
+        <div class="section-title">Facebook Pixel Events</div>
+        <button class="tracking-btn" onclick="fireFB('PageView')">PageView</button>
+        <button class="tracking-btn" onclick="fireFB('ViewContent')">ViewContent</button>
+        <button class="tracking-btn" onclick="fireFB('AddToCart')">AddToCart</button>
+        <button class="tracking-btn" onclick="fireFB('InitiateCheckout')">InitiateCheckout</button>
+        <button class="tracking-btn" onclick="fireFB('Purchase')">Purchase</button>
+
+        <div class="section-title">Google Ads / GA4 Events</div>
+        <button class="ga-btn" onclick="fireGA('page_view')">page_view</button>
+        <button class="ga-btn" onclick="fireGA('view_item')">view_item</button>
+        <button class="ga-btn" onclick="fireGA('add_to_cart')">add_to_cart</button>
+        <button class="ga-btn" onclick="fireGA('begin_checkout')">begin_checkout</button>
+        <button class="ga-btn" onclick="fireGA('purchase')">purchase</button>
+
+        <div class="note">
+            These are real fbq() and gtag() calls (with test IDs). They will appear in Omnibug even if the real pixels are not on the page yet.
+        </div>
+    </div>
+
     <script>
+        // === Simulated Tracking Setup (for Omnibug testing) ===
+        // Facebook Pixel (test ID)
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', 'TEST123456789');          // <-- replace with real Pixel ID later
+        fbq('track', 'PageView');
+
+        // Google Ads / GA4 (test ID)
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-TESTGA4ID');         // <-- replace with real GA4 / Ads ID later
+
+        function fireFB(event) {
+            fbq('track', event);
+            console.log('%c[FB Pixel] fired: ' + event, 'color:#1877f2');
+        }
+
+        function fireGA(event) {
+            gtag('event', event, {
+                currency: 'HKD',
+                value: 8888,
+                items: [{ item_id: 'SM-S9480ZDPTGY', item_name: 'Galaxy Z Fold8' }]
+            });
+            console.log('%c[Google Ads/GA4] fired: ' + event, 'color:#4285f4');
+        }
+
+        // Auto-fire a ViewContent on load so Omnibug has something immediately
+        setTimeout(() => {
+            fbq('track', 'ViewContent', { content_name: 'Galaxy Z Fold8 Simulator', content_ids: ['SM-S9480ZDPTGY'] });
+            gtag('event', 'view_item', { currency: 'HKD', value: 8888 });
+            console.log('%c[Auto] ViewContent + view_item fired on load', 'color:#666');
+        }, 1200);
+
         const ADD_TO_CART_URL = 'https://shop.samsung.com/tokocommercewebservices/v2/hk/addToCart/multi?products%5B0%5D.productCode=SM-S9480ZDPTGY&products%5B0%5D.qty=1';
         const CART_URL = 'https://shop.samsung.com/hk/cart';
 
