@@ -21,14 +21,14 @@
         console.log('%c[FB Pixel] Real script loaded', 'color:#1877F2');
     </script>
 
-    <!-- REAL Google Analytics 4 (test ID for Omnibug) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <!-- REAL Google Ads Tag (test AW- ID for Omnibug) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-TEST123456789"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-XXXXXXXXXX', { debug_mode: true });
-        console.log('%c[GA4] Real script loaded', 'color:#4285F4');
+        gtag('config', 'AW-TEST123456789');
+        console.log('%c[Google Ads] Real script loaded', 'color:#4285F4');
     </script>
     <style>
         body {
@@ -109,12 +109,13 @@
         <button class="tracking-btn" onclick="fireFB('InitiateCheckout')">InitiateCheckout</button>
         <button class="tracking-btn" onclick="fireFB('Purchase')">Purchase</button>
 
-        <div class="section-title">Google Ads / GA4 Events</div>
+        <div class="section-title">Google Ads Events</div>
         <button class="ga-btn" onclick="fireGA('page_view')">page_view</button>
         <button class="ga-btn" onclick="fireGA('view_item')">view_item</button>
         <button class="ga-btn" onclick="fireGA('add_to_cart')">add_to_cart</button>
         <button class="ga-btn" onclick="fireGA('begin_checkout')">begin_checkout</button>
         <button class="ga-btn" onclick="fireGA('purchase')">purchase</button>
+        <button class="ga-btn" onclick="fireGoogleAdsConversion()">conversion (Google Ads)</button>
 
         <div class="note">
             These are real fbq() and gtag() calls (with test IDs). They will appear in Omnibug even if the real pixels are not on the page yet.
@@ -132,11 +133,11 @@
         fbq('init', 'TEST123456789');          // <-- replace with real Pixel ID later
         fbq('track', 'PageView');
 
-        // Google Ads / GA4 (test ID)
+        // Google Ads (test AW- ID)
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-TESTGA4ID');         // <-- replace with real GA4 / Ads ID later
+        gtag('config', 'AW-TEST123456789');    // <-- replace with real Google Ads AW- ID later
 
         function fireFB(event) {
             fbq('track', event);
@@ -149,7 +150,7 @@
                 value: 8888,
                 items: [{ item_id: 'SM-S9480ZDPTGY', item_name: 'Galaxy Z Fold8' }]
             });
-            console.log('%c[Google Ads/GA4] fired: ' + event, 'color:#4285f4');
+            console.log('%c[Google Ads] fired: ' + event, 'color:#4285f4');
         }
 
         // Auto-fire a ViewContent on load so Omnibug has something immediately
