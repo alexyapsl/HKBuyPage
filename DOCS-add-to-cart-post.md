@@ -83,6 +83,10 @@ async function addToCartWithVoucher(products, voucherId = null, tracking = {}) {
     });
 
     if (!cartRes.ok) {
+        if (cartRes.status === 400) {
+            showErrorModal('Sorry, this product is unable to add to cart.');
+            return { cartStatus: 400, voucherStatus: null };
+        }
         throw new Error(`Add-to-cart failed: ${cartRes.status}`);
     }
 
@@ -137,7 +141,31 @@ window.location.href = 'https://shop.samsung.com/hk/cart';
 
 ---
 
-## 4. Important Notes
+## 4. Error Handling (CORS-aware)
+
+The reusable function and calling code must handle two environments:
+
+- **Same-origin** (`www.samsung.com`, `shop.samsung.com`): `fetch` resolves and `cartRes.status === 400` is readable.
+- **External domains** (`github.io`, any non-Samsung origin): CORS blocks the error response; the promise rejects and we land in `catch`.
+
+**Recommended pattern** (used in `simulate-add-to-cart.html`):
+
+```js
+if (!cartRes.ok) {
+    if (cartRes.status === 400) {
+        showErrorModal('Sorry, this product is unable to add to cart.');
+        return;
+    }
+    throw new Error(...);
+}
+
+} catch (err) {
+    // Treat any failure on external domains as "unable to add to cart"
+    showErrorModal('Sorry, this product is unable to add to cart.');
+}
+```
+
+## 5. Important Notes
 
 - **Login required** — `credentials: 'include'` only works if the user is already logged into `www.samsung.com` in the same browser.
 - **CORS** — Calling this from `github.io` or any non-Samsung domain will usually fail. It works when the code runs on `www.samsung.com` or `shop.samsung.com`.
