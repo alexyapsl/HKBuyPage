@@ -342,6 +342,11 @@
                     body: JSON.stringify(cartPayload)
                 });
 
+                if (!res.ok) {
+                    showErrorModal('Sorry, this product is unable to add to cart.');
+                    return;
+                }
+
                 let msg = `Cart POST: ${res.status} ${res.statusText}\n`;
 
                 if (voucherPayload && res.ok) {
@@ -356,7 +361,7 @@
 
                 statusDiv.textContent = msg;
             } catch (e) {
-                statusDiv.textContent = `Error: ${e.message}`;
+                showErrorModal('Sorry, this product is unable to add to cart.');
             }
         }
     </script>
