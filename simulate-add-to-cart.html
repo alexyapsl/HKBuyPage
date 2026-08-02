@@ -86,10 +86,16 @@
 </head>
 <body>
     <div class="card">
-        <h1>🛒 Simulated Samsung Add-to-Cart + Tracking Test <span style="font-size:12px;color:#999">v3 - AW-123456789</span></h1>
+        <h1>🛒 Simulated Samsung Add-to-Cart + Tracking Test <span style="font-size:12px;color:#999">v4 - Error cases</span></h1>
         <p>This page always adds <strong>SM-S9480ZDPTGY</strong> (Galaxy Z Fold8) using the direct endpoint you provided.</p>
         
-        <button id="addBtn">Add SM-S9480ZDPTGY to Cart (Background)</button>
+        <button id="addBtn">Add 2 SKUs + Voucher (Background)</button>
+        <div style="margin-top:12px">
+            <button onclick="testErrorCase('OOS')" style="background:#e74c3c">Test OOS SKU</button>
+            <button onclick="testErrorCase('INVALID_SKU')" style="background:#e74c3c">Test Invalid SKU</button>
+            <button onclick="testErrorCase('BAD_VOUCHER')" style="background:#e74c3c">Test Bad Voucher</button>
+            <button onclick="testErrorCase('INELIGIBLE_VOUCHER')" style="background:#e74c3c">Test Ineligible Voucher</button>
+        </div>
         
         <div id="status"></div>
         
@@ -297,6 +303,54 @@
                 addToCartAndRedirect();
             }
         });
+
+        // Error case tester
+        async function testErrorCase(type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.style.display = 'block';
+            statusDiv.className = 'info';
+            statusDiv.textContent = `Testing ${type}...`;
+
+            let cartPayload = [];
+            let voucherPayload = null;
+
+            if (type === 'OOS') {
+                cartPayload = [{ productCode: 'SM-F7660DBETGY', qty: 1, services: [] }];
+            } else if (type === 'INVALID_SKU') {
+                cartPayload = [{ productCode: 'SM-F888888888', qty: 1, services: [] }];
+            } else if (type === 'BAD_VOUCHER') {
+                cartPayload = [{ productCode: 'SM-F9760ZKPTGY', qty: 1, services: [] }];
+                voucherPayload = { voucherId: 'DIE2026', voucherPopup: false };
+            } else if (type === 'INELIGIBLE_VOUCHER') {
+                cartPayload = [{ productCode: 'SM-F9760ZKPTGY', qty: 1, services: [] }];
+                voucherPayload = { voucherId: 'HELLO2026', voucherPopup: false };
+            }
+
+            try {
+                const res = await fetch('https://api.shop.samsung.com/tokocommercewebservices/v2/hk/addToCart/multi/?fields=BASIC', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(cartPayload)
+                });
+
+                let msg = `Cart POST: ${res.status} ${res.statusText}\n`;
+
+                if (voucherPayload && res.ok) {
+                    const vRes = await fetch('https://p1-sms-api-cdn.shop.samsung.com/tokocommercewebservices/v2/hk/users/current/carts/current/vouchers?lang=zh_HK&curr=HKD', {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(voucherPayload)
+                    });
+                    msg += `Voucher POST: ${vRes.status} ${vRes.statusText}`;
+                }
+
+                statusDiv.textContent = msg;
+            } catch (e) {
+                statusDiv.textContent = `Error: ${e.message}`;
+            }
+        }
     </script>
 </body>
 </html>
