@@ -197,15 +197,18 @@
 
             // Fire tracking events right before the POST
             fbq('track', 'AddToCart', {
-                content_name: 'Galaxy Z Fold8',
-                content_ids: ['SM-S9480ZDPTGY'],
+                content_name: 'Galaxy Z Fold8 (2 SKUs)',
+                content_ids: ['SM-F9760ZKPTGY', 'SM-F9760ZVPTGY'],
                 value: 8888,
                 currency: 'HKD'
             });
             gtag('event', 'add_to_cart', {
                 currency: 'HKD',
                 value: 8888,
-                items: [{ item_id: 'SM-S9480ZDPTGY', item_name: 'Galaxy Z Fold8' }]
+                items: [
+                    { item_id: 'SM-F9760ZKPTGY', item_name: 'Galaxy Z Fold8 (color 1)' },
+                    { item_id: 'SM-F9760ZVPTGY', item_name: 'Galaxy Z Fold8 (color 2)' }
+                ]
             });
             gtag('event', 'conversion', {
                 'send_to': 'AW-123456789/AbCdEfGhIjKlmnOpQrStUv',
@@ -215,12 +218,11 @@
             });
             console.log('%c[Tracking] AddToCart + AW conversion fired before POST', 'color:#34A853');
 
-            // Minimal POST payload for the original SKU
-            const payload = [{
-                productCode: 'SM-S9480ZDPTGY',
-                qty: 1,
-                services: []
-            }];
+            // Multi-SKU POST payload (testing 2 SKUs)
+            const payload = [
+                { productCode: 'SM-F9760ZKPTGY', qty: 1, services: [] },
+                { productCode: 'SM-F9760ZVPTGY', qty: 1, services: [] }
+            ];
 
             try {
                 const response = await fetch(ADD_TO_CART_URL, {
