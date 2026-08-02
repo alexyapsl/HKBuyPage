@@ -218,31 +218,51 @@
             });
             console.log('%c[Tracking] AddToCart + AW conversion fired before POST', 'color:#34A853');
 
-            // Multi-SKU POST payload (testing 2 SKUs + voucher)
-            const payload = [
-                { productCode: 'SM-F9760ZKPTGY', qty: 1, services: [], voucherCode: 'SPAY2026' },
-                { productCode: 'SM-F9760ZVPTGY', qty: 1, services: [], voucherCode: 'SPAY2026' }
+            // Step 1: Multi-SKU add-to-cart (no voucher in this payload)
+            const cartPayload = [
+                { productCode: 'SM-F9760ZKPTGY', qty: 1, services: [] },
+                { productCode: 'SM-F9760ZVPTGY', qty: 1, services: [] }
             ];
 
+            // Step 2: Separate voucher POST (new endpoint)
+            const VOUCHER_URL = 'https://p1-sms-api-cdn.shop.samsung.com/tokocommercewebservices/v2/hk/users/current/carts/current/vouchers?lang=zh_HK&curr=HKD';
+            const voucherPayload = { voucherId: 'SPAY2026', voucherPopup: false };
+
             try {
-                const response = await fetch(ADD_TO_CART_URL, {
+                // 1) Add items to cart
+                const cartRes = await fetch(ADD_TO_CART_URL, {
                     method: 'POST',
-                    // Removed 'no-cors' so browser sends proper Content-Type header
-                    credentials: 'include',             // send cookies (login session)
+                    credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json, text/javascript, */*; q=0.01',
                         'Origin': 'https://www.samsung.com',
                         'Referer': 'https://www.samsung.com/'
                     },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(cartPayload)
                 });
 
-                // Now we can read the response (if CORS allows)
+                if (!cartRes.ok) {
+                    throw new Error(`Cart POST failed: ${cartRes.status}`);
+                }
+
+                // 2) Apply voucher to current cart
+                const voucherRes = await fetch(VOUCHER_URL, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json, text/javascript, */*; q=0.01',
+                        'Origin': 'https://www.samsung.com',
+                        'Referer': 'https://www.samsung.com/'
+                    },
+                    body: JSON.stringify(voucherPayload)
+                });
+
                 showStatus(
-                    'POST sent successfully!\n' +
-                    `Status: ${response.status} ${response.statusText}\n\n` +
-                    'Click the button below to go to cart.',
+                    'Cart + Voucher flow completed!\n' +
+                    `Cart: ${cartRes.status} | Voucher: ${voucherRes.status}\n\n` +
+                    'Click below to go to cart.',
                     'success'
                 );
 
@@ -255,8 +275,8 @@
             } catch (err) {
                 console.error(err);
                 showStatus(
-                    `POST failed (likely CORS or auth).\n` +
-                    `Check DevTools Console + Network tab for details.\n\n` +
+                    `Flow failed.\n` +
+                    `Check Console + Network tab.\n\n` +
                     `Error: ${err.message}`,
                     'error'
                 );
