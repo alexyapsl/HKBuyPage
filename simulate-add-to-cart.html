@@ -225,7 +225,7 @@
             try {
                 const response = await fetch(ADD_TO_CART_URL, {
                     method: 'POST',
-                    mode: 'no-cors',                    // still needed for cross-origin
+                    // Removed 'no-cors' so browser sends proper Content-Type header
                     credentials: 'include',             // send cookies (login session)
                     headers: {
                         'Content-Type': 'application/json',
@@ -236,15 +236,14 @@
                     body: JSON.stringify(payload)
                 });
 
-                // With no-cors we cannot read status, so we show a manual redirect option
+                // Now we can read the response (if CORS allows)
                 showStatus(
-                    'POST request sent (no-cors mode).\n' +
-                    'Check Network tab for the actual status.\n\n' +
-                    'Click the button below to go to cart manually.',
+                    'POST sent successfully!\n' +
+                    `Status: ${response.status} ${response.statusText}\n\n` +
+                    'Click the button below to go to cart.',
                     'success'
                 );
 
-                // Show a manual redirect button instead of auto-redirect
                 const goBtn = document.createElement('button');
                 goBtn.textContent = 'Go to Cart';
                 goBtn.style.marginTop = '12px';
@@ -254,8 +253,8 @@
             } catch (err) {
                 console.error(err);
                 showStatus(
-                    `POST error (no-cors hides real status).\n` +
-                    `Check browser console + Network tab.\n\n` +
+                    `POST failed (likely CORS or auth).\n` +
+                    `Check DevTools Console + Network tab for details.\n\n` +
                     `Error: ${err.message}`,
                     'error'
                 );
