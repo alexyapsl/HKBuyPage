@@ -218,10 +218,10 @@
             });
             console.log('%c[Tracking] AddToCart + AW conversion fired before POST', 'color:#34A853');
 
-            // Multi-SKU POST payload (testing 2 SKUs)
+            // Multi-SKU POST payload (testing 2 SKUs + voucher)
             const payload = [
-                { productCode: 'SM-F9760ZKPTGY', qty: 1, services: [] },
-                { productCode: 'SM-F9760ZVPTGY', qty: 1, services: [] }
+                { productCode: 'SM-F9760ZKPTGY', qty: 1, services: [], voucherCode: 'SPAY2026' },
+                { productCode: 'SM-F9760ZVPTGY', qty: 1, services: [], voucherCode: 'SPAY2026' }
             ];
 
             try {
