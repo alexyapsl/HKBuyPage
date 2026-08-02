@@ -5082,11 +5082,32 @@
         }
         // === END NEW POST LOGIC ===
 
-        function confirmTradeInAndRedirect() {
+        async function confirmTradeInAndRedirect() {
             closeTradeInWarningModal();
-            if (pendingMagicUrl) {
-                window.open(pendingMagicUrl, '_self');
+
+            // Build products array from pending data (main SKU + optional gift)
+            const products = [];
+            // main product
+            if (window.selectedSkuForCart) {
+                products.push({ productCode: window.selectedSkuForCart, qty: 1, services: [] });
             }
+            // gift (if any)
+            if (window.selectedGiftSku) {
+                products.push({ productCode: window.selectedGiftSku, qty: 1, services: [] });
+            }
+
+            const voucher = window.useSamsungPay ? 'SPAY2026' : null;
+
+            if (products.length > 0) {
+                const success = await addToCartPost(products, voucher);
+                if (success) {
+                    window.location.href = 'https://shop.samsung.com/hk/cart';
+                }
+            }
+
+            // cleanup
+            window.selectedSkuForCart = null;
+            window.selectedGiftSku = null;
             pendingMagicUrl = null;
         }
 
