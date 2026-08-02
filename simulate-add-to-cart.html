@@ -284,22 +284,9 @@
 
             } catch (err) {
                 console.error(err);
-                if (err.message.includes('400')) {
-                    showErrorModal('Sorry, this product is unable to add to cart.');
-                    return;
-                }
-                showStatus(
-                    `Flow failed.\n` +
-                    `Check Console + Network tab.\n\n` +
-                    `Error: ${err.message}`,
-                    'error'
-                );
-
-                const goBtn = document.createElement('button');
-                goBtn.textContent = 'Go to Cart anyway';
-                goBtn.style.marginTop = '12px';
-                goBtn.onclick = () => window.location.href = CART_URL;
-                statusDiv.appendChild(goBtn);
+                // On external domains (github.io), CORS blocks the 400 response,
+                // so we treat any cart POST failure as 'unable to add to cart'.
+                showErrorModal('Sorry, this product is unable to add to cart.');
             }
         }
 
