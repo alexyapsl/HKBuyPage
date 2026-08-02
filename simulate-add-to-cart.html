@@ -28,7 +28,9 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-TESTGA4ID', { debug_mode: true });
-        console.log('%c[Google Ads/GA4] Real script loaded', 'color:#4285F4');
+        // Google Ads (AW-) config - separate from GA4 so Omnibug shows it as Google Ads
+        gtag('config', 'AW-TEST987654');
+        console.log('%c[Google Ads/GA4] Real script loaded (AW-TEST987654 + G-TESTGA4ID)', 'color:#4285F4');
     </script>
     <style>
         body {
@@ -153,11 +155,28 @@
             console.log('%c[Google Ads/GA4] fired: ' + event, 'color:#4285f4');
         }
 
+        // Proper Google Ads conversion event (what Omnibug expects for AW-)
+        function fireGoogleAdsConversion() {
+            gtag('event', 'conversion', {
+                'send_to': 'AW-TEST987654/AbCdEfGhIjKlmnOpQrStUv',
+                'value': 8888,
+                'currency': 'HKD',
+                'transaction_id': 'test-' + Date.now()
+            });
+            console.log('%c[Google Ads] conversion event fired (AW- style)', 'color:#34A853');
+        }
+
         // Auto-fire a ViewContent on load so Omnibug has something immediately
         setTimeout(() => {
             fbq('track', 'ViewContent', { content_name: 'Galaxy Z Fold8 Simulator', content_ids: ['SM-S9480ZDPTGY'] });
             gtag('event', 'view_item', { currency: 'HKD', value: 8888 });
-            console.log('%c[Auto] ViewContent + view_item fired on load', 'color:#666');
+            // Also fire a Google Ads conversion on load for quick testing
+            gtag('event', 'conversion', {
+                'send_to': 'AW-TEST987654/AbCdEfGhIjKlmnOpQrStUv',
+                'value': 8888,
+                'currency': 'HKD'
+            });
+            console.log('%c[Auto] ViewContent + view_item + Google Ads conversion fired on load', 'color:#666');
         }, 1200);
 
         const ADD_TO_CART_URL = 'https://shop.samsung.com/tokocommercewebservices/v2/hk/addToCart/multi?products%5B0%5D.productCode=SM-S9480ZDPTGY&products%5B0%5D.qty=1';
