@@ -236,20 +236,35 @@
                     body: JSON.stringify(payload)
                 });
 
-                showStatus('POST sent. Redirecting to cart in 1.5s...', 'success');
-                setTimeout(() => {
-                    window.location.href = CART_URL;
-                }, 1500);
+                // With no-cors we cannot read status, so we show a manual redirect option
+                showStatus(
+                    'POST request sent (no-cors mode).\n' +
+                    'Check Network tab for the actual status.\n\n' +
+                    'Click the button below to go to cart manually.',
+                    'success'
+                );
+
+                // Show a manual redirect button instead of auto-redirect
+                const goBtn = document.createElement('button');
+                goBtn.textContent = 'Go to Cart';
+                goBtn.style.marginTop = '12px';
+                goBtn.onclick = () => window.location.href = CART_URL;
+                statusDiv.appendChild(goBtn);
 
             } catch (err) {
                 console.error(err);
                 showStatus(
-                    `POST error (expected with no-cors).\nStill redirecting...\n${err.message}`,
+                    `POST error (no-cors hides real status).\n` +
+                    `Check browser console + Network tab.\n\n` +
+                    `Error: ${err.message}`,
                     'error'
                 );
-                setTimeout(() => {
-                    window.location.href = CART_URL;
-                }, 2000);
+
+                const goBtn = document.createElement('button');
+                goBtn.textContent = 'Go to Cart anyway';
+                goBtn.style.marginTop = '12px';
+                goBtn.onclick = () => window.location.href = CART_URL;
+                statusDiv.appendChild(goBtn);
             }
         }
 
