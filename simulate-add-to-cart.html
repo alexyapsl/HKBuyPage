@@ -29,8 +29,8 @@
         gtag('js', new Date());
         gtag('config', 'G-TESTGA4ID', { debug_mode: true });
         // Google Ads (AW-) config - separate from GA4 so Omnibug shows it as Google Ads
-        gtag('config', 'AW-TEST987654');
-        console.log('%c[Google Ads/GA4] Real script loaded (AW-TEST987654 + G-TESTGA4ID)', 'color:#4285F4');
+        gtag('config', 'AW-123456789');
+        console.log('%c[Google Ads/GA4] Real script loaded (AW-123456789 + G-TESTGA4ID)', 'color:#4285F4');
     </script>
     <style>
         body {
@@ -86,7 +86,7 @@
 </head>
 <body>
     <div class="card">
-        <h1>🛒 Simulated Samsung Add-to-Cart + Tracking Test</h1>
+        <h1>🛒 Simulated Samsung Add-to-Cart + Tracking Test <span style="font-size:12px;color:#999">v3 - AW-123456789</span></h1>
         <p>This page always adds <strong>SM-S9480ZDPTGY</strong> (Galaxy Z Fold8) using the direct endpoint you provided.</p>
         
         <button id="addBtn">Add SM-S9480ZDPTGY to Cart (Background)</button>
@@ -158,7 +158,7 @@
         // Proper Google Ads conversion event (what Omnibug expects for AW-)
         function fireGoogleAdsConversion() {
             gtag('event', 'conversion', {
-                'send_to': 'AW-TEST987654/AbCdEfGhIjKlmnOpQrStUv',
+                'send_to': 'AW-123456789/AbCdEfGhIjKlmnOpQrStUv',
                 'value': 8888,
                 'currency': 'HKD',
                 'transaction_id': 'test-' + Date.now()
@@ -172,7 +172,7 @@
             gtag('event', 'view_item', { currency: 'HKD', value: 8888 });
             // Also fire a Google Ads conversion on load for quick testing
             gtag('event', 'conversion', {
-                'send_to': 'AW-TEST987654/AbCdEfGhIjKlmnOpQrStUv',
+                'send_to': 'AW-123456789/AbCdEfGhIjKlmnOpQrStUv',
                 'value': 8888,
                 'currency': 'HKD'
             });
