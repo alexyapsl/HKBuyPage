@@ -179,7 +179,7 @@
             console.log('%c[Auto] ViewContent + view_item + Google Ads conversion fired on load', 'color:#666');
         }, 1200);
 
-        const ADD_TO_CART_URL = 'https://shop.samsung.com/tokocommercewebservices/v2/hk/addToCart/multi?products%5B0%5D.productCode=SM-S9480ZDPTGY&products%5B0%5D.qty=1';
+        const ADD_TO_CART_URL = 'https://api.shop.samsung.com/tokocommercewebservices/v2/hk/addToCart/multi/?fields=BASIC';
         const CART_URL = 'https://shop.samsung.com/hk/cart';
 
         const btn = document.getElementById('addBtn');
@@ -193,21 +193,50 @@
 
         async function addToCartAndRedirect() {
             btn.disabled = true;
-            showStatus('Calling Samsung add-to-cart endpoint in background...', 'info');
+            showStatus('Firing tracking events + POST to Samsung...', 'info');
+
+            // Fire tracking events right before the POST
+            fbq('track', 'AddToCart', {
+                content_name: 'Galaxy Z Fold8',
+                content_ids: ['SM-S9480ZDPTGY'],
+                value: 8888,
+                currency: 'HKD'
+            });
+            gtag('event', 'add_to_cart', {
+                currency: 'HKD',
+                value: 8888,
+                items: [{ item_id: 'SM-S9480ZDPTGY', item_name: 'Galaxy Z Fold8' }]
+            });
+            gtag('event', 'conversion', {
+                'send_to': 'AW-123456789/AbCdEfGhIjKlmnOpQrStUv',
+                'value': 8888,
+                'currency': 'HKD',
+                'transaction_id': 'cart-' + Date.now()
+            });
+            console.log('%c[Tracking] AddToCart + AW conversion fired before POST', 'color:#34A853');
+
+            // Minimal POST payload for the original SKU
+            const payload = [{
+                productCode: 'SM-S9480ZDPTGY',
+                qty: 1,
+                services: []
+            }];
 
             try {
-                // Use no-cors mode first to avoid preflight/CORS issues in testing
-                // This will fail to read the response but will still trigger the server action
                 const response = await fetch(ADD_TO_CART_URL, {
-                    method: 'GET',
-                    mode: 'no-cors',              // bypass CORS for testing
-                    credentials: 'include',       // send cookies if user is logged into Samsung
-                    cache: 'no-cache'
+                    method: 'POST',
+                    mode: 'no-cors',                    // still needed for cross-origin
+                    credentials: 'include',             // send cookies (login session)
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json, text/javascript, */*; q=0.01',
+                        'Origin': 'https://www.samsung.com',
+                        'Referer': 'https://www.samsung.com/'
+                    },
+                    body: JSON.stringify(payload)
                 });
 
-                // With no-cors we can't read status, so we assume success after ~1.5s
-                showStatus('Request sent. Redirecting to cart in 1.5 seconds...', 'success');
-
+                showStatus('POST sent. Redirecting to cart in 1.5s...', 'success');
                 setTimeout(() => {
                     window.location.href = CART_URL;
                 }, 1500);
@@ -215,12 +244,9 @@
             } catch (err) {
                 console.error(err);
                 showStatus(
-                    `Fetch error (this is often expected with no-cors mode).\n` +
-                    `Still redirecting to cart page...\n\n` +
-                    `Error details: ${err.message}`,
+                    `POST error (expected with no-cors).\nStill redirecting...\n${err.message}`,
                     'error'
                 );
-
                 setTimeout(() => {
                     window.location.href = CART_URL;
                 }, 2000);
