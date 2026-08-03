@@ -5104,7 +5104,7 @@
                 products.push({ productCode: window.selectedGiftSku, qty: 1, services: [] });
             }
 
-            const voucher = window.useSamsungPay ? 'SPAY2026' : null;
+            const voucher = useSamsungPay ? 'SPAY2026' : null;
 
             if (products.length > 0) {
                 const success = await addToCartPost(products, voucher);
