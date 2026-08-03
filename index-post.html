@@ -4985,6 +4985,10 @@
                     pendingMagicUrl = magicUrl;
                     appendShopAppUrl();
 
+                    // NEW: populate globals so confirmTradeInAndRedirect() has data for the POST path
+                    window.selectedSkuForCart = selectedSku;
+                    window.selectedGiftSku = (mode === 'AddSKU') ? skuOrCode : null;
+
                     const hasTradeIn = tradeInValue > 0;
                     const hasSamsungPay = useSamsungPay === true;
 
