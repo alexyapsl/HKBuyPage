@@ -41,8 +41,10 @@ GET /tokocommercewebservices/v2/hk/addToCart/multi?redirect=CART&productCode[1]=
  * @returns {Promise<{cartStatus: number, voucherStatus?: number}>}
  */
 async function addToCartWithVoucher(products, voucherId = null, tracking = {}) {
-    const ADD_TO_CART_URL = 'https://api.shop.samsung.com/tokocommercewebservices/v2/hk/addToCart/multi/?fields=BASIC';
-    const VOUCHER_URL     = 'https://p1-sms-api-cdn.shop.samsung.com/tokocommercewebservices/v2/hk/users/current/carts/current/vouchers?lang=zh_HK&curr=HKD';
+    const currentLang = getCurrentLang();
+    const apiLang = (currentLang === 'zh') ? 'hk' : 'hk_en';
+    const ADD_TO_CART_URL = `https://api.shop.samsung.com/tokocommercewebservices/v2/${apiLang}/addToCart/multi/?fields=BASIC`;
+    const VOUCHER_URL     = `https://p1-sms-api-cdn.shop.samsung.com/tokocommercewebservices/v2/${apiLang}/users/current/carts/current/vouchers?lang=${currentLang === 'zh' ? 'zh_HK' : 'en_HK'}&curr=HKD`;
 
     // 1. Fire tracking events (Facebook + Google Ads)
     if (typeof fbq === 'function' && tracking.fbPixelId) {
@@ -136,7 +138,9 @@ const tracking = {
 const result = await addToCartWithVoucher(products, 'SPAY2026', tracking);
 console.log(result); // { cartStatus: 200, voucherStatus: 201 }
 
-window.location.href = 'https://shop.samsung.com/hk/cart';
+const currentLang = getCurrentLang();
+const cartDomain = (currentLang === 'zh') ? 'https://shop.samsung.com/hk/cart' : 'https://shop.samsung.com/hk_en/cart';
+window.location.href = cartDomain;
 ```
 
 ---

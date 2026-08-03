@@ -5050,8 +5050,10 @@
         }
 
         async function addToCartPost(products, voucherId = null) {
-            const ADD_URL = 'https://api.shop.samsung.com/tokocommercewebservices/v2/hk/addToCart/multi/?fields=BASIC';
-            const VOUCHER_URL = 'https://p1-sms-api-cdn.shop.samsung.com/tokocommercewebservices/v2/hk/users/current/carts/current/vouchers?lang=zh_HK&curr=HKD';
+            const currentLang = getCurrentLang();
+            const apiLang = (currentLang === 'zh') ? 'hk' : 'hk_en';
+            const ADD_URL = `https://api.shop.samsung.com/tokocommercewebservices/v2/${apiLang}/addToCart/multi/?fields=BASIC`;
+            const VOUCHER_URL = `https://p1-sms-api-cdn.shop.samsung.com/tokocommercewebservices/v2/${apiLang}/users/current/carts/current/vouchers?lang=${currentLang === 'zh' ? 'zh_HK' : 'en_HK'}&curr=HKD`;
 
             try {
                 const res = await fetch(ADD_URL, {
@@ -5105,7 +5107,9 @@
             if (products.length > 0) {
                 const success = await addToCartPost(products, voucher);
                 if (success) {
-                    window.location.href = 'https://shop.samsung.com/hk/cart';
+                    const currentLang = getCurrentLang();
+                    const cartDomain = (currentLang === 'zh') ? 'https://shop.samsung.com/hk/cart' : 'https://shop.samsung.com/hk_en/cart';
+                    window.location.href = cartDomain;
                 }
             }
 
