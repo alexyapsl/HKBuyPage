@@ -1478,7 +1478,8 @@
               "tradeInPriceLabel": "Trade In Price: HK$",
               "downloadApp": "Download App",
               "addToCart": "Add to Cart",
-              "payLabelStroageTI": "After Storage Savings, you pay"
+              "payLabelStroageTI": "After Storage Savings, you pay",
+              "addToCartError": "Sorry, this product is unable to add to cart."
             },
             "zh": {
               "badgeText": "全新流程 • 產品優先",
@@ -1599,7 +1600,8 @@
               "tradeInPriceLabel": "以舊換新價格：HK$",
               "downloadApp": "下載 App",
               "addToCart": "加入購物車",
-              "payLabelStroageTI": "After Storage Savings, you pay"
+              "payLabelStroageTI": "After Storage Savings, you pay",
+              "addToCartError": "抱歉，此產品無法加入購物車。"
             }
           };
 
@@ -5065,7 +5067,7 @@
 
                 if (!res.ok) {
                     if (res.status === 400) {
-                        showErrorModal('Sorry, this product is unable to add to cart.');
+                        showErrorModal(t('addToCartError'));
                         return false;
                     }
                     throw new Error('Cart POST failed: ' + res.status);
@@ -5082,7 +5084,7 @@
 
                 return true;
             } catch (e) {
-                showErrorModal('Sorry, this product is unable to add to cart.');
+                showErrorModal(t('addToCartError'));
                 return false;
             }
         }
