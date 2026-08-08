@@ -7173,7 +7173,7 @@
         document.body.appendChild(modal);
     }
 
-    async function addToCartPost(products, voucherId = null) {
+    async function addToCartPost(products, voucherId = null, showError = true) {
         const currentLang = getCurrentLang();
         const apiLang = (currentLang === 'zh') ? 'hk' : 'hk_en';
         const ADD_URL = `https://api.shop.samsung.com/tokocommercewebservices/v2/${apiLang}/addToCart/multi/?fields=BASIC`;
@@ -7189,7 +7189,7 @@
 
             if (!res.ok) {
                 if (res.status === 400) {
-                    showErrorModal(t('addToCartError'));
+                    if (showError) showErrorModal(t('addToCartError'));
                     return false;
                 }
                 throw new Error('Cart POST failed: ' + res.status);
@@ -7206,7 +7206,7 @@
 
             return true;
         } catch (e) {
-            showErrorModal(t('addToCartError'));
+            if (showError) showErrorModal(t('addToCartError'));
             return false;
         }
     }
@@ -7215,13 +7215,15 @@
     async function confirmTradeInAndRedirect() {
         closeTradeInWarningModal();
 
-        // POST flow only works on samsung.com origins: cross-origin (e.g. github.io demo)
-        // the cart session cookies don't carry over (third-party context), so the cart
-        // would appear empty after redirect. Off-site → legacy magic-link redirect.
-        // Override with ?forcePost=1 to force the POST flow on any origin (testing).
-        const forcePost = new URLSearchParams(window.location.search).get('forcePost') === '1';
+        // POST add-to-cart is the default on all origins.
+        // Caveat: off samsung.com origins (e.g. github.io demo) the cart session cookie
+        // may not carry over (third-party browser policy), so the cart can appear empty.
+        // If the POST request itself fails off-site (CORS/Akamai), we fall back to the
+        // legacy magic-link redirect. Add ?useMagic=1 to force the magic-link flow.
+        const useMagic = new URLSearchParams(window.location.search).get('useMagic') === '1';
         const onSamsungOrigin = window.location.hostname === 'samsung.com' || window.location.hostname.endsWith('.samsung.com');
-        if (!onSamsungOrigin && !forcePost) {
+
+        if (useMagic) {
             if (pendingMagicUrl) {
                 window.open(pendingMagicUrl, '_self');
             }
@@ -7243,11 +7245,14 @@
         const voucher = useSamsungPay ? 'SPAY2026' : null;
 
         if (products.length > 0) {
-            const success = await addToCartPost(products, voucher);
+            const success = await addToCartPost(products, voucher, onSamsungOrigin);
             if (success) {
                 const currentLang = getCurrentLang();
                 const cartDomain = (currentLang === 'zh') ? 'https://shop.samsung.com/hk/cart' : 'https://shop.samsung.com/hk_en/cart';
                 window.location.href = cartDomain;
+            } else if (!onSamsungOrigin && pendingMagicUrl) {
+                // POST blocked off-site (CORS/Akamai) → legacy redirect as safety net
+                window.open(pendingMagicUrl, '_self');
             }
         }
 
