@@ -5474,6 +5474,8 @@
         loadStep1Models().then(() => {
             renderDeviceSelection();
             selectDeviceFromHash();
+            // Live stock check: one batched call for all SKUs on page load
+            fetchStockLevels(getAllSkus()).then(ok => { if (ok) refreshStockUI(); });
         });
         populateBrandsNewFlow();
         loadGifts();
@@ -5743,6 +5745,9 @@
         renderStorageChips();
         updateStickyBar();
 
+        // Live stock recheck: narrowed to this device's SKUs
+        fetchStockLevels(getDeviceSkus(selectedDevice)).then(ok => { if (ok) refreshStockUI(); });
+
         const skuImageContainer = document.getElementById('selected-sku-image');
         if (skuImageContainer) {
             skuImageContainer.classList.add('sehk-hidden');
@@ -5952,6 +5957,63 @@
         }, 150);
     }
 
+    // === LIVE STOCK CHECK (getSimpleProductsInfo API, falls back to JSON InStockStatus) ===
+    const liveStockStatus = {}; // sku -> true (in stock) / false (oos); absent = unknown → JSON fallback
+
+    function isSkuInStock(sku) {
+        if (Object.prototype.hasOwnProperty.call(liveStockStatus, sku)) {
+            return liveStockStatus[sku] === true;
+        }
+        const canonical = productBySku[sku] || {};
+        return !(canonical.InStockStatus === 'N' || canonical.inStock === false);
+    }
+
+    async function fetchStockLevels(skus) {
+        const uniqueSkus = [...new Set((skus || []).filter(Boolean))];
+        if (uniqueSkus.length === 0) return false;
+        // NB: the cache layer in front of this API keys on the FIRST productCodes value
+        // only — a unique throwaway code first guarantees a fresh + complete response.
+        const cacheBuster = 'CB' + Date.now();
+        const qs = [cacheBuster, ...uniqueSkus].map(s => 'productCodes=' + encodeURIComponent(s)).join('&');
+        try {
+            const res = await fetch(`https://shop.samsung.com/hk/servicesv2/getSimpleProductsInfo?${qs}`, { cache: 'no-store' });
+            if (!res.ok) throw new Error('stock check HTTP ' + res.status);
+            const data = await res.json();
+            const requested = new Set(uniqueSkus);
+            (data.productDatas || []).forEach(p => {
+                if (p && p.productCode && requested.has(p.productCode)) {
+                    liveStockStatus[p.productCode] = (p.stockLevelStatus === 'inStock');
+                }
+            });
+            return true;
+        } catch (e) {
+            console.warn('Live stock check failed, falling back to JSON InStockStatus', e);
+            return false;
+        }
+    }
+
+    function getDeviceSkus(device) {
+        const skus = [];
+        ((device && device.storageOptions) || []).forEach(opt => (opt.colors || []).forEach(c => skus.push(c.sku)));
+        return skus;
+    }
+
+    function getAllSkus() {
+        const skus = [];
+        (recommendedProducts || []).forEach(p => skus.push(...getDeviceSkus(p)));
+        return skus;
+    }
+
+    function refreshStockUI() {
+        if (!selectedDevice) return;
+        renderStorageChips();
+        if (selectedStorageIndex !== null && !isNaN(selectedStorageIndex)) {
+            const opt = selectedDevice.storageOptions[selectedStorageIndex];
+            if (opt) showColorChipsForSelectedStorage(opt, true);
+        }
+    }
+    // === END LIVE STOCK CHECK ===
+
     function renderStorageChips() {
         const container = document.getElementById('storage-chips');
         if (!container || !selectedDevice || !selectedDevice.storageOptions) return;
@@ -5961,10 +6023,7 @@
         selectedDevice.storageOptions.forEach((opt, idx) => {
             let allOos = false;
             if (opt.colors && opt.colors.length > 0) {
-                allOos = opt.colors.every(color => {
-                    const canonical = productBySku[color.sku] || {};
-                    return (canonical.InStockStatus === 'N' || canonical.inStock === false);
-                });
+                allOos = opt.colors.every(color => !isSkuInStock(color.sku));
             }
 
             const key = `${selectedDevice.name}|${opt.storage}`;
@@ -6015,6 +6074,11 @@
                     const wasHidden = colorSectionEl && colorSectionEl.classList.contains('sehk-hidden');
                     showColorChipsForSelectedStorage(opt);
 
+                    // Live stock recheck: narrowed to this storage's color SKUs
+                    fetchStockLevels((opt.colors || []).map(c => c.sku)).then(ok => {
+                        if (ok) showColorChipsForSelectedStorage(opt, true);
+                    });
+
                     if (colorSectionEl && wasHidden && !colorSectionEl.classList.contains('sehk-hidden')) {
                         setTimeout(() => {
                             colorSectionEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -6049,10 +6113,11 @@
         });
     }
 
-    function showColorChipsForSelectedStorage(storageOpt) {
+    function showColorChipsForSelectedStorage(storageOpt, isRefresh = false) {
         const section = document.getElementById('color-chips-section');
         const container = document.getElementById('color-chips');
         const hint = document.getElementById('selected-sku-hint');
+        const prevSku = isRefresh ? selectedSku : null;
 
         if (!section || !container || !storageOpt || !storageOpt.colors || storageOpt.colors.length === 0) {
             if (section) section.style.display = 'none';
@@ -6061,7 +6126,7 @@
 
         if (Object.keys(productBySku).length === 0) {
             console.warn('productBySku empty, deferring color chips');
-            setTimeout(() => showColorChipsForSelectedStorage(storageOpt), 150);
+            setTimeout(() => showColorChipsForSelectedStorage(storageOpt, isRefresh), 150);
             return;
         }
 
@@ -6071,13 +6136,15 @@
 
         selectedSku = null;
 
-        setTimeout(() => {
-            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 120);
+        if (!isRefresh) {
+            setTimeout(() => {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 120);
+        }
 
         storageOpt.colors.forEach((color, i) => {
             const canonical = productBySku[color.sku] || { hexCode: null };
-            const isOos = canonical.InStockStatus === 'N' || canonical.inStock === false;
+            const isOos = !isSkuInStock(color.sku);
             const isEstoreOnly = !!(canonical.estoreExclusive || canonical.EstoreExclusive || canonical['Estore Exclusive']);
 
             const chip = document.createElement('div');
@@ -6092,6 +6159,7 @@
             }
 
             chip.setAttribute("data-tracking",`color : ${color.name} : ${color.sku}`);
+            chip.setAttribute("data-sku", color.sku);
             chip.className = `device-card flex items-end justify-between px-4 py-3 md:py-4 border border-gray-300 rounded-xl text-sm text-nowrap transition-all ${isOos ? 'text-gray-400 bg-gray-100/80 cursor-not-allowed disabled' : 'cursor-pointer hover:border-[#007AFF] bg-white'} ${isEstoreOnly ? 'min-w-[100%] sm:min-w-[unset] -order-1' : 'min-w-[45%] sm:min-w-[unset]'}`;
 
             chip.innerHTML = `
@@ -6207,6 +6275,26 @@
             }
             container.appendChild(chip);
         });
+
+        // On stock-refresh re-render: restore previous color selection if still in stock, otherwise drop it
+        if (isRefresh && prevSku) {
+            if (isSkuInStock(prevSku)) {
+                selectedSku = prevSku;
+                const prevChip = container.querySelector(`[data-sku="${prevSku}"]`);
+                if (prevChip) prevChip.classList.add('!border-[#007AFF]', 'ring-1', 'ring-[#007AFF]');
+            } else {
+                const skuImageContainer = document.getElementById('selected-sku-image');
+                if (skuImageContainer) {
+                    skuImageContainer.classList.add('sehk-hidden');
+                    const img = skuImageContainer.querySelector('img');
+                    if (img) img.src = '';
+                }
+                document.getElementById('buy-now-btn')?.classList.add('sehk-opacity');
+                document.getElementById('tradein-section')?.classList.add('sehk-opacity');
+                document.getElementById('bank-section')?.classList.add('sehk-opacity');
+                updateStickyBar();
+            }
+        }
     }
 
     function updateTradeInPriceNewFlow() {
