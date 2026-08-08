@@ -5959,6 +5959,11 @@
 
     // === LIVE STOCK CHECK (getSimpleProductsInfo API, falls back to JSON InStockStatus) ===
     const liveStockStatus = {}; // sku -> true (in stock) / false (oos); absent = unknown → JSON fallback
+    const liveProductInfo = {}; // sku -> { shippingETA, backOrderMessage } (locale follows API path)
+
+    function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
 
     function isSkuInStock(sku) {
         if (Object.prototype.hasOwnProperty.call(liveStockStatus, sku)) {
@@ -5976,13 +5981,19 @@
         const cacheBuster = 'CB' + Date.now();
         const qs = [cacheBuster, ...uniqueSkus].map(s => 'productCodes=' + encodeURIComponent(s)).join('&');
         try {
-            const res = await fetch(`https://shop.samsung.com/hk/servicesv2/getSimpleProductsInfo?${qs}`, { cache: 'no-store' });
+            // Locale-aware path: zh → /hk/, en → /hk_en/ (localized shippingETA/backOrderMessage)
+            const stockApiLang = (getCurrentLang() === 'zh') ? 'hk' : 'hk_en';
+            const res = await fetch(`https://shop.samsung.com/${stockApiLang}/servicesv2/getSimpleProductsInfo?${qs}`, { cache: 'no-store' });
             if (!res.ok) throw new Error('stock check HTTP ' + res.status);
             const data = await res.json();
             const requested = new Set(uniqueSkus);
             (data.productDatas || []).forEach(p => {
                 if (p && p.productCode && requested.has(p.productCode)) {
                     liveStockStatus[p.productCode] = (p.stockLevelStatus === 'inStock');
+                    liveProductInfo[p.productCode] = {
+                        shippingETA: p.shippingETA || null,
+                        backOrderMessage: p.backOrderMessage || null
+                    };
                 }
             });
             return true;
@@ -6160,7 +6171,7 @@
 
             chip.setAttribute("data-tracking",`color : ${color.name} : ${color.sku}`);
             chip.setAttribute("data-sku", color.sku);
-            chip.className = `device-card flex items-end justify-between px-4 py-3 md:py-4 border border-gray-300 rounded-xl text-sm text-nowrap transition-all ${isOos ? 'text-gray-400 bg-gray-100/80 cursor-not-allowed disabled' : 'cursor-pointer hover:border-[#007AFF] bg-white'} ${isEstoreOnly ? 'min-w-[100%] sm:min-w-[unset] -order-1' : 'min-w-[45%] sm:min-w-[unset]'}`;
+            chip.className = `device-card flex flex-wrap items-end justify-between px-4 py-3 md:py-4 border border-gray-300 rounded-xl text-sm text-nowrap transition-all ${isOos ? 'text-gray-400 bg-gray-100/80 cursor-not-allowed disabled' : 'cursor-pointer hover:border-[#007AFF] bg-white'} ${isEstoreOnly ? 'min-w-[100%] sm:min-w-[unset] -order-1' : 'min-w-[45%] sm:min-w-[unset]'}`;
 
             chip.innerHTML = `
                 <div class="flex items-center gap-x-2">
@@ -6174,6 +6185,17 @@
 
             if (isEstoreOnly || isOos) {
               chip.innerHTML += `<div class="ml-5">${storeLabel}${oosLabel}</div>`;
+            }
+
+            // Live shipping ETA / backorder message from getSimpleProductsInfo (localized via API path)
+            const liveInfo = liveProductInfo[color.sku];
+            if (liveInfo) {
+                const etaLines = [];
+                if (liveInfo.shippingETA) etaLines.push(escapeHtml(liveInfo.shippingETA));
+                if (liveInfo.backOrderMessage) etaLines.push(escapeHtml(liveInfo.backOrderMessage));
+                if (etaLines.length > 0) {
+                    chip.innerHTML += `<div class="basis-full w-full mt-1 text-xs text-gray-500 leading-snug whitespace-normal">${etaLines.join('<br>')}</div>`;
+                }
             }
 
             if (!isOos) {
