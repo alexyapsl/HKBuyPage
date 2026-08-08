@@ -7215,6 +7215,20 @@
     async function confirmTradeInAndRedirect() {
         closeTradeInWarningModal();
 
+        // POST flow only works on samsung.com origins: cross-origin (e.g. github.io demo)
+        // the cart session cookies don't carry over (third-party context), so the cart
+        // would appear empty after redirect. Off-site → legacy magic-link redirect.
+        const onSamsungOrigin = window.location.hostname === 'samsung.com' || window.location.hostname.endsWith('.samsung.com');
+        if (!onSamsungOrigin) {
+            if (pendingMagicUrl) {
+                window.open(pendingMagicUrl, '_self');
+            }
+            window.selectedSkuForCart = null;
+            window.selectedGiftSkus = null;
+            pendingMagicUrl = null;
+            return;
+        }
+
         // Build products array from pending data (main SKU + optional gift SKUs)
         const products = [];
         if (window.selectedSkuForCart) {
