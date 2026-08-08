@@ -7218,8 +7218,10 @@
         // POST flow only works on samsung.com origins: cross-origin (e.g. github.io demo)
         // the cart session cookies don't carry over (third-party context), so the cart
         // would appear empty after redirect. Off-site → legacy magic-link redirect.
+        // Override with ?forcePost=1 to force the POST flow on any origin (testing).
+        const forcePost = new URLSearchParams(window.location.search).get('forcePost') === '1';
         const onSamsungOrigin = window.location.hostname === 'samsung.com' || window.location.hostname.endsWith('.samsung.com');
-        if (!onSamsungOrigin) {
+        if (!onSamsungOrigin && !forcePost) {
             if (pendingMagicUrl) {
                 window.open(pendingMagicUrl, '_self');
             }
