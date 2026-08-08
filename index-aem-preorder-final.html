@@ -1588,6 +1588,7 @@
           "addToAppLabel": "Add my product(s) to Samsung Shop App",
           "addToCart": "Add to Cart",
           "addToCartBtn": "Add to Cart",
+          "addToCartError": "Sorry, this product is unable to add to cart.",
           "badgeText": "NEW FLOW • PRODUCT FIRST",
           "bankPromoLabel": "Bank Promotion",
           "bankRecommended": "Recommended",
@@ -1715,6 +1716,7 @@
           "addToAppLabel": "將我的產品添加到 Samsung Shop App",
           "addToCart": "加入購物車",
           "addToCartBtn": "加入購物車",
+          "addToCartError": "抱歉，此產品無法加入購物車。",
           "badgeText": "全新流程 • 產品優先",
           "bankPromoLabel": "支付優惠折扣",
           "bankRecommended": "推薦",
@@ -7023,6 +7025,14 @@
                 pendingMagicUrl = magicUrl;
                 appendShopAppUrl();
 
+                // NEW: populate globals so confirmTradeInAndRedirect() has data for the POST path
+                window.selectedSkuForCart = selectedSku;
+                window.selectedGiftSkus = [];
+                if (mode === 'AddSKU') {
+                    if (skuOrCode1) window.selectedGiftSkus.push(skuOrCode1);
+                    if (skuOrCode2 && skuOrCode2 !== "") window.selectedGiftSkus.push(skuOrCode2);
+                }
+
                 const hasTradeIn = tradeInValue > 0;
                 const hasSamsungPay = useSamsungPay === true;
 
@@ -7061,11 +7071,85 @@
         document.getElementById('tradein-warning-modal').classList.add('sehk-hidden');
     }
 
-    function confirmTradeInAndRedirect() {
-        closeTradeInWarningModal();
-        if (pendingMagicUrl) {
-            window.open(pendingMagicUrl, '_self');
+    // === NEW POST-BASED ADD TO CART (replaces magic link) ===
+    function showErrorModal(message) {
+        const modal = document.createElement('div');
+        modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:9999';
+        modal.innerHTML = `
+            <div style="background:white;border-radius:16px;padding:32px 24px;max-width:320px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.2)">
+                <div style="font-size:48px;margin-bottom:12px;color:#e74c3c">⚠️</div>
+                <div style="font-size:18px;font-weight:600;margin-bottom:20px;color:#333">${message}</div>
+                <button onclick="this.closest('.error-modal').remove()" style="background:#007AFF;color:white;border:none;padding:12px 32px;border-radius:9999;font-size:15px">OK</button>
+            </div>`;
+        modal.className = 'error-modal';
+        document.body.appendChild(modal);
+    }
+
+    async function addToCartPost(products, voucherId = null) {
+        const currentLang = getCurrentLang();
+        const apiLang = (currentLang === 'zh') ? 'hk' : 'hk_en';
+        const ADD_URL = `https://api.shop.samsung.com/tokocommercewebservices/v2/${apiLang}/addToCart/multi/?fields=BASIC`;
+        const VOUCHER_URL = `https://p1-sms-api-cdn.shop.samsung.com/tokocommercewebservices/v2/${apiLang}/users/current/carts/current/vouchers?lang=${currentLang === 'zh' ? 'zh_HK' : 'en_HK'}&curr=HKD`;
+
+        try {
+            const res = await fetch(ADD_URL, {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(products)
+            });
+
+            if (!res.ok) {
+                if (res.status === 400) {
+                    showErrorModal(t('addToCartError'));
+                    return false;
+                }
+                throw new Error('Cart POST failed: ' + res.status);
+            }
+
+            if (voucherId) {
+                await fetch(VOUCHER_URL, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ voucherId, voucherPopup: false })
+                });
+            }
+
+            return true;
+        } catch (e) {
+            showErrorModal(t('addToCartError'));
+            return false;
         }
+    }
+    // === END NEW POST LOGIC ===
+
+    async function confirmTradeInAndRedirect() {
+        closeTradeInWarningModal();
+
+        // Build products array from pending data (main SKU + optional gift SKUs)
+        const products = [];
+        if (window.selectedSkuForCart) {
+            products.push({ productCode: window.selectedSkuForCart, qty: 1, services: [] });
+        }
+        (window.selectedGiftSkus || []).forEach(code => {
+            if (code) products.push({ productCode: code, qty: 1, services: [] });
+        });
+
+        const voucher = useSamsungPay ? 'SPAY2026' : null;
+
+        if (products.length > 0) {
+            const success = await addToCartPost(products, voucher);
+            if (success) {
+                const currentLang = getCurrentLang();
+                const cartDomain = (currentLang === 'zh') ? 'https://shop.samsung.com/hk/cart' : 'https://shop.samsung.com/hk_en/cart';
+                window.location.href = cartDomain;
+            }
+        }
+
+        // cleanup
+        window.selectedSkuForCart = null;
+        window.selectedGiftSkus = null;
         pendingMagicUrl = null;
     }
 
