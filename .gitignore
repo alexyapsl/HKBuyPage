@@ -1,0 +1,9 @@
+node_modules/
+.env.shanhs.local
+_tmp*
+_check_*.js
+_patch_*.js
+_patch_*.html
+_repo_version.html
+*.backup.html
+step3models.json

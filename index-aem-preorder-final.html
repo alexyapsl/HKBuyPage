@@ -112,6 +112,20 @@
             </div>
         </div>
 
+        <!-- IMEI Modal (ShanHS live trade-in quote) -->
+        <div id="imei-modal" class="sehk-hidden fixed inset-0 z-50 flex items-center justify-center" style="background: rgba(0,0,0,0.5);">
+            <div class="bg-white rounded-2xl p-6 w-11/12 max-w-md shadow-xl">
+                <div class="text-lg md:text-xl font-bold mb-2">Enter your trade-in device IMEI</div>
+                <div class="text-sm md:text-base text-gray-600 mb-4">Dial *#06# on the device you want to trade in to find its 15-digit IMEI.</div>
+                <input id="imei-input" type="text" maxlength="15" autocomplete="off" placeholder="15-digit IMEI" class="w-full border border-gray-300 focus:border-[#007AFF] focus:outline-none rounded-xl px-5 py-4 text-lg tracking-widest">
+                <div id="imei-error" class="sehk-hidden text-red-500 text-sm mt-2"></div>
+                <div class="flex gap-3 mt-5">
+                    <button type="button" onclick="closeImeiModal()" class="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-gray-700">Cancel</button>
+                    <button type="button" onclick="submitImei()" class="flex-1 bg-[#007AFF] text-white rounded-xl px-4 py-3 font-bold">Get quote</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Step 4: Bank Promotion -->
         <div class="mb-8 sehk-opacity" id="bank-section">
             <div class="section-title text-xl md:text-3xl mb-5" id="step4-title">
@@ -6319,67 +6333,190 @@
         }
     }
 
+    async function shanhsPost(path, bizObj) {
+        const res = await fetch(SHANHS_PROXY_BASE + path, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(bizObj)
+        });
+        if (!res.ok) throw new Error('ShanHS proxy HTTP ' + res.status);
+        return res.json();
+    }
+
+    function openImeiModal() {
+        const m = document.getElementById('imei-modal');
+        if (!m) return;
+        m.classList.remove('sehk-hidden');
+        hideImeiError();
+        const input = document.getElementById('imei-input');
+        if (input) { input.value = lastImei || ''; setTimeout(() => input.focus(), 50); }
+    }
+
+    function closeImeiModal() {
+        const m = document.getElementById('imei-modal');
+        if (m) m.classList.add('sehk-hidden');
+        pendingQuote = null;
+    }
+
+    function imeiError(msg) {
+        const e = document.getElementById('imei-error');
+        if (e) { e.textContent = msg; e.classList.remove('sehk-hidden'); }
+    }
+    function hideImeiError() {
+        const e = document.getElementById('imei-error');
+        if (e) e.classList.add('sehk-hidden');
+    }
+
+    function submitImei() {
+        const imei = (document.getElementById('imei-input').value || '').trim();
+        if (!/^[A-Za-z0-9]{15}$/.test(imei)) {
+            imeiError('Please enter a valid 15-digit IMEI (dial *#06# on the device).');
+            return;
+        }
+        if (!pendingQuote) { closeImeiModal(); return; }
+        const { device, key } = pendingQuote;
+        pendingQuote = null;
+        closeImeiModal();
+        fetchShanhsQuote(device, imei, key);
+    }
+
+    async function fetchShanhsQuote(device, imei, key) {
+        const valueDisplay = document.getElementById('tradein-value-display');
+        const container = document.getElementById('tradein-value-text');
+        if (valueDisplay) valueDisplay.classList.remove('sehk-hidden');
+        if (container) {
+            container.classList.remove('sehk-opacity');
+            container.innerHTML = '<div class="font-bold md:text-xl">Getting trade-in quote…</div>';
+        }
+        try {
+            // 1) verify the IMEI is recyclable
+            const verify = await shanhsPost('/sapi/gateway/shanhs-global-recycle-api/samsung/verify/imei', {
+                modelId: String(device.modelId), imei, isNewDevice: 'false'
+            });
+            if (verify.code !== 0) throw new Error(verify.message || 'IMEI verification failed');
+            if (verify.data && verify.data.hasRecycle === false) {
+                throw new Error('This device is not eligible for trade-in.');
+            }
+
+            // 2) price-cal, assuming best condition (first answer of each assessment group)
+            const detailIds = [device.storageDetailId, device.channelDetailId, ...(device.bestIds || [])].filter(Boolean);
+            const quote = await shanhsPost('/sapi/gateway/shanhs-global-recycle-api/samsung/price-cal', {
+                memberLevel: 3,
+                modelId: String(device.modelId),
+                detailIds,
+                recyclePhoneImei: imei,
+                newPhoneModelCode: selectedSku,
+                newSkuList: []
+            });
+            if (quote.code !== 0) throw new Error(quote.message || 'Price calculation failed');
+
+            lastImei = imei;
+            lastQuoteKey = key;
+            tradeInValue = (quote.data.price || 0) + (quote.data.ticketPrice || 0);
+            window.currentTradeInCalc = {
+                tradeInPrice: quote.data.price || 0,
+                extraRebate: quote.data.ticketPrice || 0,
+                isGuaranteed: false,
+                sku: selectedSku,
+                calUUId: quote.data.calUUId,
+                imei,
+                modelId: device.modelId,
+                detailIds
+            };
+            showTradeInOutcome(device);
+        } catch (err) {
+            tradeInValue = 0;
+            window.currentTradeInCalc = null;
+            lastQuoteKey = null;
+            if (container) {
+                container.classList.remove('sehk-opacity');
+                container.innerHTML = '<div class="font-bold text-red-600 md:text-xl">Trade-in quote failed</div>' +
+                    '<div class="mt-1 text-sm md:text-base text-red-500">' + escapeHtml(err.message || String(err)) + '</div>';
+            }
+            document.getElementById('bank-section').classList.add('sehk-opacity');
+            updateStickyBar();
+        }
+    }
+
     function updateTradeInPriceNewFlow() {
         const brand = document.getElementById('brand').value;
         const model = document.getElementById('model').value;
         const storage = document.getElementById('tradein-storage').value;
         const valueDisplay = document.getElementById('tradein-value-display');
-        const valueAmount = document.getElementById('tradein-value-amount');
 
         if (!brand || !model || !storage) {
             tradeInValue = 0;
+            window.currentTradeInCalc = null;
+            lastQuoteKey = null;
             valueDisplay.classList.add('sehk-hidden');
             document.getElementById('bank-section').classList.add('sehk-opacity');
             updateStickyBar();
             return;
         }
 
-        const device = devices.find(d => 
-            d.brand === brand && 
-            d.model === model && 
+        const device = devices.find(d =>
+            d.brand === brand &&
+            d.model === model &&
             d.storage === storage
         );
 
-        if (!selectedSku) {
+        if (!device || !selectedSku) {
             tradeInValue = 0;
+            window.currentTradeInCalc = null;
             if (valueDisplay) valueDisplay.classList.add('sehk-hidden');
             return;
         }
 
-        if (device && selectedSku) {
-            const sku = selectedSku;
-            const gtiVal = device.gti && device.gti[sku] ? device.gti[sku] : 0;
-            const etiVal = device.eti && device.eti[sku] ? device.eti[sku] : 0;
-            
-            let tradeInPrice = 0;
-            let isGuaranteed = false;
-            
-            if (gtiVal > 0) {
-                tradeInPrice = gtiVal;
-                isGuaranteed = true;
-            } else {
-                tradeInPrice = device.standardPrice || 0;
-                isGuaranteed = false;
-            }
-            
-            const extraRebate = etiVal;
-            tradeInValue = tradeInPrice + extraRebate;
-
-            window.currentTradeInCalc = {
-                tradeInPrice,
-                extraRebate,
-                isGuaranteed,
-                sku
-            };
-        } else {
-            tradeInValue = device ? (device.standardPrice || 0) : 0;
-            window.currentTradeInCalc = null;
+        const key = [brand, model, storage, selectedSku].join('|');
+        if (key === lastQuoteKey && window.currentTradeInCalc) {
+            showTradeInOutcome(device); // same selection already quoted — just re-show
+            return;
         }
+
+        if (device.shanhs) {
+            // ShanHS live quote: reuse IMEI if already entered this session, else ask
+            if (lastImei) {
+                fetchShanhsQuote(device, lastImei, key);
+            } else {
+                pendingQuote = { device, key };
+                openImeiModal();
+            }
+            return;
+        }
+
+        // Legacy static dataset (devices.json fallback)
+        const sku = selectedSku;
+        const gtiVal = device.gti && device.gti[sku] ? device.gti[sku] : 0;
+        const etiVal = device.eti && device.eti[sku] ? device.eti[sku] : 0;
+
+        let tradeInPrice = 0;
+        let isGuaranteed = false;
+
+        if (gtiVal > 0) {
+            tradeInPrice = gtiVal;
+            isGuaranteed = true;
+        } else {
+            tradeInPrice = device.standardPrice || 0;
+            isGuaranteed = false;
+        }
+
+        tradeInValue = tradeInPrice + etiVal;
+        window.currentTradeInCalc = { tradeInPrice, extraRebate: etiVal, isGuaranteed, sku };
+        lastQuoteKey = key;
+        showTradeInOutcome(device);
+    }
+
+    function showTradeInOutcome(device) {
+        const brand = document.getElementById('brand').value;
+        const model = document.getElementById('model').value;
+        const storage = document.getElementById('tradein-storage').value;
+        const valueDisplay = document.getElementById('tradein-value-display');
+        const valueAmount = document.getElementById('tradein-value-amount');
 
         if (tradeInValue > 0) {
             if (valueAmount) valueAmount.textContent = `HK$${tradeInValue.toLocaleString()}`;
             if (valueDisplay) valueDisplay.classList.remove('sehk-hidden');
-            if (valueDisplay) valueDisplay.setAttribute("data-tracking-special",`trade-in quote : ${selectedSku} : ${brand} : ${model} : ${storage}`);
+            if (valueDisplay) valueDisplay.setAttribute("data-tracking-special", `trade-in quote : ${selectedSku} : ${brand} : ${model} : ${storage}`);
         } else {
             if (valueDisplay) valueDisplay.classList.add('sehk-hidden');
             if (valueDisplay) valueDisplay.removeAttribute("data-tracking-special");
@@ -6889,7 +7026,72 @@
         main.style.paddingBottom = `${h}px`;
     }
 
+    // === ShanHS live trade-in quote config ===
+    // Local dev proxy (shanhs-proxy.js); override with ?shanhsProxy=https://your-backend.example
+    // PROD: replace with a backend endpoint so the ShanHS appSecret is never shipped to browsers.
+    const SHANHS_PROXY_BASE = new URLSearchParams(window.location.search).get('shanhsProxy') || 'http://localhost:8787';
+    let lastImei = null;
+    let lastQuoteKey = null;
+    let pendingQuote = null;
+
+    const SHANHS_BRAND_DISPLAY = {
+        'APPLE': 'Apple', 'SAMSUNG': 'Samsung', 'HONOR': 'HONOR', 'HUAWEI': 'HUAWEI',
+        'ONEPLUS': 'OnePlus', 'OPPO': 'OPPO', 'SONY': 'Sony', 'VIVO': 'vivo', 'XIAOMI': 'Xiaomi'
+    };
+
+    function flattenShanhsDevices(list) {
+        const rows = [];
+        (list || []).forEach(d => {
+            const brandDisp = SHANHS_BRAND_DISPLAY[d.brand] || d.brand;
+            // strip redundant brand prefix from model name ("Samsung Galaxy S25 Ultra" -> "Galaxy S25 Ultra")
+            let modelDisp = d.model || '';
+            const esc = String(d.brand).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            modelDisp = modelDisp.replace(new RegExp('^' + esc + '\\s+', 'i'), '');
+            (d.storages || []).forEach(s => {
+                rows.push({
+                    brand: brandDisp,
+                    model: modelDisp,
+                    storage: s.name,
+                    shanhs: true,
+                    modelId: d.modelId,
+                    storageDetailId: s.detailId,
+                    channelDetailId: d.channelDetailId,
+                    bestIds: d.bestIds || [],
+                    gtiFlag: d.gtiFlag
+                });
+            });
+        });
+        return rows;
+    }
+
     async function loadDevices() {
+        // 1) ShanHS slim dataset on CDN
+        try {
+            const res = await fetchWithTimeout(`${baseJsonPath}step3models_slim.json`, { timeout: 800 });
+            if (res.ok) {
+                const data = await res.json();
+                devices = flattenShanhsDevices(data.devices || []);
+                console.log('Loaded', devices.length, 'ShanHS trade-in variants (CDN)');
+                return;
+            }
+            throw new Error('HTTP ' + res.status);
+        } catch (e) {
+            console.warn('step3models_slim.json not on CDN, trying local copy', e);
+        }
+        // 2) Local copy (same directory as the page)
+        try {
+            const resLocal = await fetchWithTimeout('step3models_slim.json', { timeout: 800 });
+            if (resLocal.ok) {
+                const data = await resLocal.json();
+                devices = flattenShanhsDevices(data.devices || []);
+                console.log('Loaded', devices.length, 'ShanHS trade-in variants (local)');
+                return;
+            }
+            throw new Error('HTTP ' + resLocal.status);
+        } catch (e) {
+            console.warn('Local step3models_slim.json failed, falling back to legacy devices.json', e);
+        }
+        // 3) Legacy static dataset
         try {
             const res = await fetchWithTimeout(`${baseJsonPath}devices.json`, { timeout: 500 });
             if (res.ok) {
@@ -6897,7 +7099,7 @@
             } else {
                 throw new Error();
             }
-            console.log('Loaded', devices.length, 'devices');
+            console.log('Loaded', devices.length, 'devices (legacy)');
         } catch (e) {
             console.error('Failed to load devices.json, using fallback datasets context structure', e);
             devices = fallback_devices;
