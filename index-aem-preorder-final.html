@@ -6394,8 +6394,12 @@
                 modelId: String(device.modelId), imei, isNewDevice: 'false'
             });
             if (verify.code !== 0) throw new Error(verify.message || 'IMEI verification failed');
-            if (verify.data && verify.data.hasRecycle === false) {
+            // status 'Y' = IMEI recyclable; hasRecycle true = already locked to an existing recycle order
+            if (verify.data && verify.data.status && verify.data.status !== 'Y') {
                 throw new Error('This device is not eligible for trade-in.');
+            }
+            if (verify.data && verify.data.hasRecycle === true) {
+                throw new Error('This device already has a trade-in order.');
             }
 
             // 2) price-cal, assuming best condition (first answer of each assessment group)
@@ -7027,9 +7031,12 @@
     }
 
     // === ShanHS live trade-in quote config ===
-    // Local dev proxy (shanhs-proxy.js); override with ?shanhsProxy=https://your-backend.example
-    // PROD: replace with a backend endpoint so the ShanHS appSecret is never shipped to browsers.
-    const SHANHS_PROXY_BASE = new URLSearchParams(window.location.search).get('shanhsProxy') || 'http://localhost:8787';
+    // Cloudflare Worker signs requests server-side; local pages use the local dev proxy (shanhs-proxy.js).
+    // Override with ?shanhsProxy=https://your-backend.example
+    // PROD: replace with a Samsung/Cheil backend endpoint so the ShanHS appSecret is never shipped to browsers.
+    const SHANHS_WORKER_URL = 'https://shanhs-quote-proxy.alexyapsl.workers.dev';
+    const SHANHS_PROXY_BASE = new URLSearchParams(window.location.search).get('shanhsProxy')
+        || (['localhost', '127.0.0.1'].includes(window.location.hostname) ? 'http://localhost:8787' : SHANHS_WORKER_URL);
     let lastImei = null;
     let lastQuoteKey = null;
     let pendingQuote = null;
