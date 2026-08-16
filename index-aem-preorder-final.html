@@ -6367,7 +6367,7 @@
         if (e) e.classList.add('sehk-hidden');
     }
 
-    function submitImei() {
+    async function submitImei() {
         const imei = (document.getElementById('imei-input').value || '').trim();
         if (!/^[A-Za-z0-9]{15}$/.test(imei)) {
             imeiError('Please enter a valid 15-digit IMEI (dial *#06# on the device).');
@@ -6375,6 +6375,14 @@
         }
         if (!pendingQuote) { closeImeiModal(); return; }
         const { device, key } = pendingQuote;
+        // Official Samsung IMEI check first (JSONP — works on any origin).
+        // Samsung's own localized error message is shown in the modal on failure.
+        try {
+            const check = await tiValidateImei(device, imei);
+            if (!check.ok) { imeiError(check.message); return; }
+        } catch (e) {
+            console.warn('Samsung validateImei call failed, continuing with ShanHS verify only', e);
+        }
         pendingQuote = null;
         closeImeiModal();
         fetchShanhsQuote(device, imei, key);
@@ -6425,7 +6433,8 @@
                 calUUId: quote.data.calUUId,
                 imei,
                 modelId: device.modelId,
-                detailIds
+                detailIds,
+                device
             };
             showTradeInOutcome(device);
         } catch (err) {
@@ -7061,6 +7070,9 @@
                     storage: s.name,
                     shanhs: true,
                     modelId: d.modelId,
+                    brandId: d.brandId,
+                    categoryId: d.categoryId,
+                    modelFull: d.model,
                     storageDetailId: s.detailId,
                     channelDetailId: d.channelDetailId,
                     bestIds: d.bestIds || [],
@@ -7354,14 +7366,18 @@
 
                 const hasTradeIn = tradeInValue > 0;
                 const hasSamsungPay = useSamsungPay === true;
+                // On samsung.com with an IMEI-quoted trade-in, the trade-in is added automatically
+                // in the same POST — the "add it again in cart" warning only applies otherwise.
+                const onSamsungOriginNow = window.location.hostname === 'samsung.com' || window.location.hostname.endsWith('.samsung.com');
+                const autoTradeIn = hasTradeIn && onSamsungOriginNow && window.currentTradeInCalc && window.currentTradeInCalc.imei && window.currentTradeInCalc.device;
 
-                if (hasTradeIn) {
+                if (hasTradeIn && !autoTradeIn) {
                   document.getElementById('tradein-warning-body-trade-in').classList.remove('sehk-hidden');
                 } else {
                   document.getElementById('tradein-warning-body-trade-in').classList.add('sehk-hidden');
                 }
-                
-                if (hasTradeIn) {
+
+                if (hasTradeIn && !autoTradeIn) {
                     showTradeInWarningModal();
                 } else {
                     confirmTradeInAndRedirect();
@@ -7389,6 +7405,179 @@
     function closeTradeInWarningModal() {
         document.getElementById('tradein-warning-modal').classList.add('sehk-hidden');
     }
+
+    // === OFFICIAL SAMSUNG TRADE-IN CHAIN (validated end-to-end 2026-08-16) ===
+    // Flow: validateImei (JSONP) -> getTradeInSimpleInfo -> csrf -> questionnaire (OCC)
+    //       -> filterDevices walk (OCC) -> assessment submit (storefront, CSRF token)
+    //       -> additionalInfos ride on the main product in the normal addToCart POST.
+    // The full chain only works on *.samsung.com origins (CORS). validateImei works anywhere via JSONP.
+    function tiLangs() {
+        const currentLang = getCurrentLang();
+        const l = (currentLang === 'zh') ? 'hk' : 'hk_en';
+        return { apiLang: l, shopLang: l };
+    }
+
+    function tiJsonp(url) {
+        return new Promise((resolve, reject) => {
+            const cb = 'tiJsonpCb' + Date.now() + Math.floor(Math.random() * 1000);
+            const script = document.createElement('script');
+            const timer = setTimeout(() => { cleanup(); reject(new Error('IMEI validation timed out')); }, 12000);
+            const cleanup = () => { clearTimeout(timer); try { delete window[cb]; } catch (_) { window[cb] = undefined; } script.remove(); };
+            window[cb] = (data) => { cleanup(); resolve(data); };
+            script.onerror = () => { cleanup(); reject(new Error('IMEI validation request failed')); };
+            script.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + cb;
+            document.head.appendChild(script);
+        });
+    }
+
+    // Official IMEI check. Returns { ok:true } or { ok:false, message } (Samsung's localized message).
+    async function tiValidateImei(device, imei) {
+        const { shopLang } = tiLangs();
+        const url = `https://shop.samsung.com/${shopLang}/servicesv2/validateImeiWithoutProduct?provider=SHS&brandId=${device.brandId}&code=${encodeURIComponent(imei)}&supportType=1&modelId=${device.modelId}`;
+        const data = await tiJsonp(url);
+        if (data && data.resultCode === '0000') return { ok: true };
+        return { ok: false, message: (data && data.resultMessage) || 'IMEI validation failed' };
+    }
+
+    const tiAiVal = (node, k) => {
+        const f = ((node && node.additionalInfos) || []).find(i => i.key === k);
+        return f ? String(f.value) : '';
+    };
+
+    async function tiGetTradeInSimpleInfo(shopLang, targetSku) {
+        // Initializes server-side trade-in state for the product being bought.
+        const res = await fetch(`https://shop.samsung.com/${shopLang}/servicesv2/getTradeInSimpleInfo?productCode=${encodeURIComponent(targetSku)}`, {
+            credentials: 'include', headers: { 'Accept': 'application/json' }
+        });
+        if (!res.ok) throw new Error('Trade-in init failed (' + res.status + ')');
+        return res.json();
+    }
+
+    async function tiFetchCsrf(shopLang) {
+        const res = await fetch(`https://shop.samsung.com/${shopLang}/security/csrf`, {
+            credentials: 'include', headers: { 'Accept': 'application/json' }
+        });
+        if (!res.ok) throw new Error('CSRF token request failed (' + res.status + ')');
+        const data = await res.json();
+        if (!data || !data.token) throw new Error('CSRF token missing');
+        return data.token;
+    }
+
+    async function tiFetchQuestions(apiLang, modelId) {
+        const res = await fetch(`https://api.shop.samsung.com/tokocommercewebservices/v2/${apiLang}/servicesv2/assessment/TRADE_IN?q=${encodeURIComponent(modelId)}&provider=SHS`, {
+            method: 'POST', credentials: 'include',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ imei: '' })
+        });
+        if (!res.ok) throw new Error('Trade-in questionnaire request failed (' + res.status + ')');
+        const data = await res.json();
+        return data.questions || [];
+    }
+
+    // NB: the OCC variant is used on purpose — the storefront /servicesv2/filterDevices
+    // 500s on the SAMSUNG model list (bad catalog data). OCC + mainProductCode works.
+    async function tiFilterDevices(apiLang, key, targetSku) {
+        const res = await fetch(`https://api.shop.samsung.com/tokocommercewebservices/v2/${apiLang}/tradeIn/services/filterDevices?key=${encodeURIComponent(key)}&provider=SHS&mainProductCode=${encodeURIComponent(targetSku)}`, {
+            credentials: 'include', headers: { 'Accept': 'application/json' }
+        });
+        if (!res.ok) throw new Error('Trade-in catalog request failed (' + res.status + ')');
+        return res.json();
+    }
+
+    async function tiBuildSelectionResponses(apiLang, device, targetSku) {
+        const categoryId = String(device.categoryId || '1');
+        if (categoryId === '3') throw new Error('Online trade-in is not supported for laptops yet — please add it in the cart instead.');
+        const levels = [];
+        const dtList = await tiFilterDevices(apiLang, '', targetSku);
+        const dtNode = dtList.find(n => tiAiVal(n, 'deviceType') === categoryId) || dtList[0];
+        if (!dtNode) throw new Error('Trade-in catalog unavailable');
+        levels.push(dtNode);
+
+        const brandList = await tiFilterDevices(apiLang, dtNode.key, targetSku);
+        const brandNode = brandList.find(n => tiAiVal(n, 'brand') === String(device.brandId));
+        if (!brandNode) throw new Error('Trade-in brand not found in Samsung catalog');
+        levels.push(brandNode);
+
+        const modelList = await tiFilterDevices(apiLang, brandNode.key, targetSku);
+        const modelNode = modelList.find(n => tiAiVal(n, 'model') === String(device.modelId));
+        if (!modelNode) throw new Error('Trade-in model not found in Samsung catalog');
+        levels.push(modelNode);
+
+        if (categoryId === '1') {
+            // phones/tablets have a capacity level between model and purchaseChannel
+            const capList = await tiFilterDevices(apiLang, modelNode.key, targetSku);
+            const capNode = capList.find(n => tiAiVal(n, 'capacity') === String(device.storageDetailId));
+            if (!capNode) throw new Error('Trade-in capacity not found in Samsung catalog');
+            levels.push(capNode);
+        }
+
+        const chanList = await tiFilterDevices(apiLang, levels[levels.length - 1].key, targetSku);
+        const chanNode = chanList.find(n => tiAiVal(n, 'purchaseChannel') === String(device.channelDetailId || '1920')) || chanList[0];
+        if (!chanNode) throw new Error('Trade-in channel not found in Samsung catalog');
+        levels.push(chanNode);
+
+        const baseProduct = targetSku.split('-').slice(0, 2).join('-'); // SM-S9480ZSPTGY -> SM-S9480
+        levels.forEach(n => { n.mainBaseProductCode = baseProduct; });
+        for (let i = 1; i < levels.length; i++) {
+            levels[i].parent = { key: null, name: levels[i - 1].name, value: levels[i - 1].value, code: null, parent: null, mainProductCode: null, additionalInfos: null, imeiCheckInfo: null, imeiCheckOptions: null, priceMap: null, additionalDiscountApplied: false, isChildPresent: false, identifier: null, identifierName: null, provider: null, hideFlag: false, mainBaseProductCode: null, baseProductPriorityMap: null, campaignBonuses: null, offeredPriceMap: null };
+        }
+        levels[levels.length - 1].maxTradeIn = '';
+        return levels;
+    }
+
+    // Runs the whole assessment for the current trade-in selection (perfect condition assumed:
+    // first answer of every question) and returns the services array for addToCart.
+    // Throws Error with a user-displayable message on failure.
+    async function tiSubmitAssessment(device, imei, targetSku) {
+        const { apiLang, shopLang } = tiLangs();
+
+        // Re-validate the IMEI right before submitting (catches recycled/locked devices)
+        const check = await tiValidateImei(device, imei);
+        if (!check.ok) throw new Error(check.message);
+
+        await tiGetTradeInSimpleInfo(shopLang, targetSku);
+
+        const [csrfToken, questions, selectionResponses] = await Promise.all([
+            tiFetchCsrf(shopLang),
+            tiFetchQuestions(apiLang, device.modelId),
+            tiBuildSelectionResponses(apiLang, device, targetSku)
+        ]);
+
+        const responses = questions
+            .filter(q => q.answers && q.answers.length > 0)
+            .map(q => ({ name: q.questionId, value: q.answers[0].value }));
+        responses.push({ name: 'voucherCode' });
+        responses.push({ name: 'purchaseFrom', value: '0' });
+
+        const body = {
+            imei,
+            orderEntryNumber: 0,
+            productCode: '1',
+            responses,
+            targetProductCode: targetSku,
+            selectionResponses
+        };
+        const res = await fetch(`https://shop.samsung.com/${shopLang}/assessment/TRADE_IN/json?CSRFToken=${encodeURIComponent(csrfToken)}&provider=SHS`, {
+            method: 'POST', credentials: 'include',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        if (!res.ok) throw new Error('Trade-in assessment failed (' + res.status + ')');
+        const data = await res.json();
+        const infos = (data.result && data.result.additionalInfos) || [];
+        const get = k => { const f = infos.find(i => i.key === k); return f ? f.value : undefined; };
+        const errMsg = get('ERROR');
+        if (errMsg) throw new Error(errMsg); // Samsung's localized eligibility message
+        if (get('resultCode') !== '100' || !get('tradeInIdentifier')) throw new Error(t('addToCartError'));
+
+        // addToCart payload = IMEI first, assessment infos verbatim (key/value only), usedPrice last
+        const serviceInfos = [{ key: 'IMEI', value: imei }];
+        infos.forEach(i => serviceInfos.push({ key: i.key, value: i.value }));
+        const gti = parseFloat(get('gtiPrice') || '0');
+        serviceInfos.push({ key: 'usedPrice', value: gti > 0 ? 'gtiPrice,tickPrice' : 'tickPrice' });
+        return [{ serviceCode: 'T-SHS-TRADEIN', additionalInfos: serviceInfos }];
+    }
+    // === END OFFICIAL TRADE-IN CHAIN ===
 
     // === NEW POST-BASED ADD TO CART (replaces magic link) ===
     function showErrorModal(message) {
@@ -7474,6 +7663,25 @@
         });
 
         const voucher = useSamsungPay ? 'SPAY2026' : null;
+
+        // Attach the official trade-in service to the main product (samsung.com origin only).
+        // On failure nothing is added to cart — the user sees the error and can retry.
+        const tiCalc = window.currentTradeInCalc;
+        const hasLiveTradeIn = tradeInValue > 0 && tiCalc && tiCalc.imei && tiCalc.device;
+        if (onSamsungOrigin && hasLiveTradeIn && products.length > 0) {
+            const btn = document.getElementById('finalAddToCartBtn');
+            const origText = btn ? btn.textContent : '';
+            try {
+                if (btn) { btn.textContent = '. . .'; btn.style.pointerEvents = 'none'; }
+                products[0].services = await tiSubmitAssessment(tiCalc.device, tiCalc.imei, window.selectedSkuForCart);
+            } catch (e) {
+                console.error('Trade-in chain failed', e);
+                if (btn) { btn.textContent = origText; btn.style.pointerEvents = ''; }
+                showErrorModal(e.message || t('addToCartError'));
+                return;
+            }
+            if (btn) { btn.textContent = origText; btn.style.pointerEvents = ''; }
+        }
 
         if (products.length > 0) {
             const success = await addToCartPost(products, voucher, onSamsungOrigin);
