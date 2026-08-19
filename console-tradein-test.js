@@ -104,9 +104,20 @@ async function tiSubmitAssessment(device, imei, targetSku) {
     const services = await tiSubmitAssessment(DEVICE, IMEI, TARGET_SKU);
     console.log('[ti] services payload (' + services[0].additionalInfos.length + ' infos):', services);
     if (!DO_ADDTOCART) { console.log('[ti] DRY RUN done — set DO_ADDTOCART = true to add to cart'); return; }
-    const cartRes = await fetch(`https://api.shop.samsung.com/tokocommercewebservices/v2/${LANG}/addToCart/multi/?fields=BASIC`, { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify([{ productCode: TARGET_SKU, qty: 1, services }]) });
-    const cartData = await cartRes.json();
-    console.log('[ti] addToCart:', cartRes.status, cartData);
+    const cartRes = await fetch(`https://api.shop.samsung.com/tokocommercewebservices/v2/${LANG}/addToCart/multi/?fields=BASIC`, {
+      method: 'POST', credentials: 'include',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json, text/javascript, */*; q=0.01' },
+      body: JSON.stringify([{ productCode: TARGET_SKU, qty: 1, services }])
+    });
+    const cartText = await cartRes.text();
+    let cartData = null;
+    try { cartData = JSON.parse(cartText); } catch (_) { /* Samsung returns XML on some errors */ }
+    console.log('[ti] addToCart status:', cartRes.status, '| content-type:', cartRes.headers.get('content-type'));
+    if (!cartRes.ok) {
+      console.error('[ti] addToCart error body:', cartText.slice(0, 4000));
+      throw new Error('addToCart failed (' + cartRes.status + ') — see error body above');
+    }
+    console.log('[ti] addToCart:', cartRes.status, cartData || cartText.slice(0, 1000));
     console.log('[ti] DONE — check your cart (badge should show +1, trade-in attached to the entry)');
   } catch (e) {
     console.error('[ti] FAILED:', e.message || e);
