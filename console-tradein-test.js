@@ -34,7 +34,7 @@ async function tiValidateImei(device, imei) {
 }
 const tiAiVal = (node, k) => { const f = ((node && node.additionalInfos) || []).find(i => i.key === k); return f ? String(f.value) : ''; };
 async function tiFilterDevices(key, targetSku) {
-  const res = await fetch(`https://api.shop.samsung.com/tokocommercewebservices/v2/${LANG}/tradeIn/services/filterDevices?key=${enco…ey)}&provider=SHS&mainProductCode=${encodeURIComponent(targetSku)}`, { credentials: 'include', headers: { 'Accept': 'application/json' } });
+  const res = await fetch(`https://api.shop.samsung.com/tokocommercewebservices/v2/${LANG}/tradeIn/services/filterDevices?key=${encodeURIComponent(key)}&provider=SHS&mainProductCode=${encodeURIComponent(targetSku)}`, { credentials: 'include', headers: { 'Accept': 'application/json' } });
   if (!res.ok) throw new Error('Trade-in catalog request failed (' + res.status + ')');
   return res.json();
 }
