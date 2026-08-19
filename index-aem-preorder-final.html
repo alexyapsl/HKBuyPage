@@ -7603,11 +7603,17 @@
             const res = await fetch(ADD_URL, {
                 method: 'POST',
                 credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json, text/javascript, */*; q=0.01'
+                },
                 body: JSON.stringify(products)
             });
 
             if (!res.ok) {
+                // Samsung sometimes returns XML (`<List><item>...`) for cart errors — never assume JSON.
+                const errBody = await res.text().catch(() => '');
+                console.error('Add-to-cart failed', res.status, res.headers.get('content-type'), errBody.slice(0, 4000));
                 if (res.status === 400) {
                     if (showError) showErrorModal(t('addToCartError'));
                     return false;
