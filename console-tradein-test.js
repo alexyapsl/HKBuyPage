@@ -2,7 +2,7 @@
 // Dry-run by default: runs the full assessment but does NOT add to cart.
 // Set DO_ADDTOCART = true to perform the real addToCart POST.
 // ====== CONFIG (edit me) ======
-const DO_ADDTOCART = false;          // true = actually add device + trade-in to cart
+const DO_ADDTOCART = true;          // true = actually add device + trade-in to cart
 const LANG = 'hk';                   // 'hk' (zh) or 'hk_en'
 const TARGET_SKU = 'SM-S9480ZSPTGY'; // new device being bought
 const IMEI = '543215432154321';      // trade-in device IMEI
