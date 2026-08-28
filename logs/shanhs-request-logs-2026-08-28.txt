@@ -1,0 +1,77 @@
+########################################
+env: TEST env (appId 57, test.m.shanhs.com.cn)
+
+==== Samsung S25 Ultra (modelId 17081) ====
+--- verify/imei ---
+--- 2026-08-28T03:36:50.386Z ---
+POST https://test.m.shanhs.com.cn/sapi/gateway/shanhs-global-recycle-api/samsung/verify/imei
+request body: {"appId":"57","bizContent":"{\"modelId\":\"17081\",\"imei\":\"543215432154321\",\"isNewDevice\":\"false\"}","timestamp":1787888208716,"sign":"dd8380b958136af66eeb1f4762e1093b9f60e00ff751d1cf0001b65d3c1b6f7a","signType":"HS256"}
+sign input: appId=57&bizContent={"modelId":"17081","imei":"543215432154321","isNewDevice":"false"}&timestamp=1787888208716
+http status: 200
+response: {"code":0,"data":{"hasRecycle":false,"status":"N"}}
+
+--- price-cal ---
+--- 2026-08-28T03:36:51.298Z ---
+POST https://test.m.shanhs.com.cn/sapi/gateway/shanhs-global-recycle-api/samsung/price-cal
+request body: {"appId":"57","bizContent":"{\"memberLevel\":3,\"modelId\":\"17081\",\"detailIds\":[1160,1920,400011,400021,400031,400051],\"recyclePhoneImei\":\"543215432154321\",\"newPhoneModelCode\":\"VCEN4P4YAK\",\"newSkuList\":[]}","timestamp":1787888210390,"sign":"69a50d18840cd7274ad29acef20b5e1dd80877d6d291b98d186435cc1aa09c52","signType":"HS256"}
+sign input: appId=57&bizContent={"memberLevel":3,"modelId":"17081","detailIds":[1160,1920,400011,400021,400031,400051],"recyclePhoneImei":"543215432154321","newPhoneModelCode":"VCEN4P4YAK","newSkuList":[]}&timestamp=1787888210390
+http status: 200
+response: {"code":0,"data":{"price":2722,"ticketPrice":666.00,"calUUId":"82764ce2-1fe2-4258-b5dc-37c440bf782f","hasFixPrice":false}}
+
+
+==== iPhone 16 Pro (modelId 13202) ====
+--- verify/imei ---
+--- 2026-08-28T03:36:51.777Z ---
+POST https://test.m.shanhs.com.cn/sapi/gateway/shanhs-global-recycle-api/samsung/verify/imei
+request body: {"appId":"57","bizContent":"{\"modelId\":\"13202\",\"imei\":\"543215432154321\",\"isNewDevice\":\"false\"}","timestamp":1787888211298,"sign":"a3c14cb53e88a52129e03b298eb912d6c1529b7f311ebae83d5562aa75688f59","signType":"HS256"}
+sign input: appId=57&bizContent={"modelId":"13202","imei":"543215432154321","isNewDevice":"false"}&timestamp=1787888211298
+http status: 200
+response: {"code":0,"data":{"hasRecycle":false,"status":"Y"}}
+
+--- price-cal ---
+--- 2026-08-28T03:36:52.620Z ---
+POST https://test.m.shanhs.com.cn/sapi/gateway/shanhs-global-recycle-api/samsung/price-cal
+request body: {"appId":"57","bizContent":"{\"memberLevel\":3,\"modelId\":\"13202\",\"detailIds\":[1150,1920,400011,400021,400031,400051],\"recyclePhoneImei\":\"543215432154321\",\"newPhoneModelCode\":\"VCEN4P4YAK\",\"newSkuList\":[]}","timestamp":1787888211778,"sign":"632ac2a397edac4fef30395729019bd262ee0a8b37b13c852dff3f3fc9ae2502","signType":"HS256"}
+sign input: appId=57&bizContent={"memberLevel":3,"modelId":"13202","detailIds":[1150,1920,400011,400021,400031,400051],"recyclePhoneImei":"543215432154321","newPhoneModelCode":"VCEN4P4YAK","newSkuList":[]}&timestamp=1787888211778
+http status: 200
+response: {"code":0,"data":{"price":2185,"ticketPrice":666.00,"calUUId":"c3bdfee4-053b-4db2-8965-4b8ba7024229","hasFixPrice":false}}
+
+
+########################################
+env: LIVE/proxy env (appId 120, m.shanhs.com)
+
+==== Samsung S25 Ultra (modelId 17081) ====
+--- verify/imei ---
+--- 2026-08-28T03:36:53.128Z ---
+POST https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung/verify/imei
+request body: {"appId":"120","bizContent":"{\"modelId\":\"17081\",\"imei\":\"543215432154321\",\"isNewDevice\":\"false\"}","timestamp":1787888212621,"sign":"6ea00ea260c3b9124494e079fd51e1cec8457ef1897dea1b5e7b65408f12710e","signType":"HS256"}
+sign input: appId=120&bizContent={"modelId":"17081","imei":"543215432154321","isNewDevice":"false"}&timestamp=1787888212621
+http status: 200
+response: {"code":0,"data":{"hasRecycle":false,"status":"Y"}}
+
+--- price-cal ---
+--- 2026-08-28T03:36:54.248Z ---
+POST https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung/price-cal
+request body: {"appId":"120","bizContent":"{\"memberLevel\":3,\"modelId\":\"17081\",\"detailIds\":[1160,1920,400011,400021,400031,400051],\"recyclePhoneImei\":\"543215432154321\",\"newPhoneModelCode\":\"VCEN4P4YAK\",\"newSkuList\":[]}","timestamp":1787888213128,"sign":"1fad12aafc6261d4ea4185cb06da0888e50c5a92bc8fd819ce7f297417fe137e","signType":"HS256"}
+sign input: appId=120&bizContent={"memberLevel":3,"modelId":"17081","detailIds":[1160,1920,400011,400021,400031,400051],"recyclePhoneImei":"543215432154321","newPhoneModelCode":"VCEN4P4YAK","newSkuList":[]}&timestamp=1787888213128
+http status: 200
+response: {"code":0,"data":{"price":4520,"ticketPrice":0,"calUUId":"dd4106d1-0df5-4e28-b5ff-1fc3e740f1a0","hasFixPrice":false}}
+
+
+==== iPhone 16 Pro (modelId 13202) ====
+--- verify/imei ---
+--- 2026-08-28T03:36:54.315Z ---
+POST https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung/verify/imei
+request body: {"appId":"120","bizContent":"{\"modelId\":\"13202\",\"imei\":\"543215432154321\",\"isNewDevice\":\"false\"}","timestamp":1787888214249,"sign":"12360b33f29658dad52151cc2b24d5fbe7e2b28cc93076f339fe670f77f6b53c","signType":"HS256"}
+sign input: appId=120&bizContent={"modelId":"13202","imei":"543215432154321","isNewDevice":"false"}&timestamp=1787888214249
+http status: 200
+response: {"code":0,"data":{"hasRecycle":false,"status":"Y"}}
+
+--- price-cal ---
+--- 2026-08-28T03:36:55.007Z ---
+POST https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung/price-cal
+request body: {"appId":"120","bizContent":"{\"memberLevel\":3,\"modelId\":\"13202\",\"detailIds\":[1150,1920,400011,400021,400031,400051],\"recyclePhoneImei\":\"543215432154321\",\"newPhoneModelCode\":\"VCEN4P4YAK\",\"newSkuList\":[]}","timestamp":1787888214316,"sign":"cbef4209bbf2ab3ac598ad04e2c9a04202931f42b2a20f74eaf7c9c545187c60","signType":"HS256"}
+sign input: appId=120&bizContent={"memberLevel":3,"modelId":"13202","detailIds":[1150,1920,400011,400021,400031,400051],"recyclePhoneImei":"543215432154321","newPhoneModelCode":"VCEN4P4YAK","newSkuList":[]}&timestamp=1787888214316
+http status: 200
+response: {"code":0,"data":{"price":4706,"ticketPrice":0,"calUUId":"3588bff9-2143-4e60-8992-93579043bfa0","hasFixPrice":false}}
+
