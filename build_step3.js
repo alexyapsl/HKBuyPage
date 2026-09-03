@@ -95,7 +95,10 @@ async function fetchOptions(modelId) {
     await sleep(DELAY_MS);
 
     let data = await fetchOptions(m.modelId);
-    if (!data) { await sleep(500); data = await fetchOptions(m.modelId); } // one retry
+    for (let retry = 1; !data && retry <= 3; retry++) {
+      await sleep(600 * retry);
+      data = await fetchOptions(m.modelId);
+    }
     if (!data) { failed.push(m.modelId); continue; }
 
     const skuQuestions = (data.skuOptions || []).map(mapQuestion);

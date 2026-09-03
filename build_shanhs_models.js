@@ -22,6 +22,9 @@ const secret = process.env.SHANHS_APP_SECRET || '';
 const HOST = process.env.SHANHS_UPSTREAM || 'test.m.shanhs.com.cn';
 const BASE = '/sapi/gateway/shanhs-global-recycle-api/samsung';
 const OUT = path.join(__dirname, 'shanhs_models.json');
+// Only fetch/enrich these categories (id 1 = Smartphone & Tablet, 511 models;
+// Notebook and Smartwatch skipped to keep the catalog lean)
+const ALLOWED_CATEGORY_IDS = [1];
 
 function post(apiPath, bizContent) {
   return new Promise((resolve) => {
@@ -77,6 +80,10 @@ function pickName(nameList, langPrefs = [4, 5, 1]) {
   const seen = new Set();
 
   for (const cat of categories) {
+    if (ALLOWED_CATEGORY_IDS.length && !ALLOWED_CATEGORY_IDS.includes(cat.categoryId)) {
+      console.log('skip cat ' + cat.categoryId + ' (' + cat.categoryName + ')');
+      continue;
+    }
     // 2. Brands per category
     const brandRes = await post(BASE + '/brand/list', JSON.stringify({ categoryId: cat.categoryId }));
     if (brandRes.code !== 0) { console.error('brand/list failed for cat', cat.categoryId, brandRes); continue; }
