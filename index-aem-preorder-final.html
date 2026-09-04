@@ -5869,7 +5869,8 @@
 
     function populateBrandsNewFlow() {
         const brandSelect = document.getElementById('brand');
-        const uniqueBrands = [...new Set(devices.map(d => d.brand))].sort((a, b) => b.localeCompare(a));
+        // Keep ShanHS API order (SAMSUNG first) - devices[] is already in that order, no re-sort
+        const uniqueBrands = [...new Set(devices.map(d => d.brand))];
         brandSelect.innerHTML = `<option value="">${t('selectBrandOption')}</option>`;
         uniqueBrands.forEach(b => {
             const opt = document.createElement('option');
