@@ -119,7 +119,8 @@ function pickName(nameList, langPrefs = [4, 5, 1]) {
     }
   }
 
-  allModels.sort((a, b) => a.categoryId - b.categoryId || a.brandId - b.brandId || a.modelId - b.modelId);
+  // Keep raw API order (newest flagship first per brand, as returned by model/list).
+  // Previously re-sorted by categoryId/brandId/modelId which destroyed that order.
 
   const gtiCount = allModels.filter(m => m.gtiFlag).length;
   const out = {
