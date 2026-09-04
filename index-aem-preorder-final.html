@@ -74,7 +74,7 @@
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-500">
                             <i class="fa-solid fa-chevron-down text-sm"></i>
                         </div>
-                        <div id="brand-list" class="ti-combo-list sehk-hidden absolute z-30 left-0 right-0 mt-1 max-h-72 overflow-y-auto bg-white border border-gray-200 rounded-xl shadow-lg"></div>
+                        <div id="brand-list" class="ti-combo-list sehk-hidden"></div>
                         <select id="brand" class="sehk-hidden" tabindex="-1" aria-hidden="true"><option value=""></option></select>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-500">
                             <i class="fa-solid fa-chevron-down text-sm"></i>
                         </div>
-                        <div id="model-list" class="ti-combo-list sehk-hidden absolute z-30 left-0 right-0 mt-1 max-h-72 overflow-y-auto bg-white border border-gray-200 rounded-xl shadow-lg"></div>
+                        <div id="model-list" class="ti-combo-list sehk-hidden"></div>
                         <select id="model" class="sehk-hidden" tabindex="-1" aria-hidden="true"><option value=""></option></select>
                     </div>
                 </div>
@@ -5878,12 +5878,19 @@
     }
 
     // === Searchable combobox (brand / model) ===
-    // <style> injected here to keep the change self-contained:
-    // .ti-combo-item hover/active states for the dropdown list.
+    // Fully self-contained styling (page's Tailwind CDN is commented out, so
+    // dropdown visuals don't rely on utility classes possibly missing from the build).
     if (!document.getElementById('ti-combo-style')) {
         const st = document.createElement('style');
         st.id = 'ti-combo-style';
-        st.textContent = '.ti-combo-item.bg-blue-100{background-color:#DBEAFE}.ti-combo-list::-webkit-scrollbar{width:6px}.ti-combo-list::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:3px}';
+        st.textContent = `
+            .ti-combo{position:relative}
+            .ti-combo-list{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:9999;max-height:288px;overflow-y:auto;background:#fff;border:1px solid #d1d5db;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,.18);box-sizing:border-box}
+            .ti-combo-item{padding:12px 20px;cursor:pointer;color:#111;box-sizing:border-box}
+            .ti-combo-item:hover{background:#eff6ff}
+            .ti-combo-item.ti-active,.ti-combo-item.bg-blue-100{background:#dbeafe}
+            .ti-combo-list::-webkit-scrollbar{width:6px}
+            .ti-combo-list::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:3px}`;
         document.head.appendChild(st);
     }
     // Text input with a filtered dropdown; selection is mirrored into the hidden
@@ -5958,7 +5965,7 @@
             const dir = ev.key === 'ArrowDown' ? 1 : -1;
             tiCombo[kind].activeIdx = (tiCombo[kind].activeIdx + dir + matches.length) % matches.length;
             listEl.querySelectorAll('.ti-combo-item').forEach((el, i) => {
-                el.classList.toggle('bg-blue-100', i === tiCombo[kind].activeIdx);
+                el.classList.toggle('ti-active', i === tiCombo[kind].activeIdx);
                 if (i === tiCombo[kind].activeIdx) el.scrollIntoView({ block: 'nearest' });
             });
         } else if (ev.key === 'Enter') {
