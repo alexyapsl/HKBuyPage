@@ -67,24 +67,28 @@
               <div class="md:flex-1 min-w-0 flex flex-col gap-4">
                 <div>
                     <label class="section-title text-sm md:text-xl text-gray-700 mb-2 block" data-i18n="brandLabel" id="brand-label"></label>
-                    <div class="relative">
-                        <select id="brand" onchange="updateModelsNewFlow()" class="w-full border border-gray-300 hover:border-[#007AFF] focus:border-[#007AFF] focus:outline-none rounded-xl px-5 py-4 appearance-none bg-white pr-12 md:text-xl">
-                            <option value=""></option>
-                        </select>
+                    <div class="relative ti-combo" id="brand-combo">
+                        <input id="brand-input" type="text" autocomplete="off" disabled
+                            class="w-full border border-gray-300 hover:border-[#007AFF] focus:border-[#007AFF] focus:outline-none rounded-xl px-5 py-4 bg-white pr-12 md:text-xl disabled:bg-gray-50 disabled:text-gray-400"
+                            onfocus="tiComboFocus('brand')" oninput="tiComboInput('brand')" onkeydown="tiComboKey(event,'brand')" onblur="tiComboBlur('brand')">
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-500">
                             <i class="fa-solid fa-chevron-down text-sm"></i>
                         </div>
+                        <div id="brand-list" class="ti-combo-list sehk-hidden absolute z-30 left-0 right-0 mt-1 max-h-72 overflow-y-auto bg-white border border-gray-200 rounded-xl shadow-lg"></div>
+                        <select id="brand" class="sehk-hidden" tabindex="-1" aria-hidden="true"><option value=""></option></select>
                     </div>
                 </div>
                 <div>
                     <label class="section-title text-sm md:text-xl text-gray-700 mb-2 block" data-i18n="modelLabel" id="model-label"></label>
-                    <div class="relative">
-                        <select id="model" onchange="updateStorageNewFlow()" disabled class="w-full border border-gray-300 hover:border-[#007AFF] focus:border-[#007AFF] focus:outline-none rounded-xl px-5 py-4 appearance-none bg-white pr-12 md:text-xl disabled:bg-gray-50 disabled:text-gray-400">
-                            <option value=""></option>
-                        </select>
+                    <div class="relative ti-combo" id="model-combo">
+                        <input id="model-input" type="text" autocomplete="off" disabled
+                            class="w-full border border-gray-300 hover:border-[#007AFF] focus:border-[#007AFF] focus:outline-none rounded-xl px-5 py-4 bg-white pr-12 md:text-xl disabled:bg-gray-50 disabled:text-gray-400"
+                            onfocus="tiComboFocus('model')" oninput="tiComboInput('model')" onkeydown="tiComboKey(event,'model')" onblur="tiComboBlur('model')">
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-500">
                             <i class="fa-solid fa-chevron-down text-sm"></i>
                         </div>
+                        <div id="model-list" class="ti-combo-list sehk-hidden absolute z-30 left-0 right-0 mt-1 max-h-72 overflow-y-auto bg-white border border-gray-200 rounded-xl shadow-lg"></div>
+                        <select id="model" class="sehk-hidden" tabindex="-1" aria-hidden="true"><option value=""></option></select>
                     </div>
                 </div>
                 <div>
@@ -1680,6 +1684,7 @@
           "selectBrand": "Select brand",
           "selectBrandOption": "Brand",
           "selectBrandPlaceholder": "Brand",
+          "noMatchFound": "No matches",
           "selectColorTitle": "Color",
           "selectModel": "Select model",
           "selectModelOption": "Model",
@@ -1808,6 +1813,7 @@
           "selectBrand": "選擇品牌",
           "selectBrandOption": "選擇品牌",
           "selectBrandPlaceholder": "選擇品牌",
+          "noMatchFound": "沒有符合的結果",
           "selectColorTitle": "選擇顏色",
           "selectModel": "選擇型號",
           "selectModelOption": "選擇型號",
@@ -5849,6 +5855,10 @@
             document.getElementById('brand').value = '';
             document.getElementById('model').innerHTML = '<option value="">Select model</option>';
             document.getElementById('model').disabled = true;
+            tiComboClear('brand');
+            tiComboClear('model');
+            tiComboSetOptions('model', []);
+            tiComboSetDisabled('model', true);
             document.getElementById('tradein-storage').innerHTML = '<option value="">Select storage</option>';
             document.getElementById('tradein-storage').disabled = true;
             document.getElementById('tradein-value-display').classList.add('sehk-hidden');
@@ -5867,6 +5877,151 @@
         updateStickyBar();
     }
 
+    // === Searchable combobox (brand / model) ===
+    // <style> injected here to keep the change self-contained:
+    // .ti-combo-item hover/active states for the dropdown list.
+    if (!document.getElementById('ti-combo-style')) {
+        const st = document.createElement('style');
+        st.id = 'ti-combo-style';
+        st.textContent = '.ti-combo-item.bg-blue-100{background-color:#DBEAFE}.ti-combo-list::-webkit-scrollbar{width:6px}.ti-combo-list::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:3px}';
+        document.head.appendChild(st);
+    }
+    // Text input with a filtered dropdown; selection is mirrored into the hidden
+    // legacy <select id="brand"> / <select id="model"> so all downstream logic
+    // (updateModelsNewFlow / updateStorageNewFlow / price calc) works unchanged.
+    const tiCombo = {
+        brand: { options: [], activeIdx: -1 },
+        model: { options: [], activeIdx: -1 }
+    };
+
+    function tiComboSetOptions(kind, options) {
+        tiCombo[kind].options = options;
+        tiCombo[kind].activeIdx = -1;
+    }
+
+    function tiComboRender(kind, filterText) {
+        const listEl = document.getElementById(kind + '-list');
+        const q = (filterText || '').trim().toLowerCase();
+        const matches = q
+            ? tiCombo[kind].options.filter(o => o.toLowerCase().includes(q))
+            : tiCombo[kind].options;
+        tiCombo[kind].activeIdx = -1;
+        if (!matches.length) {
+            listEl.innerHTML = `<div class="px-5 py-3 text-gray-400 text-sm md:text-base">${escapeHtml(t('noMatchFound') || 'No matches')}</div>`;
+        } else {
+            listEl.innerHTML = matches.map((o, i) =>
+                `<div class="ti-combo-item px-5 py-3 cursor-pointer hover:bg-blue-50 md:text-lg" data-idx="${i}" data-val="${escapeHtml(o)}"
+                    onmousedown="event.preventDefault(); tiComboPick('${kind}', ${i}, ${q ? 'true' : 'false'})">${escapeHtml(o)}</div>`
+            ).join('');
+        }
+        listEl.dataset.filtered = q ? '1' : '';
+        listEl.classList.remove('sehk-hidden');
+    }
+
+    function tiComboFiltered(kind) {
+        const listEl = document.getElementById(kind + '-list');
+        const q = (document.getElementById(kind + '-input').value || '').trim().toLowerCase();
+        return q ? tiCombo[kind].options.filter(o => o.toLowerCase().includes(q)) : tiCombo[kind].options;
+    }
+
+    function tiComboFocus(kind) {
+        const input = document.getElementById(kind + '-input');
+        if (input.disabled) return;
+        // If a value is already selected, show full list so user can change easily
+        const sel = document.getElementById(kind);
+        if (sel.value && input.value === sel.value) {
+            input.select();
+        }
+        tiComboRender(kind, '');
+    }
+
+    function tiComboInput(kind) {
+        const input = document.getElementById(kind + '-input');
+        // Typing after a selection = user wants to change it → clear committed value
+        const sel = document.getElementById(kind);
+        if (sel.value && input.value !== sel.value) {
+            sel.value = '';
+            if (kind === 'brand') updateModelsNewFlow();
+            else updateStorageNewFlow();
+        }
+        tiComboRender(kind, input.value);
+    }
+
+    function tiComboKey(ev, kind) {
+        const listEl = document.getElementById(kind + '-list');
+        const open = !listEl.classList.contains('sehk-hidden');
+        const matches = tiComboFiltered(kind);
+        if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
+            ev.preventDefault();
+            if (!open) { tiComboRender(kind, ''); return; }
+            if (!matches.length) return;
+            const dir = ev.key === 'ArrowDown' ? 1 : -1;
+            tiCombo[kind].activeIdx = (tiCombo[kind].activeIdx + dir + matches.length) % matches.length;
+            listEl.querySelectorAll('.ti-combo-item').forEach((el, i) => {
+                el.classList.toggle('bg-blue-100', i === tiCombo[kind].activeIdx);
+                if (i === tiCombo[kind].activeIdx) el.scrollIntoView({ block: 'nearest' });
+            });
+        } else if (ev.key === 'Enter') {
+            if (open && tiCombo[kind].activeIdx >= 0 && matches[tiCombo[kind].activeIdx] !== undefined) {
+                ev.preventDefault();
+                tiComboCommit(kind, matches[tiCombo[kind].activeIdx]);
+            } else if (open && matches.length === 1) {
+                ev.preventDefault();
+                tiComboCommit(kind, matches[0]);
+            }
+        } else if (ev.key === 'Escape') {
+            listEl.classList.add('sehk-hidden');
+            const sel = document.getElementById(kind);
+            document.getElementById(kind + '-input').value = sel.value || '';
+        } else if (ev.key === 'Tab') {
+            listEl.classList.add('sehk-hidden');
+        }
+    }
+
+    function tiComboPick(kind, idx) {
+        const matches = tiComboFiltered(kind);
+        if (matches[idx] !== undefined) tiComboCommit(kind, matches[idx]);
+    }
+
+    function tiComboCommit(kind, value) {
+        const sel = document.getElementById(kind);
+        const input = document.getElementById(kind + '-input');
+        sel.value = value;
+        input.value = value;
+        document.getElementById(kind + '-list').classList.add('sehk-hidden');
+        if (kind === 'brand') updateModelsNewFlow();
+        else updateStorageNewFlow();
+    }
+
+    function tiComboBlur(kind) {
+        // Close dropdown; snap text back to committed value if no exact match
+        setTimeout(() => {
+            document.getElementById(kind + '-list').classList.add('sehk-hidden');
+            const sel = document.getElementById(kind);
+            const input = document.getElementById(kind + '-input');
+            if (!sel.value) {
+                // exact (case-insensitive) match auto-commits
+                const hit = tiCombo[kind].options.find(o => o.toLowerCase() === input.value.trim().toLowerCase());
+                if (hit) { tiComboCommit(kind, hit); return; }
+                input.value = '';
+            } else {
+                input.value = sel.value;
+            }
+        }, 120);
+    }
+
+    function tiComboSetDisabled(kind, disabled) {
+        document.getElementById(kind + '-input').disabled = disabled;
+    }
+
+    function tiComboClear(kind) {
+        const sel = document.getElementById(kind);
+        const input = document.getElementById(kind + '-input');
+        sel.value = '';
+        input.value = '';
+        document.getElementById(kind + '-list').classList.add('sehk-hidden');
+    }
+
     function populateBrandsNewFlow() {
         const brandSelect = document.getElementById('brand');
         // Keep ShanHS API order (SAMSUNG first) - devices[] is already in that order, no re-sort
@@ -5878,6 +6033,8 @@
             opt.textContent = b;
             brandSelect.appendChild(opt);
         });
+        tiComboSetOptions('brand', uniqueBrands);
+        tiComboSetDisabled('brand', false);
         refreshTradeInPlaceholders();
     }
 
@@ -5888,6 +6045,11 @@
         if (modelFirst && modelFirst.options[0]) modelFirst.options[0].textContent = t('selectModelOption');
         const storageFirst = document.getElementById('tradein-storage');
         if (storageFirst && storageFirst.options[0]) storageFirst.options[0].textContent = t('selectStorageOption');
+        // Mirror placeholders onto the combobox text inputs
+        const brandInput = document.getElementById('brand-input');
+        if (brandInput && !brandInput.value) brandInput.placeholder = t('selectBrandOption') || '';
+        const modelInput = document.getElementById('model-input');
+        if (modelInput && !modelInput.value) modelInput.placeholder = t('selectModelOption') || '';
     }
 
     function updateModelsNewFlow() {
@@ -5899,6 +6061,9 @@
         if (!brand) {
             modelSelect.innerHTML = `<option value="">${t('selectModelOption')}</option>`;
             modelSelect.disabled = true;
+            tiComboSetOptions('model', []);
+            tiComboClear('model');
+            tiComboSetDisabled('model', true);
             storageSelect.innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
             storageSelect.disabled = true;
             valueDisplay.classList.add('sehk-hidden');
@@ -5920,6 +6085,9 @@
             opt.textContent = m;
             modelSelect.appendChild(opt);
         });
+        tiComboSetOptions('model', models);
+        tiComboClear('model');
+        tiComboSetDisabled('model', false);
 
         storageSelect.innerHTML = `<option value="">${t('selectStorageOption')}</option>`;
         storageSelect.disabled = true;
