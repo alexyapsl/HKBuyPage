@@ -27,6 +27,24 @@ jobs:
         with:
           node-version: 20
 
+      # Fail fast with a clear message when the repo secrets are not configured
+      # (silent default creds otherwise produce a cryptic 'sign error' exit 1).
+      - name: Check ShanHS secrets
+        env:
+          SHANHS_APP_ID: ${{ secrets.SHANHS_APP_ID }}
+          SHANHS_APP_SECRET: ${{ secrets.SHANHS_APP_SECRET }}
+          SHANHS_UPSTREAM: ${{ secrets.SHANHS_UPSTREAM }}
+        run: |
+          missing=""
+          [ -z "$SHANHS_APP_ID" ] && missing="$missing SHANHS_APP_ID"
+          [ -z "$SHANHS_APP_SECRET" ] && missing="$missing SHANHS_APP_SECRET"
+          [ -z "$SHANHS_UPSTREAM" ] && missing="$missing SHANHS_UPSTREAM"
+          if [ -n "$missing" ]; then
+            echo "::error::Missing repo secrets:$missing — set them under Settings -> Secrets and variables -> Actions (values are in .env.shanhs.local)"
+            exit 1
+          fi
+          echo "All ShanHS secrets present."
+
       - name: Build shanhs_models.json
         env:
           SHANHS_APP_ID: ${{ secrets.SHANHS_APP_ID }}
