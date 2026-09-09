@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-08T18:55:56.390Z",
+  "generatedAt": "2026-09-09T18:48:40.520Z",
   "source": "https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung",
-  "totalModels": 511,
+  "totalModels": 512,
   "gtiModelCount": 32,
   "models": [
     {
@@ -4449,6 +4449,17 @@
     {
       "modelId": 13930,
       "modelName": "Redmi A3 (Overseas)",
+      "brandId": 110,
+      "brandName": "XIAOMI",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17497,
+      "modelName": "POCO X8 Pro Max",
       "brandId": 110,
       "brandName": "XIAOMI",
       "categoryId": 1,
