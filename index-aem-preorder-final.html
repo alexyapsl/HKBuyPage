@@ -5913,6 +5913,7 @@
             ? tiCombo[kind].options.filter(o => o.toLowerCase().includes(q))
             : tiCombo[kind].options;
         tiCombo[kind].activeIdx = -1;
+        tiCombo[kind].rendered = matches; // remember exactly what was rendered so pick/key use the same index space
         if (!matches.length) {
             listEl.innerHTML = `<div class="px-5 py-3 text-gray-400 text-sm md:text-base">${escapeHtml(t('noMatchFound') || 'No matches')}</div>`;
         } else {
@@ -5957,7 +5958,8 @@
     function tiComboKey(ev, kind) {
         const listEl = document.getElementById(kind + '-list');
         const open = !listEl.classList.contains('sehk-hidden');
-        const matches = tiComboFiltered(kind);
+        // Use the rendered list when open so highlight/Enter match what the user sees
+        const matches = open ? (tiCombo[kind].rendered || []) : tiComboFiltered(kind);
         if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
             ev.preventDefault();
             if (!open) { tiComboRender(kind, ''); return; }
@@ -5986,7 +5988,10 @@
     }
 
     function tiComboPick(kind, idx) {
-        const matches = tiComboFiltered(kind);
+        // Use the rendered list (same index space as the visible dropdown), not a
+        // re-derivation from the input text — the input may still hold the previously
+        // committed value while the dropdown shows the full unfiltered list.
+        const matches = tiCombo[kind].rendered || tiComboFiltered(kind);
         if (matches[idx] !== undefined) tiComboCommit(kind, matches[idx]);
     }
 
