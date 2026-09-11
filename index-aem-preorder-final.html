@@ -69,8 +69,13 @@
                     <label class="section-title text-sm md:text-xl text-gray-700 mb-2 block" data-i18n="brandLabel" id="brand-label"></label>
                     <div class="relative ti-combo" id="brand-combo">
                         <input id="brand-input" type="text" autocomplete="off" disabled
-                            class="w-full border border-gray-300 hover:border-[#007AFF] focus:border-[#007AFF] focus:outline-none rounded-xl px-5 py-4 bg-white pr-12 md:text-xl disabled:bg-gray-50 disabled:text-gray-400"
+                            class="w-full border border-gray-300 hover:border-[#007AFF] focus:border-[#007AFF] focus:outline-none rounded-xl px-5 py-4 bg-white pr-20 md:text-xl disabled:bg-gray-50 disabled:text-gray-400"
                             onfocus="tiComboFocus('brand')" oninput="tiComboInput('brand')" onkeydown="tiComboKey(event,'brand')" onblur="tiComboBlur('brand')">
+                        <button type="button" id="brand-clear" title="Clear selection" tabindex="-1"
+                            class="sehk-hidden absolute inset-y-0 right-10 px-2 text-gray-400 hover:text-gray-600"
+                            onmousedown="event.preventDefault(); tiComboClearClick('brand')">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-500">
                             <i class="fa-solid fa-chevron-down text-sm"></i>
                         </div>
@@ -82,8 +87,13 @@
                     <label class="section-title text-sm md:text-xl text-gray-700 mb-2 block" data-i18n="modelLabel" id="model-label"></label>
                     <div class="relative ti-combo" id="model-combo">
                         <input id="model-input" type="text" autocomplete="off" disabled
-                            class="w-full border border-gray-300 hover:border-[#007AFF] focus:border-[#007AFF] focus:outline-none rounded-xl px-5 py-4 bg-white pr-12 md:text-xl disabled:bg-gray-50 disabled:text-gray-400"
+                            class="w-full border border-gray-300 hover:border-[#007AFF] focus:border-[#007AFF] focus:outline-none rounded-xl px-5 py-4 bg-white pr-20 md:text-xl disabled:bg-gray-50 disabled:text-gray-400"
                             onfocus="tiComboFocus('model')" oninput="tiComboInput('model')" onkeydown="tiComboKey(event,'model')" onblur="tiComboBlur('model')">
+                        <button type="button" id="model-clear" title="Clear selection" tabindex="-1"
+                            class="sehk-hidden absolute inset-y-0 right-10 px-2 text-gray-400 hover:text-gray-600"
+                            onmousedown="event.preventDefault(); tiComboClearClick('model')">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-500">
                             <i class="fa-solid fa-chevron-down text-sm"></i>
                         </div>
@@ -5935,10 +5945,38 @@
     function tiComboFocus(kind) {
         const input = document.getElementById(kind + '-input');
         if (input.disabled) return;
-        // If a value is already selected, show full list so user can change easily
+        // Committed fields are readOnly: a tap opens the full list without putting
+        // the text cursor in edit mode. Editing only starts via the clear (✕) button.
+        if (input.readOnly) {
+            tiComboRender(kind, '');
+            return;
+        }
         const sel = document.getElementById(kind);
         if (sel.value && input.value === sel.value) {
             input.select();
+        }
+        tiComboRender(kind, '');
+    }
+
+    function tiComboShowClear(kind, show) {
+        const btn = document.getElementById(kind + '-clear');
+        if (btn) btn.classList.toggle('sehk-hidden', !show);
+    }
+
+    function tiComboClearClick(kind) {
+        // Manual clear via ✕: switches the field to editable filter mode
+        const sel = document.getElementById(kind);
+        const input = document.getElementById(kind + '-input');
+        if (input.disabled) return;
+        const wasCommitted = !!sel.value;
+        sel.value = '';
+        input.value = '';
+        input.readOnly = false;
+        tiComboShowClear(kind, false);
+        input.focus();
+        if (wasCommitted) {
+            if (kind === 'brand') updateModelsNewFlow();
+            else updateStorageNewFlow();
         }
         tiComboRender(kind, '');
     }
@@ -5980,8 +6018,11 @@
             }
         } else if (ev.key === 'Escape') {
             listEl.classList.add('sehk-hidden');
-            const sel = document.getElementById(kind);
-            document.getElementById(kind + '-input').value = sel.value || '';
+            const sel = document.getElementById(kind) ;
+            const input = document.getElementById(kind + '-input');
+            input.value = sel.value || '';
+            // Restore committed (readOnly) mode if a selection exists
+            input.readOnly = !!sel.value;
         } else if (ev.key === 'Tab') {
             listEl.classList.add('sehk-hidden');
         }
@@ -6000,6 +6041,8 @@
         const input = document.getElementById(kind + '-input');
         sel.value = value;
         input.value = value;
+        input.readOnly = true; // lock the field until the user taps ✕
+        tiComboShowClear(kind, true);
         document.getElementById(kind + '-list').classList.add('sehk-hidden');
         if (kind === 'brand') updateModelsNewFlow();
         else updateStorageNewFlow();
@@ -6016,8 +6059,12 @@
                 const hit = tiCombo[kind].options.find(o => o.toLowerCase() === input.value.trim().toLowerCase());
                 if (hit) { tiComboCommit(kind, hit); return; }
                 input.value = '';
+                input.readOnly = false;
+                tiComboShowClear(kind, false);
             } else {
                 input.value = sel.value;
+                input.readOnly = true;
+                tiComboShowClear(kind, true);
             }
         }, 120);
     }
@@ -6031,6 +6078,8 @@
         const input = document.getElementById(kind + '-input');
         sel.value = '';
         input.value = '';
+        input.readOnly = false;
+        tiComboShowClear(kind, false);
         document.getElementById(kind + '-list').classList.add('sehk-hidden');
     }
 
