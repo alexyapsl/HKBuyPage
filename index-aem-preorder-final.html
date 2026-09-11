@@ -72,7 +72,7 @@
                             class="w-full border border-gray-300 hover:border-[#007AFF] focus:border-[#007AFF] focus:outline-none rounded-xl px-5 py-4 bg-white pr-20 md:text-xl disabled:bg-gray-50 disabled:text-gray-400"
                             onfocus="tiComboFocus('brand')" oninput="tiComboInput('brand')" onkeydown="tiComboKey(event,'brand')" onblur="tiComboBlur('brand')">
                         <button type="button" id="brand-clear" title="Clear selection" tabindex="-1"
-                            class="sehk-hidden absolute inset-y-0 right-10 px-2 text-gray-400 hover:text-gray-600"
+                            class="sehk-hidden absolute inset-y-0 px-2 text-gray-400 hover:text-gray-600 ti-clear-btn"
                             onmousedown="event.preventDefault(); tiComboClearClick('brand')">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
@@ -90,7 +90,7 @@
                             class="w-full border border-gray-300 hover:border-[#007AFF] focus:border-[#007AFF] focus:outline-none rounded-xl px-5 py-4 bg-white pr-20 md:text-xl disabled:bg-gray-50 disabled:text-gray-400"
                             onfocus="tiComboFocus('model')" oninput="tiComboInput('model')" onkeydown="tiComboKey(event,'model')" onblur="tiComboBlur('model')">
                         <button type="button" id="model-clear" title="Clear selection" tabindex="-1"
-                            class="sehk-hidden absolute inset-y-0 right-10 px-2 text-gray-400 hover:text-gray-600"
+                            class="sehk-hidden absolute inset-y-0 px-2 text-gray-400 hover:text-gray-600 ti-clear-btn"
                             onmousedown="event.preventDefault(); tiComboClearClick('model')">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
@@ -5958,9 +5958,44 @@
         tiComboRender(kind, '');
     }
 
+    let tiMeasureCtx = null;
+    function tiTextWidth(input) {
+        try {
+            if (!tiMeasureCtx) tiMeasureCtx = document.createElement('canvas').getContext('2d');
+            const style = window.getComputedStyle(input);
+            tiMeasureCtx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+            return tiMeasureCtx.measureText(input.value || '').width;
+        } catch (e) { return 0; }
+    }
+
     function tiComboShowClear(kind, show) {
         const btn = document.getElementById(kind + '-clear');
-        if (btn) btn.classList.toggle('sehk-hidden', !show);
+        if (!btn) return;
+        btn.classList.toggle('sehk-hidden', !show);
+        if (show) tiComboPositionClear(kind);
+    }
+
+    function tiComboPositionClear(kind) {
+        // Hug the end of the text: place the x right after the committed value
+        try {
+            const input = document.getElementById(kind + '-input');
+            const btn = document.getElementById(kind + '-clear');
+            if (!input || !btn) return;
+            const padL = parseFloat(window.getComputedStyle(input).paddingLeft) || 20;
+            let left = padL + tiTextWidth(input) + 8;
+            const maxLeft = input.clientWidth - padL - (btn.offsetWidth || 24) - 4;
+            btn.style.left = Math.max(padL, Math.min(left, maxLeft)) + 'px';
+            btn.style.right = 'auto';
+        } catch (e) { /* visual-only; safe to skip */ }
+    }
+
+    if (typeof window !== 'undefined' && window.addEventListener) {
+        window.addEventListener('resize', () => {
+            ['brand', 'model'].forEach(kind => {
+                const btn = document.getElementById(kind + '-clear');
+                if (btn && !btn.classList.contains('sehk-hidden')) tiComboPositionClear(kind);
+            });
+        });
     }
 
     function tiComboClearClick(kind) {
