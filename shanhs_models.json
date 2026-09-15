@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-14T19:55:07.852Z",
+  "generatedAt": "2026-09-15T19:09:29.505Z",
   "source": "https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung",
   "totalModels": 512,
   "gtiModelCount": 32,
@@ -2149,7 +2149,7 @@
     },
     {
       "modelId": 15211,
-      "modelName": "Samsung Galaxy Tab S9 FE+",
+      "modelName": "Samsung Galaxy Tab S9 FE+(5G)",
       "brandId": 20,
       "brandName": "SAMSUNG",
       "categoryId": 1,
