@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-19T18:10:53.374Z",
+  "generatedAt": "2026-09-20T18:16:37.092Z",
   "source": "https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung",
-  "totalModels": 512,
+  "totalModels": 515,
   "gtiModelCount": 32,
   "models": [
     {
@@ -5043,6 +5043,39 @@
     {
       "modelId": 14005,
       "modelName": "REDMI Pad SE 8.7-inch",
+      "brandId": 110,
+      "brandName": "XIAOMI",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17573,
+      "modelName": "Redmi Note 17 Pro MAX 5G",
+      "brandId": 110,
+      "brandName": "XIAOMI",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17574,
+      "modelName": "Redmi Note 17 Pro 5G",
+      "brandId": 110,
+      "brandName": "XIAOMI",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17575,
+      "modelName": "Redmi Note 17 5G",
       "brandId": 110,
       "brandName": "XIAOMI",
       "categoryId": 1,
