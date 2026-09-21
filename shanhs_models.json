@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-20T18:16:37.092Z",
+  "generatedAt": "2026-09-21T20:06:13.734Z",
   "source": "https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung",
-  "totalModels": 515,
+  "totalModels": 521,
   "gtiModelCount": 32,
   "models": [
     {
@@ -2467,6 +2467,17 @@
       "restrictedSkus": []
     },
     {
+      "modelId": 17618,
+      "modelName": "Samsung Galaxy Tab S9 FE+(Wi-Fi)",
+      "brandId": 20,
+      "brandName": "SAMSUNG",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
       "modelId": 13203,
       "modelName": "Apple iPhone 16 Pro Max",
       "brandId": 10,
@@ -3217,6 +3228,28 @@
     {
       "modelId": 17244,
       "modelName": "Apple iPad mini 4 (Wi-Fi)",
+      "brandId": 10,
+      "brandName": "APPLE",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17612,
+      "modelName": "iPad mini 7（Wi-Fi）",
+      "brandId": 10,
+      "brandName": "APPLE",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17613,
+      "modelName": "Apple iPad Pro 2rd 11-inch 2020",
       "brandId": 10,
       "brandName": "APPLE",
       "categoryId": 1,
@@ -4887,6 +4920,28 @@
       "restrictedSkus": []
     },
     {
+      "modelId": 17491,
+      "modelName": "Xiaomi Pad 8 Pro",
+      "brandId": 110,
+      "brandName": "XIAOMI",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17492,
+      "modelName": "Xiaomi Pad 8",
+      "brandId": 110,
+      "brandName": "XIAOMI",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
       "modelId": 14000,
       "modelName": "Xiaomi Pad 7 Pro",
       "brandId": 110,
@@ -5549,6 +5604,17 @@
     {
       "modelId": 11481,
       "modelName": "HUAWEI nova 10 SE (4G)",
+      "brandId": 100,
+      "brandName": "HUAWEI",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17581,
+      "modelName": "HUAWEI Pura90s Pro Max",
       "brandId": 100,
       "brandName": "HUAWEI",
       "categoryId": 1,
