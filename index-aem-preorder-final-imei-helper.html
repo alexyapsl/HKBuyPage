@@ -126,7 +126,7 @@
             </div>
         </div>
 
-        <!-- IMEI Modal (ShanHS live trade-in quote) — with Find-my-IMEI helper -->
+        <!-- IMEI Modal (ShanHS live trade-in quote) - with Find-my-IMEI helper -->
         <div id="imei-modal" class="sehk-hidden fixed inset-0 z-50 flex items-center justify-center" style="background: rgba(0,0,0,0.5);">
             <div class="bg-white rounded-2xl p-6 w-11/12 max-w-md shadow-xl max-h-[90vh] overflow-y-auto">
                 <div class="text-lg md:text-xl font-bold mb-2">Enter your trade-in device IMEI</div>
@@ -135,12 +135,12 @@
                 <div id="imei-helper-mobile" class="mb-4">
                     <a href="tel:*#06#" onclick="markImeiLookup()" class="block w-full text-center bg-[#007AFF] text-white rounded-xl px-4 py-3 font-bold mb-2">📱 Show my IMEI</a>
                     <div class="text-xs md:text-sm text-gray-600">
-                        Dials <b>*#06#</b> — your IMEI appears on screen. <b>Press &amp; hold the number to copy it</b>, come back here and paste. If two numbers show, use the first one (IMEI).
+                        Dials <b>*#06#</b> - your IMEI appears on screen. On iPhone, that screen usually cannot be copied; type it here, or copy it from <b>Settings &rarr; General &rarr; About &rarr; IMEI</b>. If two numbers show, use IMEI 1.
                     </div>
                 </div>
                 <!-- Desktop fallback text (no Phone app available) -->
                 <div id="imei-helper-desktop" class="sehk-hidden mb-4">
-                    <div class="text-sm md:text-base text-gray-600">Dial <b>*#06#</b> on the phone you want to trade in — the IMEI shows instantly. If two numbers show, use the first one (IMEI).</div>
+                    <div class="text-sm md:text-base text-gray-600">Dial <b>*#06#</b> on the phone you want to trade in - the IMEI shows instantly. If two numbers show, use the first one (IMEI).</div>
                 </div>
 
                 <!-- Didn't work? fallback paths -->
@@ -155,7 +155,7 @@
                 </details>
 
                 <input id="imei-input" type="text" inputmode="numeric" maxlength="15" autocomplete="off" placeholder="15-digit IMEI" class="w-full border border-gray-300 focus:border-[#007AFF] focus:outline-none rounded-xl px-5 py-4 text-lg tracking-widest">
-                <div id="imei-hint" class="sehk-hidden text-sm mt-2 samsung-blue">👋 Welcome back — paste your IMEI above</div>
+                <div id="imei-hint" class="sehk-hidden text-sm mt-2 samsung-blue">👋 Welcome back - paste your IMEI above</div>
                 <div id="imei-error" class="sehk-hidden text-red-500 text-sm mt-2"></div>
                 <div class="flex gap-3 mt-5">
                     <button type="button" onclick="closeImeiModal()" class="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-gray-700">Cancel</button>
@@ -187,7 +187,7 @@
                   <div id="bank-savings-total" class="font-bold mb-3 pb-2 border-b border-blue-200 flex justify-between md:text-xl"></div>
                   <div id="bank-savings-lines" class="mt-1 font-bold space-y-0.5"></div>
               </div>
-              
+
               <div class="text-xs md:text-base text-gray-600 mt-4 px-2" data-i18n="paymentDislaimer"></div>
             </div>
         </div>
@@ -293,7 +293,7 @@
         scroll-behavior: auto !important;
       }
     }
-    
+
     .heading-font {
         font-family: "Samsung Sharp Sans", SamsungSharpSans, SamsungSharpBold, Arial, system_ui, sans-serif;
         font-weight: bold;
@@ -312,7 +312,7 @@
         padding-top: 14px;
         padding-bottom: 14px;
     }
-    
+
     .samsung-btn:hover {
         background-color: #0066CC;
         transform: translateY(-1px);
@@ -322,13 +322,13 @@
     .device-card ~ .absolute {
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
+
     .device-card:not(.disabled):hover,
     .device-card:not(.disabled):hover ~ .absolute {
         transform: translateY(-1px);
         box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     }
-    
+
     .device-card:not(.disabled):active,
     .device-card:not(.disabled):active ~ .absolute {
         transition: none;
@@ -425,7 +425,7 @@
 
     #step4-title:before {
       content: "4";
-    } 
+    }
 
     @media screen and (max-width: 767px) {
       #step1-title,
@@ -1633,7 +1633,7 @@
 <script>
     const baseJsonPath = "https://cheiluxui.github.io/estore-data/";
 
-    const fallback_locales = 
+    const fallback_locales =
       {
         "en": {
           "addGift": "Add",
@@ -1769,7 +1769,7 @@
           "addToAppLabel": "將我的產品添加到 Samsung Shop App",
           "addToCart": "加入購物車",
           "addToCartBtn": "加入購物車",
-          "addToCartError": "抱歉，此產品無法加入購物車。",
+          "addToCartError": "抱歉,此產品無法加入購物車。",
           "badgeText": "全新流程 • 產品優先",
           "bankPromoLabel": "支付優惠折扣",
           "bankRecommended": "推薦",
@@ -1783,7 +1783,7 @@
           "checkoutWithShopApp": "使用 Samsung Shop App 結帳",
           "chooseColorModalTitle": "選擇顏色",
           "chooseGiftModalTitle": "專屬配搭 隨心升級",
-          "chooseGiftModalSubTitle": "預訂全新Galaxy Z 手機，自由配搭以下限定星級配件，<nobr>隨心定義旗艦組合</nobr>",
+          "chooseGiftModalSubTitle": "預訂全新Galaxy Z 手機,自由配搭以下限定星級配件,<nobr>隨心定義旗艦組合</nobr>",
           "colorCancel": "取消",
           "colorContinue": "繼續",
           "colorModalTitle": "選擇顏色",
@@ -1794,7 +1794,7 @@
           "discountInCart": "結帳即減",
           "downloadApp": "下載 App",
           "downloadAppBtn": "下載 App",
-          "errorMsg": "發生錯誤，請稍後再試。",
+          "errorMsg": "發生錯誤,請稍後再試。",
           "extraRebateLabel": "額外Trade-in 回贈",
           "fixedDiscountSavings": "特別優惠",
           "freeGift": "套裝已包含",
@@ -1803,7 +1803,7 @@
           "giftFree": "套裝已包含",
           "giftNoAvailable": "此模式暫無禮品可供選擇。",
           "gtiLabel": "指定裝置享價格保證<sup>†</sup> 高達",
-          "gtiDisclaimer": "† Trade-in 價格保證適用於只存在外殼花損的合資格舊裝置，詳情請參閱trade-in推廣頁面上的相關條款及細則。",
+          "gtiDisclaimer": "† Trade-in 價格保證適用於只存在外殼花損的合資格舊裝置,詳情請參閱trade-in推廣頁面上的相關條款及細則。",
           "heroSubtitle": "簡單。透明。即時節省。",
           "heroTitle": "選擇您的新 Galaxy。<br>然後以舊換新。",
           "importantReminder": "重要提醒",
@@ -1836,7 +1836,7 @@
           "rebateLabelUpTo": "售後回贈高達",
           "rebateText": "回贈",
           "recommended": "推薦",
-          "reminderModalDesc": "產品已加入購物車，請記得在購物車內再次添加以舊換新裝置，並輸入 IMEI 及裝置狀況，以確保享有保證以舊換新價格。",
+          "reminderModalDesc": "產品已加入購物車,請記得在購物車內再次添加以舊換新裝置,並輸入 IMEI 及裝置狀況,以確保享有保證以舊換新價格。",
           "reminderModalTitle": "提提您",
           "samsungComOnly": "網上商店限定",
           "samsungExclusive": "網上商店限定",
@@ -1858,12 +1858,12 @@
           "selected": "已選擇",
           "shopModalDesc": "使用 Samsung Shop App 結帳以享受 App 專屬優惠、最新推廣及優質購物體驗。",
           "shopModalTitle": "使用 Samsung Shop App 結帳",
-          "skuResolved": "SKU 已解析：",
+          "skuResolved": "SKU 已解析:",
           "spayDiscount": "Samsung Pay 額外折扣",
           "spaySavingsLabel": "以 Samsung Pay 優惠共節省",
           "specialDiscount": "特別優惠",
-          "stackableTradeIn": "【多換一  慳更多】現可以最多3部舊裝置Trade-in換新機，以更優惠價格升級<br>您可在購物車加入更多 Trade-in舊裝置",
-          "tradeInDisclaimer": "* 估算回收價值僅供參考，或因檢查結果而影響最終回收價格。",
+          "stackableTradeIn": "【多換一  慳更多】現可以最多3部舊裝置Trade-in換新機,以更優惠價格升級<br>您可在購物車加入更多 Trade-in舊裝置",
+          "tradeInDisclaimer": "* 估算回收價值僅供參考,或因檢查結果而影響最終回收價格。",
           "step1Title": "預訂優惠 : 半價容量升級",
           "step1SelectDevice": "選擇您的新裝置",
           "step2SelectColor": "顏色",
@@ -1881,21 +1881,21 @@
           "storageLabel": "容量",
           "tiLabel": "裝置估價*",
           "totalTradeInValue": "Trade-in 回收共節省高達",
-          "tradeInPriceLabel": "以舊換新價格：HK$",
+          "tradeInPriceLabel": "以舊換新價格:HK$",
           "tradeinTitle": "選擇Trade-in 以舊換新",
           "tradeinValuePrefix": "您的裝置以舊換新價值為",
           "tradeinWarningBodySpay": "記得使用優惠碼「<b>SPAY2026</b>」兌換 Samsung Pay優惠。",
-          "tradeinWarningBodyTradeIn": "Trade-in報價只供參考。請在購物車重新添加Trade-in，驗證 IMEI/序號及填寫裝置狀況，以鎖定回收價格。",
+          "tradeinWarningBodyTradeIn": "Trade-in報價只供參考。請在購物車重新添加Trade-in,驗證 IMEI/序號及填寫裝置狀況,以鎖定回收價格。",
           "tradeinWarningTitle": "提提您在購物車重新添加Trade-in",
           "tradeintitle": "Trade-in 您的舊裝置",
           "upgradeDiscounts": "半價容量升級",
           "upgradeDiscountsAvailable": "半價容量升級",
           "viewDetails": "查看詳情",
-          "paymentDislaimer": "# 免責聲明：上述信用卡回贈資料僅供參考，並受相關發卡銀行的推廣條款及細則約束。有關優惠如有更改，恕不另行通知。三星香港對於任何資料不符概不承擔任何責任。務請參閱相關發卡銀行的官方條款及細則以獲取最終詳情。<br>‡ 中銀信用卡 | Samsung 消費獎賞 請<a href=\"https://www.bochk.com/tc/creditcard/promotions/offers/samsung202607.html\" target=\"_blank\">到此登記↗</a>"
+          "paymentDislaimer": "# 免責聲明:上述信用卡回贈資料僅供參考,並受相關發卡銀行的推廣條款及細則約束。有關優惠如有更改,恕不另行通知。三星香港對於任何資料不符概不承擔任何責任。務請參閱相關發卡銀行的官方條款及細則以獲取最終詳情。<br>‡ 中銀信用卡 | Samsung 消費獎賞 請<a href=\"https://www.bochk.com/tc/creditcard/promotions/offers/samsung202607.html\" target=\"_blank\">到此登記↗</a>"
         }
       };
 
-    const fallback_step1models = 
+    const fallback_step1models =
       [
         {
           "name": "Galaxy Z Fold8 Ultra",
@@ -2079,7 +2079,7 @@
         }
       ];
 
-    const fallback_feature = 
+    const fallback_feature =
       [
         {
           "family": "q8",
@@ -2089,16 +2089,16 @@
             "feature2_img": "https://images.samsung.com/is/image/samsung/assets/hk/offer/estore-data/camera.png",
             "feature3_img": "https://images.samsung.com/is/image/samsung/assets/hk/offer/estore-data/battery.png",
             "feature1h_tc": "極大屏幕",
-            "feature1d_tc": "主屏幕<br>展開 8”",
-            "feature1s_tc": "8” 極大主屏幕",
+            "feature1d_tc": "主屏幕<br>展開 8"",
+            "feature1s_tc": "8" 極大主屏幕",
             "feature2h_tc": "專業規格",
-            "feature2d_tc": "主鏡頭：200, 50, 10 MP<br>前置鏡頭：10 MP",
+            "feature2d_tc": "主鏡頭:200, 50, 10 MP<br>前置鏡頭:10 MP",
             "feature2s_tc": "專業規格主鏡頭 200, 50, 10 MP",
             "feature3h_tc": "持久續航力\r",
             "feature3d_tc": "電池 5000 mAh<br>27 小時播放時間",
             "feature3s_tc": "5000mAh電池 27小時播放時間",
             "feature1h_en": "Ultimate large screen ",
-            "feature1d_en": "Main screen<br>8.0” unfolded",
+            "feature1d_en": "Main screen<br>8.0" unfolded",
             "feature1s_en": "8\" Ultimate large screen ",
             "feature2h_en": "Pro-grade detail",
             "feature2d_en": "Rear: 200, 50, 10 MP<br>Front: 10MP (Cover, Main) ",
@@ -2116,10 +2116,10 @@
             "feature2_img": "https://images.samsung.com/is/image/samsung/assets/hk/offer/estore-data/thin.png",
             "feature3_img": "https://images.samsung.com/is/image/samsung/assets/hk/offer/estore-data/battery.png",
             "feature1h_tc": "沉浸大屏幕",
-            "feature1d_tc": "主屏幕<br>展開 7.6”",
-            "feature1s_tc": "7.6” 沉浸大屏幕",
+            "feature1d_tc": "主屏幕<br>展開 7.6"",
+            "feature1s_tc": "7.6" 沉浸大屏幕",
             "feature2h_tc": "輕巧纖薄",
-            "feature2d_tc": "厚度：4.5 mm<br>重量：201 克",
+            "feature2d_tc": "厚度:4.5 mm<br>重量:201 克",
             "feature2s_tc": "輕巧纖薄 重量 201克",
             "feature3h_tc": "持久續航力\r",
             "feature3d_tc": "電池 4800 mAh<br>26 小時播放時間",
@@ -2143,11 +2143,11 @@
             "feature2_img": "https://images.samsung.com/is/image/samsung/assets/hk/offer/estore-data/flip.png",
             "feature3_img": "https://images.samsung.com/is/image/samsung/assets/hk/offer/estore-data/battery.png",
             "feature1h_tc": "摺埋 啱啱好",
-            "feature1d_tc": "厚度：6.1mm<br>重量：180克",
+            "feature1d_tc": "厚度:6.1mm<br>重量:180克",
             "feature1s_tc": "摺埋 啱啱好 重量180克",
             "feature2h_tc": "自拍定合照<br>放手即影",
-            "feature2d_tc": "主鏡頭：50, 12 MP<br>前置鏡頭：10 MP",
-            "feature2s_tc": "放手即影主鏡頭：50, 12 MP",
+            "feature2d_tc": "主鏡頭:50, 12 MP<br>前置鏡頭:10 MP",
+            "feature2s_tc": "放手即影主鏡頭:50, 12 MP",
             "feature3h_tc": "持久續航力\r",
             "feature3d_tc": "電池 4300 mAh<br>31 小時播放時間",
             "feature3s_tc": "4300mAh電池 31小時播放時間",
@@ -2164,7 +2164,7 @@
         }
       ];
 
-    const fallback_recommendations = 
+    const fallback_recommendations =
       {
         "products": [
           {
@@ -2683,7 +2683,7 @@
         ]
       };
 
-    const fallback_devices = 
+    const fallback_devices =
       [
         {
           "brand": "Samsung",
@@ -4997,7 +4997,7 @@
         }
       ];
 
-    const fallback_gifts = 
+    const fallback_gifts =
       [
         {
           "GiftCode": "q8_gift_1",
@@ -5221,7 +5221,7 @@
           "SKU_PromoCode1": "EF-EF776CBEGWW",
           "SKU_PromoCode2": "",
           "GiftNameEN": "Galaxy Z Flip8 Silicone Ring Magnet Case",
-          "GiftNameZH": "Galaxy Z Flip8 矽膠磁吸保護殼（附指環扣）",
+          "GiftNameZH": "Galaxy Z Flip8 矽膠磁吸保護殼(附指環扣)",
           "SKU Image": "https://images.samsung.com/is/image/samsung/assets/hk/f2607/zcode/F-EF-EF776CBEGWW.png",
           "Price": "Free",
           "Parent Model": "Galaxy Z Flip8",
@@ -5233,7 +5233,7 @@
           "SKU_PromoCode1": "EF-EF776CWEGWW",
           "SKU_PromoCode2": "",
           "GiftNameEN": "Galaxy Z Flip8 Silicone Ring Magnet Case",
-          "GiftNameZH": "Galaxy Z Flip8 矽膠磁吸保護殼（附指環扣）",
+          "GiftNameZH": "Galaxy Z Flip8 矽膠磁吸保護殼(附指環扣)",
           "SKU Image": "https://images.samsung.com/is/image/samsung/assets/hk/f2607/zcode/F-EF-EF776CGEGWW.png",
           "Price": "Free",
           "Parent Model": "Galaxy Z Flip8",
@@ -5245,7 +5245,7 @@
           "SKU_PromoCode1": "EF-EF776CVEGWW",
           "SKU_PromoCode2": "",
           "GiftNameEN": "Galaxy Z Flip8 Silicone Ring Magnet Case",
-          "GiftNameZH": "Galaxy Z Flip8 矽膠磁吸保護殼（附指環扣）",
+          "GiftNameZH": "Galaxy Z Flip8 矽膠磁吸保護殼(附指環扣)",
           "SKU Image": "https://images.samsung.com/is/image/samsung/assets/hk/f2607/zcode/F-EF-EF776CVEGWW.png",
           "Price": "Free",
           "Parent Model": "Galaxy Z Flip8",
@@ -5257,7 +5257,7 @@
           "SKU_PromoCode1": "EF-EF776CGEGWW",
           "SKU_PromoCode2": "",
           "GiftNameEN": "Galaxy Z Flip8 Silicone Ring Magnet Case",
-          "GiftNameZH": "Galaxy Z Flip8 矽膠磁吸保護殼（附指環扣）",
+          "GiftNameZH": "Galaxy Z Flip8 矽膠磁吸保護殼(附指環扣)",
           "SKU Image": "https://images.samsung.com/is/image/samsung/assets/hk/f2607/zcode/F-EF-EF776CWEGWW.png",
           "Price": "Free",
           "Parent Model": "Galaxy Z Flip8",
@@ -5289,7 +5289,7 @@
         }
       ];
 
-    const fallback_bankpromo = 
+    const fallback_bankpromo =
       [
         {
           "key": "bankofchina(hk)creditcard",
@@ -5433,17 +5433,17 @@
         }
       ];
 
-    let recommendedProducts = []; 
+    let recommendedProducts = [];
     let selectedDevice = null;
     let selectedStorageIndex = null;
-    let selectedSku = null; 
+    let selectedSku = null;
     let tradeInValue = 0;
     let selectedBank = 'none';
     let useSamsungPay = false;
-    let devices = []; 
-    let lsvMap = {}; 
-    let productBySku = {}; 
-    let gifts = []; 
+    let devices = [];
+    let lsvMap = {};
+    let productBySku = {};
+    let gifts = [];
     let language = "hk_en";
     let titleLoadingInterval = null;
 
@@ -5457,7 +5457,7 @@
 
         const path = window.location.pathname.toLowerCase();
         if (path.includes('/hk/')) return 'zh';
-        return 'en'; 
+        return 'en';
     }
 
     let i18nData = {};
@@ -5638,7 +5638,7 @@
     function renderDeviceSelection() {
         const container = document.getElementById('device-selection');
         container.innerHTML = '';
-        
+
         recommendedProducts.forEach((product, idx) => {
             const card = document.createElement('div');
             card.id = `device-${product.family}`;
@@ -5741,7 +5741,7 @@
         if (!hash) return;
 
         const targetIdx = recommendedProducts.findIndex(product => product.family === hash);
-        
+
         if (targetIdx !== -1) {
             const cardEl = document.getElementById(`device-${hash}`);
             if (cardEl) {
@@ -5765,7 +5765,7 @@
 
         selectedDevice = recommendedProducts[idx];
         selectedStorageIndex = null;
-        selectedSku = null; 
+        selectedSku = null;
 
         const lsvLine = document.getElementById('lsv-savings-line');
         if (lsvLine) { lsvLine.classList.add('sehk-hidden'); lsvLine.innerHTML = ''; }
@@ -5783,7 +5783,7 @@
         document.getElementById('tradein-value-display').classList.add('sehk-hidden');
         tradeInValue = 0;
         window.currentTradeInCalc = null;
-        
+
         const noTradeInReset = document.getElementById('no-tradein');
         if (noTradeInReset) noTradeInReset.checked = false;
         document.getElementById('tradein-fields').style.display = '';
@@ -5811,7 +5811,7 @@
 
         storageSec.style.display = '';
         storageSec.classList.remove('sehk-opacity');
-        
+
         if (shouldScroll) {
             setTimeout(() => {
                 storageSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -6089,7 +6089,7 @@
 
     function tiComboPick(kind, idx) {
         // Use the rendered list (same index space as the visible dropdown), not a
-        // re-derivation from the input text — the input may still hold the previously
+        // re-derivation from the input text - the input may still hold the previously
         // committed value while the dropdown shows the full unfiltered list.
         const matches = tiCombo[kind].rendered || tiComboFiltered(kind);
         if (matches[idx] !== undefined) tiComboCommit(kind, matches[idx]);
@@ -6280,7 +6280,7 @@
         const uniqueSkus = [...new Set((skus || []).filter(Boolean))];
         if (uniqueSkus.length === 0) return false;
         // NB: the cache layer in front of this API keys on the FIRST productCodes value
-        // only — a unique throwaway code first guarantees a fresh + complete response.
+        // only - a unique throwaway code first guarantees a fresh + complete response.
         const cacheBuster = 'CB' + Date.now();
         const qs = [cacheBuster, ...uniqueSkus].map(s => 'productCodes=' + encodeURIComponent(s)).join('&');
         try {
@@ -6515,9 +6515,9 @@
                             img = document.createElement('img');
                             skuImageContainer.appendChild(img);
                         }
-                        
+
                         const imgUrl = color.image || canonical.image || color.imageUrl;
-                        
+
                         if (imgUrl) {
                             img.src = imgUrl;
                             skuImageContainer.classList.remove('sehk-hidden');
@@ -6726,7 +6726,7 @@
         }
         if (!pendingQuote) { closeImeiModal(); return; }
         const { device, key } = pendingQuote;
-        // Official Samsung IMEI check first (JSONP — works on any origin).
+        // Official Samsung IMEI check first (JSONP - works on any origin).
         // Samsung's own localized error message is shown in the modal on failure.
         try {
             const check = await tiValidateImei(device, imei);
@@ -6745,7 +6745,7 @@
         if (valueDisplay) valueDisplay.classList.remove('sehk-hidden');
         if (container) {
             container.classList.remove('sehk-opacity');
-            container.innerHTML = '<div class="font-bold md:text-xl">Getting trade-in quote…</div>';
+            container.innerHTML = '<div class="font-bold md:text-xl">Getting trade-in quote...</div>';
         }
         try {
             // 1) verify the IMEI is recyclable
@@ -6833,7 +6833,7 @@
 
         const key = [brand, model, storage, selectedSku].join('|');
         if (key === lastQuoteKey && window.currentTradeInCalc) {
-            showTradeInOutcome(device); // same selection already quoted — just re-show
+            showTradeInOutcome(device); // same selection already quoted - just re-show
             return;
         }
 
@@ -6946,7 +6946,7 @@
 
         const calc = window.currentTradeInCalc;
         let html = `<div class="font-bold mb-3 pb-2 border-b border-blue-200 flex justify-between md:text-xl"><div>${getLngStr('totalTradeInValue') || 'Total Trade In value:'}</div> <div>HK$${tradeInValue.toLocaleString()}</div></div>`;
-        
+
         if (calc.extraRebate > 0) {
             if (calc.isGuaranteed) {
                 html += `<div class="mt-1 flex justify-between items-start"><div>${getLngStr('gtiLabel') || 'Guaranteed Trade In Price:'}</div> <div>HK$${calc.tradeInPrice.toLocaleString()}</div></div>`;
@@ -7014,7 +7014,7 @@
         updateStickyBar();
     }
 
-    let bankPromotionRules = {}; 
+    let bankPromotionRules = {};
 
     function calculateBankRebate(originalPrice, bankKey, discountInCart = 0) {
         const rule = bankPromotionRules[bankKey];
@@ -7024,7 +7024,7 @@
 
         let percent = 0;
         for (const tier of rule.tiers) {
-            if (basePrice < tier.max) {          
+            if (basePrice < tier.max) {
                 percent = tier.percent;
                 break;
             }
@@ -7053,7 +7053,7 @@
     function setupBankButtons() {
         const container = document.getElementById('bank-buttons');
         if (!container) return;
-        
+
         container.innerHTML = '';
         container.classList.add('flex', 'items-start');
 
@@ -7328,8 +7328,8 @@
         payEl.innerHTML = `▼ ${payLabel}`;
         priceEl.innerHTML = `HK$${formatPrice(finalPrice)}`;
 
-        const totalCartDiscount = lsvDiscount + samsungPayDiscount;   
-        const totalRebate = bankRebate + tradeInValue;               
+        const totalCartDiscount = lsvDiscount + samsungPayDiscount;
+        const totalRebate = bankRebate + tradeInValue;
 
         if (totalSavings > 0) {
             saveEl.innerHTML = '';
@@ -7386,7 +7386,7 @@
             return;
         }
 
-        const h = sticky.offsetHeight + 24; 
+        const h = sticky.offsetHeight + 24;
         main.style.paddingBottom = `${h}px`;
     }
 
@@ -7494,12 +7494,12 @@
     function startTitleLoadingAnimation() {
         const titleEl = document.getElementById('step1-title');
         if (!titleEl) return;
-        
+
         let dotCount = 0;
         titleEl.textContent = ". ";
-        
+
         if (titleLoadingInterval) clearInterval(titleLoadingInterval);
-        
+
         titleLoadingInterval = setInterval(() => {
             dotCount = (dotCount % 5) + 1;
             titleEl.textContent = ". ".repeat(dotCount);
@@ -7524,7 +7524,7 @@
         await loadDevices();
         await loadLSVData();
         init();
-        
+
         stopTitleLoadingAnimation();
         initLng();
         setupBankButtons();
@@ -7533,7 +7533,7 @@
         if (lang === "en") {
             document.getElementById('buy-module').classList.add('hk_en');
         }
-        
+
         window.addEventListener('resize', () => {
             if (typeof adjustContentPadding === 'function') adjustContentPadding();
         });
@@ -7578,7 +7578,7 @@
     function confirmColorSelection() {
         if (!selectedSku) return;
         closeColorModal(true);
-        
+
         const guard = document.getElementById('sku-guard');
         const tradeinSection = document.getElementById('tradein-section');
         if (guard) guard.style.display = 'none';
@@ -7592,7 +7592,7 @@
             hint.classList.add('sku-hint');
             tradeinSection.insertBefore(hint, tradeinSection.firstChild.nextSibling);
         }
-        
+
         showGiftModal();
     }
 
@@ -7678,13 +7678,13 @@
                 closeGiftModal();
 
                 const canonical = productBySku[selectedSku] || {};
-                const lang = getCurrentLang(); 
+                const lang = getCurrentLang();
                 const oosLink = (lang === 'zh') ? canonical.oosLink : canonical.oosLinkEn;
                 const oosParam = oosLink ? `&oosLink=${encodeURIComponent(oosLink)}` : '';
                 const samsungPayCode = useSamsungPay ? '&voucherCode=SPAY2026' : '';
 
-                const magicDomain = !window.location.href.includes('samsung.com') 
-                    ? 'https://www.samsung.com/' 
+                const magicDomain = !window.location.href.includes('samsung.com')
+                    ? 'https://www.samsung.com/'
                     : '';
 
                 const magicBase = (lang === 'zh')
@@ -7718,7 +7718,7 @@
                 const hasTradeIn = tradeInValue > 0;
                 const hasSamsungPay = useSamsungPay === true;
                 // On samsung.com with an IMEI-quoted trade-in, the trade-in is added automatically
-                // in the same POST — the "add it again in cart" warning only applies otherwise.
+                // in the same POST - the "add it again in cart" warning only applies otherwise.
                 const onSamsungOriginNow = window.location.hostname === 'samsung.com' || window.location.hostname.endsWith('.samsung.com');
                 const autoTradeIn = hasTradeIn && onSamsungOriginNow && window.currentTradeInCalc && window.currentTradeInCalc.imei && window.currentTradeInCalc.device;
 
@@ -7825,7 +7825,7 @@
         return data.questions || [];
     }
 
-    // NB: the OCC variant is used on purpose — the storefront /servicesv2/filterDevices
+    // NB: the OCC variant is used on purpose - the storefront /servicesv2/filterDevices
     // 500s on the SAMSUNG model list (bad catalog data). OCC + mainProductCode works.
     async function tiFilterDevices(apiLang, key, targetSku) {
         const res = await fetch(`https://api.shop.samsung.com/tokocommercewebservices/v2/${apiLang}/tradeIn/services/filterDevices?key=${encodeURIComponent(key)}&provider=SHS&mainProductCode=${encodeURIComponent(targetSku)}`, {
@@ -7837,7 +7837,7 @@
 
     async function tiBuildSelectionResponses(apiLang, device, targetSku) {
         const categoryId = String(device.categoryId || '1');
-        if (categoryId === '3') throw new Error('Online trade-in is not supported for laptops yet — please add it in the cart instead.');
+        if (categoryId === '3') throw new Error('Online trade-in is not supported for laptops yet - please add it in the cart instead.');
         const levels = [];
         const dtList = await tiFilterDevices(apiLang, '', targetSku);
         const dtNode = dtList.find(n => tiAiVal(n, 'deviceType') === categoryId) || dtList[0];
@@ -7962,7 +7962,7 @@
             });
 
             if (!res.ok) {
-                // Samsung sometimes returns XML (`<List><item>...`) for cart errors — never assume JSON.
+                // Samsung sometimes returns XML (`<List><item>...`) for cart errors - never assume JSON.
                 const errBody = await res.text().catch(() => '');
                 console.error('Add-to-cart failed', res.status, res.headers.get('content-type'), errBody.slice(0, 4000));
                 if (res.status === 400) {
@@ -8022,7 +8022,7 @@
         const voucher = useSamsungPay ? 'SPAY2026' : null;
 
         // Attach the official trade-in service to the main product (samsung.com origin only).
-        // On failure nothing is added to cart — the user sees the error and can retry.
+        // On failure nothing is added to cart - the user sees the error and can retry.
         const tiCalc = window.currentTradeInCalc;
         const hasLiveTradeIn = tradeInValue > 0 && tiCalc && tiCalc.imei && tiCalc.device;
         if (onSamsungOrigin && hasLiveTradeIn && products.length > 0) {
@@ -8149,7 +8149,7 @@
         const SUPABASE_URL = 'https://rqdmrmkiuvecwnbtisfn.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_6fTm2KX3PJqvE5TI5baiYQ_FICRZOLC';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        
+
         startTracking(supabase);
       } else {
         setTimeout(initSupabase, 100);
@@ -8246,8 +8246,8 @@
 
         supabase
           .from('clicks')
-          .insert([{ 
-            timestamp: timestamp, 
+          .insert([{
+            timestamp: timestamp,
             tracking_value: trackingValue,
             url_clean: urlClean,
             cid: cid,
