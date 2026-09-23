@@ -131,11 +131,14 @@
             <div class="bg-white rounded-2xl p-6 w-11/12 max-w-md shadow-xl max-h-[90vh] overflow-y-auto">
                 <div class="text-lg md:text-xl font-bold mb-2">Enter your trade-in device IMEI</div>
 
-                <!-- Find-my-IMEI helper (tap-to-dial *#06#, shown on mobile browsers) -->
+                <!-- Find-my-IMEI helper (platform-specific, shown on mobile browsers) -->
                 <div id="imei-helper-mobile" class="mb-4">
-                    <a href="tel:*#06#" onclick="markImeiLookup()" class="block w-full text-center bg-[#007AFF] text-white rounded-xl px-4 py-3 font-bold mb-2">📱 Show my IMEI</a>
-                    <div class="text-xs md:text-sm text-gray-600">
+                    <a id="imei-show-btn" href="tel:*#06#" onclick="return openImeiFinder(event)" class="block w-full text-center bg-[#007AFF] text-white rounded-xl px-4 py-3 font-bold mb-2">📱 Show my IMEI</a>
+                    <div id="imei-helper-ios" class="text-xs md:text-sm text-gray-600 sehk-hidden">
                         Dials <b>*#06#</b> — your IMEI appears on screen. On iPhone, that screen usually cannot be copied; type it here, or copy it from <b>Settings &rarr; General &rarr; About &rarr; IMEI</b>. If two numbers show, use IMEI 1.
+                    </div>
+                    <div id="imei-helper-android" class="text-xs md:text-sm text-gray-600 sehk-hidden">
+                        Opens <b>Settings &rarr; About phone</b> where your IMEI is shown (tap &amp; hold IMEI to copy on most phones). If Settings doesn't open, <a href="tel:*#06#" onclick="markImeiLookup()" class="underline text-[#007AFF]">dial *#06# instead</a>.
                     </div>
                 </div>
                 <!-- Desktop fallback text (no Phone app available) -->
@@ -6639,8 +6642,26 @@
         return /Android|iPhone|iPad|iPod|harmonyos|harmony|webOS|BlackBerry/i.test(navigator.userAgent || '');
     }
 
+    function isAndroidBrowser() {
+        return /Android/i.test(navigator.userAgent || '');
+    }
+
+    function isIosBrowser() {
+        return /iPhone|iPad|iPod/i.test(navigator.userAgent || '');
+    }
+
     function markImeiLookup() {
         imeiLookupPending = true;
+    }
+
+    function openImeiFinder(event) {
+        markImeiLookup();
+        // iPhone / other mobile: keep tel:*#06# behaviour.
+        if (!isAndroidBrowser()) return true;
+        // Android: best-effort Settings > About phone launch (Chrome intent). Not guaranteed on every OEM/browser.
+        if (event) event.preventDefault();
+        window.location.href = 'intent://#Intent;action=android.settings.DEVICE_INFO_SETTINGS;end';
+        return false;
     }
 
     // Luhn checksum for IMEI (15 digits)
@@ -6661,6 +6682,22 @@
         const desktopHelper = document.getElementById('imei-helper-desktop');
         if (mobileHelper) mobileHelper.classList.toggle('sehk-hidden', !mobile);
         if (desktopHelper) desktopHelper.classList.toggle('sehk-hidden', mobile);
+
+        const android = isAndroidBrowser();
+        const showBtn = document.getElementById('imei-show-btn');
+        const androidCopy = document.getElementById('imei-helper-android');
+        const iosCopy = document.getElementById('imei-helper-ios');
+        if (showBtn) {
+            if (android) {
+                showBtn.textContent = '⚙️ Open IMEI in Settings';
+                showBtn.setAttribute('href', 'intent://#Intent;action=android.settings.DEVICE_INFO_SETTINGS;end');
+            } else {
+                showBtn.textContent = '📱 Show my IMEI';
+                showBtn.setAttribute('href', 'tel:*#06#');
+            }
+        }
+        if (androidCopy) androidCopy.classList.toggle('sehk-hidden', !android);
+        if (iosCopy) iosCopy.classList.toggle('sehk-hidden', android);
 
         const input = document.getElementById('imei-input');
         if (input) {
