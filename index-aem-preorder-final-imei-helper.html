@@ -117,6 +117,10 @@
               <div id="tradein-value-display" class="md:flex-1 sehk-hidden">
                 <div id="tradein-value-text" class="mt-3 px-5 py-3 bg-blue-50 rounded-xl text-sm md:text-base samsung-blue font-bold">
                 </div>
+                <div id="imei-chip" class="sehk-hidden mt-2 px-5 py-2 bg-gray-100 rounded-xl text-sm md:text-base text-gray-700 flex items-center justify-between gap-3">
+                  <span class="truncate">IMEI: <b id="imei-chip-value" class="tracking-widest"></b></span>
+                  <button type="button" onclick="editImei()" class="shrink-0 text-[#007AFF] font-bold underline">Edit</button>
+                </div>
 
                 <div class="text-xs md:text-base text-gray-600 mt-4 px-2">
                   <span data-i18n="tradeInDisclaimer"></span><br>
@@ -6745,6 +6749,31 @@
         if (e) e.classList.add('sehk-hidden');
     }
 
+    function renderImeiChip() {
+        const chip = document.getElementById('imei-chip');
+        const val = document.getElementById('imei-chip-value');
+        if (!chip) return;
+        if (lastImei) {
+            if (val) val.textContent = lastImei;
+            chip.classList.remove('sehk-hidden');
+        } else {
+            chip.classList.add('sehk-hidden');
+        }
+    }
+
+    // Edit button: reopen the IMEI modal (prefilled with the saved IMEI) and re-quote
+    // for the currently selected device. Model/brand/storage changes never touch lastImei.
+    function editImei() {
+        const brand = document.getElementById('brand').value;
+        const model = document.getElementById('model').value;
+        const storage = document.getElementById('tradein-storage').value;
+        const device = devices.find(d => d.brand === brand && d.model === model && d.storage === storage);
+        if (device && selectedSku) {
+            pendingQuote = { device, key: [brand, model, storage, selectedSku].join('|') };
+        }
+        openImeiModal();
+    }
+
     async function submitImei() {
         const imei = (document.getElementById('imei-input').value || '').trim();
         if (!/^[A-Za-z0-9]{15}$/.test(imei)) {
@@ -6802,6 +6831,7 @@
 
             lastImei = imei;
             lastQuoteKey = key;
+            renderImeiChip();
             tradeInValue = (quote.data.price || 0) + (quote.data.ticketPrice || 0);
             window.currentTradeInCalc = {
                 tradeInPrice: quote.data.price || 0,
@@ -6819,6 +6849,7 @@
             tradeInValue = 0;
             window.currentTradeInCalc = null;
             lastQuoteKey = null;
+            renderImeiChip();
             if (container) {
                 container.classList.remove('sehk-opacity');
                 container.innerHTML = '<div class="font-bold text-red-600 md:text-xl">Trade-in quote failed</div>' +
@@ -6913,6 +6944,7 @@
             if (valueDisplay) valueDisplay.removeAttribute("data-tracking-special");
         }
 
+        renderImeiChip();
         renderTradeInSavingsBreakdown();
 
         document.getElementById('bank-section').classList.remove('sehk-opacity');
