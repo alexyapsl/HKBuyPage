@@ -131,7 +131,7 @@
         </div>
 
         <!-- IMEI Modal (ShanHS live trade-in quote) — with Find-my-IMEI helper -->
-        <div id="imei-modal" class="sehk-hidden fixed inset-0 z-[130] flex items-center justify-center" style="background: rgba(0,0,0,0.5);">
+        <div id="imei-modal" class="sehk-hidden fixed inset-0 flex items-center justify-center" style="background: rgba(0,0,0,0.5); z-index: 130;">
             <div class="bg-white rounded-2xl p-6 w-11/12 max-w-md shadow-xl max-h-[90vh] overflow-y-auto">
                 <div class="text-lg md:text-xl font-bold mb-2">Enter your trade-in device IMEI</div>
 
@@ -6727,6 +6727,7 @@
         if (!m) return;
         initImeiHelper();
         m.classList.remove('sehk-hidden');
+        document.body.style.overflow = 'hidden'; // scroll-lock while modal is open
         hideImeiError();
         const hint = document.getElementById('imei-hint');
         if (hint) hint.classList.add('sehk-hidden');
@@ -6737,6 +6738,7 @@
     function closeImeiModal() {
         const m = document.getElementById('imei-modal');
         if (m) m.classList.add('sehk-hidden');
+        document.body.style.overflow = ''; // release scroll-lock
         pendingQuote = null;
     }
 
