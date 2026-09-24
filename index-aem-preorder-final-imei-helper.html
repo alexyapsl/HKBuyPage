@@ -145,9 +145,13 @@
                         Opens <b>Settings &rarr; About phone</b> where your IMEI is shown (tap &amp; hold IMEI to copy on most phones).
                     </div>
                 </div>
-                <!-- Desktop fallback text (no Phone app available) -->
+                <!-- Desktop fallback text (no Phone app available) + scannable QR -->
                 <div id="imei-helper-desktop" class="sehk-hidden mb-4">
                     <div class="text-sm md:text-base text-gray-600">Dial <b>*#06#</b> on the phone you want to trade in — the IMEI shows instantly. If two numbers show, use the first one (IMEI).</div>
+                    <div class="mt-3 flex items-center gap-4 p-3 bg-gray-50 rounded-xl border border-gray-200">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADIAQAAAACFI5MzAAAAw0lEQVR42u2YMRLDMAgEdzP5/5cvhZDsJnUCY7sRoroBjrUNX54XT+b3mTe4TgHMFbXVQwDEGLOjxnoQAqnSrGhAJ55mmzFZSib4QQ3QKU+669lzkz0+jfV4azGv4nSeH+sltYSWsrZ6QoTorTq2rk+Zm9e5t7+VuwUWImAa+4Hl1QVw66oxv923T1yqHMDXN9yx9fxsoj5+kOb8pgISEsfw6HI4LMPuz9cBSUjiCL4ul1s7aABfh/O9nQF8/fwt+r/MB/LPR6hSZTpuAAAAAElFTkSuQmCC" alt="QR code — dial *#06#" width="96" height="96" class="shrink-0 rounded-md">
+                        <div class="text-sm md:text-base text-gray-600"><b>Tip:</b> scan this QR code with your trade-in phone's camera — it opens the dialer with <b>*#06#</b> ready to go.</div>
+                    </div>
                 </div>
 
                 <!-- Didn't work? fallback paths -->
