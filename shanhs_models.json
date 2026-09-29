@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-28T21:20:42.558Z",
+  "generatedAt": "2026-09-29T20:10:05.444Z",
   "source": "https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung",
-  "totalModels": 521,
+  "totalModels": 522,
   "gtiModelCount": 32,
   "models": [
     {
@@ -1995,7 +1995,7 @@
     },
     {
       "modelId": 15213,
-      "modelName": "Samsung Galaxy Tab S10+（5G）",
+      "modelName": "Samsung Galaxy Tab S10+(5G)",
       "brandId": 20,
       "brandName": "SAMSUNG",
       "categoryId": 1,
@@ -3237,8 +3237,8 @@
       "restrictedSkus": []
     },
     {
-      "modelId": 17613,
-      "modelName": "Apple iPad Pro 2rd 11-inch 2020",
+      "modelId": 17612,
+      "modelName": "iPad mini 7（Wi-Fi）",
       "brandId": 10,
       "brandName": "APPLE",
       "categoryId": 1,
@@ -3248,8 +3248,8 @@
       "restrictedSkus": []
     },
     {
-      "modelId": 17612,
-      "modelName": "iPad mini 7（Wi-Fi）",
+      "modelId": 17613,
+      "modelName": "Apple iPad Pro 2rd 11-inch 2020",
       "brandId": 10,
       "brandName": "APPLE",
       "categoryId": 1,
@@ -6891,6 +6891,17 @@
     {
       "modelId": 5600,
       "modelName": "OPPO A72 (5G)",
+      "brandId": 40,
+      "brandName": "OPPO",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17621,
+      "modelName": "OPPO Find N6",
       "brandId": 40,
       "brandName": "OPPO",
       "categoryId": 1,
