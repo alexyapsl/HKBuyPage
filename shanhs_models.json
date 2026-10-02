@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-01T20:26:44.422Z",
+  "generatedAt": "2026-10-02T20:06:17.356Z",
   "source": "https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung",
-  "totalModels": 522,
-  "gtiModelCount": 60,
+  "totalModels": 526,
+  "gtiModelCount": 64,
   "models": [
     {
       "modelId": 17072,
@@ -1961,6 +1961,90 @@
       "restrictedSkus": []
     },
     {
+      "modelId": 15217,
+      "modelName": "Samsung Galaxy Tab S11 Ultra(5G)",
+      "brandId": 20,
+      "brandName": "SAMSUNG",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": true,
+      "gtiSkus": [
+        "SM-X940NZAITGY",
+        "SM-X840NZAETGY",
+        "SM-X946BZAATGY",
+        "SM-X940NZAATGY",
+        "SM-X940NZAETGY",
+        "SM-X846BZAETGY",
+        "SM-X846BZAATGY",
+        "SM-X946BZAETGY",
+        "SM-X840NZAATGY"
+      ],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17622,
+      "modelName": "Samsung Galaxy Tab S11 Ultra(Wi-Fi)",
+      "brandId": 20,
+      "brandName": "SAMSUNG",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": true,
+      "gtiSkus": [
+        "SM-X940NZAITGY",
+        "SM-X840NZAETGY",
+        "SM-X946BZAATGY",
+        "SM-X940NZAATGY",
+        "SM-X940NZAETGY",
+        "SM-X846BZAETGY",
+        "SM-X846BZAATGY",
+        "SM-X946BZAETGY",
+        "SM-X840NZAATGY"
+      ],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 15218,
+      "modelName": "Samsung Galaxy Tab S11(5G)",
+      "brandId": 20,
+      "brandName": "SAMSUNG",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": true,
+      "gtiSkus": [
+        "SM-X940NZAITGY",
+        "SM-X840NZAETGY",
+        "SM-X946BZAATGY",
+        "SM-X940NZAATGY",
+        "SM-X940NZAETGY",
+        "SM-X846BZAETGY",
+        "SM-X846BZAATGY",
+        "SM-X946BZAETGY",
+        "SM-X840NZAATGY"
+      ],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17623,
+      "modelName": "Samsung Galaxy Tab S11(Wi-Fi)",
+      "brandId": 20,
+      "brandName": "SAMSUNG",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": true,
+      "gtiSkus": [
+        "SM-X940NZAITGY",
+        "SM-X840NZAETGY",
+        "SM-X946BZAATGY",
+        "SM-X940NZAATGY",
+        "SM-X940NZAETGY",
+        "SM-X846BZAETGY",
+        "SM-X846BZAATGY",
+        "SM-X946BZAETGY",
+        "SM-X840NZAATGY"
+      ],
+      "restrictedSkus": []
+    },
+    {
       "modelId": 17309,
       "modelName": "Samsung Galaxy Tab S10 Ultra (5G)",
       "brandId": 20,
@@ -3517,8 +3601,8 @@
       "restrictedSkus": []
     },
     {
-      "modelId": 17613,
-      "modelName": "Apple iPad Pro 2rd 11-inch 2020",
+      "modelId": 17612,
+      "modelName": "iPad mini 7（Wi-Fi）",
       "brandId": 10,
       "brandName": "APPLE",
       "categoryId": 1,
@@ -3528,8 +3612,8 @@
       "restrictedSkus": []
     },
     {
-      "modelId": 17612,
-      "modelName": "iPad mini 7（Wi-Fi）",
+      "modelId": 17613,
+      "modelName": "Apple iPad Pro 2rd 11-inch 2020",
       "brandId": 10,
       "brandName": "APPLE",
       "categoryId": 1,
