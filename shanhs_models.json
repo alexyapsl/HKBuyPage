@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-12T22:33:35.842Z",
+  "generatedAt": "2026-10-13T20:47:28.646Z",
   "source": "https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung",
-  "totalModels": 526,
+  "totalModels": 530,
   "gtiModelCount": 64,
   "models": [
     {
@@ -2839,6 +2839,50 @@
         "SM-X946BZAETGY",
         "SM-X840NZAATGY"
       ],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17384,
+      "modelName": "iPhone 17  Pro Max",
+      "brandId": 10,
+      "brandName": "APPLE",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17383,
+      "modelName": "iPhone 17  Pro",
+      "brandId": 10,
+      "brandName": "APPLE",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17382,
+      "modelName": "iPhone 17",
+      "brandId": 10,
+      "brandName": "APPLE",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17385,
+      "modelName": "iPhone Air",
+      "brandId": 10,
+      "brandName": "APPLE",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
