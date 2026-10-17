@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-16T18:56:34.018Z",
+  "generatedAt": "2026-10-17T17:54:36.539Z",
   "source": "https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung",
-  "totalModels": 530,
+  "totalModels": 531,
   "gtiModelCount": 64,
   "models": [
     {
@@ -3119,6 +3119,17 @@
     {
       "modelId": 8964,
       "modelName": "Apple iPhone SE 2022",
+      "brandId": 10,
+      "brandName": "APPLE",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 5290,
+      "modelName": "Apple iPhone SE 2020",
       "brandId": 10,
       "brandName": "APPLE",
       "categoryId": 1,
