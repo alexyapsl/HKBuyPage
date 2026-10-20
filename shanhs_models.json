@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-19T20:41:05.568Z",
+  "generatedAt": "2026-10-20T19:31:26.158Z",
   "source": "https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung",
-  "totalModels": 531,
+  "totalModels": 530,
   "gtiModelCount": 64,
   "models": [
     {
@@ -2358,17 +2358,6 @@
         "SM-X946BZAETGY",
         "SM-X840NZAATGY"
       ],
-      "restrictedSkus": []
-    },
-    {
-      "modelId": 16899,
-      "modelName": "Samsung Galaxy Tab S9",
-      "brandId": 20,
-      "brandName": "SAMSUNG",
-      "categoryId": 1,
-      "categoryName": "Smartphone & Tablet",
-      "gtiFlag": false,
-      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
