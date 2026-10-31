@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-30T20:02:10.069Z",
+  "generatedAt": "2026-10-31T19:29:07.003Z",
   "source": "https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung",
   "totalModels": 530,
-  "gtiModelCount": 64,
+  "gtiModelCount": 32,
   "models": [
     {
       "modelId": 17072,
@@ -1967,18 +1967,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -1988,18 +1978,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2009,18 +1989,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2030,18 +2000,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2051,18 +2011,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2072,18 +2022,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2093,18 +2033,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2114,18 +2044,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2135,18 +2055,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2156,18 +2066,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2177,18 +2077,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2198,18 +2088,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2241,18 +2121,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2262,18 +2132,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2283,18 +2143,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2304,18 +2154,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2325,18 +2165,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2346,18 +2176,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2367,18 +2187,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2388,18 +2198,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2409,18 +2209,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2430,18 +2220,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2451,18 +2231,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2472,18 +2242,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2493,18 +2253,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2514,18 +2264,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2535,18 +2275,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2556,18 +2286,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2577,18 +2297,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2598,18 +2308,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2619,18 +2319,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
@@ -2816,18 +2506,8 @@
       "brandName": "SAMSUNG",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
-      "gtiFlag": true,
-      "gtiSkus": [
-        "SM-X940NZAITGY",
-        "SM-X840NZAETGY",
-        "SM-X946BZAATGY",
-        "SM-X940NZAATGY",
-        "SM-X940NZAETGY",
-        "SM-X846BZAETGY",
-        "SM-X846BZAATGY",
-        "SM-X946BZAETGY",
-        "SM-X840NZAATGY"
-      ],
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
