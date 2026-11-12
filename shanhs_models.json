@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-11T22:09:59.592Z",
+  "generatedAt": "2026-11-12T21:54:01.435Z",
   "source": "https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung",
-  "totalModels": 530,
+  "totalModels": 531,
   "gtiModelCount": 32,
   "models": [
     {
@@ -6805,6 +6805,17 @@
       "modelName": "vivo X50",
       "brandId": 50,
       "brandName": "VIVO",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17507,
+      "modelName": "OPPO Find X9 Pro",
+      "brandId": 40,
+      "brandName": "OPPO",
       "categoryId": 1,
       "categoryName": "Smartphone & Tablet",
       "gtiFlag": false,
