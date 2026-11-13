@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-12T21:54:01.435Z",
+  "generatedAt": "2026-11-13T21:31:05.083Z",
   "source": "https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung",
-  "totalModels": 531,
+  "totalModels": 532,
   "gtiModelCount": 32,
   "models": [
     {
@@ -7001,6 +7001,17 @@
     {
       "modelId": 17621,
       "modelName": "OPPO Find N6",
+      "brandId": 40,
+      "brandName": "OPPO",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17659,
+      "modelName": "OPPO Find X9 Ultra",
       "brandId": 40,
       "brandName": "OPPO",
       "categoryId": 1,
