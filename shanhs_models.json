@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-24T02:30:10.291Z",
+  "generatedAt": "2026-11-25T00:01:59.259Z",
   "source": "https://m.shanhs.com/sapi/gateway/shanhs-global-recycle-api/samsung",
-  "totalModels": 532,
+  "totalModels": 533,
   "gtiModelCount": 32,
   "models": [
     {
@@ -1903,6 +1903,17 @@
         "SM-A3760DGGTGY",
         "SM-A3760LVGTGY"
       ],
+      "restrictedSkus": []
+    },
+    {
+      "modelId": 17101,
+      "modelName": "Samsung Galaxy A17",
+      "brandId": 20,
+      "brandName": "SAMSUNG",
+      "categoryId": 1,
+      "categoryName": "Smartphone & Tablet",
+      "gtiFlag": false,
+      "gtiSkus": [],
       "restrictedSkus": []
     },
     {
